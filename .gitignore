@@ -26,6 +26,7 @@
 *.exe
 *.out
 *.app
+<<<<<<< HEAD
 
 # Root files
 *.root
@@ -44,3 +45,5 @@ macro/littrack/test*
 .project
 .settings/*
 
+=======
+>>>>>>> github/master
