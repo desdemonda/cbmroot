@@ -1,0 +1,27 @@
+ Generating stack trace...
+ 0x000000010f1c4a42 in CbmFieldMap::Init() (in libField.so) (CbmFieldMap.cxx:268)
+ 0x000000010ea7184c in FairRunSim::Init() (in libBase.so) (FairRunSim.cxx:196)
+ 0x000000010eb1a7ea in G__G__BaseDict_780_0_5(G__value*, char const*, G__param*, int) (in libBase.so) (G__BaseDict.cxx:11783)
+ 0x0000000109f8b202 in Cint::G__ExceptionWrapper(int (*)(G__value*, char const*, G__param*, int), G__value*, char*, G__param*, int) (in libCint.5.so) + 50
+ 0x000000010a03569b in G__execute_call (in libCint.5.so) + 75
+ 0x000000010a035b12 in G__call_cppfunc (in libCint.5.so) + 866
+ 0x000000010a008488 in G__interpret_func (in libCint.5.so) + 5432
+ 0x0000000109ff6725 in G__getfunction (in libCint.5.so) + 5877
+ 0x000000010a0fd9e0 in G__getstructmem(int, G__FastAllocString&, char*, int, char*, int*, G__var_array*, int) (in libCint.5.so) + 4256
+ 0x000000010a0f4644 in G__getvariable (in libCint.5.so) + 7652
+ 0x0000000109feabd8 in G__getitem (in libCint.5.so) + 408
+ 0x0000000109fe661a in G__getexpr (in libCint.5.so) + 30938
+ 0x000000010a069d3e in G__exec_statement (in libCint.5.so) + 36414
+ 0x000000010a00b132 in G__interpret_func (in libCint.5.so) + 16866
+ 0x0000000109ff6797 in G__getfunction (in libCint.5.so) + 5991
+ 0x0000000109feac3f in G__getitem (in libCint.5.so) + 511
+ 0x0000000109fe661a in G__getexpr (in libCint.5.so) + 30938
+ 0x0000000109fdecb8 in G__calc_internal (in libCint.5.so) + 984
+ 0x000000010a0748fb in G__process_cmd (in libCint.5.so) + 17227
+ 0x00000001098abc01 in TCint::ProcessLine(char const*, TInterpreter::EErrorCode*) (in libCore.5.so) + 817
+ 0x00000001098abf69 in TCint::ProcessLineSynch(char const*, TInterpreter::EErrorCode*) (in libCore.5.so) + 121
+ 0x000000010980ad62 in TApplication::ExecuteFile(char const*, int*, bool) (in libCore.5.so) + 2306
+ 0x0000000109809d2f in TApplication::ProcessLine(char const*, bool, int*) (in libCore.5.so) + 1519
+ 0x000000010a694270 in TRint::Run(bool) (in libRint.5.so) + 1120
+ 0x00000001097fae8f in main (in root.exe) + 79
+ 0x00007fff8a3265fd in start (in libdyld.dylib) + 1

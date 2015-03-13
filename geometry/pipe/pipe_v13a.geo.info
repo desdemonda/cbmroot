@@ -1,0 +1,22 @@
+Beam pipe geometry created with create_pipegeo_v13.C
+
+Continuous pipe for hadron setup
+by D. Emschermann, 7 October 2013
+
+Material:  carbon
+Thickness: 0.05cm
+
+Part 1: 12 sections
+ i         z      rmin
+ 0     -5.00      2.50
+ 1      2.50      2.50
+ 2      3.50     13.00
+ 3     23.95     13.00
+ 4     24.00     12.80
+ 5     26.95      1.00
+ 6     27.00      1.00
+ 7    160.00      3.20
+ 8    350.00     25.00
+ 9    449.95     25.00
+10    450.00     13.90
+11    750.00     13.90

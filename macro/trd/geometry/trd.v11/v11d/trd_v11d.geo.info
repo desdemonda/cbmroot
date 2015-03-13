@@ -1,0 +1,21 @@
+TRD geometry v11b
+D. Emschermann, September 2011
+
+Derived from v10e, reduced total number of TRD modules to 904
+
+Number of stations: 3
+Number of layers per station: 4
+Geometry with tilted layer pairs
+Gas thickness 12 mm
+
+Inner Radius of station 1: 240.000000
+Outer Radius of station 1: 4600.000000
+z-position at the middle of the station 1: 4800.000000
+
+Inner Radius of station 2: 240.000000
+Outer Radius of station 2: 6600.000000
+z-position at the middle of the station 2: 7050.000000
+
+Inner Radius of station 3: 490.000000
+Outer Radius of station 3: 8600.000000
+z-position at the middle of the station 3: 9300.000000

@@ -1,0 +1,24 @@
+
+%.d: %.cpp
+	@echo "Build dependency for $< ..."
+	@rm -f $@ $@.bak; touch $@
+	@makedepend -f$@ -Y -o.o -w 30000 -- $(CXXOPT) -- $< > /dev/null 2>&1
+	@sed -i 's|$*.o|$*.o $*.d|g' $@
+	@rm -f $@.bak
+
+%.d: %.cxx
+	@echo "Build dependency for $< ..."
+	@rm -f $@ $@.bak; touch $@
+	@makedepend -f$@ -Y -o.o -w 30000 -- $(CXXOPT) -- $< > /dev/null 2>&1
+	@sed -i 's|$*.o|$*.o $*.d|g' $@
+	@rm -f $@.bak
+
+%.o: %.cpp
+	$(CXX) -c $< $(CXXOPT) -o $@
+
+%.o: %.cxx
+	$(CXX) -c $< $(CXXOPT) -o $@
+
+ifeq ($(findstring $(MAKECMDGOALS), clean $(ROC_FASTRULES)),)
+-include $(ROC_DEPENDENCIES)
+endif

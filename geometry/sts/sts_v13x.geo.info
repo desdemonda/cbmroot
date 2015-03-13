@@ -1,0 +1,134 @@
+STS geometry created with create_stsgeo_v13.C
+
+Global variables: 
+Sensor thickness = 0.03 cm
+Vertical gap in sensor chain = 0 cm
+Vertical overlap of sensors = 0.24 cm
+Gap in z between neighbour sensors = 0.02 cm
+Horizontal overlap of sensors = 0.3 cm
+Gap in z between neighbour ladders = 0 cm
+Cable thickness = 0.02 cm
+
+Beam pipe: R1 = 1.8 cm at z = 22 cm
+Beam pipe: R2 = 1.8 cm at z = 50 cm
+
+Sensors: 
+Sensor01: size  4.0000 x  2.2000 x  0.0300, medium silicon
+Sensor02: size  6.1992 x  2.2000 x  0.0300, medium silicon
+Sensor03: size  6.1992 x  4.2000 x  0.0300, medium silicon
+Sensor04: size  6.1992 x  6.2000 x  0.0300, medium silicon
+Sensor05: size  3.1000 x  3.1000 x  0.0300, medium silicon
+Sensor06: size  1.5000 x  4.2000 x  0.0300, medium silicon
+
+Sectors: 
+Sector01: size  4.0000 x  2.2000 x  0.0300, assembly
+Contains: Sensor01 
+Sector02: size  6.1992 x  2.2000 x  0.0300, assembly
+Contains: Sensor02 
+Sector03: size  6.1992 x  4.2000 x  0.0300, assembly
+Contains: Sensor03 
+Sector04: size  6.1992 x  6.2000 x  0.0300, assembly
+Contains: Sensor04 
+Sector05: size  6.1992 x 12.4000 x  0.0300, assembly
+Contains: Sensor04 Sensor04 
+Sector06: size  6.1992 x 18.6000 x  0.0300, assembly
+Contains: Sensor04 Sensor04 Sensor04 
+Sector07: size  3.1000 x  3.1000 x  0.0300, assembly
+Contains: Sensor05 
+Sector08: size  1.5000 x  4.2000 x  0.0300, assembly
+Contains: Sensor06 
+
+Ladders:
+Ladder01: size  6.1992 x 39.8400 x  0.2800, assembly
+Contains: HalfLadder01u HalfLadder01d 
+HalfLadder01u: size  6.1992 x 20.0400 x  0.2300, assembly
+Contains: HalfLadder01u_Module01 HalfLadder01u_Module02 HalfLadder01u_Module03 HalfLadder01u_Module04 HalfLadder01u_Module04 
+Ladder02: size  6.1992 x 39.8400 x  0.2800, assembly
+Contains: HalfLadder02u HalfLadder02d 
+HalfLadder02u: size  6.1992 x 20.0400 x  0.2300, assembly
+Contains: HalfLadder02u_Module02 HalfLadder02u_Module02 HalfLadder02u_Module03 HalfLadder02u_Module04 HalfLadder02u_Module04 
+Ladder03: size  6.1992 x 35.9200 x  0.2300, assembly
+Contains: HalfLadder03u HalfLadder03d 
+HalfLadder03u: size  6.1992 x 18.0800 x  0.1800, assembly
+Contains: HalfLadder03u_Module02 HalfLadder03u_Module03 HalfLadder03u_Module04 HalfLadder03u_Module04 
+Ladder04: size  6.1992 x 24.0800 x  0.1300, assembly
+Contains: HalfLadder04u HalfLadder04d 
+HalfLadder04u: size  6.1992 x 12.1600 x  0.0800, assembly
+Contains: HalfLadder04u_Module04 HalfLadder04u_Module04 
+Ladder05: size  6.1992 x 58.0400 x  0.2800, assembly
+Contains: HalfLadder05u HalfLadder05d 
+HalfLadder05u: size  6.1992 x 29.1400 x  0.2300, assembly
+Contains: HalfLadder05u_Module07 HalfLadder05u_Module03 HalfLadder05u_Module03 HalfLadder05u_Module04 HalfLadder05u_Module05 
+Ladder06: size  6.1992 x 60.2400 x  0.2800, assembly
+Contains: HalfLadder06u HalfLadder06d 
+HalfLadder06u: size  6.1992 x 30.2400 x  0.2300, assembly
+Contains: HalfLadder06u_Module03 HalfLadder06u_Module03 HalfLadder06u_Module03 HalfLadder06u_Module04 HalfLadder06u_Module05 
+Ladder07: size  6.1992 x 52.3200 x  0.2300, assembly
+Contains: HalfLadder07u HalfLadder07d 
+HalfLadder07u: size  6.1992 x 26.2800 x  0.1800, assembly
+Contains: HalfLadder07u_Module03 HalfLadder07u_Module03 HalfLadder07u_Module04 HalfLadder07u_Module05 
+Ladder08: size  6.1992 x 44.4000 x  0.1800, assembly
+Contains: HalfLadder08u HalfLadder08d 
+HalfLadder08u: size  6.1992 x 22.3200 x  0.1300, assembly
+Contains: HalfLadder08u_Module03 HalfLadder08u_Module04 HalfLadder08u_Module05 
+Ladder09: size  6.1992 x 36.4800 x  0.1300, assembly
+Contains: HalfLadder09u HalfLadder09d 
+HalfLadder09u: size  6.1992 x 18.3600 x  0.0800, assembly
+Contains: HalfLadder09u_Module04 HalfLadder09u_Module05 
+Ladder10: size  6.1992 x 76.6400 x  0.2800, assembly
+Contains: HalfLadder10u HalfLadder10d 
+HalfLadder10u: size  6.1992 x 38.4400 x  0.2300, assembly
+Contains: HalfLadder10u_Module08 HalfLadder10u_Module03 HalfLadder10u_Module04 HalfLadder10u_Module05 HalfLadder10u_Module05 
+Ladder11: size  6.1992 x 76.6400 x  0.2800, assembly
+Contains: HalfLadder11u HalfLadder11d 
+HalfLadder11u: size  6.1992 x 38.4400 x  0.2300, assembly
+Contains: HalfLadder11u_Module03 HalfLadder11u_Module03 HalfLadder11u_Module04 HalfLadder11u_Module05 HalfLadder11u_Module05 
+Ladder12: size  6.1992 x 68.7200 x  0.2300, assembly
+Contains: HalfLadder12u HalfLadder12d 
+HalfLadder12u: size  6.1992 x 34.4800 x  0.1800, assembly
+Contains: HalfLadder12u_Module03 HalfLadder12u_Module04 HalfLadder12u_Module05 HalfLadder12u_Module05 
+Ladder13: size  6.1992 x 60.8000 x  0.1800, assembly
+Contains: HalfLadder13u HalfLadder13d 
+HalfLadder13u: size  6.1992 x 30.5200 x  0.1300, assembly
+Contains: HalfLadder13u_Module04 HalfLadder13u_Module05 HalfLadder13u_Module05 
+Ladder14: size  6.1992 x 48.8800 x  0.1300, assembly
+Contains: HalfLadder14u HalfLadder14d 
+HalfLadder14u: size  6.1992 x 24.5600 x  0.0800, assembly
+Contains: HalfLadder14u_Module05 HalfLadder14u_Module05 
+Ladder15: size  6.1992 x 94.1600 x  0.1800, assembly
+Contains: HalfLadder15u HalfLadder15d 
+HalfLadder15u: size  6.1992 x 42.6800 x  0.1800, assembly
+Contains: HalfLadder15u_Module04 HalfLadder15u_Module05 HalfLadder15u_Module05 HalfLadder15u_Module05 
+Ladder16: size  6.1992 x 93.0400 x  0.2800, assembly
+Contains: HalfLadder16u HalfLadder16d 
+HalfLadder16u: size  6.1992 x 46.6400 x  0.2300, assembly
+Contains: HalfLadder16u_Module03 HalfLadder16u_Module04 HalfLadder16u_Module05 HalfLadder16u_Module05 HalfLadder16u_Module05 
+Ladder17: size  6.1992 x 80.6400 x  0.2800, assembly
+Contains: HalfLadder17u HalfLadder17d 
+HalfLadder17u: size  6.1992 x 40.4400 x  0.2300, assembly
+Contains: HalfLadder17u_Module03 HalfLadder17u_Module04 HalfLadder17u_Module04 HalfLadder17u_Module05 HalfLadder17u_Module05 
+
+Stations: Station01: size 47.4936 x 39.8400 x  0.5600, medium air
+Contains: Ladder03 Ladder02 Ladder02 Ladder01 Ladder01 Ladder02 Ladder02 Ladder03 
+Position z = 30
+Station02: size 71.0904 x 39.8400 x  0.5600, medium air
+Contains: Ladder04 Ladder03 Ladder03 Ladder02 Ladder02 Ladder01 Ladder01 Ladder02 Ladder02 Ladder03 Ladder03 Ladder04 
+Position z = 40
+Station03: size 71.0904 x 60.2400 x  0.5600, medium air
+Contains: Ladder08 Ladder07 Ladder06 Ladder06 Ladder06 Ladder05 Ladder05 Ladder06 Ladder06 Ladder06 Ladder07 Ladder08 
+Position z = 50
+Station04: size 82.8888 x 60.2400 x  0.5600, medium air
+Contains: Ladder09 Ladder08 Ladder07 Ladder06 Ladder06 Ladder06 Ladder05 Ladder05 Ladder06 Ladder06 Ladder06 Ladder07 Ladder08 Ladder09 
+Position z = 60
+Station05: size 82.8888 x 76.6400 x  0.5600, medium air
+Contains: Ladder14 Ladder13 Ladder12 Ladder12 Ladder11 Ladder11 Ladder10 Ladder10 Ladder11 Ladder11 Ladder12 Ladder12 Ladder13 Ladder14 
+Position z = 70
+Station06: size 82.8888 x 76.6400 x  0.5600, medium air
+Contains: Ladder14 Ladder13 Ladder12 Ladder12 Ladder11 Ladder11 Ladder10 Ladder10 Ladder11 Ladder11 Ladder12 Ladder12 Ladder13 Ladder14 
+Position z = 80
+Station07: size 94.6872 x 94.1600 x  0.5600, medium air
+Contains: Ladder14 Ladder13 Ladder17 Ladder17 Ladder16 Ladder16 Ladder16 Ladder15 Ladder15 Ladder16 Ladder16 Ladder16 Ladder17 Ladder17 Ladder13 Ladder14 
+Position z = 90
+Station08: size 94.6872 x 94.1600 x  0.5600, medium air
+Contains: Ladder14 Ladder13 Ladder17 Ladder17 Ladder16 Ladder16 Ladder16 Ladder15 Ladder15 Ladder16 Ladder16 Ladder16 Ladder17 Ladder17 Ladder13 Ladder14 
+Position z = 100

@@ -1,0 +1,38 @@
+#
+##   Howto run triggerrate distribution tests on MAF
+#
+
+# written 12.05.2014 by David Emschermann
+# macros provided by Cyrano Bergmann
+
+# setup sim and reco output directories as 
+macro/trd/data/sim
+macro/trd/data/reco
+
+# space requirements for 400.000 events
+323G	/data6/cbm/software/sim_v14a/
+571G	/data6/cbm/software/reco_v14a/
+
+# select desired geometry in 
+whichTrdGeo
+
+# run simulation
+submit_maf_sim.sh
+# check, if all files were generated
+
+# run reconstruction
+submit_maf_reco.sh
+# check, if all files were generated
+
+# merge reco files
+cd macro/trd/data
+root -l -b -q ./Merge.C++
+
+# generate triggerrate distribution plots 
+cd macro/trd
+root -l -b -q run_reco_plot.C
+# wait, until shell returns
+
+# take a llok at the plots
+cd macro/trd/pics
+display *QaFinal*png

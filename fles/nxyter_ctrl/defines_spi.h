@@ -1,0 +1,14 @@
+#ifndef ROC_DEFINES_SPI_H
+#define ROC_DEFINES_SPI_H
+
+#define ROC_SPI_COMMAND       0x420000
+#define ROC_SPI_TXDATA        0x420004
+#define ROC_SPI_RXDATA        0x420008
+#define ROC_SPI_TRANSMIT      0x42000C
+#define ROC_SPI_MASTER_CTRL   0x420100
+#define ROC_SPI_MASTER_STATUS 0x420200
+#define ROC_SPI_SLAVE_RESET   0x420300
+
+
+#endif
+

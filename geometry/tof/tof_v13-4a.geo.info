@@ -1,0 +1,16 @@
+#
+##   tof_v13-4a information file
+#
+
+# created 20131004
+
+# TOF setup
+SIS 100 hadron setup
+
+# envelope
+ 450.00 cm   start of TOF (z)
+ 563.50 cm   end   of TOF (z)
+
+# central tower position
+ 548.50 cm   center of staggered, front RPC cell at x=0
+

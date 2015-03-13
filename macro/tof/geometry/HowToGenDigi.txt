@@ -1,0 +1,31 @@
+ Create parameter file from geom file for geometry v13x, x=a,b,c,d….
+1) Create geom file
+2) Copy root geom file to geometry/tof
+3) Run root -l 'make_geofile.C("tof_v13x")' to create the geo file named geofile_tof_v13x.root
+4) Run root -l 'create_digipar.C("tof_v13x")'
+4-b) Add a "###################################" line at the end of digi file if missing
+5) Copy digi par file to parameter/tof
+
+ Create parameter file from geom file for geometry v13-Nx.geo, N=4,5,... & x=a,b,c,d….
+1) Change the Create_TOF_Geometry....C file according to your setup
+   a = SIS100 hadron setup
+   b = SIS100 electron setup
+   c = SIS100 muon setup
+   d = SIS300 electron setup
+   e = SIS300 muon setup
+  
+2) Create the tof geometry file by running the following root macro. 
+   root -l Create_TOF_Geometry_v13_5x.C
+
+3) Create a geometry file which contain the complete geomanager by running
+   the following root macro. Change the name according to the setup in Step1
+   root -l 'make_geofile.C("tof_v13-4a.geo")'
+
+4) Create the parameter file by running the following root macro
+   root -l 'create_digipar_new.C("tof_v13-4a.geo")'
+
+5) Add a "###################################" line at the end of digi file if missing
+   This is needed because otherwise the end of the container isn't found by
+   the framework
+ 
+5) Copy digi par file to parameter/tof and remove the ".geo" part in its name

@@ -1,0 +1,42 @@
+/* FILE HEADER STARTS
+name := gradingRTable								/* Name of the look up table
+usage := Table for grading the results of the histogram signatures		/* Usage of the look up table
+numberOfEntries := 30								/* Number of entries in the look up table
+/**/ structureSeparator := TABULATOR						/* The separator for the members of the data structure
+/**/ blockSeparator := NEWLINE							/* The separator for the blocks of the data
+/**/ content := Signature => Classification					/* The content of the file
+/**/ format := [Radix]x[Number][TABULATOR][Radix]x[Number]NEWLINE		/* The format for an entry in the file
+/* FILE HEADER STOPS
+/* 
+/* FILE DATA STARTS
+2x001110	10x1
+2x001111	10x1
+2x010110	10x1
+2x010111	10x2
+2x011010	10x1
+2x011011	10x2
+2x011100	10x1
+2x011101	10x2
+2x011110	10x2
+2x011111	10x2
+2x100110	10x1
+2x100111	10x2
+2x101010	10x1
+2x101011	10x2
+2x101100	10x1
+2x101101	10x2
+2x101110	10x2
+2x101111	10x3
+2x110010	10x1
+2x110011	10x3
+2x110100	10x1
+2x110101	10x2
+2x110110	10x2
+2x110111	10x3
+2x111010	10x2
+2x111011	10x3
+2x111100	10x2
+2x111101	10x3
+2x111110	10x3
+2x111111	10x3
+/* FILE DATA STOPS

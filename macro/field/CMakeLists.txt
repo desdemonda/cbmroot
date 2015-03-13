@@ -1,0 +1,6 @@
+GENERATE_ROOT_TEST_SCRIPT(${CBMROOT_SOURCE_DIR}/macro/field/FieldMapTest.C)
+add_test(field_field ${CBMROOT_BINARY_DIR}/macro/field/FieldMapTest.sh)
+SET_TESTS_PROPERTIES(field_field PROPERTIES TIMEOUT "60")
+SET_TESTS_PROPERTIES(field_field PROPERTIES PASS_REGULAR_EXPRESSION "Test Passed;All
+ok")
+

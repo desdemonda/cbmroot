@@ -1,0 +1,9 @@
+#!/bin/bash
+
+root -l << EOF
+.L produceDst.C
+produceDst(25, 0)
+.q
+EOF
+
+

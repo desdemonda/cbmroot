@@ -1,0 +1,16 @@
+/**
+
+\page littrack_qa QA and testing tools in littrack
+
+Here we describe quality assurance routines. Currently only system tests are 
+implemented no unit testing.
+
+\section littrack_qasection1 Field approximation Qa
+
+Polynomial field approximation is used in the SIMDized tracking implementation. 
+Quality check of the magnetic field approximation is implemented in \c CbmLitCheckField 
+class. Corresponding macro for running field approximation quality assurance is 
+\c macro/littrack/check_field.C. For further information and parameter description 
+please see comments in the class and macro. 
+
+*/

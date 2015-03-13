@@ -1,0 +1,73 @@
+#
+##   trd_v13l information file
+#
+
+# created 20130625
+
+# envelope
+ 460 cm   start of TRD (z)
+ 640 cm   end   of TRD (z)
+
+# thickness
+  45 cm   per single layer (z)
+
+# extra gaps
+   0   0   0   0    extra gaps in z (cm)
+
+# generated TRD layers
+  1  2  3  4    planeID
+
+# z-positions of layer front
+  460 cm   z-position of layer  1
+  505 cm   z-position of layer  2
+  550 cm   z-position of layer  3
+  595 cm   z-position of layer  4
+
+# flags
+radiator is             : included
+lattice grid is         : included
+gas holes in lattice are: NOT included
+front-end boards are    : included
+asics are               : included
+support structure is    : included
+
+# modules
+   mod1   mod2   mod3   mod4   mod5   mod6   mod7   mod8  total
+---------------------------------------------------------------
+      8      4      8      4      0      0     12     14          layer  1
+      8      4      8      4      0      0     12     14          layer  2
+      8      4      8      4      0      0     12     14          layer  3
+      8      4      8      4      0      0     12     14          layer  4
+---------------------------------------------------------------
+     32     16     32     16      0      0     48     56    200   number of modules
+# febs
+     10      5      5      5     12      6      4      3          FEBs per module
+    320     80    160     80      0      0    192    168   1000   number of FEBs
+# asics
+     10     10      5      5      8      8      8      8          ASICs per FEB
+    100     50     25     25     96     48     32     24          ASICs per module
+   3200    800    800    400      0      0   1536   1344   8080   number of ASICs
+# channels
+   3200   1600    800    800   3072   1536   1024    768          channels per module
+    320    320    160    160    256    256    256    256          channels per feb
+ 102400  25600  25600  12800      0      0  49152  43008 258560   channels used
+ 102400  25600  25600  12800      0      0  49152  43008 258560   channels available
+
+ 100.0%   channel efficiency
+
+ 125.05 m2      total surface    
+ 119.52 m2      total active area
+   4.62 cm2/ch  average channel size
+2163.32 ch/m2   channels per m2 active area
+
+# gas volume position
+  491.6000 cm   position of gas volume - layer  1
+  536.6000 cm   position of gas volume - layer  2
+  581.6000 cm   position of gas volume - layer  3
+  626.6000 cm   position of gas volume - layer  4
+
+# angles of acceptance
+v: 25.76 deg, h: 34.04 deg - vertical/horizontal - layer  1
+v: 23.85 deg, h: 31.75 deg - vertical/horizontal - layer  2
+v: 22.19 deg, h: 29.73 deg - vertical/horizontal - layer  3
+v: 20.74 deg, h: 27.93 deg - vertical/horizontal - layer  4

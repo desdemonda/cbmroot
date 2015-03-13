@@ -1,0 +1,63 @@
+Installation Instructionsfor for CbmRoot 
+*****************************************
+
+1. Installing the full CbmRoot 
+2. Installing a minimal CbmRoot installation for reconstruction/analysis only
+
+
+1. Installing the full CbmRoot
+==============
+
+Prerequisites: Root, TGeant3, Geant4, Pluto, Pythia6, VGM, Geant4_VMC
+               Please follow the instructions on 
+               http://fairroot.gsi.de/installation/External%20Packages.htm
+               for the installation of these packages
+
+a) Set the environment variable for the root of the external packages
+   (GEANT3, GEANT4, ROOT etc.)
+
+    > export SIMPATH="path to root of external packages"
+
+b) create a seperate build directory
+
+    > mkdir MyBuild
+    > cd MyBuild
+
+c) run cmake to create the Makefiles
+
+    > cmake "Path_to_CbmRoot_top_directory"
+
+e) create and install the framework in the build directory
+
+    > make
+
+===========================================================
+
+2. Installing a minimal CbmRoot installation for reconstruction/analysis only
+==============
+
+Prerequisites: Root
+               Please check which Root version is needed on 
+               http://fairroot.gsi.de/installation/External%20Packages.htm
+               
+
+a) Set the environment variable neede for Root
+
+    > export ROOTSYS="path to Root installation"
+
+b) edit the main CMakeLists.txt and comment all libraries which 
+   are not needed. At least this should be 
+   #add_subdirectory(generators)
+
+b) create a seperate build directory
+
+    > mkdir MyBuild
+    > cd MyBuild
+
+c) run cmake with an option to create the Makefiles
+
+    > cmake "Path_to_CbmRoot_top_directory" -DCBMROOT_MINIMAL=1
+
+e) create and install the framework in the build directory
+
+    > make

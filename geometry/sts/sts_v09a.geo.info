@@ -1,0 +1,5 @@
+STS geometry description:
+-8 stations at 30,35,40,50,65,75,95,100
+-overlaps of sensors and ladders
+-no cable materials
+-compatible with sts_v09.digi.par (0,15 deg stereo angle) and with sts_v09a.digi.par (7.5,-7.5 deg stereo angle)

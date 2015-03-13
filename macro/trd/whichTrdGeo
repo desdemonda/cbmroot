@@ -1,0 +1,23 @@
+trd_v15a_3e.geo.root
+
+trd_v14a_3e.geo.root
+
+trd_v13p_3e.geo.root
+trd_v13p_1h.geo.root
+trd_v13p_1e.geo.root
+trd_v13p_1m.geo.root
+trd_v13p_3m.geo.root
+
+trd_v13g.geo.root
+trd_v13x.geo.root
+trd_v13y.geo.root
+
+#
+# First line defines the geometry for:
+# 
+# run_sim.C
+# run_reco.C
+# run_reco_clusterizer.C
+# run_reco_hitdensitytest.C
+# run_reco_hitratetest.C
+# 

@@ -1,0 +1,16 @@
+#
+##   tof_v13-5d information file
+#
+
+# created 20131016
+
+# TOF setup
+SIS 300 electron
+
+# envelope
+ 880.00 cm   start of TOF (z)
+ 993.50 cm   end   of TOF (z)
+
+# central tower position
+ 978.50 cm   center of staggered, front RPC cell at x=0
+

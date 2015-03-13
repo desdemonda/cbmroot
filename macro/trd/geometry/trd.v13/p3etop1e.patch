@@ -1,0 +1,78 @@
+*** Create_TRD_Geometry_v13p_3e.C	2013-11-05 14:38:35.259099932 +0100
+--- Create_TRD_Geometry_v13p_1e.C	2013-11-05 14:49:02.431430010 +0100
+***************
+*** 71,77 ****
+  #include <iostream>
+  
+  // Name of output file with geometry
+! const TString geoVersion   = "trd_v13p_3e";
+  const TString FileNameSim  = geoVersion + ".geo.root";
+  const TString FileNameGeo  = geoVersion + "_geo.root";
+  const TString FileNameInfo = geoVersion + ".geo.info";
+--- 71,77 ----
+  #include <iostream>
+  
+  // Name of output file with geometry
+! const TString geoVersion   = "trd_v13p_1e";
+  const TString FileNameSim  = geoVersion + ".geo.root";
+  const TString FileNameGeo  = geoVersion + "_geo.root";
+  const TString FileNameInfo = geoVersion + ".geo.info";
+***************
+*** 127,135 ****
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-2l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-3l  // 1: plot, 0: hide
+  //
+! //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 };  // SIS100-4l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 };  // SIS300-mu  // 1: plot, 0: hide
+! const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // SIS300-e   // 1: plot, 0: hide
+  
+  Int_t    PlaneId[MaxLayers]; // automatically filled with layer ID
+  
+--- 127,135 ----
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-2l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-3l  // 1: plot, 0: hide
+  //
+! const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 };  // SIS100-4l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 };  // SIS300-mu  // 1: plot, 0: hide
+! //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // SIS300-e   // 1: plot, 0: hide
+  
+  Int_t    PlaneId[MaxLayers]; // automatically filled with layer ID
+  
+***************
+*** 138,146 ****
+  
+  // 5x z-positions from 260 till 550 cm
+  //Double_t LayerPosition[MaxLayers] = { 260. }; // start position - 2013-10-28 - DE - v13x1 - SIS 100 hadron         ( 4 layers, z = 2600 )
+! //Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v13x2 - SIS 100 electron       ( 4 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 460. }; // start position - 2013-10-28 - DE - v13x3 - SIS 100 muon     3_abs ( 4 layers, z = 4600 )
+! Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v13x4 - SIS 300 electron       (10 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 550. }; // start position - 2013-10-28 - DE - v13x5 - SIS 300 muon     6_abs (10 layers, z = 5500 )
+  //
+  // obsolete variants
+--- 138,146 ----
+  
+  // 5x z-positions from 260 till 550 cm
+  //Double_t LayerPosition[MaxLayers] = { 260. }; // start position - 2013-10-28 - DE - v13x1 - SIS 100 hadron         ( 4 layers, z = 2600 )
+! Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v13x2 - SIS 100 electron       ( 4 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 460. }; // start position - 2013-10-28 - DE - v13x3 - SIS 100 muon     3_abs ( 4 layers, z = 4600 )
+! //Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v13x4 - SIS 300 electron       (10 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 550. }; // start position - 2013-10-28 - DE - v13x5 - SIS 300 muon     6_abs (10 layers, z = 5500 )
+  //
+  // obsolete variants
+***************
+*** 368,374 ****
+  void dump_info_file();
+  
+  
+! void Create_TRD_Geometry_v13p_3e() {
+    // Load the necessary FairRoot libraries 
+    gROOT->LoadMacro("$VMCWORKDIR/gconfig/basiclibs.C");
+    basiclibs();
+--- 368,374 ----
+  void dump_info_file();
+  
+  
+! void Create_TRD_Geometry_v13p_1e() {
+    // Load the necessary FairRoot libraries 
+    gROOT->LoadMacro("$VMCWORKDIR/gconfig/basiclibs.C");
+    basiclibs();

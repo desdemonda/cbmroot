@@ -1,0 +1,97 @@
+#
+##   trd_v13n information file
+#
+
+# created 20130625
+
+# envelope
+ 460 cm   start of TRD (z)
+1010 cm   end   of TRD (z)
+
+# thickness
+  45 cm   per single layer (z)
+
+# extra gaps
+   0   0   0   0  95   0   0   0   5   0    extra gaps in z (cm)
+
+# generated TRD layers
+  1  2  3  4  5  6  7  8  9 10    planeID
+
+# z-positions of layer front
+  460 cm   z-position of layer  1
+  505 cm   z-position of layer  2
+  550 cm   z-position of layer  3
+  595 cm   z-position of layer  4
+  735 cm   z-position of layer  5
+  780 cm   z-position of layer  6
+  825 cm   z-position of layer  7
+  870 cm   z-position of layer  8
+  920 cm   z-position of layer  9
+  965 cm   z-position of layer 10
+
+# flags
+radiator is             : included
+lattice grid is         : included
+gas holes in lattice are: NOT included
+front-end boards are    : included
+asics are               : included
+support structure is    : included
+
+# modules
+   mod1   mod2   mod3   mod4   mod5   mod6   mod7   mod8  total
+---------------------------------------------------------------
+      8      4      8      4      0      0     12     14          layer  1
+      8      4      8      4      0      0     12     14          layer  2
+      8      4      8      4      0      0     12     14          layer  3
+      8      4      8      4      0      0     12     14          layer  4
+      4      4     12      4      0     12      0     42          layer  5
+      4      4     12      4      0     12      0     42          layer  6
+      4      4     12      4      0     12      0     42          layer  7
+      4      4     12      4      0     12      0     42          layer  8
+      0      0      0      0      8     12     24     54          layer  9
+      0      0      0      0      8     12     24     54          layer 10
+---------------------------------------------------------------
+     48     32     80     32     16     72     96    332    708   number of modules
+# febs
+     10      5      5      5     12      6      4      3          FEBs per module
+    480    160    400    160    192    432    384    996   3204   number of FEBs
+# asics
+     10     10      5      5      8      8      8      8          ASICs per FEB
+    100     50     25     25     96     48     32     24          ASICs per module
+   4800   1600   2000    800   1536   3456   3072   7968  25232   number of ASICs
+# channels
+   3200   1600    800    800   3072   1536   1024    768          channels per module
+    320    320    160    160    256    256    256    256          channels per feb
+ 153600  51200  64000  25600  49152 110592  98304 254976 807424   channels used
+ 153600  51200  64000  25600  49152 110592  98304 254976 807424   channels available
+
+ 100.0%   channel efficiency
+
+ 528.07 m2      total surface    
+ 505.43 m2      total active area
+   6.26 cm2/ch  average channel size
+1597.50 ch/m2   channels per m2 active area
+
+# gas volume position
+  491.6000 cm   position of gas volume - layer  1
+  536.6000 cm   position of gas volume - layer  2
+  581.6000 cm   position of gas volume - layer  3
+  626.6000 cm   position of gas volume - layer  4
+  766.6000 cm   position of gas volume - layer  5
+  811.6000 cm   position of gas volume - layer  6
+  856.6000 cm   position of gas volume - layer  7
+  901.6000 cm   position of gas volume - layer  8
+  951.6000 cm   position of gas volume - layer  9
+  996.6000 cm   position of gas volume - layer 10
+
+# angles of acceptance
+v: 25.76 deg, h: 34.04 deg - vertical/horizontal - layer  1
+v: 23.85 deg, h: 31.75 deg - vertical/horizontal - layer  2
+v: 22.19 deg, h: 29.73 deg - vertical/horizontal - layer  3
+v: 20.74 deg, h: 27.93 deg - vertical/horizontal - layer  4
+v: 23.43 deg, h: 29.13 deg - vertical/horizontal - layer  5
+v: 22.26 deg, h: 27.76 deg - vertical/horizontal - layer  6
+v: 21.20 deg, h: 26.51 deg - vertical/horizontal - layer  7
+v: 20.23 deg, h: 25.35 deg - vertical/horizontal - layer  8
+v: 24.18 deg, h: 28.75 deg - vertical/horizontal - layer  9
+v: 23.20 deg, h: 27.65 deg - vertical/horizontal - layer 10

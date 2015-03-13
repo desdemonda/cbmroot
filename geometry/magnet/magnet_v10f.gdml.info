@@ -1,0 +1,7 @@
+Magnet geometry v10e
+
+The same magnet geometrie as in magnet_v10e.gdml and magnet_v10e.root
+The magnet is positioned at (0., 0., 0.) and has to be moved to the
+correct position. This geometry is meant for engeneers and magnet 
+developers. Everyboda else should use the magnet_v10e geometries.
+

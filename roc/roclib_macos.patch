@@ -1,0 +1,244 @@
+--- Makefile_orig	2013-11-12 15:23:25.000000000 +0100
++++ Makefile	2013-11-12 15:23:25.000000000 +0100
+@@ -245,9 +245,9 @@
+ ## from here is configuration part, not required in other tools
+ 
+ ifdef debug
+-CXXOPT = -g -O2 -Wall -fPIC
++CXXOPT = -g -O2 -Wall -fPIC -I$(SIMPATH)/include
+ else
+-CXXOPT = -O2 -fPIC
++CXXOPT = -O2 -fPIC -I$(SIMPATH)/include
+ endif
+ 
+ ifeq ($(shell uname -m),x86_64)
+--- dabc/applications/core-test/core-test.cxx_orig	2013-11-12 15:39:47.000000000 +0100
++++ dabc/applications/core-test/core-test.cxx	2013-11-12 15:40:19.000000000 +0100
+@@ -12,6 +12,20 @@
+  * in LICENSE.txt file which is part of the distribution.
+  ********************************************************************/
+ 
++#ifdef __APPLE__
++#include <sys/time.h>
++//clock_gettime is not implemented on OSX
++int clock_gettime(int /*clk_id*/, struct timespec* t) {
++    struct timeval now;
++    int rv = gettimeofday(&now, NULL);
++    if (rv) return rv;
++    t->tv_sec  = now.tv_sec;
++    t->tv_nsec = now.tv_usec * 1000;
++    return 0;
++}
++#define CLOCK_MONOTONIC 0
++#endif
++
+ #include "dabc/logging.h"
+ 
+ #include "dabc/FileIO.h"
+--- dabc/base/Makefile.mk_orig	2013-11-12 15:45:29.000000000 +0100
++++ dabc/base/Makefile.mk	2013-11-12 15:48:28.000000000 +0100
+@@ -77,10 +77,10 @@
+ 	@cp -f $< $@
+ 
+ $(DABCBASE_LIB):   $(BASE_CORE_O) $(BASE_SOCKET_O)
+-	@$(MakeLib) $(DABCBASE_LIBNAME) "$(BASE_CORE_O) $(BASE_SOCKET_O)" $(DABCDLLPATH) "-lpthread -ldl -lrt"
++	@$(MakeLib) $(DABCBASE_LIBNAME) "$(BASE_CORE_O) $(BASE_SOCKET_O)" $(DABCDLLPATH) "-lpthread -ldl"
+ 
+ #$(DABCSOCKET_LIB): $(BASE_SOCKET_O)
+-#	@$(MakeLib) $(DABCSOCKET_LIBNAME) "$(BASE_SOCKET_O)" $(DABCDLLPATH) "-lpthread -ldl -lrt"
++#	@$(MakeLib) $(DABCSOCKET_LIBNAME) "$(BASE_SOCKET_O)" $(DABCDLLPATH) "-lpthread -ldl"
+ #	@echo sockets: $(BLD_DIR) $(BASE_SOCKET_O)
+ #	@echo base: $(BASE_O)
+ 
+@@ -91,7 +91,7 @@
+ 	$(LD) $(LDFLAGS) $(BASERUN_O) $(LIBS_CORESET) $(OutPutOpt) $(DABC_BASEEXE)
+ 
+ $(DABC_XMLEXE) : $(DABC_XMLEXEO) $(DABC_BASESUB_O) 
+-	$(LD) $(LDFLAGS) $(DABC_XMLEXEO) $(DABC_BASESUB_O) -lpthread -lrt $(OutPutOpt) $(DABC_XMLEXE)
++	$(LD) $(LDFLAGS) $(DABC_XMLEXEO) $(DABC_BASESUB_O) -lpthread $(OutPutOpt) $(DABC_XMLEXE)
+ 
+ $(DABC_BASESH): $(BASERUN_SH)
+ 	@echo "Produce $@"
+--- dabc/base/src/SocketThread.cxx_orig	2013-11-12 15:29:12.000000000 +0100
++++ dabc/base/src/SocketThread.cxx	2013-11-12 15:29:42.000000000 +0100
+@@ -11,6 +11,12 @@
+  * which is part of the distribution.                       *
+  ************************************************************/
+ 
++#ifdef __APPLE__
++#ifndef MSG_NOSIGNAL
++#define MSG_NOSIGNAL SO_NOSIGPIPE
++#endif
++#endif
++
+ #include "dabc/SocketThread.h"
+ 
+ #include <sys/poll.h>
+--- dabc/base/src/threads.cxx_orig	2013-11-12 15:26:11.000000000 +0100
++++ dabc/base/src/threads.cxx	2013-11-12 15:27:01.000000000 +0100
+@@ -11,6 +11,12 @@
+  * which is part of the distribution.                       *
+  ************************************************************/
+ 
++#ifdef __APPLE__
++#  ifndef PTHREAD_MUTEX_RECURSIVE_NP
++#    define PTHREAD_MUTEX_RECURSIVE_NP PTHREAD_MUTEX_RECURSIVE
++#  endif
++#endif 
++
+ #include "dabc/threads.h"
+ 
+ #include <signal.h>
+--- dabc/base/src/timing.cxx_orig	2013-11-12 15:27:48.000000000 +0100
++++ dabc/base/src/timing.cxx	2013-11-12 15:28:31.000000000 +0100
+@@ -11,6 +11,20 @@
+  * which is part of the distribution.                       *
+  ************************************************************/
+ 
++#ifdef __APPLE__
++#include <sys/time.h>
++//clock_gettime is not implemented on OSX
++int clock_gettime(int /*clk_id*/, struct timespec* t) {
++    struct timeval now;
++    int rv = gettimeofday(&now, NULL);
++    if (rv) return rv;
++    t->tv_sec  = now.tv_sec;
++    t->tv_nsec = now.tv_usec * 1000;
++    return 0;
++}
++#define CLOCK_MONOTONIC 0
++#endif
++
+ #include "dabc/timing.h"
+ 
+ #include <time.h>
+--- dabc/config/Makefile.config_orig	2013-11-12 15:41:15.000000000 +0100
++++ dabc/config/Makefile.config	2013-11-12 15:42:02.000000000 +0100
+@@ -59,7 +59,8 @@
+ #### Linker definitions: ###
+ LD            = g++
+ LDFLAGS       = -O
+-SOFLAGS       = -shared -Wl,-soname,
++SOFLAGS       = -shared -flat_namespace -single_module -undefined dynamic_lookup -Wl,-install_name,
++#SOFLAGS       = -shared -Wl,-soname,
+ AR            = ar
+ ARFLAGS       = cr
+ 
+--- dabc/plugins/mbs/Makefile_orig	2013-11-12 15:42:29.000000000 +0100
++++ dabc/plugins/mbs/Makefile	2013-11-12 15:42:51.000000000 +0100
+@@ -75,7 +75,7 @@
+ 	@cp -f $< $@
+ 
+ $(DABCMBS_LIB):   $(DABCMBS_O)
+-	@$(MakeLib) $(DABCMBS_LIBNAME) "$(DABCMBS_O)" $(TGTDLLPATH) "-lrt"
++	@$(MakeLib) $(DABCMBS_LIBNAME) "$(DABCMBS_O)" $(TGTDLLPATH) ""
+ 
+ $(MBSFAPI_PACKAGE) : $(MBSFAPI_H) $(MBSFAPI_S) $(MBSFAPI_DISTR) 
+ 	@rm -f $(MBSFAPI_PACKAGE)
+--- dabc/plugins/mbs/fileapi/Makefile_orig	2013-11-12 15:43:17.000000000 +0100
++++ dabc/plugins/mbs/fileapi/Makefile	2013-11-12 15:43:35.000000000 +0100
+@@ -67,7 +67,7 @@
+ 	rm -f $(TEST_O) $(TEST_EXE) $(MBSFAPI_O) $(MBSFAPI_LIB) $(MBSFAPI_RMAP) $(MBSFAPI_DICT).*
+ 
+ $(MBSFAPI_LIB): $(MBSFAPI_O)
+-	$(LD) -shared -O $(MBSFAPI_O) -lrt -o $(MBSFAPI_LIB)
++	$(LD) -shared -O $(MBSFAPI_O) -o $(MBSFAPI_LIB)
+ 
+ $(MBSFAPI_DS): $(MBSFAPI_H)  $(MBSFAPI_LINKDEF)
+ 	echo "Generating root dictionary $(MBSFAPI_DS) ..."
+--- dabc/plugins/mbs/fileapi/fLmd.c_orig	2013-11-12 15:37:42.000000000 +0100
++++ dabc/plugins/mbs/fileapi/fLmd.c	2013-11-12 15:38:47.000000000 +0100
+@@ -25,6 +25,24 @@
+ #include <sys/timeb.h>
+ #endif
+ 
++#ifdef __APPLE__ /* Max OS X */
++#include <unistd.h>
++#include <pwd.h>
++#include <sys/timeb.h>
++#define fgetpos64 fgetpos
++#define fopen64 fopen
++#define fseeko64 fseek
++#define fpos64_t fpos_t
++
++// just some dummies for compilation, we will never write lmd with time header
++#define CLOCK_REALTIME 1
++int clock_gettime(int clockid, struct timespec* tp)
++{
++  return 0;
++}
++  
++#endif
++
+ #ifdef WIN32
+ #include <WTypes.h>
+ #include <wchar.h>
+--- dabc/plugins/mbs/mbs/LmdTypeDefs.h_orig	2013-11-12 15:32:48.000000000 +0100
++++ dabc/plugins/mbs/mbs/LmdTypeDefs.h	2013-11-12 15:33:23.000000000 +0100
+@@ -15,7 +15,13 @@
+ #define MBS_LmdTypeDefs
+ 
+ #include <stdint.h>
+-#include <endian.h>
++
++#ifdef __APPLE__
++//on MacOS endian.h is in a differnt directory
++#include <machine/endian.h>
++#else                  
++#include <endian.h>        
++#endif
+ 
+ namespace mbs {
+ 
+--- dabc/plugins/mbs/src/LmdOutput.cxx_orig	2013-11-12 15:34:05.000000000 +0100
++++ dabc/plugins/mbs/src/LmdOutput.cxx	2013-11-12 15:34:32.000000000 +0100
+@@ -17,7 +17,13 @@
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <unistd.h>
+-#include <endian.h>
++
++#ifdef __APPLE__
++//on MacOS endian.h is in a differnt directory
++#include <machine/endian.h>
++#else                  
++#include <endian.h>        
++#endif
+ 
+ #include "dabc/logging.h"
+ #include "dabc/Buffer.h"
+--- dabc/plugins/mbs/src/MbsTypeDefs.cxx_orig	2013-11-12 15:34:52.000000000 +0100
++++ dabc/plugins/mbs/src/MbsTypeDefs.cxx	2013-11-12 15:37:11.000000000 +0100
+@@ -11,11 +11,19 @@
+  * which is part of the distribution.                       *
+  ************************************************************/
+ 
++#ifdef __APPLE__
++// Mac OS X / Darwin features
++#include <libkern/OSByteOrder.h>
++#define bswap_16(x) OSSwapInt16(x)
++#define bswap_32(x) OSSwapInt32(x)
++#define bswap_64(x) OSSwapInt64(x)
++#else
++#include <byteswap.h>
++#endif
++
+ #include "MbsTypeDefs.h"
+ 
+ #include <string.h>
+-#include <byteswap.h>
+-
+ 
+ const char* mbs::typeLmdInput         = "mbs::LmdInput";
+ const char* mbs::typeLmdOutput        = "mbs::LmdOutput";
+--- roclib/Makefile_orig	2013-11-12 15:49:04.000000000 +0100
++++ roclib/Makefile	2013-11-12 15:49:44.000000000 +0100
+@@ -41,7 +41,7 @@
+ 
+ $(ROCDICT_LIB): $(ROCDICT_OBJ)
+ 	@echo 'Building: $@'
+-	@$(LD) -o $@ -shared -O $(ROCDICT_OBJ)
++	@$(LD) -o $@ -shared -flat_namespace -single_module -undefined dynamic_lookup -O $(ROCDICT_OBJ)
+ 
+ dict: $(ROCDICT_LIB) $(ROCDICT_MAP)
+ 

@@ -1,0 +1,105 @@
+#
+##   trd_v14a_1h information file
+#
+
+# created 20150108
+
+# envelope
+ 260 cm   start of TRD (z)
+ 440 cm   end   of TRD (z)
+
+# thickness
+  45 cm   per single layer (z)
+
+# extra gaps
+   0   0   0   0    extra gaps in z (cm)
+
+# generated TRD layers
+  1  2  3  4    planeID
+
+# dimensions in x
+ -332 cm to   332 cm x-dimension of layer  1
+ -332 cm to   332 cm x-dimension of layer  2
+ -332 cm to   332 cm x-dimension of layer  3
+ -332 cm to   332 cm x-dimension of layer  4
+
+# dimensions in y
+ -237 cm to   237 cm y-dimension of layer  1
+ -237 cm to   237 cm y-dimension of layer  2
+ -237 cm to   237 cm y-dimension of layer  3
+ -237 cm to   237 cm y-dimension of layer  4
+
+# z-positions of layer front
+  260 cm   z-position of layer  1
+  305 cm   z-position of layer  2
+  350 cm   z-position of layer  3
+  395 cm   z-position of layer  4
+
+# flags
+support structure is    : included
+radiator is             : included
+lattice grid is         : included
+asics are               : included
+front-end boards are    : included
+GBTX readout boards are : NOT included
+
+# modules
+     mod1     mod2     mod3     mod4     mod5     mod6     mod7     mod8    total
+---------------------------------------------------------------------------------
+        8        6       10        0        0        6        8       12            layer  1
+        8        6       10        0        0        6        8       12            layer  2
+        8        6       10        0        0        6        8       12            layer  3
+        8        6       10        0        0        6        8       12            layer  4
+
+---------------------------------------------------------------------------------
+       32       24       40        0        0       24       32       48      200   number of modules
+# febs
+        6u       5s       6        4       12        8        4        3            FEBs per module
+      192u                                                                    192   ultimate  FEBs
+               120s                                                           120   super     FEBs
+                        240        0        0      192      128      144      704   regular   FEBs
+      192      120      240        0        0      192      128      144     1016   number of FEBs
+# asics
+       15       10        5        5        8        8        8        8            ASICs per FEB
+       90       50       30       20       96       64       32       24            ASICs per module
+     2880     1200     1200        0        0     1536     1024     1152     8992   number of ASICs
+# gbtx
+       14        8        5        0        0       10        5        3            GBTXs per module
+      448      192      200        0        0      240      160      144     1384   number of GBTXs
+       77       53        5        0        0       55        5        3            GBTX ROB types on Module
+       64        0        0        0        0        0        0        0       64   number of GBTX ROB7
+        0       24       40        0        0       48       32        0      144   number of GBTX ROB5
+        0       24        0        0        0        0        0       48       72   number of GBTX ROB3
+# channels
+     2880     1600      960      640     3072     2048     1024      768            channels per module
+      480      320      160      160      256      256      256      256            channels per feb
+    92160    38400    38400        0        0    49152    32768    36864   287744   channels used
+    92160u   38400s   38400        0        0    49152    32768    36864   287744   channels available
+    32.0%u   13.3%s   54.6%r                                                        channel ratio
+
+   100.0%   channel efficiency
+
+ 125.05 m2      total surface    
+ 114.12 m2      total active area
+   1.37 m3      total gas volume 
+   3.97 cm2/ch  average channel size
+2521.50 ch/m2   channels per m2 active area
+
+# gas volume position
+  291.6000 cm   position of gas volume - layer  1
+  336.6000 cm   position of gas volume - layer  2
+  381.6000 cm   position of gas volume - layer  3
+  426.6000 cm   position of gas volume - layer  4
+
+# angles of acceptance
+v: 39.10 deg, h: 48.69 deg - vertical/horizontal - layer  1
+v: 35.16 deg, h: 44.60 deg - vertical/horizontal - layer  2
+v: 31.86 deg, h: 41.02 deg - vertical/horizontal - layer  3
+v: 29.07 deg, h: 37.89 deg - vertical/horizontal - layer  4
+
+# inner aperture
+v:  5.57 deg, h:  5.57 deg - vertical/horizontal - layer  1
+v:  4.83 deg, h:  4.83 deg - vertical/horizontal - layer  2
+v:  4.26 deg, h:  4.26 deg - vertical/horizontal - layer  3
+v:  3.82 deg, h:  3.82 deg - vertical/horizontal - layer  4
+

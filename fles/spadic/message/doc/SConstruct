@@ -1,0 +1,18 @@
+# ex: syntax=python
+
+# compile demo program
+# --------------------
+demo_src = ['demo.c', '../message.c', '../message_reader.c']
+Program('demo', demo_src, CPPPATH=['..'])
+
+# create documentation
+# --------------------
+doc_src = ['Doxyfile', 'doxy_custom.css', 'mainpage.md',
+           '../message.h', 'demo.c',
+           '../message_reader.h']
+doc_tgt = ['html', 'man']
+# work around "bug" in SCons: directories as target are always considered
+# up-to-date, see http://stackoverflow.com/q/19303409
+doc_tgt_dummy = ['html/index.html']
+doc = Command(doc_tgt_dummy, doc_src, 'doxygen')
+Clean(doc, doc_tgt)

@@ -1,0 +1,57 @@
+#
+##   Information about trd.v13 geometries
+#
+
+# updated 2013-11-05 - by DE
+
+# introduced new geometry naming scheme in Nov 2013,
+  names are now easier to associate to setups:
+
+- trd_v13p_1e.geo.root
+- trd_v13p_1h.geo.root
+- trd_v13p_1m.geo.root
+- trd_v13p_3e.geo.root
+- trd_v13p_3m.geo.root
+
+The default macro is Create_TRD_Geometry_v13p_3e.C
+all 4 other setups are generated in shell scripts by patching:
+
+create_TRD_Geometry_v13p_1e.sh
+create_TRD_Geometry_v13p_1h.sh
+create_TRD_Geometry_v13p_1m.sh
+create_TRD_Geometry_v13p_3m.sh
+
+
+# introduced new geometry naming scheme in May/June 2013, 
+  new geometries according to official z positions by Walter (v1.00):
+
+  http://cbm.uni-muenster.de/engineering/more/MUCH-RICH-TRD-TOF-geometries_V1.00.xls
+
+- v13g - SIS 300, 10 layers, behind RICH, (z = 4100 mm), compact layers (dz = 450 mm)
+- v13h - SIS 100,  4 layers, behind  STS, (z = 2600 mm)
+- v13i - SIS 100,  2 layers, behind RICH, (z = 4100 mm), compact layers (dz = 450 mm)
+- v13j - SIS 100,  3 layers, behind RICH, (z = 4100 mm), compact layers (dz = 450 mm)
+- v13k - SIS 100,  4 layers, behind RICH, (z = 4100 mm), compact layers (dz = 450 mm)
+- v13l - SIS 100,  4 layers, behind MUCH, (z = 4600 mm), compact layers (dz = 450 mm)
+- v13m - SIS 300, 10 layers, behind MUCH, (z = 5500 mm), compact layers (dz = 450 mm)
+- v13n - SIS 300, 10 layers, behind RICH, (z = 4600 mm), TRD streched in z, compact layers (dz = 450 mm)
+
+
+# created new official ROOT TRD geometries (21.03.2013)
+
+- v13c - as v13i, compressed, without 25 cm gaps between stations, z = 4.5m to 9.5m
+- v13d - as v13s - 2 layers, SIS100
+- v13e - as v13r - 3 layers, SIS100
+- v13f - as v13t - 4 layers, SIS100
+
+# developer's versions
+
+
+#
+## Howto generate a digipar file form a .root geometry
+#
+
+# DE, June 2013
+
+# in macro/trd
+./create_digipar_root.sh

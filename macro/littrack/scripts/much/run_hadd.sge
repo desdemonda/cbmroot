@@ -1,0 +1,20 @@
+#qsub -l mem=3G,ct=2:00:00 -v energy=25gev -v centrality=centr -v geometry=sis300a -v particle= -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=10gev -v centrality=centr -v geometry=sis100a -v particle= -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=10gev -v centrality=centr -v geometry=sis100b -v particle= -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=10gev -v centrality=centr -v geometry=sis100c -v particle= -v background=urqmd ./hadd.sge
+
+#qsub -l mem=3G,ct=2:00:00 -v energy=25gev -v centrality=centr -v geometry=sis300a -v particle=jpsi -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=10gev -v centrality=centr -v geometry=sis100a -v particle=jpsi -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=10gev -v centrality=centr -v geometry=sis100b -v particle=jpsi -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=10gev -v centrality=centr -v geometry=sis100c -v particle=jpsi -v background=urqmd ./hadd.sge
+
+#qsub -l mem=3G,ct=2:00:00 -v energy=25gev -v centrality=centr -v geometry=sis300a -v particle=omega -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=8gev -v centrality=centr -v geometry=sis100a -v particle=omega -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=8gev -v centrality=centr -v geometry=sis100b -v particle=omega -v background=urqmd ./hadd.sge
+#qsub -l mem=3G,ct=2:00:00 -v energy=8gev -v centrality=centr -v geometry=sis100c -v particle=omega -v background=urqmd ./hadd.sge
+
+
+qsub -l mem=3G,ct=2:00:00 -v energy=25gev -v centrality=centr -v geometry=v12c -v particle=omega -v background= ./hadd.sge
+qsub -l mem=3G,ct=2:00:00 -v energy=25gev -v centrality=centr -v geometry=v12c -v particle=jpsi -v background= ./hadd.sge
+qsub -l mem=3G,ct=2:00:00 -v energy=25gev -v centrality=centr -v geometry=v12b -v particle=omega -v background= ./hadd.sge
+qsub -l mem=3G,ct=2:00:00 -v energy=25gev -v centrality=centr -v geometry=v12b -v particle=jpsi -v background= ./hadd.sge

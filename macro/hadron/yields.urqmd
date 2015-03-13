@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# yields_urqmd()
+
+root -l << EOF
+.L yields.urqmd.C
+yields_urqmd()
+.q
+EOF
+

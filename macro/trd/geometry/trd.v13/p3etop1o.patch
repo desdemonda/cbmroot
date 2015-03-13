@@ -1,0 +1,100 @@
+*** Create_TRD_Geometry_v13p_3e.C	2014-06-25 18:25:09.193737780 +0200
+--- Create_TRD_Geometry_v13p_1o.C	2014-07-01 12:24:01.988205558 +0200
+***************
+*** 3,8 ****
+--- 3,10 ----
+  /// \brief Generates TRD geometry in Root format.
+  ///                                             
+  
++ // 2014-06-16 - DE - v13p_1o - remove radiator material
++ // 2014-06-16 - DE - v13p_1n - start at z=360cm on request of MUCH
+  // 2013-11-04 - DE - v13p4 - adapt the number of front-end boards to the pad layout of the 540 mm modules
+  // 2013-11-04 - DE - v13p4 - use 8 module types (4x S + 4x L) to better match the occupancy
+  // 2013-10-31 - DE - v13p4 - modify the support structure of station 1 to match with the MUCH/RICH platform
+***************
+*** 71,83 ****
+  #include <iostream>
+  
+  // Name of output file with geometry
+! const TString geoVersion   = "trd_v13p_3e";
+  const TString FileNameSim  = geoVersion + ".geo.root";
+  const TString FileNameGeo  = geoVersion + "_geo.root";
+  const TString FileNameInfo = geoVersion + ".geo.info";
+  
+  // display switches
+! const Bool_t IncludeRadiator    = true;  // false;  // true, if radiator is included in geometry
+  const Bool_t IncludeLattice     = true;  // false;  // true, if lattice grid is included in geometry
+  const Bool_t IncludeFebs        = true;  // false;  // true, if FEBs are included in geometry
+  const Bool_t IncludeAsics       = true;  // false;  // true, if ASICs are included in geometry
+--- 73,85 ----
+  #include <iostream>
+  
+  // Name of output file with geometry
+! const TString geoVersion   = "trd_v13p_1o";
+  const TString FileNameSim  = geoVersion + ".geo.root";
+  const TString FileNameGeo  = geoVersion + "_geo.root";
+  const TString FileNameInfo = geoVersion + ".geo.info";
+  
+  // display switches
+! const Bool_t IncludeRadiator    = false; // false;  // true, if radiator is included in geometry
+  const Bool_t IncludeLattice     = true;  // false;  // true, if lattice grid is included in geometry
+  const Bool_t IncludeFebs        = true;  // false;  // true, if FEBs are included in geometry
+  const Bool_t IncludeAsics       = true;  // false;  // true, if ASICs are included in geometry
+***************
+*** 127,135 ****
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-2l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-3l  // 1: plot, 0: hide
+  //
+! //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 };  // SIS100-4l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 };  // SIS300-mu  // 1: plot, 0: hide
+! const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // SIS300-e   // 1: plot, 0: hide
+  
+  Int_t    PlaneId[MaxLayers]; // automatically filled with layer ID
+  
+--- 129,137 ----
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-2l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-3l  // 1: plot, 0: hide
+  //
+! const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 };  // SIS100-4l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 };  // SIS300-mu  // 1: plot, 0: hide
+! //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // SIS300-e   // 1: plot, 0: hide
+  
+  Int_t    PlaneId[MaxLayers]; // automatically filled with layer ID
+  
+***************
+*** 139,146 ****
+  // 5x z-positions from 260 till 550 cm
+  //Double_t LayerPosition[MaxLayers] = { 260. }; // start position - 2013-10-28 - DE - v13x1 - SIS 100 hadron         ( 4 layers, z = 2600 )
+  //Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v13x2 - SIS 100 electron       ( 4 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 460. }; // start position - 2013-10-28 - DE - v13x3 - SIS 100 muon     3_abs ( 4 layers, z = 4600 )
+! Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v13x4 - SIS 300 electron       (10 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 550. }; // start position - 2013-10-28 - DE - v13x5 - SIS 300 muon     6_abs (10 layers, z = 5500 )
+  //
+  // obsolete variants
+--- 141,149 ----
+  // 5x z-positions from 260 till 550 cm
+  //Double_t LayerPosition[MaxLayers] = { 260. }; // start position - 2013-10-28 - DE - v13x1 - SIS 100 hadron         ( 4 layers, z = 2600 )
+  //Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v13x2 - SIS 100 electron       ( 4 layers, z = 4100 )
++ Double_t LayerPosition[MaxLayers] = { 360. }; // start at z=360cm on request of MUCH
+  //Double_t LayerPosition[MaxLayers] = { 460. }; // start position - 2013-10-28 - DE - v13x3 - SIS 100 muon     3_abs ( 4 layers, z = 4600 )
+! //Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v13x4 - SIS 300 electron       (10 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 550. }; // start position - 2013-10-28 - DE - v13x5 - SIS 300 muon     6_abs (10 layers, z = 5500 )
+  //
+  // obsolete variants
+***************
+*** 368,374 ****
+  void dump_info_file();
+  
+  
+! void Create_TRD_Geometry_v13p_3e() {
+    // Load the necessary FairRoot libraries 
+    gROOT->LoadMacro("$VMCWORKDIR/gconfig/basiclibs.C");
+    basiclibs();
+--- 371,377 ----
+  void dump_info_file();
+  
+  
+! void Create_TRD_Geometry_v13p_1o() {
+    // Load the necessary FairRoot libraries 
+    gROOT->LoadMacro("$VMCWORKDIR/gconfig/basiclibs.C");
+    basiclibs();

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# fitm2(timeResolution, purity, level)
+
+root -l << EOF
+.L fitm2.C
+fitm2(25, 80, 95, 3)
+.q
+EOF
+

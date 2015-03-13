@@ -1,0 +1,151 @@
+#
+##   trd_v15b_3m information file
+#
+
+# created 20150310
+
+# envelope
+ 550 cm   start of TRD (z)
+1010 cm   end   of TRD (z)
+
+# thickness
+  45 cm   per single layer (z)
+
+# extra gaps
+   0   0   0   0   5   0   0   0   5   0    extra gaps in z (cm)
+
+# generated TRD layers
+  1  2  3  4  5  6  7  8  9 10    planeID
+
+# dimensions in x
+ -332 cm to   332 cm x-dimension of layer  1
+ -332 cm to   332 cm x-dimension of layer  2
+ -332 cm to   332 cm x-dimension of layer  3
+ -332 cm to   332 cm x-dimension of layer  4
+ -427 cm to   427 cm x-dimension of layer  5
+ -427 cm to   427 cm x-dimension of layer  6
+ -427 cm to   427 cm x-dimension of layer  7
+ -427 cm to   427 cm x-dimension of layer  8
+ -522 cm to   522 cm x-dimension of layer  9
+ -522 cm to   522 cm x-dimension of layer 10
+
+# dimensions in y
+ -237 cm to   237 cm y-dimension of layer  1
+ -237 cm to   237 cm y-dimension of layer  2
+ -237 cm to   237 cm y-dimension of layer  3
+ -237 cm to   237 cm y-dimension of layer  4
+ -332 cm to   332 cm y-dimension of layer  5
+ -332 cm to   332 cm y-dimension of layer  6
+ -332 cm to   332 cm y-dimension of layer  7
+ -332 cm to   332 cm y-dimension of layer  8
+ -427 cm to   427 cm y-dimension of layer  9
+ -427 cm to   427 cm y-dimension of layer 10
+
+# z-positions of layer front
+  550 cm   z-position of layer  1
+  595 cm   z-position of layer  2
+  640 cm   z-position of layer  3
+  685 cm   z-position of layer  4
+  735 cm   z-position of layer  5
+  780 cm   z-position of layer  6
+  825 cm   z-position of layer  7
+  870 cm   z-position of layer  8
+  920 cm   z-position of layer  9
+  965 cm   z-position of layer 10
+
+# flags
+support structure is    : included
+radiator is             : NOT included
+lattice grid is         : NOT included
+kapton window is        : NOT included
+gas frame is            : NOT included
+padplane is             : NOT included
+backpanel is            : NOT included
+asics are               : NOT included
+front-end boards are    : NOT included
+GBTX readout boards are : NOT included
+
+# modules
+     mod1     mod2     mod3     mod4     mod5     mod6     mod7     mod8    total
+---------------------------------------------------------------------------------
+        8        6       10        0        0        6        8       12            layer  1
+        8        6       10        0        0        6        8       12            layer  2
+        8        6       10        0        0        6        8       12            layer  3
+        8        6       10        0        0        6        8       12            layer  4
+        8        6       10        0        0        6       12       36            layer  5
+        8        6       10        0        0        6       12       36            layer  6
+        8        6       10        0        0        6       12       36            layer  7
+        8        6       10        0        0        6       12       36            layer  8
+        8        6       10        0        0       12       10       68            layer  9
+        8        6       10        0        0       12       10       68            layer 10
+
+---------------------------------------------------------------------------------
+       80       60      100        0        0       72      100      328      740   number of modules
+# febs
+        6u       5s       6        4       12        8        4        3            FEBs per module
+      480u                                                                    480   ultimate  FEBs
+               300s                                                           300   super     FEBs
+                        600        0        0      576      400      984     2560   regular   FEBs
+      480      300      600        0        0      576      400      984     3340   number of FEBs
+# asics
+       15       10        5        5        8        8        8        8            ASICs per FEB
+       90       50       30       20       96       64       32       24            ASICs per module
+     7200     3000     3000        0        0     4608     3200     7872    28880   number of ASICs
+# gbtx
+       14        8        5        0        0       10        5        3            GBTXs per module
+     1120      480      500        0        0      720      500      984     4304   number of GBTXs
+       77       53        5        0        0       55        5        3            GBTX ROB types on Module
+      160        0        0        0        0        0        0        0      160   number of GBTX ROB7
+        0       60      100        0        0      144      100        0      404   number of GBTX ROB5
+        0       60        0        0        0        0        0      328      388   number of GBTX ROB3
+# channels
+     2880     1600      960      640     3072     2048     1024      768            channels per module
+      480      320      160      160      256      256      256      256            channels per feb
+   230400    96000    96000        0        0   147456   102400   251904   924160   channels used
+   230400u   96000s   96000        0        0   147456   102400   251904   924160   channels available
+    24.9%u   10.4%s   64.7%r                                                        channel ratio
+
+   100.0%   channel efficiency
+
+ 529.23 m2      total surface    
+ 493.18 m2      total active area
+   5.92 m3      total gas volume 
+   5.34 cm2/ch  average channel size
+1873.86 ch/m2   channels per m2 active area
+
+# gas volume position
+  581.6000 cm   position of gas volume - layer  1
+  626.6000 cm   position of gas volume - layer  2
+  671.6000 cm   position of gas volume - layer  3
+  716.6000 cm   position of gas volume - layer  4
+  766.6000 cm   position of gas volume - layer  5
+  811.6000 cm   position of gas volume - layer  6
+  856.6000 cm   position of gas volume - layer  7
+  901.6000 cm   position of gas volume - layer  8
+  951.6000 cm   position of gas volume - layer  9
+  996.6000 cm   position of gas volume - layer 10
+
+# angles of acceptance
+v: 22.19 deg, h: 29.73 deg - vertical/horizontal - layer  1
+v: 20.74 deg, h: 27.93 deg - vertical/horizontal - layer  2
+v: 19.46 deg, h: 26.32 deg - vertical/horizontal - layer  3
+v: 18.32 deg, h: 24.87 deg - vertical/horizontal - layer  4
+v: 23.43 deg, h: 29.13 deg - vertical/horizontal - layer  5
+v: 22.26 deg, h: 27.76 deg - vertical/horizontal - layer  6
+v: 21.20 deg, h: 26.51 deg - vertical/horizontal - layer  7
+v: 20.23 deg, h: 25.35 deg - vertical/horizontal - layer  8
+v: 24.18 deg, h: 28.75 deg - vertical/horizontal - layer  9
+v: 23.20 deg, h: 27.65 deg - vertical/horizontal - layer 10
+
+# inner aperture
+v:  2.80 deg, h:  2.80 deg - vertical/horizontal - layer  1
+v:  2.60 deg, h:  2.60 deg - vertical/horizontal - layer  2
+v:  2.43 deg, h:  2.43 deg - vertical/horizontal - layer  3
+v:  2.28 deg, h:  2.28 deg - vertical/horizontal - layer  4
+v:  2.13 deg, h:  2.13 deg - vertical/horizontal - layer  5
+v:  2.01 deg, h:  2.01 deg - vertical/horizontal - layer  6
+v:  1.90 deg, h:  1.90 deg - vertical/horizontal - layer  7
+v:  1.81 deg, h:  1.81 deg - vertical/horizontal - layer  8
+v:  1.71 deg, h:  1.71 deg - vertical/horizontal - layer  9
+v:  1.64 deg, h:  1.64 deg - vertical/horizontal - layer 10
+

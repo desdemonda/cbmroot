@@ -1,0 +1,82 @@
+*** Create_TRD_Geometry_v15a_3e.C	2015-01-22 23:20:56.294951937 +0100
+--- Create_TRD_Geometry_v15a_1e.C	2015-01-22 23:23:37.606989875 +0100
+***************
+*** 82,90 ****
+  // Name of output file with geometry
+  const TString tagVersion   = "v15a";
+  //const TString subVersion   = "_1h";
+! //const TString subVersion   = "_1e";
+  //const TString subVersion   = "_1m";
+! const TString subVersion   = "_3e";
+  //const TString subVersion   = "_3m";
+  const TString geoVersion   = "trd_" + tagVersion + subVersion;
+  const TString FileNameSim  = geoVersion + ".geo.root";
+--- 82,90 ----
+  // Name of output file with geometry
+  const TString tagVersion   = "v15a";
+  //const TString subVersion   = "_1h";
+! const TString subVersion   = "_1e";
+  //const TString subVersion   = "_1m";
+! //const TString subVersion   = "_3e";
+  //const TString subVersion   = "_3m";
+  const TString geoVersion   = "trd_" + tagVersion + subVersion;
+  const TString FileNameSim  = geoVersion + ".geo.root";
+***************
+*** 150,158 ****
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-2l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-3l  // 1: plot, 0: hide
+  //
+! //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 };  // SIS100-4l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 };  // SIS300-mu  // 1: plot, 0: hide
+! const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // SIS300-e   // 1: plot, 0: hide
+  
+  Int_t    PlaneId[MaxLayers]; // automatically filled with layer ID
+  
+--- 150,158 ----
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-2l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };  // SIS100-3l  // 1: plot, 0: hide
+  //
+! const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 };  // SIS100-4l  // 1: plot, 0: hide
+  //const Int_t    ShowLayer[MaxLayers] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 };  // SIS300-mu  // 1: plot, 0: hide
+! //const Int_t    ShowLayer[MaxLayers] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };  // SIS300-e   // 1: plot, 0: hide
+  
+  Int_t    PlaneId[MaxLayers]; // automatically filled with layer ID
+  
+***************
+*** 166,174 ****
+  
+  // 5x z-positions from 260 till 550 cm
+  //Double_t LayerPosition[MaxLayers] = { 260. }; // start position - 2013-10-28 - DE - v14_1h - SIS 100 hadron         ( 4 layers, z = 2600 )
+! //Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v14_1e - SIS 100 electron       ( 4 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 360. }; // start position - 2014-06-16 - DE - v14_1m - SIS 100 muon           ( 4 layers, z = 3600 ) was 460.
+! Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v14_3e - SIS 300 electron       (10 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 550. }; // start position - 2013-10-28 - DE - v14_3m - SIS 300 muon     6_abs (10 layers, z = 5500 )
+  //
+  // obsolete variants
+--- 166,174 ----
+  
+  // 5x z-positions from 260 till 550 cm
+  //Double_t LayerPosition[MaxLayers] = { 260. }; // start position - 2013-10-28 - DE - v14_1h - SIS 100 hadron         ( 4 layers, z = 2600 )
+! Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v14_1e - SIS 100 electron       ( 4 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 360. }; // start position - 2014-06-16 - DE - v14_1m - SIS 100 muon           ( 4 layers, z = 3600 ) was 460.
+! //Double_t LayerPosition[MaxLayers] = { 410. }; // start position - 2013-10-28 - DE - v14_3e - SIS 300 electron       (10 layers, z = 4100 )
+  //Double_t LayerPosition[MaxLayers] = { 550. }; // start position - 2013-10-28 - DE - v14_3m - SIS 300 muon     6_abs (10 layers, z = 5500 )
+  //
+  // obsolete variants
+***************
+*** 416,422 ****
+  void dump_digi_file();
+  
+  
+! void Create_TRD_Geometry_v15a_3e() {
+    // Load the necessary FairRoot libraries 
+    gROOT->LoadMacro("$VMCWORKDIR/gconfig/basiclibs.C");
+    basiclibs();
+--- 416,422 ----
+  void dump_digi_file();
+  
+  
+! void Create_TRD_Geometry_v15a_1e() {
+    // Load the necessary FairRoot libraries 
+    gROOT->LoadMacro("$VMCWORKDIR/gconfig/basiclibs.C");
+    basiclibs();

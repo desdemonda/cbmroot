@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+root -l << EOF
+.L reco.urqmd.C
+reco_urqmd(0)
+.q
+EOF
+
+

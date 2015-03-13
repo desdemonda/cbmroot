@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# fillm2(timeResolution, level)
+
+root -l << EOF
+.L fillm2.C
+fillm2(25, 80, 2)
+.q
+EOF
+

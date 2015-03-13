@@ -1,0 +1,21 @@
+Executable = "hyperon.sh";
+Requirements=other.CE=="CBM::GSI::lxcbmgrid001_ce";
+TTL = "390000";
+
+Arguments="#alien_counter# $2 $3";
+
+Packages={
+          "cbmgrid@cbm_extern::jul08",
+          "cbmgrid@cbmroot::dec08",
+          "cbmgrid@urqmd::v1"
+         };
+InputFile= {
+            "LF:/cbm/user/k/kryshen/macros/sim.C",
+            "LF:/cbm/user/k/kryshen/macros/rec.C"
+           };
+
+Split="production:1-10";
+Outputdir="/cbm/user/k/kryshen/out/hyperon/run$1/#alien_counter#";
+OutputArchive = {"log_archive:stderr,stdout,resources,*.log@CBM::GSI::xrdlustre"};
+OutputFile ={"*.root@CBM::GSI::xrdlustre"};
+Email="e.kryshen@gsi.de";

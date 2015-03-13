@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# spectra_urqmd(timeResolution, purity)
+
+root -l << EOF
+.L spectra.urqmd.C
+spectra_urqmd(25, 80, 50)
+.q
+EOF
+

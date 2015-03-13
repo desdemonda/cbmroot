@@ -1,0 +1,32 @@
+qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14h -v sts=stsv13d -v rich=richv14a_3e -v tof=tofv13 -v trd=trd10 -v coll_energy=25gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=rho0 ./sim.sge
+qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14h -v sts=stsv13d -v rich=richv14a_3e -v tof=tofv13 -v trd=trd10 -v coll_energy=25gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=omegaepem ./sim.sge
+qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14h -v sts=stsv13d -v rich=richv14a_3e -v tof=tofv13 -v trd=trd10 -v coll_energy=25gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=omegadalitz ./sim.sge
+qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14h -v sts=stsv13d -v rich=richv14a_3e -v tof=tofv13 -v trd=trd10 -v coll_energy=25gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=phi ./sim.sge
+
+
+qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=8gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=rho0 ./sim.sge
+qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=8gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=omegaepem ./sim.sge
+qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=8gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=omegadalitz ./sim.sge
+qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=8gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=phi ./sim.sge
+
+
+#qsub -l mem=3G,ct=20:00:00 -v pipe=pipev_14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=notrd -v coll_energy=3.5gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=rho0 ./sim.sge
+#qsub -l mem=3G,ct=20:00:00 -v pipe=pipev_14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=notrd -v coll_energy=3.5gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=omegaepem ./sim.sge
+#qsub -l mem=3G,ct=20:00:00 -v pipe=pipev_14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=notrd -v coll_energy=3.5gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=omegadalitz ./sim.sge
+#qsub -l mem=3G,ct=20:00:00 -v pipe=pipev_14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=notrd -v coll_energy=3.5gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=phi ./sim.sge
+
+
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=rho0 ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=omegaepem ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=omegadalitz ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=1.0 -v mvd=nomvd -v pluto_particle=phi ./sim.sge
+
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=0.7 -v mvd=nomvd -v pluto_particle=rho0 ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=0.7 -v mvd=nomvd -v pluto_particle=omegaepem ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=0.7 -v mvd=nomvd -v pluto_particle=omegadalitz ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=0.7 -v mvd=nomvd -v pluto_particle=phi ./sim.sge
+
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=0.5 -v mvd=nomvd -v pluto_particle=rho0 ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=0.5 -v mvd=nomvd -v pluto_particle=omegaepem ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=0.5 -v mvd=nomvd -v pluto_particle=omegadalitz ./sim.sge
+#qsub -l mem=2G,ct=20:00:00 -v pipe=pipe_v14f -v sts=stsv13d -v rich=richv14a_1e -v tof=tofv13 -v trd=trd4 -v coll_energy=3.5gev -v field_scale=0.5 -v mvd=nomvd -v pluto_particle=phi ./sim.sge

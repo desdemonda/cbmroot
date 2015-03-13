@@ -1,0 +1,40 @@
+#calibration data for calorimeter with 1mm/1mm Lead/Scintillator and
+#8.6/10 Lead/Scintillator
+#2x2 subcluster + min cell
+#04.02.2009 by Dr.Sys
+P0a[1]=0.00295
+P0a[2]=0.003108
+P0a[3]=-1111
+P0a[4]=0.002938
+P0b[1]=0.08841
+P0b[2]=0.08572
+P0b[3]=-1111
+P0b[4]=0.07996
+P1a[1]=0.002675
+P1a[2]=0.002916
+P1a[3]=-1111
+P1a[4]=0.002135
+P1b[1]=-0.005032
+P1b[2]=-0.005232
+P1b[3]=-1111
+P1b[4]=-0.007456
+#calibration data for calorimeter with 1mm/1mm Lead/Scintillator and
+#8.6/10 Lead/Scintillator
+#2x2 subcluster
+#P0a[1]=0.003281
+#P0a[2]=0.00353
+#P0a[3]=-1111
+#P0a[4]=0.003694
+#P0b[1]=0.08831
+#P0b[2]=0.08547
+#P0b[3]=-1111
+#P0b[4]=0.07942
+#P1a[1]=0.002531
+#P1a[2]=0.000021
+#P1a[3]=-1111
+#P1a[4]=0.00136
+#P1b[1]=-0.004968
+#P1b[2]=-0.004228
+#P1b[3]=-1111
+#P1b[4]=-0.007333
+

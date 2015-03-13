@@ -1,0 +1,21 @@
+
+Release 1.0                         15.02.05
+
+At the moment LHEtrack finder&fitter consists of:
+
+CbmStsCandidTracker class --- simple hits and tracks maker from MC point
+CbmStsCMTrackFinder class --- track finder class
+CbmStsPolyFitter class    --- track fitter class 
+few additional classes
+
+It is tuned for FIELD.v03b.map now and involves only first steps for finding
+tracks (~95% for primary and ~80% for secondary) and fitting (~1% $\delta$ p / p).
+
+The output of LHEtrack is given in registered branch "CbmStsTrack"
+in the form of CbmStsTrack class from /sts directory. 
+
+Fitting in CbmPolyFitter could be switched on and off. The output correspondingly
+will be filled with fit information for tracks and/or track hits numbers only.
+
+
+

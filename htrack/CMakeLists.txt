@@ -1,0 +1,90 @@
+set(INCLUDE_DIRECTORIES
+${CBMROOT_SOURCE_DIR}/cbmbase
+
+${CBMROOT_SOURCE_DIR}/cbmdata
+${CBMROOT_SOURCE_DIR}/cbmdata/sts
+${CBMROOT_SOURCE_DIR}/cbmdata/mvd
+
+${CBMROOT_SOURCE_DIR}/field
+
+${CBMROOT_SOURCE_DIR}/sts
+
+${CBMROOT_SOURCE_DIR}/mvd
+
+${CBMROOT_SOURCE_DIR}/trackbase
+
+${CBMROOT_SOURCE_DIR}/geane
+
+${CBMROOT_SOURCE_DIR}/htrack
+
+#needed by rootcling
+${CBMROOT_SOURCE_DIR}/htrack/DataObjectLIB/include
+${CBMROOT_SOURCE_DIR}/htrack/MiscLIB/include
+${CBMROOT_SOURCE_DIR}/htrack/FileioLIB/include
+${CBMROOT_SOURCE_DIR}/htrack/DataRootObjectLIB/include
+${CBMROOT_SOURCE_DIR}/htrack/InputLIB/include
+${CBMROOT_SOURCE_DIR}/htrack/LutGeneratorLIB/include
+${CBMROOT_SOURCE_DIR}/htrack/HistogramTransformationLIB/include
+${CBMROOT_SOURCE_DIR}/htrack/OutputResultLIB/include
+${CBMROOT_SOURCE_DIR}/htrack/CbmHoughStsTrackFinder/include
+)
+
+Include_Directories( ${INCLUDE_DIRECTORIES})
+
+Set(SYSTEM_INCLUDE_DIRECTORIES
+  ${BASE_INCLUDE_DIRECTORIES}
+  ${GEANT3_INCLUDE_DIR}
+)
+
+Include_Directories(SYSTEM ${SYSTEM_INCLUDE_DIRECTORIES})
+
+set(LINK_DIRECTORIES
+${ROOT_LIBRARY_DIR}
+${FAIRROOT_LIBRARY_DIR}
+${GEANT4_LIBRARY_DIR}
+)
+
+link_directories( ${LINK_DIRECTORIES})
+
+set(SRCS
+MiscLIB/src/conversionRoutines.cxx MiscLIB/src/errorHandling.cxx MiscLIB/src/globalWarningMsg.cxx MiscLIB/src/miscError.cxx MiscLIB/src/miscWarningMsg.cxx MiscLIB/src/terminal.cxx
+FileioLIB/src/configuration.cxx FileioLIB/src/fileio.cxx FileioLIB/src/fileioError.cxx FileioLIB/src/fileioWarningMsg.cxx FileioLIB/src/io.cxx
+DataObjectLIB/src/analyticFormula.cxx DataObjectLIB/src/bitfield.cxx DataObjectLIB/src/bytefield.cxx DataObjectLIB/src/dataObjectError.cxx DataObjectLIB/src/dataObjectWarningMsg.cxx DataObjectLIB/src/histogramCellSignatures.cxx DataObjectLIB/src/histogramSpace.cxx DataObjectLIB/src/houghBorderCommand.cxx DataObjectLIB/src/houghBorderPosition.cxx DataObjectLIB/src/lutAccessFile.cxx DataObjectLIB/src/lutDefinition.cxx DataObjectLIB/src/lutHoughBorder.cxx DataObjectLIB/src/magneticFieldValue.cxx DataObjectLIB/src/peakfindingGeometryElement.cxx DataObjectLIB/src/peakfindingGeometryFile.cxx DataObjectLIB/src/peakToTrack.cxx DataObjectLIB/src/prelutAccessFile.cxx DataObjectLIB/src/prelutDefinition.cxx DataObjectLIB/src/prelutHoughBorder.cxx DataObjectLIB/src/table.cxx DataObjectLIB/src/tableEntry.cxx DataObjectLIB/src/tableFile.cxx DataObjectLIB/src/tableStringEntry.cxx DataObjectLIB/src/trackCoordinates.cxx DataObjectLIB/src/trackFrameworkMomentum.cxx DataObjectLIB/src/trackMomentum.cxx DataObjectLIB/src/trackParameter.cxx DataObjectLIB/src/trackToPeak.cxx
+DataRootObjectLIB/src/borderCell.cxx DataRootObjectLIB/src/dataRootObjectError.cxx DataRootObjectLIB/src/dataRootObjectWarningMsg.cxx DataRootObjectLIB/src/digitalHitAccessFile.cxx DataRootObjectLIB/src/digitalHit.cxx DataRootObjectLIB/src/findableTrack.cxx DataRootObjectLIB/src/histogramCell.cxx DataRootObjectLIB/src/histogramData.cxx DataRootObjectLIB/src/inputHitSpecialArray.cxx DataRootObjectLIB/src/inputHitSpecialList.cxx DataRootObjectLIB/src/inputHitSpecialMem.cxx DataRootObjectLIB/src/inputHitStlList.cxx DataRootObjectLIB/src/inputHitStlMem.cxx DataRootObjectLIB/src/lutBorder.cxx DataRootObjectLIB/src/peakfindingGeometry.cxx DataRootObjectLIB/src/rungeKuttaInterface.cxx DataRootObjectLIB/src/rungeKuttaInvertedListEntry.cxx DataRootObjectLIB/src/rungeKuttaListEntry.cxx DataRootObjectLIB/src/tables.cxx DataRootObjectLIB/src/trackAnalogInformation.cxx DataRootObjectLIB/src/trackData.cxx DataRootObjectLIB/src/trackDigitalInformation.cxx DataRootObjectLIB/src/trackfinderInputData.cxx DataRootObjectLIB/src/trackfinderInputDetector.cxx DataRootObjectLIB/src/trackfinderInputFMagneticField.cxx DataRootObjectLIB/src/trackfinderInputHit.cxx DataRootObjectLIB/src/trackfinderInputMagneticField.cxx DataRootObjectLIB/src/trackfinderInputStation.cxx DataRootObjectLIB/src/trackfinderInputTrack.cxx DataRootObjectLIB/src/trackfinderOutputData.cxx DataRootObjectLIB/src/trackHitMem.cxx DataRootObjectLIB/src/trackLayerAccess.cxx
+RootFrameworkLIB/src/frameworkError.cxx RootFrameworkLIB/src/hitProducer.cxx
+InputLIB/src/inputAscii.cxx InputLIB/src/inputData.cxx InputLIB/src/inputError.cxx InputLIB/src/inputFRoot.cxx InputLIB/src/inputRoot.cxx InputLIB/src/inputWarningMsg.cxx
+LutGeneratorLIB/src/digitalHitAccess.cxx LutGeneratorLIB/src/lutAccess.cxx LutGeneratorLIB/src/lut.cxx LutGeneratorLIB/src/lutGeneratorError.cxx LutGeneratorLIB/src/lutGeneratorWarningMsg.cxx LutGeneratorLIB/src/lutImplementation.cxx LutGeneratorLIB/src/lutMath.cxx LutGeneratorLIB/src/prelutAccess.cxx LutGeneratorLIB/src/prelut.cxx LutGeneratorLIB/src/prelutMath.cxx
+HoughTransformationLIB/src/houghTransformation.cxx HoughTransformationLIB/src/houghTransformationError.cxx HoughTransformationLIB/src/houghTransformationWarningMsg.cxx
+HistogramTransformationLIB/src/autoFinder.cxx HistogramTransformationLIB/src/eraser.cxx HistogramTransformationLIB/src/filterBasicComplex.cxx HistogramTransformationLIB/src/filterBasicComplexMod.cxx HistogramTransformationLIB/src/filterBasicNeutral.cxx HistogramTransformationLIB/src/filterBasicSimple.cxx HistogramTransformationLIB/src/filterBasicSimpleMod.cxx HistogramTransformationLIB/src/filterBasicSpecial.cxx HistogramTransformationLIB/src/filterBasicStyle.cxx HistogramTransformationLIB/src/filterDim12.cxx HistogramTransformationLIB/src/filterDim12Dim1.cxx HistogramTransformationLIB/src/filterDim1.cxx HistogramTransformationLIB/src/filterDim1Dim2.cxx HistogramTransformationLIB/src/filterDim1Dim2Mod.cxx HistogramTransformationLIB/src/filterDim2.cxx HistogramTransformationLIB/src/filterDim3.cxx HistogramTransformationLIB/src/filterDim3Mod.cxx HistogramTransformationLIB/src/filterDimX.cxx HistogramTransformationLIB/src/filterDimXDimX.cxx HistogramTransformationLIB/src/filterDimXDimXDimX.cxx HistogramTransformationLIB/src/filterDimZ.cxx HistogramTransformationLIB/src/filterDimZDimZ.cxx HistogramTransformationLIB/src/filterDimZDimZDimZ.cxx HistogramTransformationLIB/src/firstFilterFinal.cxx HistogramTransformationLIB/src/firstFilterFinalMod.cxx HistogramTransformationLIB/src/histogramTransformation.cxx HistogramTransformationLIB/src/histogramTransformationError.cxx HistogramTransformationLIB/src/maxMorphSearch.cxx HistogramTransformationLIB/src/secondFilterFinal.cxx HistogramTransformationLIB/src/secondFilterFinalMod.cxx
+TrackfinderLIB/src/trackfinder.cxx TrackfinderLIB/src/trackfinderError.cxx
+OutputResultLIB/src/outputFTrack.cxx OutputResultLIB/src/outputResultWarningMsg.cxx OutputResultLIB/src/outputSTrack.cxx OutputResultLIB/src/outputTrack.cxx
+AnalysisLIB/src/analysis.cxx AnalysisLIB/src/analysisError.cxx AnalysisLIB/src/analysisWarningMsg.cxx AnalysisLIB/src/hardwareAnalysis.cxx AnalysisLIB/src/histogramAnalysis.cxx AnalysisLIB/src/houghPictures.cxx AnalysisLIB/src/magnetfieldAnalysis.cxx AnalysisLIB/src/magnetfieldDirectionAnalysis.cxx AnalysisLIB/src/magnetfieldFactorAnalysis.cxx AnalysisLIB/src/magnetfieldXAnalysis.cxx AnalysisLIB/src/magnetfieldYAnalysis.cxx AnalysisLIB/src/magnetfieldZAnalysis.cxx AnalysisLIB/src/momentumAnalysis.cxx AnalysisLIB/src/momentumEFGCAnalysis.cxx AnalysisLIB/src/momentumEFGCEventPtAnalysis.cxx AnalysisLIB/src/momentumEFGCEventPzAnalysis.cxx AnalysisLIB/src/momentumEFGCTotalPtAnalysis.cxx AnalysisLIB/src/momentumEFGCTotalPzAnalysis.cxx AnalysisLIB/src/peakfindingGeometryAnalysis.cxx AnalysisLIB/src/prelutRangeAnalysis.cxx AnalysisLIB/src/prelutRangeCorrectLayerAnalysis.cxx AnalysisLIB/src/prelutRangeLayerAnalysis.cxx AnalysisLIB/src/prelutRangeMainLayerAnalysis.cxx AnalysisLIB/src/projectionAnalysis.cxx AnalysisLIB/src/projectionEFGCNAnalysis.cxx AnalysisLIB/src/projectionEFGCNEvent12Analysis.cxx AnalysisLIB/src/projectionEFGCNEvent13Analysis.cxx AnalysisLIB/src/projectionEFGCNEvent32Analysis.cxx AnalysisLIB/src/projectionEFGCNTotal12Analysis.cxx AnalysisLIB/src/projectionEFGCNTotal13Analysis.cxx AnalysisLIB/src/projectionEFGCNTotal32Analysis.cxx AnalysisLIB/src/qualityAnalysis.cxx AnalysisLIB/src/qualityEFGCAnalysis.cxx AnalysisLIB/src/qualityEFGCEventAnalysis.cxx AnalysisLIB/src/qualityEFGCTotalAnalysis.cxx AnalysisLIB/src/showAnalysis.cxx AnalysisLIB/src/totalAnalysis.cxx AnalysisLIB/src/trackPropagationAnalysis.cxx AnalysisLIB/src/trackPropagationDAnalysis.cxx AnalysisLIB/src/trackPropagationEventHitAnalysis.cxx AnalysisLIB/src/trackPropagationEventPointAnalysis.cxx AnalysisLIB/src/trackPropagationTotalHitAnalysis.cxx AnalysisLIB/src/trackPropagationTotalPointAnalysis.cxx AnalysisLIB/src/visualAnalysis.cxx
+CbmHoughStsTrackFinder/src/CbmHoughStsTrackFinder.cxx CbmHoughStsTrackFinder/src/inf.cxx
+)
+
+set(HEADERS
+MiscLIB/include/bitArray.h MiscLIB/include/conversionRoutines.h MiscLIB/include/coordinateSystem.h MiscLIB/include/defs.h MiscLIB/include/errorHandling.h MiscLIB/include/globalWarningMsg.h MiscLIB/include/hitArray.h MiscLIB/include/memoryDef.h MiscLIB/include/miscError.h MiscLIB/include/miscWarningMsg.h MiscLIB/include/projects.h MiscLIB/include/terminal.h
+FileioLIB/include/configuration.h FileioLIB/include/fileioError.h FileioLIB/include/fileio.h FileioLIB/include/fileioWarningMsg.h FileioLIB/include/io.h
+DataObjectLIB/include/analyticFormula.h DataObjectLIB/include/bitfield.h DataObjectLIB/include/bytefield.h DataObjectLIB/include/dataObjectError.h DataObjectLIB/include/dataObjectWarningMsg.h DataObjectLIB/include/histogramCellSignatures.h DataObjectLIB/include/histogramSpace.h DataObjectLIB/include/houghBorderCommand.h DataObjectLIB/include/houghBorderPosition.h DataObjectLIB/include/lutAccessFile.h DataObjectLIB/include/lutDefinition.h DataObjectLIB/include/lutHoughBorder.h DataObjectLIB/include/magneticFieldValue.h DataObjectLIB/include/peakfindingGeometryElement.h DataObjectLIB/include/peakfindingGeometryFile.h DataObjectLIB/include/peakToTrack.h DataObjectLIB/include/prelutAccessFile.h DataObjectLIB/include/prelutDefinition.h DataObjectLIB/include/prelutHoughBorder.h DataObjectLIB/include/specialList.h DataObjectLIB/include/specialListMem.h DataObjectLIB/include/specialMemClass.h DataObjectLIB/include/specialMem.h DataObjectLIB/include/specialMemPointer.h DataObjectLIB/include/tableEntry.h DataObjectLIB/include/tableFile.h DataObjectLIB/include/table.h DataObjectLIB/include/tableStringEntry.h DataObjectLIB/include/trackCoordinates.h DataObjectLIB/include/trackFrameworkMomentum.h DataObjectLIB/include/trackMomentum.h DataObjectLIB/include/trackParameter.h DataObjectLIB/include/trackToPeak.h
+DataRootObjectLIB/include/borderCell.h DataRootObjectLIB/include/dataRootObjectError.h DataRootObjectLIB/include/dataRootObjectWarningMsg.h DataRootObjectLIB/include/digitalHitAccessFile.h DataRootObjectLIB/include/digitalHit.h DataRootObjectLIB/include/findableTrack.h DataRootObjectLIB/include/histogramCell.h DataRootObjectLIB/include/histogramData.h DataRootObjectLIB/include/inputHitSpecialArray.h DataRootObjectLIB/include/inputHitSpecialList.h DataRootObjectLIB/include/inputHitSpecialMem.h DataRootObjectLIB/include/inputHitStlList.h DataRootObjectLIB/include/inputHitStlMem.h DataRootObjectLIB/include/lutBorder.h DataRootObjectLIB/include/peakfindingGeometry.h DataRootObjectLIB/include/rungeKuttaInterface.h DataRootObjectLIB/include/rungeKuttaInvertedListEntry.h DataRootObjectLIB/include/rungeKuttaListEntry.h DataRootObjectLIB/include/tables.h DataRootObjectLIB/include/trackAnalogInformation.h DataRootObjectLIB/include/trackData.h DataRootObjectLIB/include/trackDigitalInformation.h DataRootObjectLIB/include/trackfinderInputData.h DataRootObjectLIB/include/trackfinderInputDetector.h DataRootObjectLIB/include/trackfinderInputFMagneticField.h DataRootObjectLIB/include/trackfinderInputHit.h DataRootObjectLIB/include/trackfinderInputMagneticField.h DataRootObjectLIB/include/trackfinderInputStation.h DataRootObjectLIB/include/trackfinderInputTrack.h DataRootObjectLIB/include/trackfinderOutputData.h DataRootObjectLIB/include/trackHitMem.h DataRootObjectLIB/include/trackLayerAccess.h
+RootFrameworkLIB/include/frameworkError.h RootFrameworkLIB/include/hitProducer.h
+InputLIB/include/inputAscii.h InputLIB/include/inputData.h InputLIB/include/inputError.h InputLIB/include/inputFRoot.h InputLIB/include/inputRoot.h InputLIB/include/inputWarningMsg.h
+LutGeneratorLIB/include/digitalHitAccess.h LutGeneratorLIB/include/lutAccess.h LutGeneratorLIB/include/lutGeneratorError.h LutGeneratorLIB/include/lutGeneratorWarningMsg.h LutGeneratorLIB/include/lut.h LutGeneratorLIB/include/lutImplementation.h LutGeneratorLIB/include/lutMath.h LutGeneratorLIB/include/prelutAccess.h LutGeneratorLIB/include/prelut.h LutGeneratorLIB/include/prelutMath.h
+HoughTransformationLIB/include/houghTransformationError.h HoughTransformationLIB/include/houghTransformation.h HoughTransformationLIB/include/houghTransformationWarningMsg.h
+HistogramTransformationLIB/include/autoFinder.h HistogramTransformationLIB/include/eraser.h HistogramTransformationLIB/include/filterBasicComplex.h HistogramTransformationLIB/include/filterBasicComplexMod.h HistogramTransformationLIB/include/filterBasicNeutral.h HistogramTransformationLIB/include/filterBasicSimple.h HistogramTransformationLIB/include/filterBasicSimpleMod.h HistogramTransformationLIB/include/filterBasicSpecial.h HistogramTransformationLIB/include/filterBasicStyle.h HistogramTransformationLIB/include/filterDef.h HistogramTransformationLIB/include/filterDim12Dim1.h HistogramTransformationLIB/include/filterDim12.h HistogramTransformationLIB/include/filterDim1Dim2.h HistogramTransformationLIB/include/filterDim1Dim2Mod.h HistogramTransformationLIB/include/filterDim1.h HistogramTransformationLIB/include/filterDim2.h HistogramTransformationLIB/include/filterDim3.h HistogramTransformationLIB/include/filterDim3Mod.h HistogramTransformationLIB/include/filterDimXDimXDimX.h HistogramTransformationLIB/include/filterDimXDimX.h HistogramTransformationLIB/include/filterDimX.h HistogramTransformationLIB/include/filterDimZDimZDimZ.h HistogramTransformationLIB/include/filterDimZDimZ.h HistogramTransformationLIB/include/filterDimZ.h HistogramTransformationLIB/include/firstFilterFinal.h HistogramTransformationLIB/include/firstFilterFinalMod.h HistogramTransformationLIB/include/histogramTransformationError.h HistogramTransformationLIB/include/histogramTransformation.h HistogramTransformationLIB/include/maxMorphSearch.h HistogramTransformationLIB/include/secondFilterFinal.h HistogramTransformationLIB/include/secondFilterFinalMod.h
+TrackfinderLIB/include/trackfinderError.h TrackfinderLIB/include/trackfinder.h
+OutputResultLIB/include/outputFTrack.h OutputResultLIB/include/outputResultWarningMsg.h OutputResultLIB/include/outputSTrack.h OutputResultLIB/include/outputTrack.h
+AnalysisLIB/include/analysisDef.h AnalysisLIB/include/analysisError.h AnalysisLIB/include/analysis.h AnalysisLIB/include/analysisWarningMsg.h AnalysisLIB/include/hardwareAnalysis.h AnalysisLIB/include/histogramAnalysisDef.h AnalysisLIB/include/histogramAnalysis.h AnalysisLIB/include/houghPictures.h AnalysisLIB/include/magnetfieldAnalysisDef.h AnalysisLIB/include/magnetfieldAnalysis.h AnalysisLIB/include/magnetfieldDirectionAnalysis.h AnalysisLIB/include/magnetfieldFactorAnalysisDef.h AnalysisLIB/include/magnetfieldFactorAnalysis.h AnalysisLIB/include/magnetfieldXAnalysis.h AnalysisLIB/include/magnetfieldYAnalysis.h AnalysisLIB/include/magnetfieldZAnalysis.h AnalysisLIB/include/momentumAnalysis.h AnalysisLIB/include/momentumEFGCAnalysisDef.h AnalysisLIB/include/momentumEFGCAnalysis.h AnalysisLIB/include/momentumEFGCEventPtAnalysis.h AnalysisLIB/include/momentumEFGCEventPzAnalysis.h AnalysisLIB/include/momentumEFGCTotalPtAnalysis.h AnalysisLIB/include/momentumEFGCTotalPzAnalysis.h AnalysisLIB/include/peakfindingGeometryAnalysis.h AnalysisLIB/include/prelutRangeAnalysisDef.h AnalysisLIB/include/prelutRangeAnalysis.h AnalysisLIB/include/prelutRangeCorrectLayerAnalysis.h AnalysisLIB/include/prelutRangeLayerAnalysis.h AnalysisLIB/include/prelutRangeMainLayerAnalysis.h AnalysisLIB/include/projectionAnalysis.h AnalysisLIB/include/projectionEFGCNAnalysisDef.h AnalysisLIB/include/projectionEFGCNAnalysis.h AnalysisLIB/include/projectionEFGCNEvent12Analysis.h AnalysisLIB/include/projectionEFGCNEvent13Analysis.h AnalysisLIB/include/projectionEFGCNEvent32Analysis.h AnalysisLIB/include/projectionEFGCNTotal12Analysis.h AnalysisLIB/include/projectionEFGCNTotal13Analysis.h AnalysisLIB/include/projectionEFGCNTotal32Analysis.h AnalysisLIB/include/qualityAnalysis.h AnalysisLIB/include/qualityEFGCAnalysis.h AnalysisLIB/include/qualityEFGCEventAnalysis.h AnalysisLIB/include/qualityEFGCTotalAnalysis.h AnalysisLIB/include/showAnalysis.h AnalysisLIB/include/totalAnalysisDef.h AnalysisLIB/include/totalAnalysis.h AnalysisLIB/include/trackPropagationAnalysisDef.h AnalysisLIB/include/trackPropagationAnalysis.h AnalysisLIB/include/trackPropagationDAnalysis.h AnalysisLIB/include/trackPropagationEventHitAnalysis.h AnalysisLIB/include/trackPropagationEventPointAnalysis.h AnalysisLIB/include/trackPropagationTotalHitAnalysis.h AnalysisLIB/include/trackPropagationTotalPointAnalysis.h AnalysisLIB/include/visualAnalysis.h
+CbmHoughStsTrackFinder/include/CbmHoughStsTrackFinder.h CbmHoughStsTrackFinder/include/inf.h
+)
+
+set(LINKDEF
+CbmHoughStsTrackFinder/include/CbmHoughStsTrackFinderLinkDef.h
+)
+Set(LIBRARY_NAME HTrack)
+Set(DEPENDENCIES
+    Mvd Sts Field CbmBase CbmData Geane TrkBase Base 
+)
+
+GENERATE_LIBRARY()
+

@@ -1,0 +1,58 @@
+SIS-100. Beam pipe geometry created with create_bpipe_geometry_v14f.C
+
+ The beam pipe is composed of aluminium with a thickness proportional to the
+ diameter (D(z)mm/60). It is placed directly into the cave as mother volume.
+ The beam pipe consists of few sections excluding RICH section(1700-3700mm) 
+ because it is part of the RICH geometry. Each section has a PCON shape 
+ (including windows). There are two windows: first one @ 220mm with R600mm 
+ and 0.7mm thickness, second one of iron @ 6000mm with R600mm and 0.2mm 
+ thickness. The STS section is composed of cylinder D(z=220-500mm)=36mm and 
+ cone (z=500-1700mm). All sections of the beam pipe with conical shape have 
+ half opening angle 2.5deg. The PSD section of the beam pipe is missing 
+ because it is planned that it will be part of PSD geometry.
+
+Material:  aluminium
+Thickness: D(z)mm/60
+
+
+Beam pipe section: pipe1 - vacuum chamber
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    -50.00     25.00     25.70      0.70
+ 2     25.00     25.00     25.70      0.70
+ 3     35.00    130.00    130.70      0.70
+ 4    230.17    130.00    130.70      0.70
+ 5    230.17    110.00    130.70     20.70
+ 6    230.87    110.00    130.70     20.70
+
+Beam pipe section: pipe2 - first window @ 220mm, h=0.7mm, R=600mm
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    220.00     18.00     18.00      0.00
+ 2    220.70     18.00     28.69     10.69
+ 3    221.45     30.00     39.30      9.30
+ 4    223.71     60.00     65.55      5.55
+ 5    227.49     90.00     94.14      4.14
+ 6    230.17    105.86    110.00      4.14
+ 7    230.87    110.00    110.00      0.00
+
+Beam pipe section: pipe3 - STS section
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    220.00     17.40     18.00      0.60
+ 2    500.00     17.40     18.00      0.60
+ 3   1250.00     53.17     55.00      1.83
+ 4   1700.00     71.73     74.20      2.47
+
+Beam pipe section: pipe5 - TRD & TOF section
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1   3700.00    156.20    161.60      5.40
+ 2   5999.80    253.23    261.96      8.73
+ 3   6000.00    253.27    262.00      8.73
+
+Beam pipe section: pipe6 - second window @ 6000mm, h=0.2mm, R=600mm, material: iron
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1   5943.24      0.00      0.00      0.00
+ 2   5943.44      0.00      3.42      3.42
+ 3   5947.34     66.58     70.00      3.42
+ 4   5959.80    138.88    140.00      1.12
+ 5   5981.19    209.35    210.00      0.65
+ 6   5999.80    252.28    253.23      0.95
+ 7   6000.00    253.27    253.27      0.00

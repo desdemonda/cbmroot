@@ -1,0 +1,6 @@
+# ex: syntax=python
+
+env = Environment(CPPPATH=['..'], LIB_DIR='..')
+
+libmessage = env.SharedLibrary('libmessage.so', ['$LIB_DIR/message.c'])
+libreader = env.SharedLibrary('libreader.so', ['$LIB_DIR/message_reader.c', libmessage])

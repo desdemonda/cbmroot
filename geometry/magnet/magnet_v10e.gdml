@@ -1,0 +1,2056 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+<define>
+<position name="central" x="0" y="0" z="0" unit="mm"/>
+<rotation name="identity" x="0" y="0" z="0" unit="degree"/>
+</define>
+
+<materials>
+<material name="cu" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="he" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="vacuum" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="iron" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="air" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+</materials>
+
+<solids>
+<box name="Coil_top_in_1_PartBody" x="28.8" y="1800" z="130" lunit="mm"/>
+<tube name="Coil_top_in_2_PartBody" rmin="122.50000000" rmax="252.50000000" z="28.8" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Coil_top_in_3_PartBody" rmin="60.00000000" rmax="88.80000000" z="130" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="Coil_top_in_4_PartBody" x="1132" y="28.8" z="130" lunit="mm"/>
+<box name="Coil_top_in_5_PartBody" x="28.8" y="60" z="130" lunit="mm"/>
+<tube name="Coil_top_out_2_PartBody" rmin="302.50000000" rmax="432.50000000" z="28.8" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Middle_top_1_PartBody" x="28.8" y="1800" z="50" lunit="mm"/>
+<tube name="Middle_top_2_PartBody" rmin="252.50000000" rmax="302.50000000" z="28.8" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Middle_top_3_PartBody" rmin="60.00000000" rmax="88.80000000" z="50" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="Middle_top_4_PartBody" x="1132" y="28.8" z="50" lunit="mm"/>
+<box name="Middle_top_5_PartBody" x="28.8" y="60" z="50" lunit="mm"/>
+<box name="He_itself_1_PartBody" x="3" y="1800" z="12" lunit="mm"/>
+<tube name="He_itself_2_PartBody" rmin="149.50000000" rmax="161.50000000" z="3" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="He_itself_3_PartBody" rmin="56.00000000" rmax="59.00000000" z="12" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="He_itself_4_PartBody" x="1132" y="3" z="12" lunit="mm"/>
+<box name="He_itself_5_PartBody" x="3" y="60" z="12" lunit="mm"/>
+<tube name="He_itself_6_PartBody" rmin="216.00000000" rmax="228.00000000" z="3" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="He_itself_7_PartBody" rmin="327.00000000" rmax="339.00000000" z="3" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="He_itself_8_PartBody" rmin="393.50000000" rmax="405.50000000" z="3" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="He_itself_10_PartBody" rmin="89.80000000" rmax="92.80000000" z="12" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<tube name="He_itself_L2_1_PartBody" rmin="354.50000000" rmax="382.50000000" z="3" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="He_itself_L2_2_PartBody" x="3" y="28" z="204.5" lunit="mm"/>
+<tube name="He_itself_L2_3_PartBody" rmin="203.00000000" rmax="231.00000000" z="3" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="He_itself_L2_4_PartBody" x="3" y="4" z="28" lunit="mm"/>
+<box name="He_itself_L2_5_PartBody" x="3" y="155.5" z="28" lunit="mm"/>
+<box name="He_itself_L2_6_PartBody" x="3" y="1800" z="28" lunit="mm"/>
+<box name="He_itself_L2_7_PartBody" x="1130" y="3" z="28" lunit="mm"/>
+<tube name="He_itself_L2_8_PartBody" rmin="101.00000000" rmax="129.00000000" z="3" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="He_itself_L2_9_PartBody" x="3" y="28" z="80" lunit="mm"/>
+<box name="He_itself_L2_10_PartBody" x="3" y="203.8" z="28" lunit="mm"/>
+<box name="He_itself_L2_11_PartBody" x="138.8" y="3" z="28" lunit="mm"/>
+<box name="Pipe_top_L1_in_C1_1_PartBody" x="5" y="1800" z="14" lunit="mm"/>
+<tube name="Pipe_top_L1_in_C1_2_PartBody" rmin="148.50000000" rmax="162.50000000" z="5" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Pipe_top_L1_in_C1_3_PartBody" rmin="55.00000000" rmax="60.00000000" z="14" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="Pipe_top_L1_in_C1_4_PartBody" x="1132" y="5" z="14" lunit="mm"/>
+<box name="Pipe_top_L1_in_C1_5_PartBody" x="5" y="60" z="14" lunit="mm"/>
+<tube name="Pipe_top_L1_in_C2_2_PartBody" rmin="215.00000000" rmax="229.00000000" z="5" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Pipe_top_L1_in_C3_2_PartBody" rmin="326.00000000" rmax="340.00000000" z="5" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Pipe_top_L1_in_C4_2_PartBody" rmin="392.50000000" rmax="406.50000000" z="5" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Pipe_top_L1_out_C1_3_PartBody" rmin="88.80000000" rmax="93.80000000" z="14" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<tube name="Pipe_L2_1_PartBody" rmin="353.50000000" rmax="383.50000000" z="5" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="Pipe_L2_2_PartBody" x="5" y="30" z="204.5" lunit="mm"/>
+<tube name="Pipe_L2_3_PartBody" rmin="202.00000000" rmax="232.00000000" z="5" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="Pipe_L2_4_PartBody" x="5" y="4" z="30" lunit="mm"/>
+<box name="Pipe_L2_5_PartBody" x="5" y="155.5" z="30" lunit="mm"/>
+<box name="Pipe_L2_6_PartBody" x="5" y="1800" z="30" lunit="mm"/>
+<box name="Pipe_L2_7_PartBody" x="1130" y="5" z="30" lunit="mm"/>
+<tube name="Pipe_L2_8_PartBody" rmin="100.00000000" rmax="130.00000000" z="5" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="Pipe_L2_9_PartBody" x="5" y="30" z="80" lunit="mm"/>
+<box name="Pipe_L2_10_PartBody" x="5" y="203.8" z="30" lunit="mm"/>
+<box name="Pipe_L2_11_PartBody" x="138.8" y="5" z="30" lunit="mm"/>
+<box name="Cogh_top_L1_1_PartBody" x="38.8" y="1800" z="320" lunit="mm"/>
+<tube name="Cogh_top_L1_2_PartBody" rmin="117.50000000" rmax="437.50000000" z="38.8" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Cogh_top_L1_3_PartBody" rmin="55.00000000" rmax="93.80000000" z="320" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="Cogh_top_L1_4_PartBody" x="1132" y="38.8" z="320" lunit="mm"/>
+<box name="Cogh_top_L1_5_PartBody" x="38.8" y="60" z="320" lunit="mm"/>
+<box name="Cogh_top_L2_1_PartBody" x="78.8" y="1800" z="400" lunit="mm"/>
+<tube name="Cogh_top_L2_2_PartBody" rmin="0.00000000" rmax="457.50000000" z="78.8" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Cogh_top_L2_3_PartBody" rmin="35.00000000" rmax="113.80000000" z="360" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<box name="Cogh_top_L2_4_PartBody" x="1132" y="78.8" z="360" lunit="mm"/>
+<box name="Cogh_top_L2_5_PartBody" x="78.8" y="60" z="360" lunit="mm"/>
+<box name="Vacuum_L1_1_PartBody" x="138.8" y="198.8" z="477.5" lunit="mm"/>
+<box name="Vacuum_L1_2_3" x="128.8" y="482.5" z="980" lunit="mm"/>
+<tube name="Vacuum_L1_2_2" rmin="482.50000000" rmax="900.00000000" z="180" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<subtraction name="Vacuum_L1_2_PartBody">
+<first ref="Vacuum_L1_2_3"/>
+<second ref="Vacuum_L1_2_2"/>
+<position name="Vacuum_L1_2__position__2__by__3" x="0.00000000" y="-241.25000000" z="7.50000000" unit="mm"/>
+<rotation name="Vacuum_L1_2__rotation__2__by__3" x="0" y="-90.00000000" z="0" unit="degree"/>
+</subtraction>
+<box name="Vacuum_L1_3_PartBody" x="128.8" y="1800" z="450" lunit="mm"/>
+<box name="Vacuum_L1_4_PartBody" x="128.8" y="708.8" z="133" lunit="mm"/>
+<box name="Vacuum_L1_5_PartBody" x="1130" y="128.8" z="400" lunit="mm"/>
+<box name="Vacuum_L1_6_PartBody" x="138.8" y="198.8" z="477.5" lunit="mm"/>
+<box name="Vacuum_L1_7_PartBody" x="138.8" y="198.8" z="477.5" lunit="mm"/>
+<box name="Vacuum_L1_8_PartBody" x="138.8" y="198.8" z="477.5" lunit="mm"/>
+<box name="Cogh_top_L3_1_PartBody" x="143.8" y="203.8" z="482.5" lunit="mm"/>
+<box name="Cogh_top_L3_2_3" x="138.8" y="487.5" z="990" lunit="mm"/>
+<tube name="Cogh_top_L3_2_2" rmin="487.50000000" rmax="900.00000000" z="180" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<subtraction name="Cogh_top_L3_2_PartBody">
+<first ref="Cogh_top_L3_2_3"/>
+<second ref="Cogh_top_L3_2_2"/>
+<position name="Cogh_top_L3_2__position__2__by__3" x="0.00000000" y="-243.75000000" z="7.50000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2__rotation__2__by__3" x="0" y="-90.00000000" z="0" unit="degree"/>
+</subtraction>
+<box name="Cogh_top_L3_3_PartBody" x="138.8" y="1800" z="460" lunit="mm"/>
+<box name="Cogh_top_L3_4_PartBody" x="138.8" y="718.8" z="138" lunit="mm"/>
+<box name="Cogh_top_L3_5_PartBody" x="1130" y="138.8" z="410" lunit="mm"/>
+<box name="Cogh_top_L3_6_PartBody" x="143.8" y="203.8" z="482.5" lunit="mm"/>
+<box name="Cogh_top_L3_7_PartBody" x="143.8" y="203.8" z="482.5" lunit="mm"/>
+<box name="Cogh_top_L3_8_PartBody" x="143.8" y="203.8" z="482.5" lunit="mm"/>
+<box name="Vacuum_L2_1_PartBody" x="163.8" y="223.8" z="507.5" lunit="mm"/>
+<box name="Vacuum_L2_2_3" x="178.8" y="507.5" z="1065" lunit="mm"/>
+<tube name="Vacuum_L2_2_2" rmin="507.50000000" rmax="900.00000000" z="178.8" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<subtraction name="Vacuum_L2_2_PartBody">
+<first ref="Vacuum_L2_2_3"/>
+<second ref="Vacuum_L2_2_2"/>
+<position name="Vacuum_L2_2__position__2__by__3" x="0.00000000" y="-253.75000000" z="25.00000000" unit="mm"/>
+<rotation name="Vacuum_L2_2__rotation__2__by__3" x="0" y="-90.00000000" z="0" unit="degree"/>
+</subtraction>
+<box name="Vacuum_L2_3_PartBody" x="178.8" y="1800" z="545.5" lunit="mm"/>
+<box name="Vacuum_L2_4_PartBody" x="178.8" y="758.8" z="177.5" lunit="mm"/>
+<box name="Vacuum_L2_5_PartBody" x="1130" y="178.8" z="460" lunit="mm"/>
+<box name="Vacuum_L2_6_PartBody" x="163.8" y="223.8" z="507.5" lunit="mm"/>
+<box name="Vacuum_L2_7_PartBody" x="163.8" y="223.8" z="507.5" lunit="mm"/>
+<box name="Vacuum_L2_8_PartBody" x="163.8" y="223.8" z="507.5" lunit="mm"/>
+<box name="Cogh_L4_1_PartBody" x="175.8" y="235.8" z="519.5" lunit="mm"/>
+<box name="Cogh_L4_2_3" x="202.8" y="519.5" z="1089" lunit="mm"/>
+<tube name="Cogh_L4_2_2" rmin="519.50000000" rmax="900.00000000" z="240" startphi="0.00000000" deltaphi="90.00000000" lunit="mm" aunit="degree"/>
+<subtraction name="Cogh_L4_2_PartBody">
+<first ref="Cogh_L4_2_3"/>
+<second ref="Cogh_L4_2_2"/>
+<position name="Cogh_L4_2__position__2__by__3" x="0.00000000" y="-259.75000000" z="25.00000000" unit="mm"/>
+<rotation name="Cogh_L4_2__rotation__2__by__3" x="0" y="-90.00000000" z="0" unit="degree"/>
+</subtraction>
+<box name="Cogh_L4_3_PartBody" x="202.8" y="1800" z="569.5" lunit="mm"/>
+<box name="Cogh_L4_4_PartBody" x="202.8" y="782.8" z="207.5" lunit="mm"/>
+<box name="Cogh_L4_5_PartBody" x="1130" y="202.8" z="484" lunit="mm"/>
+<box name="Cogh_L4_6_PartBody" x="175.8" y="235.8" z="519.5" lunit="mm"/>
+<box name="Cogh_L4_7_PartBody" x="175.8" y="235.8" z="519.5" lunit="mm"/>
+<box name="Cogh_L4_8_PartBody" x="175.8" y="235.8" z="519.5" lunit="mm"/>
+<box name="Basement_1_PartBody" x="1150" y="3000" z="100" lunit="mm"/>
+<box name="Basement_2_PartBody" x="872" y="2871" z="270" lunit="mm"/>
+<box name="Basement_3_PartBody" x="860" y="1426.5" z="270" lunit="mm"/>
+<tube name="Basement_4_PartBody" rmin="0.00000000" rmax="130.00000000" z="325" startphi="0.00000000" deltaphi="360.00000000" lunit="mm" aunit="degree"/>
+<box name="Basement_5_PartBody" x="1000" y="3000" z="100" lunit="mm"/>
+<box name="Screen_1_PartBody" x="125" y="3050" z="465" lunit="mm"/>
+<box name="Screen_2_PartBody" x="245" y="100" z="465" lunit="mm"/>
+<box name="Screen_3_PartBody" x="170" y="3300" z="480" lunit="mm"/>
+<box name="Screen_4_PartBody" x="390" y="100" z="480" lunit="mm"/>
+<box name="Screen_5_PartBody" x="560" y="3300" z="120" lunit="mm"/>
+<box name="Yoke_1_PartBody" x="1000" y="750" z="1300" lunit="mm"/>
+<box name="Yoke_2_9" x="1000" y="3300" z="750" lunit="mm"/>
+<box name="Yoke_2_2" x="150" y="700" z="494.97474684" lunit="mm"/>
+<box name="Yoke_2_6" x="150" y="700" z="494.97474684" lunit="mm"/>
+<box name="Yoke_2_8" x="150" y="700" z="494.97474684" lunit="mm"/>
+<box name="Yoke_2_7" x="150" y="700" z="494.97474684" lunit="mm"/>
+<subtraction name="Yoke_2_10">
+<first ref="Yoke_2_9"/>
+<second ref="Yoke_2_2"/>
+<position name="Yoke_2__position__2__by__9" x="250.00000000" y="-1650.00000000" z="375.00000000" unit="mm"/>
+<rotation name="Yoke_2__rotation__2__by__9" x="45.00000000" y="0" z="0" unit="degree"/>
+</subtraction>
+<subtraction name="Yoke_2_11">
+<first ref="Yoke_2_10"/>
+<second ref="Yoke_2_6"/>
+<position name="Yoke_2__position__6__by__10" x="-250.00000000" y="-1650.00000000" z="375.00000000" unit="mm"/>
+<rotation name="Yoke_2__rotation__6__by__10" x="45.00000000" y="0" z="0" unit="degree"/>
+</subtraction>
+<subtraction name="Yoke_2_13">
+<first ref="Yoke_2_11"/>
+<second ref="Yoke_2_8"/>
+<position name="Yoke_2__position__8__by__11" x="250.00000000" y="1650.00000000" z="375.00000000" unit="mm"/>
+<rotation name="Yoke_2__rotation__8__by__11" x="-45.00000000" y="0" z="0" unit="degree"/>
+</subtraction>
+<subtraction name="Yoke_2_PartBody">
+<first ref="Yoke_2_13"/>
+<second ref="Yoke_2_7"/>
+<position name="Yoke_2__position__7__by__13" x="-250.00000000" y="1650.00000000" z="375.00000000" unit="mm"/>
+<rotation name="Yoke_2__rotation__7__by__13" x="-45.00000000" y="0" z="0" unit="degree"/>
+</subtraction>
+<tube name="Yoke_3_PartBody" rmin="0.00000000" rmax="50.00000000" z="150" startphi="0.00000000" deltaphi="360.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_vacuum_L1_1_PartBody" x="119.25" y="390" z="24" lunit="mm"/>
+<box name="Silfon_vacuum_L1_2_PartBody" x="119.25" y="390" z="27.5" lunit="mm"/>
+<tube name="Silfon_vacuum_L1_3_PartBody" rmin="0.00000000" rmax="59.62500000" z="24" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Silfon_vacuum_L1_4_PartBody" rmin="0.00000000" rmax="59.62500000" z="27.5" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_vacuum_L1_5_PartBody" x="119.25" y="390" z="168" lunit="mm"/>
+<tube name="Silfon_vacuum_L1_6_PartBody" rmin="0.00000000" rmax="59.62500000" z="168" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_L2_1_PartBody" x="120" y="390" z="24" lunit="mm"/>
+<box name="Silfon_L2_2_PartBody" x="120" y="390" z="27.5" lunit="mm"/>
+<tube name="Silfon_L2_3_PartBody" rmin="0.00000000" rmax="60.00000000" z="24" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Silfon_L2_4_PartBody" rmin="0.00000000" rmax="60.00000000" z="27.5" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_L2_5_PartBody" x="120" y="390" z="168" lunit="mm"/>
+<tube name="Silfon_L2_6_PartBody" rmin="0.00000000" rmax="60.00000000" z="168" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_vacuum_L2_1_PartBody" x="148" y="390" z="24" lunit="mm"/>
+<box name="Silfon_vacuum_L2_2_PartBody" x="128.8" y="390" z="27.5" lunit="mm"/>
+<tube name="Silfon_vacuum_L2_3_PartBody" rmin="0.00000000" rmax="74.00000000" z="24" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Silfon_vacuum_L2_4_PartBody" rmin="0.00000000" rmax="64.40000000" z="27.5" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_vacuum_L2_5_PartBody" x="194" y="390" z="168" lunit="mm"/>
+<tube name="Silfon_vacuum_L2_6_PartBody" rmin="0.00000000" rmax="97.00000000" z="168" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_1_PartBody" x="198.8" y="390" z="24" lunit="mm"/>
+<box name="Silfon_2_PartBody" x="130.4" y="390" z="27.5" lunit="mm"/>
+<tube name="Silfon_5_PartBody" rmin="0.00000000" rmax="99.40000000" z="24" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<tube name="Silfon_6_PartBody" rmin="0.00000000" rmax="65.20000000" z="27.5" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_9_PartBody" x="198" y="390" z="168" lunit="mm"/>
+<tube name="Silfon_10_PartBody" rmin="0.00000000" rmax="99.00000000" z="168" startphi="0.00000000" deltaphi="180.00000000" lunit="mm" aunit="degree"/>
+<box name="Silfon_container_PartBody" x="198.8" y="588.8" z="271" lunit="mm"/>
+<polyhedra name="CBM_Magnet_container_PartBody" startphi="0.0" deltaphi="360.0" numsides="4" aunit="deg" lunit="mm">
+	<zplane rmin="640.0" rmax="2300.0" z="-1070.0"/>
+	<zplane rmin="640.0" rmax="2300.0" z="1070.0"/>
+</polyhedra>
+</solids>
+
+<structure>
+<volume name="Coil_top_in_1">
+<materialref ref="cu"/>
+<solidref ref="Coil_top_in_1_PartBody"/>
+</volume>
+<volume name="Coil_top_in_2">
+<materialref ref="cu"/>
+<solidref ref="Coil_top_in_2_PartBody"/>
+</volume>
+<volume name="Coil_top_in_3">
+<materialref ref="cu"/>
+<solidref ref="Coil_top_in_3_PartBody"/>
+</volume>
+<volume name="Coil_top_in_4">
+<materialref ref="cu"/>
+<solidref ref="Coil_top_in_4_PartBody"/>
+</volume>
+<volume name="Coil_top_in_5">
+<materialref ref="cu"/>
+<solidref ref="Coil_top_in_5_PartBody"/>
+</volume>
+<volume name="Coil_top_out_2">
+<materialref ref="cu"/>
+<solidref ref="Coil_top_out_2_PartBody"/>
+</volume>
+<volume name="Middle_top_1">
+<materialref ref="cu"/>
+<solidref ref="Middle_top_1_PartBody"/>
+</volume>
+<volume name="Middle_top_2">
+<materialref ref="cu"/>
+<solidref ref="Middle_top_2_PartBody"/>
+</volume>
+<volume name="Middle_top_3">
+<materialref ref="cu"/>
+<solidref ref="Middle_top_3_PartBody"/>
+</volume>
+<volume name="Middle_top_4">
+<materialref ref="cu"/>
+<solidref ref="Middle_top_4_PartBody"/>
+</volume>
+<volume name="Middle_top_5">
+<materialref ref="cu"/>
+<solidref ref="Middle_top_5_PartBody"/>
+</volume>
+<volume name="He_itself_1">
+<materialref ref="he"/>
+<solidref ref="He_itself_1_PartBody"/>
+</volume>
+<volume name="He_itself_2">
+<materialref ref="he"/>
+<solidref ref="He_itself_2_PartBody"/>
+</volume>
+<volume name="He_itself_3">
+<materialref ref="he"/>
+<solidref ref="He_itself_3_PartBody"/>
+</volume>
+<volume name="He_itself_4">
+<materialref ref="he"/>
+<solidref ref="He_itself_4_PartBody"/>
+</volume>
+<volume name="He_itself_5">
+<materialref ref="he"/>
+<solidref ref="He_itself_5_PartBody"/>
+</volume>
+<volume name="He_itself_6">
+<materialref ref="he"/>
+<solidref ref="He_itself_6_PartBody"/>
+</volume>
+<volume name="He_itself_7">
+<materialref ref="he"/>
+<solidref ref="He_itself_7_PartBody"/>
+</volume>
+<volume name="He_itself_8">
+<materialref ref="he"/>
+<solidref ref="He_itself_8_PartBody"/>
+</volume>
+<volume name="He_itself_10">
+<materialref ref="he"/>
+<solidref ref="He_itself_10_PartBody"/>
+</volume>
+<volume name="He_itself_L2_1">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_1_PartBody"/>
+</volume>
+<volume name="He_itself_L2_2">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_2_PartBody"/>
+</volume>
+<volume name="He_itself_L2_3">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_3_PartBody"/>
+</volume>
+<volume name="He_itself_L2_4">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_4_PartBody"/>
+</volume>
+<volume name="He_itself_L2_5">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_5_PartBody"/>
+</volume>
+<volume name="He_itself_L2_6">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_6_PartBody"/>
+</volume>
+<volume name="He_itself_L2_7">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_7_PartBody"/>
+</volume>
+<volume name="He_itself_L2_8">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_8_PartBody"/>
+</volume>
+<volume name="He_itself_L2_9">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_9_PartBody"/>
+</volume>
+<volume name="He_itself_L2_10">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_10_PartBody"/>
+</volume>
+<volume name="He_itself_L2_11">
+<materialref ref="he"/>
+<solidref ref="He_itself_L2_11_PartBody"/>
+</volume>
+<volume name="Pipe_top_L1_in_C1_1">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_in_C1_1_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_1"/>
+<position name="Pipe_top_L1_in_C1_1_pos_He_itself_1_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_in_C1_1_rot_He_itself_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_top_L1_in_C1_2">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_in_C1_2_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_2"/>
+<position name="Pipe_top_L1_in_C1_2_pos_He_itself_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_in_C1_2_rot_He_itself_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_top_L1_in_C1_3">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_in_C1_3_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_3"/>
+<position name="Pipe_top_L1_in_C1_3_pos_He_itself_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_in_C1_3_rot_He_itself_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_top_L1_in_C1_4">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_in_C1_4_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_4"/>
+<position name="Pipe_top_L1_in_C1_4_pos_He_itself_4_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_in_C1_4_rot_He_itself_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_top_L1_in_C1_5">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_in_C1_5_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_5"/>
+<position name="Pipe_top_L1_in_C1_5_pos_He_itself_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_in_C1_5_rot_He_itself_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_top_L1_in_C2_2">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_in_C2_2_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_6"/>
+<position name="Pipe_top_L1_in_C2_2_pos_He_itself_6_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_in_C2_2_rot_He_itself_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_top_L1_in_C3_2">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_in_C3_2_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_7"/>
+<position name="Pipe_top_L1_in_C3_2_pos_He_itself_7_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_in_C3_2_rot_He_itself_7_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_top_L1_in_C4_2">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_in_C4_2_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_8"/>
+<position name="Pipe_top_L1_in_C4_2_pos_He_itself_8_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_in_C4_2_rot_He_itself_8_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_top_L1_out_C1_3">
+<materialref ref="cu"/>
+<solidref ref="Pipe_top_L1_out_C1_3_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_10"/>
+<position name="Pipe_top_L1_out_C1_3_pos_He_itself_10_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_top_L1_out_C1_3_rot_He_itself_10_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_1">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_1_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_1"/>
+<position name="Pipe_L2_1_pos_He_itself_L2_1_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_1_rot_He_itself_L2_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_2">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_2_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_2"/>
+<position name="Pipe_L2_2_pos_He_itself_L2_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_2_rot_He_itself_L2_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_3">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_3_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_3"/>
+<position name="Pipe_L2_3_pos_He_itself_L2_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_3_rot_He_itself_L2_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_4">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_4_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_4"/>
+<position name="Pipe_L2_4_pos_He_itself_L2_4_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_4_rot_He_itself_L2_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_5">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_5_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_5"/>
+<position name="Pipe_L2_5_pos_He_itself_L2_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_5_rot_He_itself_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_6">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_6_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_6"/>
+<position name="Pipe_L2_6_pos_He_itself_L2_6_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_6_rot_He_itself_L2_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_7">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_7_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_7"/>
+<position name="Pipe_L2_7_pos_He_itself_L2_7_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_7_rot_He_itself_L2_7_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_8">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_8_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_8"/>
+<position name="Pipe_L2_8_pos_He_itself_L2_8_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_8_rot_He_itself_L2_8_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_9">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_9_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_9"/>
+<position name="Pipe_L2_9_pos_He_itself_L2_9_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_9_rot_He_itself_L2_9_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_10">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_10_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_10"/>
+<position name="Pipe_L2_10_pos_He_itself_L2_10_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_10_rot_He_itself_L2_10_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Pipe_L2_11">
+<materialref ref="cu"/>
+<solidref ref="Pipe_L2_11_PartBody"/>
+<physvol>
+<volumeref ref="He_itself_L2_11"/>
+<position name="Pipe_L2_11_pos_He_itself_L2_11_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Pipe_L2_11_rot_He_itself_L2_11_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L1_1">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L1_1_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_1"/>
+<position name="Cogh_top_L1_1_pos_Pipe_top_L1_in_C1_1_1" x="-16.90000000" y="0.00000000" z="55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Pipe_top_L1_in_C1_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_1"/>
+<position name="Cogh_top_L1_1_pos_Pipe_top_L1_in_C1_1_2" x="16.90000000" y="0.00000000" z="-122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Pipe_top_L1_in_C1_1_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_1"/>
+<position name="Cogh_top_L1_1_pos_Pipe_top_L1_in_C1_1_3" x="16.90000000" y="0.00000000" z="-55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Pipe_top_L1_in_C1_1_3" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_1"/>
+<position name="Cogh_top_L1_1_pos_Pipe_top_L1_in_C1_1_4" x="16.90000000" y="0.00000000" z="55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Pipe_top_L1_in_C1_1_4" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_1"/>
+<position name="Cogh_top_L1_1_pos_Pipe_top_L1_in_C1_1_5" x="16.90000000" y="0.00000000" z="122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Pipe_top_L1_in_C1_1_5" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_1"/>
+<position name="Cogh_top_L1_1_pos_Pipe_top_L1_in_C1_1_6" x="-16.90000000" y="0.00000000" z="122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Pipe_top_L1_in_C1_1_6" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_1"/>
+<position name="Cogh_top_L1_1_pos_Coil_top_in_1_1" x="0.00000000" y="0.00000000" z="-90.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Coil_top_in_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_1"/>
+<position name="Cogh_top_L1_1_pos_Coil_top_in_1_2" x="0.00000000" y="0.00000000" z="90.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Coil_top_in_1_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Middle_top_1"/>
+<position name="Cogh_top_L1_1_pos_Middle_top_1_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Middle_top_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_1"/>
+<position name="Cogh_top_L1_1_pos_Pipe_top_L1_in_C1_1_7" x="-16.90000000" y="0.00000000" z="-122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Pipe_top_L1_in_C1_1_7" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_1"/>
+<position name="Cogh_top_L1_1_pos_Pipe_top_L1_in_C1_1_8" x="-16.90000000" y="0.00000000" z="-55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_1_rot_Pipe_top_L1_in_C1_1_8" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L1_2">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L1_2_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C3_2"/>
+<position name="Cogh_top_L1_2_pos_Pipe_top_L1_in_C3_2_1" x="0.00000000" y="0.00000000" z="-16.90000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Pipe_top_L1_in_C3_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_2"/>
+<position name="Cogh_top_L1_2_pos_Pipe_top_L1_in_C1_2_2" x="0.00000000" y="0.00000000" z="16.90000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Pipe_top_L1_in_C1_2_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C2_2"/>
+<position name="Cogh_top_L1_2_pos_Pipe_top_L1_in_C2_2_2" x="0.00000000" y="0.00000000" z="16.90000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Pipe_top_L1_in_C2_2_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C3_2"/>
+<position name="Cogh_top_L1_2_pos_Pipe_top_L1_in_C3_2_2" x="0.00000000" y="0.00000000" z="16.90000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Pipe_top_L1_in_C3_2_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C4_2"/>
+<position name="Cogh_top_L1_2_pos_Pipe_top_L1_in_C4_2_2" x="0.00000000" y="0.00000000" z="16.90000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Pipe_top_L1_in_C4_2_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C4_2"/>
+<position name="Cogh_top_L1_2_pos_Pipe_top_L1_in_C4_2_1" x="0.00000000" y="0.00000000" z="-16.90000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Pipe_top_L1_in_C4_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_2"/>
+<position name="Cogh_top_L1_2_pos_Coil_top_in_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Coil_top_in_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_out_2"/>
+<position name="Cogh_top_L1_2_pos_Coil_top_out_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Coil_top_out_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Middle_top_2"/>
+<position name="Cogh_top_L1_2_pos_Middle_top_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Middle_top_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_2"/>
+<position name="Cogh_top_L1_2_pos_Pipe_top_L1_in_C1_2_1" x="0.00000000" y="0.00000000" z="-16.90000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Pipe_top_L1_in_C1_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C2_2"/>
+<position name="Cogh_top_L1_2_pos_Pipe_top_L1_in_C2_2_1" x="0.00000000" y="0.00000000" z="-16.90000000" unit="mm"/>
+<rotation name="Cogh_top_L1_2_rot_Pipe_top_L1_in_C2_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L1_3">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L1_3_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_3"/>
+<position name="Cogh_top_L1_3_pos_Pipe_top_L1_in_C1_3_3" x="0.00000000" y="0.00000000" z="-55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Pipe_top_L1_in_C1_3_3" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_out_C1_3"/>
+<position name="Cogh_top_L1_3_pos_Pipe_top_L1_out_C1_3_1" x="0.00000000" y="0.00000000" z="122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Pipe_top_L1_out_C1_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_out_C1_3"/>
+<position name="Cogh_top_L1_3_pos_Pipe_top_L1_out_C1_3_2" x="0.00000000" y="0.00000000" z="55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Pipe_top_L1_out_C1_3_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_out_C1_3"/>
+<position name="Cogh_top_L1_3_pos_Pipe_top_L1_out_C1_3_3" x="0.00000000" y="0.00000000" z="-55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Pipe_top_L1_out_C1_3_3" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_out_C1_3"/>
+<position name="Cogh_top_L1_3_pos_Pipe_top_L1_out_C1_3_4" x="0.00000000" y="0.00000000" z="-122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Pipe_top_L1_out_C1_3_4" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_3"/>
+<position name="Cogh_top_L1_3_pos_Pipe_top_L1_in_C1_3_4" x="0.00000000" y="0.00000000" z="-122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Pipe_top_L1_in_C1_3_4" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_3"/>
+<position name="Cogh_top_L1_3_pos_Coil_top_in_3_1" x="0.00000000" y="0.00000000" z="90.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Coil_top_in_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_3"/>
+<position name="Cogh_top_L1_3_pos_Coil_top_in_3_2" x="0.00000000" y="0.00000000" z="-90.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Coil_top_in_3_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Middle_top_3"/>
+<position name="Cogh_top_L1_3_pos_Middle_top_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Middle_top_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_3"/>
+<position name="Cogh_top_L1_3_pos_Pipe_top_L1_in_C1_3_1" x="0.00000000" y="0.00000000" z="122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Pipe_top_L1_in_C1_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_3"/>
+<position name="Cogh_top_L1_3_pos_Pipe_top_L1_in_C1_3_2" x="0.00000000" y="0.00000000" z="55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_3_rot_Pipe_top_L1_in_C1_3_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L1_4">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L1_4_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_4"/>
+<position name="Cogh_top_L1_4_pos_Pipe_top_L1_in_C1_4_5" x="0.00000000" y="16.90000000" z="122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Pipe_top_L1_in_C1_4_5" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_4"/>
+<position name="Cogh_top_L1_4_pos_Pipe_top_L1_in_C1_4_6" x="0.00000000" y="16.90000000" z="55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Pipe_top_L1_in_C1_4_6" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_4"/>
+<position name="Cogh_top_L1_4_pos_Pipe_top_L1_in_C1_4_7" x="0.00000000" y="16.90000000" z="-55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Pipe_top_L1_in_C1_4_7" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_4"/>
+<position name="Cogh_top_L1_4_pos_Pipe_top_L1_in_C1_4_8" x="0.00000000" y="16.90000000" z="-122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Pipe_top_L1_in_C1_4_8" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_4"/>
+<position name="Cogh_top_L1_4_pos_Pipe_top_L1_in_C1_4_4" x="0.00000000" y="-16.90000000" z="-122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Pipe_top_L1_in_C1_4_4" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_4"/>
+<position name="Cogh_top_L1_4_pos_Coil_top_in_4_1" x="0.00000000" y="0.00000000" z="90.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Coil_top_in_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_4"/>
+<position name="Cogh_top_L1_4_pos_Coil_top_in_4_2" x="0.00000000" y="0.00000000" z="-90.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Coil_top_in_4_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Middle_top_4"/>
+<position name="Cogh_top_L1_4_pos_Middle_top_4_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Middle_top_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_4"/>
+<position name="Cogh_top_L1_4_pos_Pipe_top_L1_in_C1_4_1" x="0.00000000" y="-16.90000000" z="122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Pipe_top_L1_in_C1_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_4"/>
+<position name="Cogh_top_L1_4_pos_Pipe_top_L1_in_C1_4_2" x="0.00000000" y="-16.90000000" z="55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Pipe_top_L1_in_C1_4_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_4"/>
+<position name="Cogh_top_L1_4_pos_Pipe_top_L1_in_C1_4_3" x="0.00000000" y="-16.90000000" z="-55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_4_rot_Pipe_top_L1_in_C1_4_3" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L1_5">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L1_5_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_5"/>
+<position name="Cogh_top_L1_5_pos_Pipe_top_L1_in_C1_5_4" x="-16.90000000" y="0.00000000" z="-122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Pipe_top_L1_in_C1_5_4" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_5"/>
+<position name="Cogh_top_L1_5_pos_Pipe_top_L1_in_C1_5_5" x="16.90000000" y="0.00000000" z="122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Pipe_top_L1_in_C1_5_5" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_5"/>
+<position name="Cogh_top_L1_5_pos_Pipe_top_L1_in_C1_5_6" x="16.90000000" y="0.00000000" z="55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Pipe_top_L1_in_C1_5_6" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_5"/>
+<position name="Cogh_top_L1_5_pos_Pipe_top_L1_in_C1_5_7" x="16.90000000" y="0.00000000" z="-55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Pipe_top_L1_in_C1_5_7" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_5"/>
+<position name="Cogh_top_L1_5_pos_Pipe_top_L1_in_C1_5_8" x="16.90000000" y="0.00000000" z="-122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Pipe_top_L1_in_C1_5_8" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_5"/>
+<position name="Cogh_top_L1_5_pos_Coil_top_in_5_1" x="0.00000000" y="0.00000000" z="90.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Coil_top_in_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coil_top_in_5"/>
+<position name="Cogh_top_L1_5_pos_Coil_top_in_5_2" x="0.00000000" y="0.00000000" z="-90.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Coil_top_in_5_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Middle_top_5"/>
+<position name="Cogh_top_L1_5_pos_Middle_top_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Middle_top_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_5"/>
+<position name="Cogh_top_L1_5_pos_Pipe_top_L1_in_C1_5_1" x="-16.90000000" y="0.00000000" z="122.00000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Pipe_top_L1_in_C1_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_5"/>
+<position name="Cogh_top_L1_5_pos_Pipe_top_L1_in_C1_5_2" x="-16.90000000" y="0.00000000" z="55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Pipe_top_L1_in_C1_5_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_top_L1_in_C1_5"/>
+<position name="Cogh_top_L1_5_pos_Pipe_top_L1_in_C1_5_3" x="-16.90000000" y="0.00000000" z="-55.50000000" unit="mm"/>
+<rotation name="Cogh_top_L1_5_rot_Pipe_top_L1_in_C1_5_3" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L2_1">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L2_1_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L1_1"/>
+<position name="Cogh_top_L2_1_pos_Cogh_top_L1_1_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L2_1_rot_Cogh_top_L1_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L2_2">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L2_2_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L1_2"/>
+<position name="Cogh_top_L2_2_pos_Cogh_top_L1_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L2_2_rot_Cogh_top_L1_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L2_3">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L2_3_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L1_3"/>
+<position name="Cogh_top_L2_3_pos_Cogh_top_L1_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L2_3_rot_Cogh_top_L1_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L2_4">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L2_4_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L1_4"/>
+<position name="Cogh_top_L2_4_pos_Cogh_top_L1_4_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L2_4_rot_Cogh_top_L1_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L2_5">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L2_5_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L1_5"/>
+<position name="Cogh_top_L2_5_pos_Cogh_top_L1_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L2_5_rot_Cogh_top_L1_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L1_1">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L1_1_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L2_5"/>
+<position name="Vacuum_L1_1_pos_Cogh_top_L2_5_1" x="5.00000000" y="-69.40000000" z="-38.75000000" unit="mm"/>
+<rotation name="Vacuum_L1_1_rot_Cogh_top_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_top_L2_3"/>
+<position name="Vacuum_L1_1_pos_Cogh_top_L2_3_1" x="-69.40000000" y="-39.40000000" z="-38.75000000" unit="mm"/>
+<rotation name="Vacuum_L1_1_rot_Cogh_top_L2_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L1_2">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L1_2_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L2_2"/>
+<position name="Vacuum_L1_2_pos_Cogh_top_L2_2_1" x="0.00000000" y="-241.25000000" z="-12.50000000" unit="mm"/>
+<rotation name="Vacuum_L1_2_rot_Cogh_top_L2_2_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L1_3">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L1_3_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L2_1"/>
+<position name="Vacuum_L1_3_pos_Cogh_top_L2_1_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Vacuum_L1_3_rot_Cogh_top_L2_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L1_4">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L1_4_PartBody"/>
+</volume>
+<volume name="Vacuum_L1_5">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L1_5_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L2_4"/>
+<position name="Vacuum_L1_5_pos_Cogh_top_L2_4_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Vacuum_L1_5_rot_Cogh_top_L2_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L1_6">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L1_6_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L2_3"/>
+<position name="Vacuum_L1_6_pos_Cogh_top_L2_3_1" x="69.40000000" y="-39.40000000" z="-38.75000000" unit="mm"/>
+<rotation name="Vacuum_L1_6_rot_Cogh_top_L2_3_1" x="-0.00000000" y="-0.00000000" z="-90.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_top_L2_5"/>
+<position name="Vacuum_L1_6_pos_Cogh_top_L2_5_1" x="-5.00000000" y="-69.40000000" z="-38.75000000" unit="mm"/>
+<rotation name="Vacuum_L1_6_rot_Cogh_top_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L1_7">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L1_7_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L2_3"/>
+<position name="Vacuum_L1_7_pos_Cogh_top_L2_3_1" x="-69.40000000" y="39.40000000" z="-38.75000000" unit="mm"/>
+<rotation name="Vacuum_L1_7_rot_Cogh_top_L2_3_1" x="-0.00000000" y="-0.00000000" z="90.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_top_L2_5"/>
+<position name="Vacuum_L1_7_pos_Cogh_top_L2_5_1" x="5.00000000" y="69.40000000" z="-38.75000000" unit="mm"/>
+<rotation name="Vacuum_L1_7_rot_Cogh_top_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L1_8">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L1_8_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L2_5"/>
+<position name="Vacuum_L1_8_pos_Cogh_top_L2_5_1" x="-5.00000000" y="69.40000000" z="-38.75000000" unit="mm"/>
+<rotation name="Vacuum_L1_8_rot_Cogh_top_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_top_L2_3"/>
+<position name="Vacuum_L1_8_pos_Cogh_top_L2_3_1" x="69.40000000" y="39.40000000" z="-38.75000000" unit="mm"/>
+<rotation name="Vacuum_L1_8_rot_Cogh_top_L2_3_1" x="-0.00000000" y="-0.00000000" z="-180.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L3_1">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L3_1_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_L2_11"/>
+<position name="Cogh_top_L3_1_pos_Pipe_L2_11_2" x="-2.50000000" y="99.40000000" z="-156.25000000" unit="mm"/>
+<rotation name="Cogh_top_L3_1_rot_Pipe_L2_11_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Vacuum_L1_1"/>
+<position name="Cogh_top_L3_1_pos_Vacuum_L1_1_1" x="-2.50000000" y="-2.50000000" z="2.50000000" unit="mm"/>
+<rotation name="Cogh_top_L3_1_rot_Vacuum_L1_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_10"/>
+<position name="Cogh_top_L3_1_pos_Pipe_L2_10_1" x="69.40000000" y="0.00000000" z="93.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_1_rot_Pipe_L2_10_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_10"/>
+<position name="Cogh_top_L3_1_pos_Pipe_L2_10_2" x="69.40000000" y="0.00000000" z="-156.25000000" unit="mm"/>
+<rotation name="Cogh_top_L3_1_rot_Pipe_L2_10_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_11"/>
+<position name="Cogh_top_L3_1_pos_Pipe_L2_11_1" x="-2.50000000" y="99.40000000" z="93.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_1_rot_Pipe_L2_11_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L3_2">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L3_2_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_L2_8"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_8_3" x="66.90000000" y="-243.75000000" z="-45.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_8_3" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_8"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_8_4" x="-66.90000000" y="-243.75000000" z="-45.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_8_4" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Vacuum_L1_2"/>
+<position name="Cogh_top_L3_2_pos_Vacuum_L1_2_1" x="0.00000000" y="-2.50000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Vacuum_L1_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_1"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_1_1" x="66.90000000" y="-239.75000000" z="11.50000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_1_1" x="-0.00000000" y="90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_1"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_1_2" x="-66.90000000" y="-239.75000000" z="11.50000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_1_2" x="-0.00000000" y="90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_2"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_2_1" x="-66.90000000" y="128.75000000" z="-90.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_2"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_2_2" x="66.90000000" y="128.75000000" z="-90.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_2_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_3"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_3_1" x="66.90000000" y="-88.25000000" z="-193.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_3_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_3"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_3_2" x="-66.90000000" y="-88.25000000" z="-193.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_3_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_4"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_4_1" x="66.90000000" y="-241.75000000" z="380.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_4"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_4_2" x="-66.90000000" y="-241.75000000" z="380.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_4_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_5"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_5_1" x="66.90000000" y="-166.00000000" z="-410.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_5"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_5_2" x="-66.90000000" y="-166.00000000" z="-410.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_5_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_8"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_8_1" x="66.90000000" y="-243.75000000" z="35.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_8_1" x="-0.00000000" y="90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_8"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_8_2" x="-66.90000000" y="-243.75000000" z="35.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_8_2" x="-0.00000000" y="90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_9"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_9_1" x="66.90000000" y="-128.75000000" z="-5.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_9_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_9"/>
+<position name="Cogh_top_L3_2_pos_Pipe_L2_9_2" x="-66.90000000" y="-128.75000000" z="-5.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_2_rot_Pipe_L2_9_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L3_3">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L3_3_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_L2_6"/>
+<position name="Cogh_top_L3_3_pos_Pipe_L2_6_3" x="-66.90000000" y="0.00000000" z="115.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_3_rot_Pipe_L2_6_3" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_6"/>
+<position name="Cogh_top_L3_3_pos_Pipe_L2_6_4" x="-66.90000000" y="0.00000000" z="-115.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_3_rot_Pipe_L2_6_4" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Vacuum_L1_3"/>
+<position name="Cogh_top_L3_3_pos_Vacuum_L1_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_3_rot_Vacuum_L1_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_6"/>
+<position name="Cogh_top_L3_3_pos_Pipe_L2_6_1" x="66.90000000" y="0.00000000" z="115.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_3_rot_Pipe_L2_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_6"/>
+<position name="Cogh_top_L3_3_pos_Pipe_L2_6_2" x="66.90000000" y="0.00000000" z="-115.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_3_rot_Pipe_L2_6_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L3_4">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L3_4_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L1_4"/>
+<position name="Cogh_top_L3_4_pos_Vacuum_L1_4_1" x="0.00000000" y="0.00000000" z="-2.50000000" unit="mm"/>
+<rotation name="Cogh_top_L3_4_rot_Vacuum_L1_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L3_5">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L3_5_PartBody"/>
+<physvol>
+<volumeref ref="Pipe_L2_7"/>
+<position name="Cogh_top_L3_5_pos_Pipe_L2_7_3" x="0.00000000" y="-66.90000000" z="130.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_5_rot_Pipe_L2_7_3" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_7"/>
+<position name="Cogh_top_L3_5_pos_Pipe_L2_7_4" x="0.00000000" y="-66.90000000" z="-120.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_5_rot_Pipe_L2_7_4" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Vacuum_L1_5"/>
+<position name="Cogh_top_L3_5_pos_Vacuum_L1_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_5_rot_Vacuum_L1_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_7"/>
+<position name="Cogh_top_L3_5_pos_Pipe_L2_7_1" x="0.00000000" y="66.90000000" z="130.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_5_rot_Pipe_L2_7_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_7"/>
+<position name="Cogh_top_L3_5_pos_Pipe_L2_7_2" x="0.00000000" y="66.90000000" z="-120.00000000" unit="mm"/>
+<rotation name="Cogh_top_L3_5_rot_Pipe_L2_7_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L3_6">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L3_6_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L1_6"/>
+<position name="Cogh_top_L3_6_pos_Vacuum_L1_6_1" x="2.50000000" y="-2.50000000" z="2.50000000" unit="mm"/>
+<rotation name="Cogh_top_L3_6_rot_Vacuum_L1_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_10"/>
+<position name="Cogh_top_L3_6_pos_Pipe_L2_10_1" x="-69.40000000" y="0.00000000" z="93.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_6_rot_Pipe_L2_10_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_10"/>
+<position name="Cogh_top_L3_6_pos_Pipe_L2_10_2" x="-69.40000000" y="0.00000000" z="-156.25000000" unit="mm"/>
+<rotation name="Cogh_top_L3_6_rot_Pipe_L2_10_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_11"/>
+<position name="Cogh_top_L3_6_pos_Pipe_L2_11_1" x="2.50000000" y="99.40000000" z="93.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_6_rot_Pipe_L2_11_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_11"/>
+<position name="Cogh_top_L3_6_pos_Pipe_L2_11_2" x="2.50000000" y="99.40000000" z="-156.25000000" unit="mm"/>
+<rotation name="Cogh_top_L3_6_rot_Pipe_L2_11_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L3_7">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L3_7_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L1_7"/>
+<position name="Cogh_top_L3_7_pos_Vacuum_L1_7_1" x="-2.50000000" y="2.50000000" z="2.50000000" unit="mm"/>
+<rotation name="Cogh_top_L3_7_rot_Vacuum_L1_7_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_10"/>
+<position name="Cogh_top_L3_7_pos_Pipe_L2_10_1" x="69.40000000" y="0.00000000" z="-156.25000000" unit="mm"/>
+<rotation name="Cogh_top_L3_7_rot_Pipe_L2_10_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_10"/>
+<position name="Cogh_top_L3_7_pos_Pipe_L2_10_2" x="69.40000000" y="0.00000000" z="93.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_7_rot_Pipe_L2_10_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_11"/>
+<position name="Cogh_top_L3_7_pos_Pipe_L2_11_1" x="-2.50000000" y="-99.40000000" z="-156.25000000" unit="mm"/>
+<rotation name="Cogh_top_L3_7_rot_Pipe_L2_11_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_11"/>
+<position name="Cogh_top_L3_7_pos_Pipe_L2_11_2" x="-2.50000000" y="-99.40000000" z="93.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_7_rot_Pipe_L2_11_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_top_L3_8">
+<materialref ref="cu"/>
+<solidref ref="Cogh_top_L3_8_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L1_8"/>
+<position name="Cogh_top_L3_8_pos_Vacuum_L1_8_1" x="2.50000000" y="2.50000000" z="2.50000000" unit="mm"/>
+<rotation name="Cogh_top_L3_8_rot_Vacuum_L1_8_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_10"/>
+<position name="Cogh_top_L3_8_pos_Pipe_L2_10_1" x="-69.40000000" y="0.00000000" z="-156.25000000" unit="mm"/>
+<rotation name="Cogh_top_L3_8_rot_Pipe_L2_10_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_10"/>
+<position name="Cogh_top_L3_8_pos_Pipe_L2_10_2" x="-69.40000000" y="0.00000000" z="93.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_8_rot_Pipe_L2_10_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_11"/>
+<position name="Cogh_top_L3_8_pos_Pipe_L2_11_1" x="2.50000000" y="-99.40000000" z="-156.25000000" unit="mm"/>
+<rotation name="Cogh_top_L3_8_rot_Pipe_L2_11_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Pipe_L2_11"/>
+<position name="Cogh_top_L3_8_pos_Pipe_L2_11_2" x="2.50000000" y="-99.40000000" z="93.75000000" unit="mm"/>
+<rotation name="Cogh_top_L3_8_rot_Pipe_L2_11_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L2_1">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L2_1_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L3_1"/>
+<position name="Vacuum_L2_1_pos_Cogh_top_L3_1_1" x="-10.00000000" y="-10.00000000" z="12.50000000" unit="mm"/>
+<rotation name="Vacuum_L2_1_rot_Cogh_top_L3_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L2_2">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L2_2_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L3_2"/>
+<position name="Vacuum_L2_2_pos_Cogh_top_L3_2_1" x="0.00000000" y="-10.00000000" z="-12.50000000" unit="mm"/>
+<rotation name="Vacuum_L2_2_rot_Cogh_top_L3_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L2_3">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L2_3_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L3_3"/>
+<position name="Vacuum_L2_3_pos_Cogh_top_L3_3_1" x="0.00000000" y="0.00000000" z="-7.25000000" unit="mm"/>
+<rotation name="Vacuum_L2_3_rot_Cogh_top_L3_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L2_4">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L2_4_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L3_4"/>
+<position name="Vacuum_L2_4_pos_Cogh_top_L3_4_1" x="0.00000000" y="0.00000000" z="-19.75000000" unit="mm"/>
+<rotation name="Vacuum_L2_4_rot_Cogh_top_L3_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L2_5">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L2_5_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L3_5"/>
+<position name="Vacuum_L2_5_pos_Cogh_top_L3_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Vacuum_L2_5_rot_Cogh_top_L3_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L2_6">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L2_6_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L3_6"/>
+<position name="Vacuum_L2_6_pos_Cogh_top_L3_6_1" x="10.00000000" y="-10.00000000" z="12.50000000" unit="mm"/>
+<rotation name="Vacuum_L2_6_rot_Cogh_top_L3_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L2_7">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L2_7_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L3_7"/>
+<position name="Vacuum_L2_7_pos_Cogh_top_L3_7_1" x="-10.00000000" y="10.00000000" z="12.50000000" unit="mm"/>
+<rotation name="Vacuum_L2_7_rot_Cogh_top_L3_7_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Vacuum_L2_8">
+<materialref ref="vacuum"/>
+<solidref ref="Vacuum_L2_8_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_top_L3_8"/>
+<position name="Vacuum_L2_8_pos_Cogh_top_L3_8_1" x="10.00000000" y="10.00000000" z="12.50000000" unit="mm"/>
+<rotation name="Vacuum_L2_8_rot_Cogh_top_L3_8_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_L4_1">
+<materialref ref="cu"/>
+<solidref ref="Cogh_L4_1_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L2_1"/>
+<position name="Cogh_L4_1_pos_Vacuum_L2_1_1" x="-6.00000000" y="-6.00000000" z="6.00000000" unit="mm"/>
+<rotation name="Cogh_L4_1_rot_Vacuum_L2_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_L4_2">
+<materialref ref="cu"/>
+<solidref ref="Cogh_L4_2_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L2_2"/>
+<position name="Cogh_L4_2_pos_Vacuum_L2_2_1" x="0.00000000" y="-6.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_L4_2_rot_Vacuum_L2_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_L4_3">
+<materialref ref="cu"/>
+<solidref ref="Cogh_L4_3_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L2_3"/>
+<position name="Cogh_L4_3_pos_Vacuum_L2_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_L4_3_rot_Vacuum_L2_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_L4_4">
+<materialref ref="cu"/>
+<solidref ref="Cogh_L4_4_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L2_4"/>
+<position name="Cogh_L4_4_pos_Vacuum_L2_4_1" x="0.00000000" y="0.00000000" z="-15.00000000" unit="mm"/>
+<rotation name="Cogh_L4_4_rot_Vacuum_L2_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_L4_5">
+<materialref ref="cu"/>
+<solidref ref="Cogh_L4_5_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L2_5"/>
+<position name="Cogh_L4_5_pos_Vacuum_L2_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Cogh_L4_5_rot_Vacuum_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_L4_6">
+<materialref ref="cu"/>
+<solidref ref="Cogh_L4_6_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L2_6"/>
+<position name="Cogh_L4_6_pos_Vacuum_L2_6_1" x="6.00000000" y="-6.00000000" z="6.00000000" unit="mm"/>
+<rotation name="Cogh_L4_6_rot_Vacuum_L2_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_L4_7">
+<materialref ref="cu"/>
+<solidref ref="Cogh_L4_7_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L2_7"/>
+<position name="Cogh_L4_7_pos_Vacuum_L2_7_1" x="-6.00000000" y="6.00000000" z="6.00000000" unit="mm"/>
+<rotation name="Cogh_L4_7_rot_Vacuum_L2_7_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Cogh_L4_8">
+<materialref ref="cu"/>
+<solidref ref="Cogh_L4_8_PartBody"/>
+<physvol>
+<volumeref ref="Vacuum_L2_8"/>
+<position name="Cogh_L4_8_pos_Vacuum_L2_8_1" x="6.00000000" y="6.00000000" z="6.00000000" unit="mm"/>
+<rotation name="Cogh_L4_8_rot_Vacuum_L2_8_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Basement_1">
+<materialref ref="iron"/>
+<solidref ref="Basement_1_PartBody"/>
+</volume>
+<volume name="Basement_3">
+<materialref ref="iron"/>
+<solidref ref="Basement_3_PartBody"/>
+</volume>
+<volume name="Basement_4">
+<materialref ref="iron"/>
+<solidref ref="Basement_4_PartBody"/>
+</volume>
+<volume name="Basement_5">
+<materialref ref="iron"/>
+<solidref ref="Basement_5_PartBody"/>
+</volume>
+<volume name="Screen_1">
+<materialref ref="iron"/>
+<solidref ref="Screen_1_PartBody"/>
+</volume>
+<volume name="Screen_2">
+<materialref ref="iron"/>
+<solidref ref="Screen_2_PartBody"/>
+</volume>
+<volume name="Screen_3">
+<materialref ref="iron"/>
+<solidref ref="Screen_3_PartBody"/>
+</volume>
+<volume name="Screen_4">
+<materialref ref="iron"/>
+<solidref ref="Screen_4_PartBody"/>
+</volume>
+<volume name="Screen_5">
+<materialref ref="iron"/>
+<solidref ref="Screen_5_PartBody"/>
+</volume>
+<volume name="Yoke_1">
+<materialref ref="iron"/>
+<solidref ref="Yoke_1_PartBody"/>
+</volume>
+<volume name="Yoke_2">
+<materialref ref="iron"/>
+<solidref ref="Yoke_2_PartBody"/>
+</volume>
+<volume name="Yoke_3">
+<materialref ref="iron"/>
+<solidref ref="Yoke_3_PartBody"/>
+</volume>
+<volume name="Silfon_vacuum_L1_1">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L1_1_PartBody"/>
+</volume>
+<volume name="Silfon_vacuum_L1_2">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L1_2_PartBody"/>
+</volume>
+<volume name="Silfon_vacuum_L1_3">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L1_3_PartBody"/>
+</volume>
+<volume name="Silfon_vacuum_L1_4">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L1_4_PartBody"/>
+</volume>
+<volume name="Silfon_vacuum_L1_5">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L1_5_PartBody"/>
+</volume>
+<volume name="Silfon_vacuum_L1_6">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L1_6_PartBody"/>
+</volume>
+<volume name="Silfon_L2_1">
+<materialref ref="iron"/>
+<solidref ref="Silfon_L2_1_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L1_1"/>
+<position name="Silfon_L2_1_pos_Silfon_vacuum_L1_1_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_L2_1_rot_Silfon_vacuum_L1_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_L2_2">
+<materialref ref="iron"/>
+<solidref ref="Silfon_L2_2_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L1_2"/>
+<position name="Silfon_L2_2_pos_Silfon_vacuum_L1_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_L2_2_rot_Silfon_vacuum_L1_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_L2_3">
+<materialref ref="iron"/>
+<solidref ref="Silfon_L2_3_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L1_3"/>
+<position name="Silfon_L2_3_pos_Silfon_vacuum_L1_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_L2_3_rot_Silfon_vacuum_L1_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_L2_4">
+<materialref ref="iron"/>
+<solidref ref="Silfon_L2_4_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L1_4"/>
+<position name="Silfon_L2_4_pos_Silfon_vacuum_L1_4_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_L2_4_rot_Silfon_vacuum_L1_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_L2_5">
+<materialref ref="iron"/>
+<solidref ref="Silfon_L2_5_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L1_5"/>
+<position name="Silfon_L2_5_pos_Silfon_vacuum_L1_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_L2_5_rot_Silfon_vacuum_L1_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_L2_6">
+<materialref ref="iron"/>
+<solidref ref="Silfon_L2_6_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L1_6"/>
+<position name="Silfon_L2_6_pos_Silfon_vacuum_L1_6_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_L2_6_rot_Silfon_vacuum_L1_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_vacuum_L2_1">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L2_1_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_L2_1"/>
+<position name="Silfon_vacuum_L2_1_pos_Silfon_L2_1_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_vacuum_L2_1_rot_Silfon_L2_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_vacuum_L2_2">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L2_2_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_L2_2"/>
+<position name="Silfon_vacuum_L2_2_pos_Silfon_L2_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_vacuum_L2_2_rot_Silfon_L2_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_vacuum_L2_3">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L2_3_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_L2_3"/>
+<position name="Silfon_vacuum_L2_3_pos_Silfon_L2_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_vacuum_L2_3_rot_Silfon_L2_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_vacuum_L2_4">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L2_4_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_L2_4"/>
+<position name="Silfon_vacuum_L2_4_pos_Silfon_L2_4_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_vacuum_L2_4_rot_Silfon_L2_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_vacuum_L2_5">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L2_5_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_L2_5"/>
+<position name="Silfon_vacuum_L2_5_pos_Silfon_L2_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_vacuum_L2_5_rot_Silfon_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_vacuum_L2_6">
+<materialref ref="iron"/>
+<solidref ref="Silfon_vacuum_L2_6_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_L2_6"/>
+<position name="Silfon_vacuum_L2_6_pos_Silfon_L2_6_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_vacuum_L2_6_rot_Silfon_L2_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_1">
+<materialref ref="iron"/>
+<solidref ref="Silfon_1_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L2_1"/>
+<position name="Silfon_1_pos_Silfon_vacuum_L2_1_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_1_rot_Silfon_vacuum_L2_1_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_2">
+<materialref ref="iron"/>
+<solidref ref="Silfon_2_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L2_2"/>
+<position name="Silfon_2_pos_Silfon_vacuum_L2_2_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_2_rot_Silfon_vacuum_L2_2_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_5">
+<materialref ref="iron"/>
+<solidref ref="Silfon_5_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L2_3"/>
+<position name="Silfon_5_pos_Silfon_vacuum_L2_3_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_5_rot_Silfon_vacuum_L2_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_6">
+<materialref ref="iron"/>
+<solidref ref="Silfon_6_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L2_4"/>
+<position name="Silfon_6_pos_Silfon_vacuum_L2_4_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_6_rot_Silfon_vacuum_L2_4_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_9">
+<materialref ref="iron"/>
+<solidref ref="Silfon_9_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L2_5"/>
+<position name="Silfon_9_pos_Silfon_vacuum_L2_5_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_9_rot_Silfon_vacuum_L2_5_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_10">
+<materialref ref="iron"/>
+<solidref ref="Silfon_10_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_vacuum_L2_6"/>
+<position name="Silfon_10_pos_Silfon_vacuum_L2_6_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_10_rot_Silfon_vacuum_L2_6_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Silfon_container">
+<materialref ref="air"/>
+<solidref ref="Silfon_container_PartBody"/>
+<physvol>
+<volumeref ref="Silfon_1"/>
+<position name="Silfon_container__pos__Silfon_1_0" x=" 0" y=" 0" z=" 123.5" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_1_0" x=" 0" y=" 0" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_1"/>
+<position name="Silfon_container__pos__Silfon_1_1" x=" 0" y=" 0" z="-123.498" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_1_1" x=" 0" y=" 0" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_2"/>
+<position name="Silfon_container__pos__Silfon_2_0" x=" 0" y=" 0" z=" 97.75" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_2_0" x=" 0" y=" 0" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_2"/>
+<position name="Silfon_container__pos__Silfon_2_1" x=" 0" y=" 0" z="-97.748" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_2_1" x=" 0" y=" 0" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_5"/>
+<position name="Silfon_container__pos__Silfon_5_0" x=" 0" y=" 195" z=" 123.5" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_5_0" x=" 0" y=" 0" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_5"/>
+<position name="Silfon_container__pos__Silfon_5_1" x=" 0" y=" 195" z="-123.498" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_5_1" x=" 0" y=" 0" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_5"/>
+<position name="Silfon_container__pos__Silfon_5_0" x=" 0" y="-195" z=" 123.5" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_5_0" x=" 0" y=" 0" z="-180" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_5"/>
+<position name="Silfon_container__pos__Silfon_5_1" x=" 0" y="-195" z="-123.498" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_5_1" x=" 0" y=" 0" z="-180" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_6"/>
+<position name="Silfon_container__pos__Silfon_6_0" x=" 0" y=" 195" z=" 97.75" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_6_0" x=" 0" y=" 0" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_6"/>
+<position name="Silfon_container__pos__Silfon_6_1" x=" 0" y=" 195" z="-97.748" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_6_1" x=" 0" y=" 0" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_6"/>
+<position name="Silfon_container__pos__Silfon_6_0" x=" 0" y="-195" z=" 97.75" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_6_0" x=" 0" y=" 0" z="-180" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_6"/>
+<position name="Silfon_container__pos__Silfon_6_1" x=" 0" y="-195" z="-97.748" unit="mm"/>
+<rotation name="Silfon_container__rot__Silfon_6_1" x=" 0" y=" 0" z="-180" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_9"/>
+<position name="Silfon_container_pos_Silfon_9_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_container_rot_Silfon_9_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_10"/>
+<position name="Silfon_container_pos_Silfon_10_1" x="0.00000000" y="-195.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_container_rot_Silfon_10_1" x="-0.00000000" y="-0.00000000" z="-180.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_10"/>
+<position name="Silfon_container_pos_Silfon_10_2" x="0.00000000" y="195.00000000" z="0.00000000" unit="mm"/>
+<rotation name="Silfon_container_rot_Silfon_10_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Basement_2">
+<materialref ref="iron"/>
+<solidref ref="Basement_2_PartBody"/>
+<physvol>
+<volumeref ref="Basement_3"/>
+<position name="Basement_2_pos_Basement_3_1" x="0.00000000" y="716.25000000" z="0.00000000" unit="mm"/>
+<rotation name="Basement_2_rot_Basement_3_1" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_3"/>
+<position name="Basement_2_pos_Basement_3_2" x="0.00000000" y="-716.25000000" z="0.00000000" unit="mm"/>
+<rotation name="Basement_2_rot_Basement_3_2" x="-0.00000000" y="-0.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="CBM_Magnet_container">
+<materialref ref="air"/>
+<solidref ref="CBM_Magnet_container_PartBody"/>
+<physvol>
+<volumeref ref="Cogh_L4_1"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_1_1" x="406.25000000" y="-782.10000000" z="-652.90000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_1_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_2"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_2_1" x="691.00000000" y="1159.75000000" z="639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_2_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_2"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_2_2" x="691.00000000" y="-1159.75000000" z="639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_2_2" x="-0.00000000" y="-90.00000000" z="-180.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_2"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_2_3" x="691.00000000" y="1159.75000000" z="-639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_2_3" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_2"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_2_4" x="691.00000000" y="-1159.75000000" z="-639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_2_4" x="-0.00000000" y="-90.00000000" z="-180.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_3"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_3_1" x="950.75000000" y="0.00000000" z="-639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_3_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_3"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_3_2" x="950.75000000" y="0.00000000" z="639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_3_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_4"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_4_1" x="1339.25000000" y="0.00000000" z="639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_4_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_5"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_5_1" x="388.50000000" y="-765.60000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_5_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_5"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_5_2" x="388.50000000" y="765.60000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_5_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_6"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_6_1" x="406.25000000" y="-782.10000000" z="652.90000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_6_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_7"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_7_1" x="406.25000000" y="782.10000000" z="-652.90000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_7_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_8"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_8_1" x="406.25000000" y="782.10000000" z="652.90000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_8_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_1"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_1_2" x="-384.25000000" y="-782.10000000" z="652.90000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_1_2" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_2"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_2_5" x="-669.00000000" y="1159.75000000" z="639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_2_5" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_2"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_2_6" x="-669.00000000" y="-1159.75000000" z="639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_2_6" x="-0.00000000" y="-270.00000000" z="-180.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_2"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_2_7" x="-669.00000000" y="1159.75000000" z="-639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_2_7" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_2"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_2_8" x="-669.00000000" y="-1159.75000000" z="-639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_2_8" x="-0.00000000" y="-270.00000000" z="-180.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_3"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_3_3" x="-928.75000000" y="0.00000000" z="-639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_3_3" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_3"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_3_4" x="-928.75000000" y="0.00000000" z="639.40000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_3_4" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_5"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_5_3" x="-366.50000000" y="-765.60000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_5_3" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_5"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_5_4" x="-366.50000000" y="765.60000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_5_4" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_6"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_6_2" x="-384.25000000" y="-782.10000000" z="-652.90000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_6_2" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_7"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_7_2" x="-384.25000000" y="782.10000000" z="652.90000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_7_2" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Cogh_L4_8"/>
+<position name="CBM_Magnet_container_pos_Cogh_L4_8_2" x="-384.25000000" y="782.10000000" z="-652.90000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Cogh_L4_8_2" x="-0.00000000" y="-270.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_1"/>
+<position name="CBM_Magnet_container_pos_Basement_1_1" x="-2245.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Basement_1_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_1"/>
+<position name="CBM_Magnet_container_pos_Basement_1_2" x="-1820.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Basement_1_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_5"/>
+<position name="CBM_Magnet_container_pos_Basement_5_1" x="-1450.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Basement_5_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_2"/>
+<position name="CBM_Magnet_container_pos_Basement_2_1" x="-1635.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Basement_2_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_4"/>
+<position name="CBM_Magnet_container_pos_Basement_4_1" x="-2032.50000000" y="-1300.00000000" z="400.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Basement_4_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_4"/>
+<position name="CBM_Magnet_container_pos_Basement_4_2" x="-2032.50000000" y="1300.00000000" z="400.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Basement_4_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_4"/>
+<position name="CBM_Magnet_container_pos_Basement_4_3" x="-2032.50000000" y="-1300.00000000" z="-400.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Basement_4_3" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Basement_4"/>
+<position name="CBM_Magnet_container_pos_Basement_4_4" x="-2032.50000000" y="1300.00000000" z="-400.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Basement_4_4" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_1"/>
+<position name="CBM_Magnet_container_pos_Yoke_1_1" x="0.00000000" y="-1275.00000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_1_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_1"/>
+<position name="CBM_Magnet_container_pos_Yoke_1_2" x="0.00000000" y="1275.00000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_1_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_2"/>
+<position name="CBM_Magnet_container_pos_Yoke_2_1" x="-1025.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_2_1" x="-180.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_2"/>
+<position name="CBM_Magnet_container_pos_Yoke_2_2" x="1025.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_2_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_3"/>
+<position name="CBM_Magnet_container_pos_Yoke_3_1" x="1300.00000000" y="1550.00000000" z="-250.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_3_1" x="-0.00000000" y="-180.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_3"/>
+<position name="CBM_Magnet_container_pos_Yoke_3_2" x="1300.00000000" y="1550.00000000" z="250.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_3_2" x="-0.00000000" y="-180.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_3"/>
+<position name="CBM_Magnet_container_pos_Yoke_3_3" x="1300.00000000" y="-1550.00000000" z="-250.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_3_3" x="-0.00000000" y="-180.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_3"/>
+<position name="CBM_Magnet_container_pos_Yoke_3_4" x="1300.00000000" y="-1550.00000000" z="250.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_3_4" x="-0.00000000" y="-180.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_3"/>
+<position name="CBM_Magnet_container_pos_Yoke_3_5" x="-1300.00000000" y="1550.00000000" z="-250.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_3_5" x="-0.00000000" y="-180.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_3"/>
+<position name="CBM_Magnet_container_pos_Yoke_3_6" x="-1300.00000000" y="1550.00000000" z="250.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_3_6" x="-0.00000000" y="-180.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_3"/>
+<position name="CBM_Magnet_container_pos_Yoke_3_7" x="-1300.00000000" y="-1550.00000000" z="-250.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_3_7" x="-0.00000000" y="-180.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_3"/>
+<position name="CBM_Magnet_container_pos_Yoke_3_8" x="-1300.00000000" y="-1550.00000000" z="250.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Yoke_3_8" x="-0.00000000" y="-180.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_1"/>
+<position name="CBM_Magnet_container_pos_Screen_1_1" x="947.50000000" y="0.00000000" z="-807.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_1_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_1"/>
+<position name="CBM_Magnet_container_pos_Screen_1_2" x="-947.50000000" y="0.00000000" z="-807.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_1_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_1"/>
+<position name="CBM_Magnet_container_pos_Screen_1_3" x="947.50000000" y="0.00000000" z="807.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_1_3" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_1"/>
+<position name="CBM_Magnet_container_pos_Screen_1_4" x="-947.50000000" y="0.00000000" z="807.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_1_4" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_2"/>
+<position name="CBM_Magnet_container_pos_Screen_2_1" x="947.50000000" y="1475.00000000" z="-622.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_2_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_2"/>
+<position name="CBM_Magnet_container_pos_Screen_2_2" x="-947.50000000" y="1475.00000000" z="-622.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_2_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_2"/>
+<position name="CBM_Magnet_container_pos_Screen_2_3" x="947.50000000" y="-1475.00000000" z="-622.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_2_3" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_2"/>
+<position name="CBM_Magnet_container_pos_Screen_2_4" x="-947.50000000" y="-1475.00000000" z="-622.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_2_4" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_2"/>
+<position name="CBM_Magnet_container_pos_Screen_2_5" x="947.50000000" y="1475.00000000" z="622.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_2_5" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_2"/>
+<position name="CBM_Magnet_container_pos_Screen_2_6" x="-947.50000000" y="1475.00000000" z="622.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_2_6" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_2"/>
+<position name="CBM_Magnet_container_pos_Screen_2_7" x="947.50000000" y="-1475.00000000" z="622.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_2_7" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_2"/>
+<position name="CBM_Magnet_container_pos_Screen_2_8" x="-947.50000000" y="-1475.00000000" z="622.50000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_2_8" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_3"/>
+<position name="CBM_Magnet_container_pos_Screen_3_1" x="1040.00000000" y="0.00000000" z="-975.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_3_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_3"/>
+<position name="CBM_Magnet_container_pos_Screen_3_2" x="-1040.00000000" y="0.00000000" z="-975.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_3_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_4"/>
+<position name="CBM_Magnet_container_pos_Screen_4_1" x="-1040.00000000" y="1600.00000000" z="-695.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_4_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_4"/>
+<position name="CBM_Magnet_container_pos_Screen_4_2" x="-1040.00000000" y="-1600.00000000" z="-695.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_4_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_4"/>
+<position name="CBM_Magnet_container_pos_Screen_4_3" x="1040.00000000" y="1600.00000000" z="-695.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_4_3" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_4"/>
+<position name="CBM_Magnet_container_pos_Screen_4_4" x="1040.00000000" y="-1600.00000000" z="-695.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_4_4" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_5"/>
+<position name="CBM_Magnet_container_pos_Screen_5_1" x="-1340.00000000" y="0.00000000" z="-780.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_5_1" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Screen_5"/>
+<position name="CBM_Magnet_container_pos_Screen_5_2" x="1340.00000000" y="0.00000000" z="-780.00000000" unit="mm"/>
+<rotation name="CBM_Magnet_container_rot_Screen_5_2" x="-0.00000000" y="-90.00000000" z="-0.00000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_container"/>
+<position name="CBM_Magnet_container__pos__Silfon_container_0" x=" 11" y=" 1029" z=" 639.4" unit="mm"/>
+<rotation name="CBM_Magnet_container__rot__Silfon_container_0" x=" 0" y="-90" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_container"/>
+<position name="CBM_Magnet_container__pos__Silfon_container_1" x=" 11" y=" 1029" z="-639.4" unit="mm"/>
+<rotation name="CBM_Magnet_container__rot__Silfon_container_1" x=" 0" y="-90" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_container"/>
+<position name="CBM_Magnet_container__pos__Silfon_container_0" x=" 11" y="-1029" z=" 639.4" unit="mm"/>
+<rotation name="CBM_Magnet_container__rot__Silfon_container_0" x=" 0" y="-90" z=" 0" unit="deg"/>
+</physvol>
+<physvol>
+<volumeref ref="Silfon_container"/>
+<position name="CBM_Magnet_container__pos__Silfon_container_1" x=" 11" y="-1029" z="-639.4" unit="mm"/>
+<rotation name="CBM_Magnet_container__rot__Silfon_container_1" x=" 0" y="-90" z=" 0" unit="deg"/>
+</physvol>
+</volume>
+</structure>
+
+<setup name="Default" version="1.0">
+<world ref="CBM_Magnet_container"/>
+</setup>
+
+</gdml>

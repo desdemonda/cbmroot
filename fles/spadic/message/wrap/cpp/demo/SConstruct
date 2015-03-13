@@ -1,0 +1,11 @@
+# ex: syntax=python
+
+lib_dir = '../../../'
+wrap_dir = '../'
+
+env = Environment(LIB_DIR=lib_dir, WRAP_DIR=wrap_dir,
+                  CPPPATH=[lib_dir, wrap_dir], CCFLAGS=['--std=c++11'])
+
+env.Program('demo', ['demo.cpp', '$WRAP_DIR/Message.cpp',
+                                 '$LIB_DIR/message.c',
+                                 '$LIB_DIR/message_reader.c'])

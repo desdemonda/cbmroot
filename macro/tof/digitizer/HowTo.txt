@@ -1,0 +1,100 @@
+ToF digitizer usage, transition from ToF Hit Producer
+
+1) New classes
+
+   The TofHitProducerNew object has to be replaced by a CbmTofDigitizerBDF object 
+   and a CbmTofSimpClusterizer object. An example of this is in 
+   macro/to/digitizer/run_digi.C <= Digitizer only
+   macro/to/digitizer/run_reco.C <= Digitizer along with normal reco chain for 
+      MVD, STS, TRD and RICH
+   
+   Additionally an optional test class called CbmTofTests is avaliable if one 
+   wants to cross check the good working of the digitizer and the clusterizer.
+
+2) Parameters
+
+   a) Beam data input file: 
+      test_bdf_input.root, root script to generate it can be made available 
+      by P.-A. Loizeau
+
+   b) Cluster distribution to cluster radius conversion 
+      Provide the conversion from Landau Fit on cluster size distribution to 
+      Landau parameters for Cluster radiusdistribution: 
+      RadToClustDist_0000_1000_0010_00025_05025_00025.root
+
+   c) Digitizer geometry description file (same as HitProd): 
+      tof_vXXyyy.digi.par
+
+   d) Digitizer options file: 
+      tof.digibdf.par
+   e) Clusterizer options file: 
+      tof.digibdf.par
+
+   e) Digitizer Options:
+      See description of allowed values in the file itself!!!
+            General Options
+      i)   UseExpDigi: Type of ToF digis to use
+      ii)  UseOnlyPrim: Only primaries or all tracks
+      iii) UseOneGapPerTrk: Use only 1st fired gap per (Track, Channel) pair
+      iv)  ClusterModel: Choose cluster charge distribution model, have effect
+              on which adjacent strips fire if the FEE threshold is not 0
+      v)   FeeGainSigma, FeeTotThr, TimeResElec: Electronics properties
+      vi)  TimeResStart: Start counter resolution
+      vii) SignalPropSpeed: Propagation speed along electrode
+            Geometry Options
+         These options have to match the geometry files!!! 
+         For most of them, see the Create_TOF_Geometry_*.C macros in the 
+         macro/tof/geometry folder.
+         Options iv to viii allow for the creation of SM with mixed RPC types.
+      i)    NbSmTypes: How many different type of SM used in this geometry
+      ii)   NbSm: Number of SM for each SM type
+      iii)  NbRpc: Number of RPC inside a single SM for each SM type
+      iv)   NbGapsXXX: Number of gaps for each RPC in a SM of type XXX
+      v)    GapSizeXXX: Single gap size for each RPC in a SM of type XXX
+      vi)   NbChXXX: Number of channels for each RPC in a SM of type XXX
+      vii)  ChTypeXXX: Channel type (strip, pad) for each RPC in a SM of type 
+               XXX
+      viii) ChOrientationXXX: Channel orientation (vertical, horizontal for 
+               each RPC 
+               in a SM of type XXX
+            Beam data options
+         These options are related to how the data from measurements are
+      used in the digitizer.
+      i)    BeamInputFile: ROOT file containing the test data used to get a 
+               "realistic" response. This file contains the RPC resolution, 
+               efficiency, cluster size distribution and cluster charge 
+               distribution for at least 1 RPC type.
+      ii)   ClusterRadiusModel: Model used to generate the radius of each 
+               Cluster.
+      iii)  SmTypeInpMapp: If more than 1 RPC type test in ROOT file, map them 
+               to SM types. Not yet compatible with multiple RPC types per SM.
+      iv)   RadiusLandauMpv: Optional, used if ClusterRadiusModel is chosen to 
+               be a Landau distribution with user fixed parameters.
+      v)    RadLandauSigma: Optional, used if ClusterRadiusModel is chosen to 
+               be a Landau distribution with user fixed parameters.
+      
+   f) Clusterizer Options:
+      See description of allowed values in the file itself!!!
+      i)   MulUseTrkId: Switch between using TofPoints count or McTracks count 
+              for the multiple source flag.
+      ii)  MaxTimeDistClust: Maximal time distance between Digi pairs on adjacent 
+              channels for which they are merged in the same cluster.
+      iii) MaxSpaceDistClust: Maximal distance along strips between Digis pairs 
+              on adjacent channels for which they are merged in the same cluster.
+      
+3) Usage hints
+   a) Modify the input files in  macro/tof/digitizer/run_digi.C if you want to 
+      run only the TOF digitizer or in macro/tof/digitizer/run_reco.C if you 
+      want to run the full reconstruction chain (run_reco100.C has only STS+TOF)
+   b) Prepare the digitizer options, most users will probably mainly be 
+      interested in the following options:
+      FeeGainSigma, FeeTotThr, TimeResElec
+      TimeResStart
+      ClusterModel (only "Flat disc" is currently reasonnably working)
+      BeamInputFile (current file generated for 99% efficiency, nominal tof 
+         system resolution and HD counter clusters properties)
+      ClusterRadiusModel
+   c) Prepare the clusterizer options
+   d) Run the ROOT macro like the normal reco script
+   e) Control histograms will appear in *.hst.root files, all other outputs are
+      also in the same folder

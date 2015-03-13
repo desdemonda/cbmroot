@@ -1,0 +1,53 @@
+/**
+
+\page littrack_cbm Interface to CBMROOT of littrack
+
+\section littrack_cbmsection1 main() function
+
+\c CbmLitFindGlobalTracks is a main task to be called from macro in order
+to execute littrack tracking routines. The task automatically determines 
+detector layout based on TGeo and configures track reconstruction in the 
+TRD and MUCH detectors and hit-to-track merging in TOF.
+
+Example:
+
+\code
+CbmLitFindGlobalTracks* finder = new CbmLitFindGlobalTracks();
+
+// Tracking method to be used
+// "branch" - branching tracking
+// "nn" - nearest neighbor tracking
+// "nn_parallel" - parallel implementation of nearest neighbor tracking
+finder->SetTrackingType("branch");
+
+// Hit-to-track merger method to be used
+// "nearest_hit" - assigns nearest hit to the track
+finder->SetMergerType("nearest_hit");
+
+run->AddTask(finder);
+\endcode
+
+
+\section littrack_cbmsection2 Field approximation
+
+Polynomial field approximation is used in parallel tracking algorithm. 
+Calculation of the polynomial coefficients for a specified field slice 
+is implemented in the \c CbmLitFieldFitter class. Two options are implemented:
+
+\li Usage of Minuit for minimization of squared error between polynom approximation and field map;
+\li "Hand made" approximation based on least squares method.
+
+The algorithm is able to approximate the field with polynomials of order 0 to 10. The default polynom order used in the tracking is 7.
+
+Example:
+
+\code
+Int_t polynomDegree = 7; // Polynom order
+Double_t zPos = 100; // Z position of the slice [cm]
+std::vector<Double_t> cx, cy, cz; // Polynom coefficients for Bx, By, Bz respectively
+CbmLitFieldFitter* fitter = new CbmLitFieldFitter(polynomDegree);
+fitter->FitSlice(zPos, cx, cy, cz);
+\endcode
+
+
+*/

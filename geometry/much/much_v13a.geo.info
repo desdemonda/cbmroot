@@ -1,0 +1,7 @@
+much_v13a
+
+SIS-300 default version. 
+6 stations with sector-type GEM modules
+1st absorber (60 cm carbon) consists of two parts:
+ - 1st part (34 cm) is inserted into the magnet volume (see magnet_v12b_much.geo.root)
+ - 2nd part (26 cm) is described in this geometry file

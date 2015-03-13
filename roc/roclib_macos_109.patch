@@ -1,0 +1,171 @@
+--- roclib/roc/OperList.h	(revision 23660)
++++ roclib/roc/OperList.h	(working copy)
+@@ -3,7 +3,11 @@
+ 
+ #include <vector>
+ 
++#ifdef __APPLE__
++#include <_types/_uint32_t.h>
++#else
+ #include <stdint.h>
++#endif
+ 
+ namespace roc {
+ 
+--- roclib/roc/Message.h	(revision 23660)
++++ roclib/roc/Message.h	(working copy)
+@@ -1,7 +1,15 @@
+ #ifndef ROC_MESSAGE_H
+ #define ROC_MESSAGE_H
+ 
++#ifdef __APPLE__
++#include <_types/_uint8_t.h>
++#include <_types/_uint16_t.h>
++#include <_types/_uint32_t.h>
++#include <_types/_uint64_t.h>
++#else
+ #include <stdint.h>
++#endif
++
+ #include <iostream>
+ 
+ namespace roc {
+--- roclib/roc/defines_udp.h	(revision 23660)
++++ roclib/roc/defines_udp.h	(working copy)
+@@ -90,7 +90,12 @@
+ #define SC_BITFILE_BUFFER_SIZE 4194304
+ 
+ 
++#ifdef __APPLE__
++#include <_types/_uint8_t.h>
++#include <_types/_uint32_t.h>
++#else
+ #include <stdint.h>
++#endif
+ 
+ #pragma pack(push, 1)
+ 
+--- roclib/roc/Board.h	(revision 23660)
++++ roclib/roc/Board.h	(working copy)
+@@ -1,7 +1,11 @@
+ #ifndef ROC_BOARD_H
+ #define ROC_BOARD_H
+ 
++#ifdef __APPLE__
++#include <_types/_uint32_t.h>
++#else
+ #include <stdint.h>
++#endif
+ 
+ #include <iostream>
+ #include <string>
+--- roclib/nxyter/FebUtil.h	(revision 23660)
++++ roclib/nxyter/FebUtil.h	(working copy)
+@@ -10,6 +10,10 @@
+ 
+ #include <iostream>
+ 
++#ifdef __APPLE__
++#include <sys/_types/_int32_t.h>
++#endif
++
+ #include "roc/Board.h"
+ #include "nxyter/FebBase.h"
+ #include "nxyter/NxContext.h"
+--- roclib/nxyter/NxContext.h	(revision 23660)
++++ roclib/nxyter/NxContext.h	(working copy)
+@@ -7,7 +7,12 @@
+ #ifndef NXYTER_NXCONTEXT_H
+ #define NXYTER_NXCONTEXT_H
+ 
++#ifdef __APPLE__
++#include <_types/_uint8_t.h>
++#else
+ #include <stdint.h>
++#endif
++
+ #include <stdio.h>
+ #include <iostream>
+ 
+--- roclib/nxyter/DataDebug.h	(revision 23660)
++++ roclib/nxyter/DataDebug.h	(working copy)
+@@ -1,7 +1,13 @@
+ #ifndef NXYTER_DATADEBUG_H
+ #define NXYTER_DATADEBUG_H
+ 
++#ifdef __APPLE__
++#include <_types/_uint32_t.h>
++#include <_types/_uint64_t.h>
++#else
+ #include <stdint.h>
++#endif
++
+ #include <iostream>
+ 
+ namespace nxyter {
+--- dabc/applications/core-test/core-test.cxx~	2014-02-03 12:46:15.000000000 +0100
++++ dabc/applications/core-test/core-test.cxx	2014-02-03 12:58:54.000000000 +0100
+@@ -26,6 +26,8 @@
+ #define CLOCK_MONOTONIC 0
+ #endif
+ 
++#include <unistd.h>
++
+ #include "dabc/logging.h"
+ 
+ #include "dabc/FileIO.h"
+--- dabc/base/src/SocketDevice.cxx~	2011-05-27 13:18:53.000000000 +0200
++++ dabc/base/src/SocketDevice.cxx	2014-02-03 12:56:14.000000000 +0100
+@@ -20,6 +20,8 @@
+ #include "dabc/Configuration.h"
+ #include "dabc/ConnectionManager.h"
+ 
++#include <unistd.h>
++
+ #define SocketServerTmout 0.2
+ 
+ // this is fixed-size message for exchanging during protocol execution
+--- dabc/base/src/SocketThread.cxx~	2014-02-03 12:46:15.000000000 +0100
++++ dabc/base/src/SocketThread.cxx	2014-02-03 12:57:04.000000000 +0100
+@@ -25,6 +25,7 @@
+ #include <stdlib.h>
+ #include <netinet/in.h>
+ #include <arpa/inet.h>
++#include <unistd.h>
+ 
+ #include "dabc/logging.h"
+ #include "dabc/Manager.h"
+--- dabc/base/src/statistic.cxx~	2011-05-27 13:18:53.000000000 +0200
++++ dabc/base/src/statistic.cxx	2014-02-03 12:53:21.000000000 +0100
+@@ -15,6 +15,7 @@
+ 
+ #include <math.h>
+ #include <string.h>
++#include <unistd.h>
+ 
+ #include "dabc/logging.h"
+ #include "dabc/timing.h"
+--- plugin2/src/UdpDevice.cxx~	2014-02-03 18:47:44.000000000 +0100
++++ plugin2/src/UdpDevice.cxx	2014-02-03 19:01:41.000000000 +0100
+@@ -16,6 +16,7 @@
+ 
+ #include <iostream>
+ #include <fstream>
++#include <unistd.h> 
+ 
+ #include "dabc/Manager.h"
+ #include "dabc/Port.h"
+@@ -171,10 +172,10 @@
+           cmd.IsName(roc::UdpDevice::CmdPutSuspendDaq()) ||
+           cmd.IsName(roc::UdpDevice::CmdPutDisconnect()) ||
+           cmd.IsName(CmdDLM::CmdName())) {
+-         unsigned errno = res ? ntohl(fControlRecv.value) : roc::Board::kOperNetworkErr;
+-         cmd.SetUInt(ErrNoPar, errno);
++         unsigned errornumber = res ? ntohl(fControlRecv.value) : roc::Board::kOperNetworkErr;
++         cmd.SetUInt(ErrNoPar, errornumber);
+          if (cmd.GetBool("SwPut", false))
+-            fDev->completeSwPut(errno==0);
++            fDev->completeSwPut(errornumber==0);
+       } else
+       if (cmd.IsName(CmdNOper::CmdName())) {
+          uint32_t errcode = res ? ntohl(fControlRecv.value) : roc::Board::kOperNetworkErr;

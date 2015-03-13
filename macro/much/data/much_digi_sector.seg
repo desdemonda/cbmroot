@@ -1,0 +1,33 @@
+# Input file for the manual segmentation procedure
+# radial pad length = outer pad azimutal width
+#
+
+# General information
+Number of stations          :   6
+
+# Station specification
+Number of regions           :   1       1       1       1       1       1       
+
+# Station 1
+Region radii [cm]           :   80
+Pad angle [deg]             :  1.5
+
+# Station 2
+Region radii [cm]           :  150
+Pad angle [deg]             :  1.8
+
+# Station 3
+Region radii [cm]           :  200
+Pad angle [deg]             :  3.0
+
+# Station 4
+Region radii [cm]           :  200
+Pad angle [deg]             :  4.0
+
+# Station 5
+Region radii [cm]           :  200
+Pad angle [deg]             :  4.0
+
+# Station 6
+Region radii [cm]           :  270
+Pad angle [deg]             :  4.0

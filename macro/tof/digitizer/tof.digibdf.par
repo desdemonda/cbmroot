@@ -1,0 +1,217 @@
+####################################################################################################
+# Class:   CbmTofDigiBdfPar                                                                                                         
+# Context: TestDefaultContext                                                                                                       
+####################################################################################################
+[CbmTofDigiBdfPar]                                                                                                                  
+// ----------------------------------------------------------------------------------------//
+// --------------------------- General switches -------------------------------------------//                                                    
+// Digi type to use:                                                                                                                
+// 1 = expanded digis (faster),                                                                                                     
+// 0 = reDigitized digis (probably closer to what could be transported in CBMnet                                                    
+UseExpDigi: Int_t           1
+// Switch to use only primary tracks
+// 0 = all tracks, 1 = only primary
+UseOnlyPrim: Int_t          0
+// Switch method to try avoiding counting all gaps/TofPoint from same track
+// with different time/charge
+UseOneGapPerTrk: Int_t      1                                      
+// ----------------------------------------------------------------------------------------//
+// ------------------------------ Cluster Model -------------------------------------------//  
+//******************************//                                                                                                  
+//   Cluster Model selector     //                                                                                                  
+//******************************//                                                                                                  
+// 0 -> Directly Cluster Size                                                                                                       
+// ------- Convert TofPoints in input TClonesArray to Tof Digis using directly the                                                  
+// ------- cluster size distribution from beamtime. The charge is encoded as ToT in ns and                                          
+// ------- shared among strips using a gauss distribution centered on the TofPoints.                                                
+// ------- Works only for strip RPC !!!!!                                          
+// ------- Quite slow due to the integration over a TF1 for charge.                                                                                           
+// 1 -> A simple "Flat disc" cluster approximation                                                                                  
+// ------- Convert TofPoints in input TClonesArray to Tof Digis using an approximation of the                                       
+// ------- cluster charge distribution by a "Flat disc". The charge is encoded as ToT in ns.                                        
+// 2 -> A 2D Gauss cluster approximation                                                                                            
+// ------- Convert TofPoints in input TClonesArray to Tof Digis using an approximation of the                                       
+// ------- cluster charge distribution by a 2D symetric Gauss function, with the approx. that                                       
+// ------- sigmaX = sigmaY = cluster size/2.                  
+// ------- Really slow due to the integration over a TF2.                                                                                      
+ClusterModel: Int_t         1                                                                                                       
+// Width of the electronic channels gain distribution                                                                               
+// A value of 0 or smaller set all channels to gain 1                                                                               
+FeeGainSigma: Double_t      0.01                                                                                                    
+// "Charge" Threshold in ToT[ps], cut channels with too small values                                                                
+//FeeTotThr: Double_t         0.01                                                             
+FeeTotThr: Double_t         0.1                                                                                                         
+// Time resolution of the digitizer channels in [ps]                                                                                
+TimeResElec: Double_t       0.04                                                                                                       
+// Time resolution of the digitizer channels in [ps]                                                                                
+TimeResStart: Double_t      0.04                                                                                                   
+// Propagation speed of the signal in the readout electrodes, in [cm/ns]]                                                           
+SignalPropSpeed: Double_t  18.0                                                                                                     
+// ----------------------------------------------------------------------------------------//                                       
+// ------- Geometry variables, text to be generated in the CreateGeometry macros ----------//                                       
+// Number of Super Module types (1)                                                                                                 
+// !!!! this parameter HAS to match the value used in the geometry !!!!                                                             
+NbSmTypes: Int_t            6                                                                                                       
+// Number of SMs for each SM type                                                                                                   
+// The number of entries should match (1), the number of types                                                                      
+// !!!! this parameter HAS to match the value used in the geometry !!!!                                                             
+//  0    1    2    3    4    5    6    7    8    9                                                                                  
+NbSm: Int_t \                                                                                                                       
+   24  142   50    8    8   10                                                                                                      
+// Number of RPCs for each SM type (2)                                                                                              
+// The number of entries should match (1), the number of types                                                                      
+// !!!! this parameter HAS to match the value used in the geometry !!!!                                                             
+//  0    1    2    3    4    5    6    7    8    9                                                                                  
+NbRpc: Int_t \                                                                                                                      
+    5    5    3    5    5    2                                                                               
+// Number of gaps per RPC for each SM type                                                                                      
+// 1 line per SM type, the number of entries for each line should match                                                             
+// the number of RPCs defined in (2)                                                                                                
+// !!!! this parameter HAS to match the value used in the geometry !!!!                                                             
+//  0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15                                                    
+NbGaps000: Int_t \                                                                                                                    
+    8    8    8    8    8
+NbGaps001: Int_t \                                                                                                                   
+    8    8    8    8    8
+NbGaps002: Int_t \                                                                                                              
+    8    8    8
+NbGaps003: Int_t \                                                                                                                    
+    8    8    8    8    8
+NbGaps004: Int_t \                                                                                                                    
+    8    8    8    8    8
+NbGaps005: Int_t \                                                                                                                    
+    8    8                                                                          
+// Gap Size in mm per RPC for each SM type, including the glass type
+// 1 line per SM type, the number of entries for each line should match                                                             
+// the number of RPCs defined in (2)                                                                                                
+// !!!! this parameter HAS to match the value used in the geometry !!!!                                                             
+//  0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15                                                    
+GapSize000: Double_t \                                                                                                                    
+ 1.25 1.25 1.25 1.25 1.25
+GapSize001: Double_t \                                                                                                                 
+ 1.25 1.25 1.25 1.25 1.25
+GapSize002: Double_t \                                                                                                            
+ 1.25 1.25 1.25
+GapSize003: Double_t \                                                                                                                 
+ 1.25 1.25 1.25 1.25 1.25
+GapSize004: Double_t \                                                                                                                 
+ 1.25 1.25 1.25 1.25 1.25
+GapSize005: Double_t \                                                                                                              
+ 1.25 1.25
+// Number of channels per RPC for each SM type                                                                                      
+// 1 line per SM type, the number of entries for each line should match                                                             
+// the number of RPCs defined in (2)                                                                                                
+// !!!! this parameter HAS to match the value used in the geometry !!!!                                                             
+//  0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15                                                    
+NbCh000: Int_t \                                                                                                                    
+   32   32   32   32   32                                                                                                           
+NbCh001: Int_t \                                                                                                                    
+   32   32   32   32   32                                                                                                           
+NbCh002: Int_t \                                                                                                                    
+   52   52   52                                                                                                                     
+NbCh003: Int_t \                                                                                                                    
+   96   96   96   96   96                                                                                                           
+NbCh004: Int_t \                                                                                                                    
+   96   96   96   96   96                                                                                                           
+NbCh005: Int_t \                                                                                                                    
+   96   96                                                                                                                          
+// Type of readout channel for each rpc for each SM type                                                                            
+// 0 = strip (readout on both end), 1 = pad (readout on 1 side)
+// 1 line per SM type, the number of entries for each line should match
+// the number of RPCs defined in (2)
+// !!!! this parameter HAS to match the value used in the geometry !!!!
+//  0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15
+ChType000: Int_t \
+    0    0    0    0    0
+ChType001: Int_t \
+    0    0    0    0    0
+ChType002: Int_t \
+    0    0    0
+ChType003: Int_t \
+    0    0    0    0    0
+ChType004: Int_t \
+    0    0    0    0    0
+ChType005: Int_t \
+    0    0
+// Orientation of the channels/rpc
+// 0 = Vertical strips or horizontal pad row
+// 1 = Horizontal strips or vertical pad row
+// ASCII example for pad case:
+//               -----------------
+//  row 1        | 7 | 6 | 5 | 4 |          y
+//               -----------------          ^
+//  row 0        | 0 | 1 | 2 | 3 |          |
+//               -----------------           --> x
+// or vertical   ---------
+//               | 4 | 3 |
+//               ---------
+//               | 5 | 2 |
+//               ---------
+//               | 6 | 1 |
+//               ---------
+//               | 7 | 0 |
+//               ---------
+//        row      1   0
+// 1 line per SM type, the number of entries for each line should match
+// the number of RPCs defined in (2)
+// !!!! this parameter HAS to match the value used in the geometry !!!!
+//  0    1    2    3    4    5    6    7    8    9   10   11   12   13   14   15
+ChOrientation000: Int_t \
+    0    0    0    0    0
+ChOrientation001: Int_t \
+    0    0    0    0    0
+ChOrientation002: Int_t \
+    0    0    0
+ChOrientation003: Int_t \
+    0    0    0    0    0
+ChOrientation004: Int_t \
+    0    0    0    0    0
+ChOrientation005: Int_t \
+    0    0
+// ----------------------------------------------------------------------------------------//
+// ------------------------- Beamtime variables -------------------------------------------//
+// Name of the root file holding the values/histograms extracted from beamtime data
+BeamInputFile: Text_t ./test_bdf_input.root
+// Model to use for the cluster radius distribution
+// (not used for Cluster Model 0)
+// -1 = Fixed value at 0.0002 to get a cluster size as close to 1 as possible,
+//      Combined with a MaxTimeDistClust at clustering of 0.0001ns, should emulate hit producer
+//  0 = fixed value from beam data mean, 
+//  1 = Landau distrib. with fixed param, 
+//  2 = Landau distrib. with params extracted from fit on beam data
+ClusterRadiusModel: Int_t    1
+// Mapping between geometry SM type and SM types in the beamtime file
+// The number of entries should match (1), the number of types in geometry
+//  0    1    2    3    4    5    6    7    8    9
+SmTypeInpMapp: Int_t \
+    0    0    0    0    0    0
+// "Most Probable Value" setting of the Landau distribution used to modelize the cluster radius
+// Used if ClusterRadiusModel = 1 and as default in case of fit failure if ClusterRadiusModel = 2
+// The number of entries should match (1), the number of types in geometry
+RadiusLandauMpv: Double_t \
+ 0.06 0.06 0.06 0.06 0.06 0.06
+// "Sigma (scale)" setting of the Landau distribution used to modelize the cluster radius
+// Used if ClusterRadiusModel = 1 and as default in case of fit failure if ClusterRadiusModel = 2
+// Empirical best: 1/3 of MPV
+// The number of entries should match (1), the number of types in geometry
+RadLandauSigma: Double_t \
+ 0.02 0.02 0.02 0.02 0.02 0.02
+// ----------------------------------------------------------------------------------------//
+// ------------------------- Simple clusterizer -------------------------------------------//
+// Switch what to use for the multiplicity flag in TofHit
+// 0 = number of different TofPoints generating the cluster 
+// 1 = number of different TrackId generating the cluster
+// Both should be equivalent when using 
+MulUseTrkId: Int_t          1
+// Maximal Time distance between current Digi pair (L+R) and the last Digi pair (L+R) in cluster
+// in [ns]
+// If -1 a values of 5*0.08 = 0.4 will be used instead (5*Nominal System Resolution)
+MaxTimeDistClust: Double_t  -1.0
+//MaxTimeDistClust: Double_t  0.0001
+// Maximal distance along the channel direction (Y for vertical strips) between current 
+// Digi pair (L+R) and the last Digi pair (L+R) in cluster
+//  in [cm along channel] 
+// "Nominal" Res. (80ps) * Prop. speed ~ 1.44
+// sqrt(2)*Fee Res. (40ps) * Prop. speed ~ 1
+MaxSpaceDistClust: Double_t 2.5
+####################################################################################################

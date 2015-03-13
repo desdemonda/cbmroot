@@ -1,0 +1,159 @@
+/**
+
+\page littrack_std Standard tracking implementation
+
+\section littrack_stdsection1 Interfaces
+For flexibility littrack has a set of abstract interfaces for all main track reconstruction tools. They are:
+
+\li \c CbmLitField: access to the magnetic field map.
+\li \c CbmLitGeoNavigator: navigation in the detector geometry.
+\li \c CbmLitHitToTrackMerger: hit-to-track merging.
+\li \c CbmLitMaterialEffects: calculation of the material effects (energy losses and multiple scattering).
+\li \c CbmLitTrackExtrapolator: extrapolation of tracks without taking into account material effects.
+\li \c CbmLitTrackFinder: finding of tracks.
+\li \c CbmLitTrackFitter: fitting of tracks.
+\li \c CbmLitTrackPropagator: propagation of tracks taking into account material effects using \c CbmLitTrackExtrapolator,\c CbmLitMaterialEffects,\c CbmLitGeoNavigator.
+\li \c CbmLitTrackSelection: selection of tracks.
+\li \c CbmLitTrackUpdate: update of track parameters using Kalman Filter.
+\li \c CbmLitWeightCalculator: calculation of hit weights.
+\li \c CbmLitWeightedHitCalculator: calculation of weighted mean hit.
+
+Each interface has a corresponding type definition in \c CbmLitPtrTypes.h header.
+
+Concrete algorithm objects are created via tool factory \c CbmLitToolFactory which implements singleton pattern. 
+
+Example of creation of different tracking tools is shown below:
+
+\code 
+CbmLitToolFactory* factory = CbmLitToolFactory::Instance();
+TrackPropagatorPtr propagator = factory->CreateTrackPropagator("lit");
+TrackUpdatePtr filter = factory->CreateTrackUpdate("kalman");
+TrackFitterPtr fitter = factory->CreateTrackFitter("lit_kalman");
+TrackFitterPtr smoother = factory->CreateTrackFitter("kalman_smoother");
+\endcode
+
+
+\section littrack_stdsection2 Detector layout classes
+The detector layout classes are used in the tracking for a simplified 
+description of the detector layout like positions of different detection 
+elements. NOTE that they do not describe detector material which is needed 
+for track propagation. For this TGeo is used.
+
+The detector layout as it is used in the tracking have a certain structure 
+which is shown on the picture below. The detector layout consists of station 
+groups, each station group consists of stations and each station consists of 
+substations. Station groups are detector elements which located far away from 
+each other (for example three TRD stations) or there is an absorber in between 
+(for example MUCH). Stations represents one detector plane. Substations are 
+needed because of the staggered detector structure, i.e. detector modules 
+located on different z positions.
+
+\image html ./detector_layout.png "Detector layout"
+\image latex detector_layout.eps "Detector layout"
+
+The following classes implement this detector structure:
+\li \c CbmLitDetectorLayout
+\li \c CbmLitStationGroup
+\li \c CbmLitStation
+\li \c CbmLitSubstation
+
+The conversion of the Monte-Carlo geometry stored in TGeo format to the 
+\c CbmLitDetectorLayout format is performed in the \c CbmLitEnvironment class. 
+It provides a set of functions for conversion of the TRD, MUCH and TOF geometries 
+to the detector layout understandable for tracking. \c CbmLitEnvironment implements 
+singleton pattern one can access it from any part of the program.
+
+Example of getting different layouts:
+\code 
+CbmLitEnvironment* env = CbmLitEnvironment::Instance();
+const CbmLitDetectorLayout& layout = env->GetLayout(); // Returns detector layout for MUCH, TRD or MUCH+TRD depending on the detectors used in the simulation
+const CbmLitDetectorLayout& muchLayout = env->GetMuchLayout(); // Returns MUCH layout
+const CbmLitDetectorLayout& trdLayout = env->GetTrdLayout(); // Returns TRD layout
+\endcode
+
+\section littrack_stdsection3 Data classes
+
+Data classes provide access to hit, track, track parameters and other information. 
+They optimize for faster and more convenient dynamic access unlike CBMROOT
+data classes mainly optimize for storage.
+
+\li \c CbmLitHit - base class for hits
+\li \c CbmLitStripHit - strip like hit
+\li \c CbmLitPixelHit - pixel like hit
+\li \c CbmLitTrackParam - track parameters and its covariance matrix
+\li \c CbmLitTrack - track
+\li \c CbmLitFitNode - fit node stores predicted, updated and smoothed track parameters during track fit for each station
+
+\section littrack_stdsection4 Track propagation
+
+The track propagation algorithm estimates the trajectory and its errors in a 
+covariance matrix while taking into account three physics effects which influence 
+the trajectory, i.e. energy loss, multiple scattering and the influence of a magnetic field.
+
+All track propagation algorithms has to implement \c CbmLitTrackPropagator interface. 
+Track propagation algorithm is decomposed in three main components: track extrapolation 
+which has to implement \c CbmLitTrackExtrapolator interface, material effects calculator 
+which has to implement \c CbmLitMaterialEffects interface and geometry navigator which 
+has to implement \c CbmLitGeoNavigator interface. 
+
+The extrapolation of the trajectory is done according to the equation of motion. 
+If the track passes a magnetic field the equation of motion for a charged particle 
+is solved applying the 4th order Runge-Kutta method and the transport matrix is calculated 
+by integrating the derivatives along the so called zero trajectory (implemented in 
+\c CbmLitRK4TrackExtrapolator class). If passing a field free region a straight line 
+is used for extrapolation and the transport matrix calculation (implemented in 
+\c CbmLitLineTrackExtrapolator class). \c CbmLitCleverTrackExtrapolator class automatically 
+determines what type of track extrapolation to use (\c CbmLitRK4TrackExtrapolator or 
+\c CbmLitLineTrackExtrapolator) depending on the presence of the magnetic field. 
+
+The influence of the material on the track momentum is taken into account by calculating 
+the expected average energy loss due to ionization (Bethe-Bloch formula) and bremsstrahlung 
+(Bethe-Heitler formula). The influence on the error, i.e. the covariance matrix due to 
+multiple scattering is included by adding process noise in the track propagation. Here, 
+a gaussian approximation using the Highland formula is used to estimate the average scattering 
+angle. The implementation of the material effects calculation is done in the \c CbmLitMaterialEffectsImp. 
+
+In order to include material effects correctly in the track propagation algorithm one needs to 
+identify which materials in the complex detector geometry have been traversed by the particle. 
+The track length has to be calculated, material properties need to be known etc. This is done 
+by the geometry navigation algorithm which finds intersection points with detector elements 
+in a certain interval (z1 , z2 ) along a straight line. The implementation of the navigation 
+is based on the ROOT geometry package TGeo in the \c CbmLitTGeoNavigator. 
+
+\section littrack_stdsection5 Track fit
+
+All track fitter algorithms has to implement \c CbmLitTrackFitter interface. Kalman filter based 
+track fitting algorithms may use track propagation within \c CbmLitTrackPropagator interface and 
+Kalman filter update within \c CbmLitTrackUpdate interface. 
+
+Currently all implemented track fitter algorithms are based on Kalman filter method:
+\li \c CbmLitTrackFitterImp - standard Kalman filter impelemtation
+\li \c CbmLitKalmanSmoother - standard Kalman smoother implementation
+\li \c CbmLitTrackFitterIter - iterative Kalman Filter consisting of forward and backward track fit and outliers removing.
+\li \c CbmLitTrackFitterWeight - iterative Kalman filter using weight calculation. Similar to DAF but can use different weight functions.
+
+\section littrack_stdsection6 Track finding
+
+<b>UNDER CONSTRUCTION</b>
+
+\section littrack_stdsection7 Track selection
+
+All track selection algorithms implement \c CbmLitTrackSelection interface. 
+The input to the track selection is an array of tracks which algorithm has to classify as "good" or "bad".
+
+Several base track selection algorithms have been implemented:
+\li \c CbmLitTrackSelectionCuts - cut based track selection (chi square, momentum, number of hits etc.);
+\li \c CbmLitTrackSelectionEmpty - does no track selection, implemented for convenience;
+\li \c CbmLitTrackSelectionSameSeed - selects the best track for each subset of tracks with the same previous track index;
+\li \c CbmLitTrackSelectionSharedHits - removes clone and ghost tracks sorting by quality and checking of shared hits;
+\li \c CbmLitTrackSelectionShortTracks - removes short track which have a longer track with the same set of hits;
+\li \c CbmLitQualitySort - sorts track array by a quality criterion based on chi square and number of hits in track.
+
+Detector specific track selection combines basic algorithms with different parameters:
+\li \c CbmLitTrackSelectionMuch - performs final track selection in MUCH tracking;
+\li \c CbmLitTrackSelectionTrd - performs final track selection in TRD tracking.
+
+
+
+
+*/

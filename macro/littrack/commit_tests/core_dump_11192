@@ -1,0 +1,30 @@
+ Generating stack trace...
+ 0x000000010f66be72 in CbmFieldMap::Init() (in libField.so) (CbmFieldMap.cxx:268)
+ 0x000000010e6b076c in FairRunSim::Init() (in libBase.so) (FairRunSim.cxx:196)
+ 0x000000010e75634a in G__G__BaseDict_779_0_5(G__value*, char const*, G__param*, int) (in libBase.so) (G__BaseDict.cxx:11673)
+ 0x0000000109d4a234 in Cint::G__ExceptionWrapper(int (*)(G__value*, char const*, G__param*, int), G__value*, char*, G__param*, int) (in libCint.5.so) + 148
+ 0x0000000109e84b72 in G__execute_call (in libCint.5.so) + 98
+ 0x0000000109e854b6 in G__call_cppfunc (in libCint.5.so) + 1830
+ 0x0000000109e42bf5 in G__interpret_func (in libCint.5.so) + 4965
+ 0x0000000109e24ffd in G__getfunction (in libCint.5.so) + 9965
+ 0x0000000109fc8b24 in G__getstructmem(int, G__FastAllocString&, char*, int, char*, int*, G__var_array*, int) (in libCint.5.so) + 4884
+ 0x0000000109fb785b in G__getvariable (in libCint.5.so) + 3243
+ 0x0000000109e13afc in G__getitem (in libCint.5.so) + 2732
+ 0x0000000109e12424 in G__getexpr (in libCint.5.so) + 87268
+ 0x0000000109edd12f in G__exec_function(G__FastAllocString&, int*, int*, int*, G__value*) (in libCint.5.so) + 383
+ 0x0000000109ed2479 in G__exec_statement (in libCint.5.so) + 32121
+ 0x0000000109e46150 in G__interpret_func (in libCint.5.so) + 18624
+ 0x0000000109e25f82 in G__getfunction (in libCint.5.so) + 13938
+ 0x0000000109e13bdd in G__getitem (in libCint.5.so) + 2957
+ 0x0000000109e12424 in G__getexpr (in libCint.5.so) + 87268
+ 0x0000000109dfce75 in G__calc_internal (in libCint.5.so) + 1237
+ 0x0000000109ee89a6 in G__process_cmd (in libCint.5.so) + 20342
+ 0x000000010939a31e in TCint::ProcessLine(char const*, TInterpreter::EErrorCode*) (in libCore.5.so) + 622
+ 0x000000010939ab7f in TCint::ProcessLineSynch(char const*, TInterpreter::EErrorCode*) (in libCore.5.so) + 191
+ 0x000000010929b4fc in TApplication::ExecuteFile(char const*, int*, bool) (in libCore.5.so) + 5644
+ 0x0000000109299ee0 in TApplication::ProcessFile(char const*, int*, bool) (in libCore.5.so) + 48
+ 0x00000001092998f8 in TApplication::ProcessLine(char const*, bool, int*) (in libCore.5.so) + 3960
+ 0x000000010a5a405b in TRint::Run(bool) (in libRint.5.so) + 2155
+ 0x0000000109289b57 in main (in root.exe) + 135
+ 0x00007fff8c2395fd in start (in libdyld.dylib) + 1
+ 0x0000000000000006 in <unknown function>

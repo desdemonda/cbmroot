@@ -1,0 +1,15 @@
+/* FILE HEADER STARTS
+name := gradingPTable								/* Name of the look up table
+usage := Table for grading the MC input of the histogram signatures		/* Usage of the look up table
+numberOfEntries := 3								/* Number of entries in the look up table
+/**/ structureSeparator := TABULATOR						/* The separator for the members of the data structure
+/**/ blockSeparator := NEWLINE							/* The separator for the blocks of the data
+/**/ content := Signature => Classification					/* The content of the file
+/**/ format := [Radix]x[Number][TABULATOR][Radix]x[Number]NEWLINE		/* The format for an entry in the file
+/* FILE HEADER STOPS
+/* 
+/* FILE DATA STARTS
+2x011111	10x2
+2x101111	10x2
+2x111111	10x3
+/* FILE DATA STOPS

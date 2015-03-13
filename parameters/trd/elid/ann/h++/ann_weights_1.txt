@@ -1,0 +1,14 @@
+#input normalization
+1 0
+#output normalization
+1 0
+#neurons weights
+0
+-82.338
+-12.9723
+-0.90925
+#synapses weights
+88.2869
+15.4302
+1.08029
+0.781752

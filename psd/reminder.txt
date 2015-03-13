@@ -1,0 +1,6 @@
+- CbmPsdHitProducer and CbmPsdIdealDigitizer independant of number of
+modules (transverse granularity) ... 
+
+- ... up to 48 mods (in current version)
+
+- ! can be extended to arbitrary large number of modules !

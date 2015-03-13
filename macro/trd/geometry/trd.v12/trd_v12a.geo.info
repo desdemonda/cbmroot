@@ -1,0 +1,22 @@
+TRD geometry v12a
+D. Emschermann, September 2012
+
+Derived from v11a, removed last 2 layers, total number of TRD modules to 708
+Polyethylene foam used as radiator material
+
+Number of stations: 3
+Number of layers per station: 4/4/2
+Planar geometry
+Gas thickness 12 mm
+
+Inner Radius of station 1: 240.000000
+Outer Radius of station 1: 4600.000000
+z-position at the middle of the station 1: 4800.000000
+
+Inner Radius of station 2: 240.000000
+Outer Radius of station 2: 6600.000000
+z-position at the middle of the station 2: 7050.000000
+
+Inner Radius of station 3: 490.000000
+Outer Radius of station 3: 8600.000000
+z-position at the middle of the station 3: 9300.000000

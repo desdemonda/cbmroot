@@ -1,0 +1,41 @@
+# Input file for the manual segmentation procedure
+#
+#
+
+# General information
+Number of stations          :   6
+
+# Station specification
+Number of channels          :  64      64      64      64      64      64
+Number of regions           :   4       1       1       1       1       1
+
+# Station 1
+Region radii [cm]           :   20     40      60      90
+Pad width [cm]              :  0.2    0.4     0.8     1.6
+Pad length [cm]             :  0.2    0.4     0.8     1.6
+
+# Station 2
+Region radii [cm]           :  110
+Pad width [cm]              :  1.6
+Pad length [cm]             :  1.6
+
+# Station 3
+Region radii [cm]           :  130
+Pad width [cm]              :  1.6
+Pad length [cm]             :  1.6
+
+# Station 4
+Region radii [cm]           :  155
+Pad width [cm]              :  1.6
+Pad length [cm]             :  1.6
+
+# Station 5
+Region radii [cm]           :  185
+Pad width [cm]              :  1.6
+Pad length [cm]             :  1.6
+
+# Station 6
+Region radii [cm]           :  250
+Pad width [cm]              :  1.6
+Pad length [cm]             :  1.6
+

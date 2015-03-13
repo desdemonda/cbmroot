@@ -1,0 +1,65 @@
+SIS-300. Beam pipe geometry created with create_bpipe_geometry_v14j.C
+
+ The beam pipe is composed of aluminium (excluding STS section (220-1700mm) 
+ made of beryllium with constant thickness 0.5mm) with a thickness 
+ proportional to the diameter (D(z)mm/60). It is placed directly into the 
+ cave as mother volume. The beam pipe consists of few sections excluding 
+ RICH section (1700-3700mm) because it is part of the RICH geometry. Each 
+ section has a PCON shape (including windows). There are two windows: first 
+ one @ 220mm with R600mm and 0.7mm thickness, second one of iron @ 8800mm 
+ with R600mm and 0.2mm thickness. The STS section is composed of cylinder 
+ D(z=220-500mm)=22mm and cone (z=500-1700mm). The STS (conical part) and 
+ RICH sections have half opening angle 1.6deg as a result of optimization. 
+ For downstream detectors the half opening angle of sections is left the 
+ same (2.5deg) as in SIS-100 and section have cylindrical shape at z=6000-
+ 8800mm - it must be regarded as an intermediate iteration, expecting 
+ feedback from subdetectors' groups. The PSD section of the beam pipe is 
+ missing because it is planned that it will be part of PSD geometry.
+
+Material:  aluminium
+Thickness: D(z)mm/60
+
+
+Beam pipe section: pipe1 - vacuum chamber
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    -50.00     25.00     25.70      0.70
+ 2     25.00     25.00     25.70      0.70
+ 3     35.00    130.00    130.70      0.70
+ 4    230.17    130.00    130.70      0.70
+ 5    230.17    110.00    130.70     20.70
+ 6    230.87    110.00    130.70     20.70
+
+Beam pipe section: pipe2 - first window @ 220mm, h=0.5mm, R=600mm, material: beryllium
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    220.00     11.00     11.00      0.00
+ 2    220.50     11.00     23.66     12.66
+ 3    221.25     30.00     36.66      6.66
+ 4    223.51     60.00     63.97      3.97
+ 5    227.29     90.00     92.96      2.96
+ 6    230.17    107.04    110.00      2.96
+ 7    230.67    110.00    110.00      0.00
+
+Beam pipe section: pipe3 - STS section, material: beryllium
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    220.00     10.50     11.00      0.50
+ 2    530.00     10.50     11.00      0.50
+ 3   1250.00     34.40     34.90      0.50
+ 4   1700.00     47.00     47.50      0.50
+
+Beam pipe section: pipe5 - TRD & TOF section
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1   3700.00     99.90    161.60     61.70
+ 2   3702.00     99.90    161.60     61.70
+ 3   3702.00    156.20    161.60      5.40
+ 4   6000.00    253.27    262.00      8.73
+ 5   8800.00    253.27    262.00      8.73
+
+Beam pipe section: pipe6 - second window @ 6000mm, h=0.2mm, R=600mm, material: iron
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1   8743.24      0.00      0.00      0.00
+ 2   8743.44      0.00      3.42      3.42
+ 3   8747.34     66.58     70.00      3.42
+ 4   8759.80    138.88    140.00      1.12
+ 5   8781.19    209.35    210.00      0.65
+ 6   8799.80    252.28    253.27      0.99
+ 7   8800.00    253.27    253.27      0.00

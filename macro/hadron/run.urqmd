@@ -1,0 +1,8 @@
+#!/bin/bash
+
+root -l << EOF
+.L run.urqmd.C
+run_urqmd(25, 0)
+.q
+EOF
+

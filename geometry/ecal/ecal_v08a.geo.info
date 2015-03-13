@@ -1,0 +1,8 @@
+ecal_v08a
+
+(old name: ecal_FullMC.geo)
+
+Full-size calorimeter at z = 12m
+Area 12 m x 9.6 m
+Total thickness is 25 radiation lengths + preshower (1.5 rad. length)
+

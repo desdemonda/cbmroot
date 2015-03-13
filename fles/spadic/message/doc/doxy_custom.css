@@ -1,0 +1,18 @@
+.memname {
+    font-family: monospace;
+}
+
+.memItemLeft, .memItemRight,
+.memTemplItemLeft, .memTemplItemRight, .memTemplParams {
+    font-family: monospace;
+}
+
+a.el {
+    font-family: monospace;
+    font-weight: normal;
+}
+
+span.lineno {
+    color: #A0A0A0;
+    border-right: 0px;
+}

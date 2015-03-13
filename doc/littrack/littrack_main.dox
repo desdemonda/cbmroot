@@ -1,0 +1,20 @@
+/**
+
+\page littrack_main Main page of littrack documentation
+
+The littrack package is a part of CBMROOT framework. It provides track reconstruction in the 
+transition radiation detector (TRD) and muon system (MUCH), track merging between STS, TRD and
+MUCH, TOF hit merging and finally it constructs global tracks based on this information.
+
+For convenience and in order to decrease the dependencies between different parts of the
+littrack the package is divided into four main parts:
+
+\li \ref littrack_cbm - everything that is related to interface of the tracking software to CBMROOT, quality checks etc.
+\li \ref littrack_std - "standard" scalar implementation of the tracking using full magnetic field map and TGeo for geometry navigation. It depends on ROOT and does not depend on CBMROOT.
+\li \ref littrack_parallel - SIMDized and multithreaded implementation of the tracking. It depends only on the compiler and can be used in standalone mode for performance testing.
+\li \ref littrack_cuda - currently not so much progress in this direction...only few test implementations...
+
+littrack also provides a list of \ref littrack_macro "ROOT-macros" to run the track reconstruction and 
+perform \ref littrack_qa "quality checks". 
+
+*/

@@ -1,0 +1,140 @@
+#
+##   trd_v14b300 information file
+#
+
+# created 20140505
+
+# envelope
+   0 cm   start of TRD (z)
+ 460 cm   end   of TRD (z)
+
+# thickness
+  45 cm   per single layer (z)
+
+# extra gaps
+   0   0   0   0   5   0   0   0   5   0    extra gaps in z (cm)
+
+# generated TRD layers
+  1  2  3  4  5  6  7  8  9 10    planeID
+
+# dimensions in x
+ -332 cm to   332 cm x-dimension of layer  1
+ -332 cm to   332 cm x-dimension of layer  2
+ -332 cm to   332 cm x-dimension of layer  3
+ -332 cm to   332 cm x-dimension of layer  4
+ -427 cm to   427 cm x-dimension of layer  5
+ -427 cm to   427 cm x-dimension of layer  6
+ -427 cm to   427 cm x-dimension of layer  7
+ -427 cm to   427 cm x-dimension of layer  8
+ -522 cm to   522 cm x-dimension of layer  9
+ -522 cm to   522 cm x-dimension of layer 10
+
+# dimensions in y
+ -237 cm to   237 cm y-dimension of layer  1
+ -237 cm to   237 cm y-dimension of layer  2
+ -237 cm to   237 cm y-dimension of layer  3
+ -237 cm to   237 cm y-dimension of layer  4
+ -332 cm to   332 cm y-dimension of layer  5
+ -332 cm to   332 cm y-dimension of layer  6
+ -332 cm to   332 cm y-dimension of layer  7
+ -332 cm to   332 cm y-dimension of layer  8
+ -427 cm to   427 cm y-dimension of layer  9
+ -427 cm to   427 cm y-dimension of layer 10
+
+# z-positions of layer front
+    0 cm   z-position of layer  1
+   45 cm   z-position of layer  2
+   90 cm   z-position of layer  3
+  135 cm   z-position of layer  4
+  185 cm   z-position of layer  5
+  230 cm   z-position of layer  6
+  275 cm   z-position of layer  7
+  320 cm   z-position of layer  8
+  370 cm   z-position of layer  9
+  415 cm   z-position of layer 10
+
+# flags
+support structure is    : included
+radiator is             : included
+lattice grid is         : included
+asics are               : included
+front-end boards are    : included
+GBTX readout boards are : NOT included
+
+# modules
+     mod1     mod2     mod3     mod4     mod5     mod6     mod7     mod8    total
+---------------------------------------------------------------------------------
+        8        2        6        8        0        2       10       14            layer  1
+        8        2        6        8        0        2       10       14            layer  2
+        8        2        6        8        0        2       10       14            layer  3
+        8        2        6        8        0        2       10       14            layer  4
+        4        6        6        8        0       12        0       42            layer  5
+        4        6        6        8        0       12        0       42            layer  6
+        4        6        6        8        0       12        0       42            layer  7
+        4        6        6        8        0       12        0       42            layer  8
+        8       16        0        0        0       12       24       54            layer  9
+        8       16        0        0        0       12       24       54            layer 10
+
+---------------------------------------------------------------------------------
+       64       64       48       64        0       80       88      332      740   number of modules
+# febs
+        6u       5s       6        4       12        6        4        3            FEBs per module
+      384u                                                                    384   ultimate  FEBs
+               320s                                                           320   super     FEBs
+                        288      256        0      480      352      996     2372   regular   FEBs
+      384      320      288      256        0      480      352      996     3076   number of FEBs
+# asics
+       15       10        5        5        8        8        8        8            ASICs per FEB
+       90       50       30       20       96       48       32       24            ASICs per module
+     5760     3200     1440     1280        0     3840     2816     7968    26304   number of ASICs
+# channels
+     2880     1600      960      640     3072     1536     1024      768            channels per module
+      480      320      160      160      256      256      256      256            channels per feb
+   184320   102400    46080    40960        0   122880    90112   254976   841728   channels used
+   184320u  102400s   46080    40960        0   122880    90112   254976   841728   channels available
+    21.9%u   12.2%s   65.9%r                                                        channel ratio
+
+   100.0%   channel efficiency
+
+ 529.23 m2      total surface    
+ 506.38 m2      total active area
+   6.08 m3      total gas volume 
+   6.02 cm2/ch  average channel size
+1662.26 ch/m2   channels per m2 active area
+
+# gas volume position
+   31.6000 cm   position of gas volume - layer  1
+   76.6000 cm   position of gas volume - layer  2
+  121.6000 cm   position of gas volume - layer  3
+  166.6000 cm   position of gas volume - layer  4
+  216.6000 cm   position of gas volume - layer  5
+  261.6000 cm   position of gas volume - layer  6
+  306.6000 cm   position of gas volume - layer  7
+  351.6000 cm   position of gas volume - layer  8
+  401.6000 cm   position of gas volume - layer  9
+  446.6000 cm   position of gas volume - layer 10
+
+# angles of acceptance
+v: 82.27 deg, h: 84.47 deg - vertical/horizontal - layer  1
+v: 71.99 deg, h: 76.93 deg - vertical/horizontal - layer  2
+v: 62.77 deg, h: 69.82 deg - vertical/horizontal - layer  3
+v: 54.85 deg, h: 63.30 deg - vertical/horizontal - layer  4
+v: 56.84 deg, h: 63.06 deg - vertical/horizontal - layer  5
+v: 51.74 deg, h: 58.48 deg - vertical/horizontal - layer  6
+v: 47.26 deg, h: 54.30 deg - vertical/horizontal - layer  7
+v: 43.35 deg, h: 50.51 deg - vertical/horizontal - layer  8
+v: 46.75 deg, h: 52.41 deg - vertical/horizontal - layer  9
+v: 43.71 deg, h: 49.44 deg - vertical/horizontal - layer 10
+
+# inner aperture
+v: 41.49 deg, h: 41.49 deg - vertical/horizontal - layer  1
+v: 20.26 deg, h: 20.26 deg - vertical/horizontal - layer  2
+v: 13.13 deg, h: 13.13 deg - vertical/horizontal - layer  3
+v:  9.67 deg, h:  9.67 deg - vertical/horizontal - layer  4
+v:  7.47 deg, h:  7.47 deg - vertical/horizontal - layer  5
+v:  6.20 deg, h:  6.20 deg - vertical/horizontal - layer  6
+v:  5.30 deg, h:  5.30 deg - vertical/horizontal - layer  7
+v:  4.63 deg, h:  4.63 deg - vertical/horizontal - layer  8
+v:  6.74 deg, h:  6.74 deg - vertical/horizontal - layer  9
+v:  6.06 deg, h:  6.06 deg - vertical/horizontal - layer 10
+

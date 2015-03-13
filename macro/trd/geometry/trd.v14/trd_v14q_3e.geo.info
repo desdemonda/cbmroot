@@ -1,0 +1,77 @@
+#
+##   trd_v14q_3e information file
+#
+
+# created 20140604
+
+# envelope
+ 410 cm   start of TRD (z)
+ 455 cm   end   of TRD (z)
+
+# thickness
+  45 cm   per single layer (z)
+
+# extra gaps
+   0    extra gaps in z (cm)
+
+# generated TRD layers
+  1    planeID
+
+# dimensions in x
+ -332 cm to   332 cm x-dimension of layer  1
+
+# dimensions in y
+ -237 cm to   237 cm y-dimension of layer  1
+
+# z-positions of layer front
+  410 cm   z-position of layer  1
+
+# flags
+support structure is    : NOT included
+radiator is             : NOT included
+lattice grid is         : NOT included
+asics are               : included
+front-end boards are    : NOT included
+GBTX readout boards are : NOT included
+
+# modules
+     mod1     mod2     mod3     mod4     mod5     mod6     mod7     mod8    total
+---------------------------------------------------------------------------------
+        1        0        0        0        0        0        0        0            layer  1
+
+---------------------------------------------------------------------------------
+        1        0        0        0        0        0        0        0        1   number of modules
+# febs
+        6u       5s       6        4       12        6        4        3            FEBs per module
+        6u                                                                      6   ultimate  FEBs
+                 0s                                                             0   super     FEBs
+                          0        0        0        0        0        0        0   regular   FEBs
+        6        0        0        0        0        0        0        0        6   number of FEBs
+# asics
+       15       10        5        5        8        8        8        8            ASICs per FEB
+       90       50       30       20       96       48       32       24            ASICs per module
+       90        0        0        0        0        0        0        0       90   number of ASICs
+# channels
+     2880     1600      960      640     3072     1536     1024      768            channels per module
+      480      320      160      160      256      256      256      256            channels per feb
+     2880        0        0        0        0        0        0        0     2880   channels used
+     2880u       0s       0        0        0        0        0        0     2880   channels available
+   100.0%u    0.0%s    0.0%r                                                        channel ratio
+
+   100.0%   channel efficiency
+
+   0.32 m2      total surface    
+   0.31 m2      total active area
+   0.00 m3      total gas volume 
+   1.07 cm2/ch  average channel size
+9349.89 ch/m2   channels per m2 active area
+
+# gas volume position
+  441.6000 cm   position of gas volume - layer  1
+
+# angles of acceptance
+v: 28.24 deg, h: 36.94 deg - vertical/horizontal - layer  1
+
+# inner aperture
+v:  3.69 deg, h:  3.69 deg - vertical/horizontal - layer  1
+

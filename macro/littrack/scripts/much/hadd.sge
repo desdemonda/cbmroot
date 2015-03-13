@@ -1,0 +1,24 @@
+#$ -wd /tmp 
+#$ -j y
+
+dir=/hera/cbm/users/andrey/mc/much/${geometry}/${background}${particle}/auau/${energy}/${centrality}
+
+source /hera/cbm/users/andrey/cbmroot/jul13/build/config.sh
+
+#for i in {0..50..1}
+#do
+#  XXX=$(printf "%03d" "$i")
+#  outfile=${dir}/analysis.auau.6gev.mbias.temp-all.${XXX}.root
+#  infiles=${dir}/analysis.auau.6gev.mbias.${XXX}*.root
+#  echo "Adding histograms ${XXX}: input=${infiles}, output=${outfile}"
+#  hadd  -T -f -k ${outfile} ${infiles}
+#done
+
+outfile=${dir}/qa.auau.${energy}.${centrality}.all.root
+infiles=${dir}/qa.auau.${energy}.${centrality}.*.root
+hadd -T -f -k ${outfile} ${infiles}
+
+cp -v ${SGE_STDOUT_PATH} ${outdir}/log/qa.${JOB_ID}.${SGE_TASK_ID}.log
+
+
+  

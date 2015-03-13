@@ -1,0 +1,68 @@
+Beam pipe geometry created with create_bpipe_geometry_v13e_rich.C
+
+ The beam pipe is composed of aluminium with a thickness proportional to the
+ diameter (0.017*D(z)mm). It is placed directly into the cave as mother 
+ volume. The beam pipe consists of few sections excluding RICH section
+ (1700-4000mm) because it is part of the RICH geometry. Each section has a 
+ PCON shape (including windows). There are two windows: first one @ 220mm 
+ with R600mm and 0.7mm thickness, second one @ 6000mm with R800mm and 3mm 
+ thickness. The last three sections (and second window @ 6000mm) of beam 
+ pipe (1700-15000mm) are rotated by an angle of 1.25 degree relative to 
+ point (0,0,1700) mm and the OY axis, following the bend of the ions in the 
+ magnetic field (field_v12b was used).
+
+Material:  aluminium
+Thickness: 0.017*D(z) mm
+
+
+Beam pipe section: pipe1 - vacuum chamber
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    -50.00     25.00     25.70      0.70
+ 2     25.00     25.00     25.70      0.70
+ 3     35.00    130.00    130.70      0.70
+ 4    230.17    130.00    130.70      0.70
+ 5    230.17    110.00    130.70     20.70
+ 6    230.87    110.00    130.70     20.70
+
+Beam pipe section: pipe2 - first window @ 220mm, h=0.7mm, R=600mm
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    220.00     18.00     18.00      0.00
+ 2    220.70     18.00     28.69     10.69
+ 3    221.45     30.00     39.30      9.30
+ 4    223.71     60.00     65.55      5.55
+ 5    227.49     90.00     94.14      4.14
+ 6    230.17    105.86    110.00      4.14
+ 7    230.87    110.00    110.00      0.00
+
+Beam pipe section: pipe3 - STS section
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1    220.00     17.40     18.00      0.60
+ 2    494.00     17.40     18.00      0.60
+ 3   1250.00     53.17     55.00      1.83
+ 4   1700.00     58.00     60.00      2.00
+
+Beam pipe section: pipe5 - TRD & TOF section
+Traslation(dx,dy,dz):    0.00 0.00 1696.00 mm
+Rotation(phi,theta,psi): 90.00 1.25 0.00 deg
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1   2300.00    135.33    140.00      4.67
+ 2   4296.97    183.60    189.92      6.32
+ 3   4300.00    183.60    190.00      6.40
+
+Beam pipe section: pipe6 - second window @ 6000mm, h=3mm, R=800mm
+Traslation(dx,dy,dz):    0.00 0.00 1696.00 mm
+Rotation(phi,theta,psi): 90.00 1.25 0.00 deg
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1   4276.19     30.00     30.00      0.00
+ 2   4279.19     30.00     75.41     45.41
+ 3   4282.19     75.41    102.26     26.85
+ 4   4289.13    129.22    146.38     17.16
+ 5   4296.97    170.33    183.60     13.27
+ 6   4300.00    183.60    183.60      0.00
+
+Beam pipe section: pipe7 - PSD section
+Traslation(dx,dy,dz):    0.00 0.00 1696.00 mm
+Rotation(phi,theta,psi): 90.00 1.25 0.00 deg
+ i      Z,mm    Rin,mm   Rout,mm      h,mm
+ 1   4276.19     29.00     30.00      1.00
+ 2  13300.00     29.00     30.00      1.00

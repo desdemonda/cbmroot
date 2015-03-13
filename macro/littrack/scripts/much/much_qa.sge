@@ -1,0 +1,262 @@
+#$ -wd /tmp 
+
+#$ -j y
+# Number of subtasks to start
+#$ -t 1-100
+
+#XXXXX=$(printf "%05d" "1")
+XXXXX=$(printf "%05d" "$SGE_TASK_ID")
+XXXX=$(printf "%04d" "$SGE_TASK_ID")
+
+indir=/hera/cbm/users/andrey/mc/stsmuch/${geometry}/${background}${particle}/auau/${energy}/${centrality}
+outdir=/hera/cbm/users/andrey/mc/stsmuch/${geometry}/${background}${particle}/auau/${energy}/${centrality}
+
+mkdir -p ${indir}
+mkdir -p ${outdir}
+
+# Needed to run macro via script
+export LIT_SCRIPT=yes
+
+# Number of events to run
+nevents=1000
+
+#create the needed directories
+mkdir -p ${outdir}/log
+
+#create directory for output results
+mkdir -p ${outdir}/results/${XXXXX}
+
+# setup the run environment
+#source /cvmfs/fairroot.gsi.de/cbm/cbmroot/release/nov12/build/config.sh
+source /hera/cbm/users/andrey/cbmroot/jul13/build/config.sh
+ 
+# This line is needed, otherwise root will crash
+export DISPLAY=localhost:0.0
+
+# create special and enter special workdir for job
+username=$(whoami)
+workdir=/tmp/$username/$JOB_ID.$SGE_TASK_ID
+mkdir -p $workdir
+cd $workdir
+
+function set_geometry_v12b() {
+    export LIT_CAVE_GEOM=cave.geo
+    export LIT_TARGET_GEOM=target/target_au_250mu.geo
+    export LIT_PIPE_GEOM=pipe/pipe_much.geo
+    export LIT_SHIELD_GEOM=shield_standard.geo
+    export LIT_STS_GEOM=sts/sts_v12b.geo.root
+    export LIT_STS_DIGI=${VMCWORKDIR}/parameters/sts/sts_v12b_std.digi.par
+    export LIT_STS_MAT_BUDGET_FILE=${VMCWORKDIR}/parameters/sts/sts_matbudget_v12b.root
+    export LIT_MUCH_GEOM=much/much_v12b.geo
+    export LIT_MUCH_DIGI=${VMCWORKDIR}/parameters/much/much_v12b.digi.root
+    export LIT_TRD_GEOM=
+    export LIT_TRD_DIGI=
+    export LIT_TOF_GEOM= #tof/tof_v13b.geo.root
+    export LIT_TOF_DIGI= #${VMCWORKDIR}/parameters/tof/tof_v13b.digi.par
+    export LIT_FIELD_MAP=field_v12a
+    export LIT_MAGNET_GEOM=magnet/magnet_v12a.geo
+    
+    export LIT_CONSEQUTIVE_STS_POINTS=1
+    export LIT_NORM_STS_POINTS=4
+    export LIT_NORM_TRD_POINTS=0
+    export LIT_NORM_MUCH_POINTS=6
+    export LIT_NORM_TOF_POINTS=1
+    export LIT_NORM_TRD_HITS=0
+    export LIT_NORM_MUCH_HITS=6
+    export LIT_NORM_TOF_HITS=1
+}
+
+function set_geometry_v12c() {
+    export LIT_CAVE_GEOM=cave.geo
+    export LIT_TARGET_GEOM=target/target_au_250mu.geo
+    export LIT_PIPE_GEOM=pipe/pipe_much.geo
+    export LIT_SHIELD_GEOM=shield_standard.geo
+    export LIT_STS_GEOM=sts/sts_v12b.geo.root
+    export LIT_STS_DIGI=${VMCWORKDIR}/parameters/sts/sts_v12b_std.digi.par
+    export LIT_STS_MAT_BUDGET_FILE=${VMCWORKDIR}/parameters/sts/sts_matbudget_v12b.root
+    export LIT_MUCH_GEOM=much/much_v12c.geo
+    export LIT_MUCH_DIGI=${VMCWORKDIR}/parameters/much/much_v12c.digi.root
+    export LIT_TRD_GEOM=
+    export LIT_TRD_DIGI=
+    export LIT_TOF_GEOM= #tof/tof_v13b.geo.root
+    export LIT_TOF_DIGI= #${VMCWORKDIR}/parameters/tof/tof_v13b.digi.par
+    export LIT_FIELD_MAP=field_v12a
+    export LIT_MAGNET_GEOM=magnet/magnet_v12a.geo
+    
+    export LIT_CONSEQUTIVE_STS_POINTS=1
+    export LIT_NORM_STS_POINTS=4
+    export LIT_NORM_TRD_POINTS=0
+    export LIT_NORM_MUCH_POINTS=6
+    export LIT_NORM_TOF_POINTS=1
+    export LIT_NORM_TRD_HITS=0
+    export LIT_NORM_MUCH_HITS=6
+    export LIT_NORM_TOF_HITS=1
+}
+
+function set_geometry_sis300a() {
+    export LIT_CAVE_GEOM=cave.geo
+    export LIT_TARGET_GEOM=target/target_au_250mu.geo
+    export LIT_PIPE_GEOM=pipe/pipe_much.geo
+    export LIT_SHIELD_GEOM=shield_sis300a.geo
+    export LIT_STS_GEOM=sts/sts_v12b.geo.root
+    export LIT_STS_DIGI=${VMCWORKDIR}/parameters/sts/sts_v12b_std.digi.par
+    export LIT_STS_MAT_BUDGET_FILE=${VMCWORKDIR}/parameters/sts/sts_matbudget_v12b.root
+    export LIT_MUCH_GEOM=much/much_sis300a.geo
+    export LIT_MUCH_DIGI=${VMCWORKDIR}/parameters/much/much_sis300a.digi.root
+    export LIT_TRD_GEOM=
+    export LIT_TRD_DIGI=
+    export LIT_TOF_GEOM= #tof/tof_v13b.geo.root
+    export LIT_TOF_DIGI= #${VMCWORKDIR}/parameters/tof/tof_v13b.digi.par
+    export LIT_FIELD_MAP=field_v12a
+    export LIT_MAGNET_GEOM=magnet/magnet_v12a.geo
+    
+    export LIT_CONSEQUTIVE_STS_POINTS=1
+    export LIT_NORM_STS_POINTS=4
+    export LIT_NORM_TRD_POINTS=0
+    export LIT_NORM_MUCH_POINTS=6
+    export LIT_NORM_TOF_POINTS=1
+    export LIT_NORM_TRD_HITS=0
+    export LIT_NORM_MUCH_HITS=6
+    export LIT_NORM_TOF_HITS=1
+}
+
+function set_geometry_sis100a() {
+    export LIT_CAVE_GEOM=cave.geo
+    export LIT_TARGET_GEOM=target/target_au_250mu.geo
+    export LIT_PIPE_GEOM=pipe/pipe_much.geo
+    export LIT_SHIELD_GEOM=shield_sis100a.geo
+    export LIT_STS_GEOM=sts/sts_v12b.geo.root
+    export LIT_STS_DIGI=${VMCWORKDIR}/parameters/sts/sts_v12b_std.digi.par
+    export LIT_STS_MAT_BUDGET_FILE=${VMCWORKDIR}/parameters/sts/sts_matbudget_v12b.root
+    export LIT_MUCH_GEOM=much/much_sis100a.geo
+    export LIT_MUCH_DIGI=${VMCWORKDIR}/parameters/much/much_sis100a.digi.root
+    export LIT_TRD_GEOM=
+    export LIT_TRD_DIGI=
+    export LIT_TOF_GEOM= #tof/tof_v13b.geo.root
+    export LIT_TOF_DIGI= #${VMCWORKDIR}/parameters/tof/tof_v13b.digi.par
+    export LIT_FIELD_MAP=field_v12a
+    export LIT_MAGNET_GEOM=magnet/magnet_v12a.geo
+    
+    export LIT_CONSEQUTIVE_STS_POINTS=1
+    export LIT_NORM_STS_POINTS=4
+    export LIT_NORM_TRD_POINTS=0
+    export LIT_NORM_MUCH_POINTS=6
+    export LIT_NORM_TOF_POINTS=1
+    export LIT_NORM_TRD_HITS=0
+    export LIT_NORM_MUCH_HITS=6
+    export LIT_NORM_TOF_HITS=1
+}
+
+function set_geometry_sis100b() {
+    export LIT_CAVE_GEOM=cave.geo
+    export LIT_TARGET_GEOM=target/target_au_250mu.geo
+    export LIT_PIPE_GEOM=pipe/pipe_much.geo
+    export LIT_SHIELD_GEOM=shield_sis100b.geo
+    export LIT_STS_GEOM=sts/sts_v12b.geo.root
+    export LIT_STS_DIGI=${VMCWORKDIR}/parameters/sts/sts_v12b_std.digi.par
+    export LIT_STS_MAT_BUDGET_FILE=${VMCWORKDIR}/parameters/sts/sts_matbudget_v12b.root
+    export LIT_MUCH_GEOM=much/much_sis100b.geo
+    export LIT_MUCH_DIGI=${VMCWORKDIR}/parameters/much/much_sis100b.digi.root
+    export LIT_TRD_GEOM=
+    export LIT_TRD_DIGI=
+    export LIT_TOF_GEOM= #tof/tof_v13b.geo.root
+    export LIT_TOF_DIGI= #${VMCWORKDIR}/parameters/tof/tof_v13b.digi.par
+    export LIT_FIELD_MAP=field_v12a
+    export LIT_MAGNET_GEOM=magnet/magnet_v12a.geo
+    
+    export LIT_CONSEQUTIVE_STS_POINTS=1
+    export LIT_NORM_STS_POINTS=4
+    export LIT_NORM_TRD_POINTS=0
+    export LIT_NORM_MUCH_POINTS=6
+    export LIT_NORM_TOF_POINTS=1
+    export LIT_NORM_TRD_HITS=0
+    export LIT_NORM_MUCH_HITS=6
+    export LIT_NORM_TOF_HITS=1
+}
+
+function set_geometry_sis100c() {
+    export LIT_CAVE_GEOM=cave.geo
+    export LIT_TARGET_GEOM=target/target_au_250mu.geo
+    export LIT_PIPE_GEOM=pipe/pipe_much.geo
+    export LIT_SHIELD_GEOM=shield_sis100c.geo
+    export LIT_STS_GEOM=sts/sts_v12b.geo.root
+    export LIT_STS_DIGI=${VMCWORKDIR}/parameters/sts/sts_v12b_std.digi.par
+    export LIT_STS_MAT_BUDGET_FILE=${VMCWORKDIR}/parameters/sts/sts_matbudget_v12b.root
+    export LIT_MUCH_GEOM=much/much_sis100c.geo
+    export LIT_MUCH_DIGI=${VMCWORKDIR}/parameters/much/much_sis100c.digi.root
+    export LIT_TRD_GEOM=
+    export LIT_TRD_DIGI=
+    export LIT_TOF_GEOM= #tof/tof_v13b.geo.root
+    export LIT_TOF_DIGI= #${VMCWORKDIR}/parameters/tof/tof_v13b.digi.par
+    export LIT_FIELD_MAP=field_v12a
+    export LIT_MAGNET_GEOM=magnet/magnet_v12a.geo
+    
+    export LIT_CONSEQUTIVE_STS_POINTS=1
+    export LIT_NORM_STS_POINTS=4
+    export LIT_NORM_TRD_POINTS=0
+    export LIT_NORM_MUCH_POINTS=6
+    export LIT_NORM_TOF_POINTS=1
+    export LIT_NORM_TRD_HITS=0
+    export LIT_NORM_MUCH_HITS=6
+    export LIT_NORM_TOF_HITS=1
+}
+
+
+
+if [ "${geometry}" = "sis300a" ] ; then
+    set_geometry_sis300a
+elif [ "${geometry}" = "sis100a" ] ; then
+    set_geometry_sis100a
+elif [ "${geometry}" = "sis100b" ] ; then
+    set_geometry_sis100b
+elif [ "${geometry}" = "sis100c" ] ; then
+    set_geometry_sis100c
+elif [ "${geometry}" = "v12b" ] ; then
+    set_geometry_v12b
+elif [ "${geometry}" = "v12c" ] ; then
+    set_geometry_v12c
+else
+    echo "Error! Geometry not known! Must be sis300a, sis100a, sis100b, sis100c"
+    exit 2
+fi
+
+
+
+if [ "${particle}" = "jpsi" ] ; then
+  export LIT_PLUTO_FILE=/hera/cbm/users/ekrebs/pluto/jpsi/${energy}/jpsi/mpmm/pluto.auau.${energy}.jpsi.mpmm.${XXXX}.root   
+elif [ "${particle}" = "omega" ] ; then
+  export LIT_PLUTO_FILE=/hera/cbm/users/ekrebs/pluto/cktA/${energy}/omega/mpmm/pluto.auau.${energy}.omega.mpmm.${XXXX}.root
+elif [ "${particle}" = "" ] ; then
+  export LIT_PLUTO_FILE=
+else
+    echo "Error! Particle not known! Must be jpsi, omega"
+    exit 2
+fi
+
+if [ "${background}" = "urqmd" ] ; then
+ export LIT_URQMD_FILE=/hera/cbm/prod/gen/urqmd/auau/${energy}/${centrality}/urqmd.auau.${energy}.${centrality}.${XXXXX}.root
+elif [ "${background}" = "" ] ; then
+  export LIT_URQMD_FILE=
+else
+    echo "Error! Background not known! Must be urqmd"
+    exit 2
+fi
+
+# File names
+export LIT_MC_FILE=${indir}/mc.auau.${energy}.${centrality}.${XXXXX}.root
+export LIT_PAR_FILE=${indir}/params.auau.${energy}.${centrality}.${XXXXX}.root
+export LIT_GLOBAL_RECO_FILE=${indir}/reco.auau.${energy}.${centrality}.${XXXXX}.root
+export LIT_ANALYSIS_FILE=${outdir}/analysis.auau.${energy}.${centrality}.${XXXXX}.root
+export LIT_QA_FILE=${outdir}/qa.auau.${energy}.${centrality}.${XXXXX}.root
+#export LIT_RESULT_DIR=${outdir}/results/${XXXXX}/
+export LIT_RESULT_DIR=
+
+# run the root simulation
+root -b -l -q "/hera/cbm/users/andrey/scripts/much/global_sim.C(${nevents}, ${XXXXX})"
+root -b -l -q "/hera/cbm/users/andrey/scripts/much/global_reco.C(${nevents}, ${XXXXX})"
+root -b -l -q "/hera/cbm/users/andrey/scripts/much/global_reco_qa.C(${nevents})"
+#root -b -l -q "/hera/cbm/users/andrey/scripts/much/much_ana.C(${nevents})"
+
+cp -v ${SGE_STDOUT_PATH} ${outdir}/log/${JOB_ID}.${SGE_TASK_ID}.log
+
+rm -rf ${workdir}

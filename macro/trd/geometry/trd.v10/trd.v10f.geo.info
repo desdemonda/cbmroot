@@ -1,0 +1,13 @@
+TRD geometry v10f
+D. Emschermann, July 2010
+
+Same as v10b, but only station 2, for SIS100 setup
+
+Number of stations: 1
+Number of layers per station: 4
+Planar geometry
+Gas thickness 6 mm
+
+Inner Radius of station 1: 240.000000
+Outer Radius of station 1: 6600.000000
+z-position at the middle of the station 2: 7050.000000
