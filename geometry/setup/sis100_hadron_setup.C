@@ -1,6 +1,8 @@
 //
 //   comments
 //
+
+// 2015-03-13 - DE - use STS v13y with correct ladder orientation as new default
 // 2015-01-29 - DE - use chopped PIPE v14q as default
 // 2015-01-19 - DE - use TRD v15a as new default
 // 2014-06-30 - DE - make TRD v14a the new default
@@ -50,7 +52,7 @@ void sis100_hadron_setup()
   fieldSymType =  3;
 
   // -----  Tags  -----------------------------------------------------------
-  stsTag       = "v13x";
+  stsTag       = "v13y";
   trdTag       = "v15a_1h";
   tofTag       = "v13-5a";
 
@@ -63,7 +65,7 @@ void sis100_hadron_setup()
   caveGeom     = "cave.geo";
   pipeGeom     = "pipe/pipe_v14q.root";
   magnetGeom   = "magnet/magnet_v12b.geo.root";
-  mvdGeom      = "mvd/mvd_v14b.geo.root";
+  mvdGeom      = "mvd/mvd_v15a.geo.root";
   stsGeom      = "sts/sts_" + stsTag + ".geo.root";
   richGeom     = "";
   muchGeom     = "";

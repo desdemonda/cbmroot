@@ -69,7 +69,7 @@ void dev_sis300_electron_setup()
   caveGeom     = "cave.geo";
   pipeGeom     = "pipe/pipe_v14n.root";
   magnetGeom   = "magnet/magnet_v12b.geo.root";
-  mvdGeom      = "mvd/mvd_v14b.geo.root";
+  mvdGeom      = "mvd/mvd_v15a.geo.root";
   stsGeom      = "sts/sts_" + stsTag + ".geo.root";
   richGeom     = "rich/rich_v14a_3e.root";
   muchGeom     = "";

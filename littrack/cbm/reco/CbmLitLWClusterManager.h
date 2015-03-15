@@ -8,8 +8,14 @@
 #ifndef CBMLITLWCLUSTERMANAGER_H_
 #define CBMLITLWCLUSTERMANAGER_H_
 
+#include<vector>
+
 class CbmTrdCluster;
 class TClonesArray;
+class TObjArray;
+class TList;
+
+using std::vector;
 
 class CbmLitLWClusterManager
 {
@@ -38,8 +44,8 @@ public:
 private:
 //  Int_t fSize;
   CbmTrdCluster *fCluster;
-  TClonesArray *fUnmergedCluster;
-  TClonesArray *fMergedCluster;
+  vector<CbmTrdCluster*> *fUnmergedCluster;
+  TObjArray *fMergedCluster;
 
   /**
    * \brief Copy Constructor

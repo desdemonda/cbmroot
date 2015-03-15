@@ -2,6 +2,7 @@
 //   comments
 //
 
+// 2015-03-13 - DE - use STS v13y with correct ladder orientation as new default 
 // 2015-01-28 - DE - use STS v13x fitting with with PIPE v14l
 // 2015-01-22 - DE - use MVD v14b with PIPE v14l as default
 // 2015-01-19 - DE - use TRD v15a as new defaut
@@ -57,7 +58,7 @@ void sis100_electron_setup()
   fieldSymType =  3;
 
   // -----  Tags  -----------------------------------------------------------
-  stsTag       = "v13x";
+  stsTag       = "v13y";
   trdTag       = "v15a_1e";
   tofTag       = "v13-5b";
 
@@ -70,7 +71,7 @@ void sis100_electron_setup()
   caveGeom     = "cave.geo";
   pipeGeom     = "pipe/pipe_v14l.root";
   magnetGeom   = "magnet/magnet_v12b.geo.root";
-  mvdGeom      = "mvd/mvd_v14b.geo.root";
+  mvdGeom      = "mvd/mvd_v15a.geo.root";
   stsGeom      = "sts/sts_" + stsTag + ".geo.root";
   richGeom     = "rich/rich_v14a_1e.root";
   muchGeom     = "";

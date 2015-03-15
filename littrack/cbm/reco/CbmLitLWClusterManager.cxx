@@ -9,7 +9,9 @@
 
 #include "CbmTrdCluster.h"
 #include "TObject.h"                    // for TObject
+#include "TList.h"
 #include "TClonesArray.h"
+#include "TObjArray.h"
 #include "Rtypes.h"                     // for Bool_t, Int_t, UInt_t, etc
 
 CbmLitLWClusterManager::CbmLitLWClusterManager():
@@ -22,14 +24,17 @@ CbmLitLWClusterManager::CbmLitLWClusterManager():
 
 void CbmLitLWClusterManager::Init()
 {
-  fUnmergedCluster = new TClonesArray("CbmTrdCluster", 1000);
-  fMergedCluster = new TClonesArray("CbmTrdCluster", 1000);
+//  fUnmergedCluster = new vector();
+//  fMergedCluster = new TList();
 }
 
 void CbmLitLWClusterManager::Add(CbmTrdCluster *cluster)
 {
   static Int_t size = 0;
-  fUnmergedCluster->AddAt(cluster, size);
+
+  fCluster = cluster;
+
+  fUnmergedCluster->push_back(cluster);
   size++;
 }
 

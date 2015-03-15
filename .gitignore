@@ -26,7 +26,10 @@
 *.exe
 *.out
 *.app
-<<<<<<< HEAD
+
+# Macro output
+core_dump*
+*.par
 
 # Root files
 *.root
@@ -45,5 +48,8 @@ macro/littrack/test*
 .project
 .settings/*
 
-=======
->>>>>>> github/master
+# Fieldmaps
+input/fieldmap*
+
+# Build
+build

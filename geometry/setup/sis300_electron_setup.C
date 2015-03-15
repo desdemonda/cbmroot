@@ -2,6 +2,7 @@
 //   comments
 //
 
+// 2015-03-13 - DE - use STS v13y with correct ladder orientation as new default
 // 2015-01-28 - DE - use STS v13x fitting with with PIPE v14n
 // 2015-01-22 - DE - use MVD v14b with PIPE v14n as default
 // 2015-01-19 - DE - use TRD v15a as new default
@@ -16,6 +17,7 @@
 // 2013-10-07 - DE - rich_v13a is not at nominal position 1800mm, but at 1600mm
 //
 
+#ifndef __CLING__
 static TString caveGeom;
 static TString pipeGeom;
 static TString magnetGeom;
@@ -46,6 +48,7 @@ static Double_t fieldScale;
 static Int_t    fieldSymType;
 
 static TString defaultInputFile;
+#endif
 
 void sis300_electron_setup()
 {
@@ -56,7 +59,7 @@ void sis300_electron_setup()
   fieldSymType =  3;
 
   // -----  Tags  -----------------------------------------------------------
-  stsTag       = "v13x";
+  stsTag       = "v13y";
   trdTag       = "v15a_3e";
   tofTag       = "v13-5d";
 
@@ -69,7 +72,7 @@ void sis300_electron_setup()
   caveGeom     = "cave.geo";
   pipeGeom     = "pipe/pipe_v14n.root";
   magnetGeom   = "magnet/magnet_v12b.geo.root";
-  mvdGeom      = "mvd/mvd_v14b.geo.root";
+  mvdGeom      = "mvd/mvd_v15a.geo.root";
   stsGeom      = "sts/sts_" + stsTag + ".geo.root";
   richGeom     = "rich/rich_v14a_3e.root";
   muchGeom     = "";
