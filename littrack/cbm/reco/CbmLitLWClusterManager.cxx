@@ -7,34 +7,49 @@
 
 #include "CbmLitLWClusterManager.h"
 
-#include "CbmTrdCluster.h"
-#include "TObject.h"                    // for TObject
 #include "TList.h"
 #include "TClonesArray.h"
 #include "TObjArray.h"
-#include "Rtypes.h"                     // for Bool_t, Int_t, UInt_t, etc
+#include "FairLogger.h"
+#include "CbmTrdCluster.h"
+
+using std::set;
 
 CbmLitLWClusterManager::CbmLitLWClusterManager():
       fCluster(NULL),
       fUnmergedCluster(NULL),
-      fMergedCluster(NULL)
+      fMergedCluster(NULL),
+      fSeenLayers(NULL),
+      fSeenSectors(NULL),
+      fSeenModules(NULL)
 {
   Init();
 }
 
 void CbmLitLWClusterManager::Init()
 {
-//  fUnmergedCluster = new vector();
-//  fMergedCluster = new TList();
+  fUnmergedCluster = new TClonesArray("CbmTrdCluster");
+  fMergedCluster = new TClonesArray("CbmTrdCluster");
+  fSeenLayers = new set<Int_t>;
+  fSeenSectors = new set<Int_t>;
+  fSeenModules = new set<Int_t>;
 }
 
-void CbmLitLWClusterManager::Add(CbmTrdCluster *cluster)
+void CbmLitLWClusterManager::Add(CbmTrdCluster *cluster, Int_t layer, Int_t sector, Int_t module)
 {
   static Int_t size = 0;
 
-  fCluster = cluster;
+  // ERROR //
+  CbmTrdCluster* tmpCluster = new ((*fUnmergedCluster)[size]) CbmTrdCluster();
+  tmpCluster = cluster; // push cluster to the end of all unmerged clusters
 
-  fUnmergedCluster->push_back(cluster);
+  if(fSeenLayers->find(layer) == fSeenLayers->end())
+    fSeenLayers->insert(layer);
+  if(fSeenSectors->find(layer) == fSeenSectors->end())
+    fSeenSectors->insert(sector);
+  if(fSeenModules->find(layer) == fSeenModules->end())
+    fSeenModules->insert(module);
+
   size++;
 }
 

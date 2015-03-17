@@ -109,7 +109,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
    Double_t xHit, yHit, zHit;
    Double_t xHitErr, yHitErr, zHitErr;
    Double_t ELoss;
-   std::set<Int_t> *seenModIds;
+   std::set<Int_t> *seenModIds = new std::set<Int_t>;
    TVector3 posHit;
    TVector3 padSize;
 
@@ -121,7 +121,6 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
       CbmTrdCluster* cluster = new ((*fClusters)[iDigi]) CbmTrdCluster();
       cluster->SetAddress(digiAddress);
       cluster->AddDigi(iDigi);
-      fClusterManager->Add(cluster);
 
       // Retrieving Hit Informations
       Col = CbmTrdAddress::GetColumnId(digiAddress);
@@ -133,16 +132,19 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
       moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
       fModuleInfo = fDigiPar->GetModule(moduleAddress);
 
+      fClusterManager->Add(cluster, Layer, Sector, moduleAddress);
+      LOG(INFO) << "Added Cluster to ClusterManager (" << Layer << "," << Sector << "," << moduleAddress << ")" << FairLogger::endl;
+
       if(seenModIds->find(moduleAddress) == seenModIds->end()){
-    	  seenModIds->insert(moduleAddress);
-    	  uniqueModID++;
-          TList* moduleList = (TList*) fModules->At(uniqueModID);
-    //      TList* moduleList = new ((*fModules)[uniqueModID]) TList();
+//    	  seenModIds->insert(moduleAddress);
+          LOG(INFO) << "Added to seenModIds (" << moduleAddress << ")" << FairLogger::endl;
+//          TList* moduleList = (TList*) fModules->At(uniqueModID);
+          TList* moduleList = new ((*fModules)[uniqueModID]) TList();
           moduleList->Add(digi);
-          std::cout << "Added Module Informations" << std::endl;
+          LOG(INFO) << "Added Module Informations (" << uniqueModID++ << ")" << FairLogger::endl;
       }
 
-      CbmTrdModule *modDetails = (CbmTrdModule*) fModuleDetails->At(uniqueModID);
+//      CbmTrdModule *modDetails = (CbmTrdModule*) fModuleDetails->At(uniqueModID);
 
       fModuleInfo->GetPosition(moduleAddress, Sector, Col, Row, posHit, padSize);
 
@@ -150,7 +152,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
       padSize*=(1/TMath::Sqrt(12.));
 
       // Adding a new hit into fHits
-      //CbmTrdHit *hit = new((*fHits)[iDigi]) CbmTrdHit(digiAddress, posHit, padSize, 0., iDigi, 0., 0., ELoss);
+      CbmTrdHit *hit = new((*fHits)[iDigi]) CbmTrdHit(digiAddress, posHit, padSize, 0., iDigi, 0., 0., ELoss);
    }
 
    timer.Stop();

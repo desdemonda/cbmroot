@@ -9,6 +9,8 @@
 #define CBMLITLWCLUSTERMANAGER_H_
 
 #include<vector>
+#include<set>
+#include "Rtypes.h"                     // for Bool_t, Int_t, UInt_t, etc
 
 class CbmTrdCluster;
 class TClonesArray;
@@ -16,6 +18,7 @@ class TObjArray;
 class TList;
 
 using std::vector;
+using std::set;
 
 class CbmLitLWClusterManager
 {
@@ -38,14 +41,15 @@ public:
   /**
    * \brief Add Cluster
    */
-  void Add(CbmTrdCluster *cluster);
+  void Add(CbmTrdCluster *cluster, Int_t layer, Int_t sector, Int_t module);
 
 
 private:
 //  Int_t fSize;
   CbmTrdCluster *fCluster;
-  vector<CbmTrdCluster*> *fUnmergedCluster;
-  TObjArray *fMergedCluster;
+  TClonesArray *fUnmergedCluster;
+  TClonesArray *fMergedCluster;
+  set<Int_t> *fSeenLayers, *fSeenSectors, *fSeenModules;
 
   /**
    * \brief Copy Constructor
