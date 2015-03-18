@@ -137,9 +137,12 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 
       if(seenModIds->find(moduleAddress) == seenModIds->end()){
     	  seenModIds->insert(moduleAddress);
-          TList* moduleList = new ((*fModules)[uniqueModID]) TList();
+          TList* moduleList = new ((*fModules)[moduleAddress]) TList();
           moduleList->Add(digi);
           LOG(INFO) << "Added Module Informations (" << uniqueModID++ << ")" << FairLogger::endl;
+      }else{
+	  TList* moduleList = (TList*) fModules->At(moduleAddress);
+	  moduleList->Add(digi);
       }
 
 //      CbmTrdModule *modDetails = (CbmTrdModule*) fModuleDetails->At(uniqueModID);
@@ -149,8 +152,22 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
       // Calculate the hit error from the pad sizes
       padSize*=(1/TMath::Sqrt(12.));
 
+      /* ToDo: Create HitFinder to create Hits out of Clusters */
       // Adding a new hit into fHits
       CbmTrdHit *hit = new((*fHits)[iDigi]) CbmTrdHit(digiAddress, posHit, padSize, 0., iDigi, 0., 0., ELoss);
+   }
+
+   TList *moduleList = (TList*) fModules->First();
+   for (Int_t i=0; i < fModules->GetEntries(); i++ ){
+       Int_t moduleAddress = fModules->IndexOf(moduleList);
+       TObjLink *lnk = moduleList->FirstLink();
+       while(lnk){
+ 	  CbmTrdDigi* digi = (CbmTrdDigi*) lnk->GetObject();
+ 	  Int_t digiAddress = digi->GetAddress();
+ 	  cout << "Found Digi in Module (" << moduleAddress << "): "<< digiAddress << endl;
+ 	  lnk->Next();
+       }
+       TList *moduleList = (TList*) fModules->After(moduleList);
    }
 
    timer.Stop();
