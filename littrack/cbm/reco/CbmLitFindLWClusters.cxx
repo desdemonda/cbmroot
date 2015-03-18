@@ -34,8 +34,7 @@
 #include "CbmLitLWClusterManager.h"
 // #include "CbmLitClusterDistance.h"
 
-using std::cout;
-using std::endl;
+using namespace std;
 
 CbmLitFindLWClusters::CbmLitFindLWClusters():
 	 FairTask("CbmLitFindLWClusters",1),
@@ -70,19 +69,9 @@ InitStatus CbmLitFindLWClusters::Init()
    fClusters = new TClonesArray("CbmTrdCluster", 1000);
    ioman->Register("TrdCluster","Trd Cluster",fClusters,kTRUE);
 
-   fUnmergedClusters = new TClonesArray("CbmTrdCluster");
-
    // Initialize TClonesArray for Hits
    fHits = new TClonesArray("CbmTrdHit", 1000);
    ioman->Register("TrdHit","Trd Hit",fHits,kTRUE);
-
-   // Initialize TClonesArray for Modules
-   fModuleDetails = new TClonesArray("CbmTrdModule");
-   ioman->Register("TrdModules","Trd Modules",fModuleDetails,kTRUE);
-
-   fModules = new TClonesArray("TList"); // List of Digis
-   ioman->Register("TrdModuleDigis","Trd Modules",fModules,kTRUE);
-
 
    // Get Base Container
    FairRunAna* ana = FairRunAna::Instance();
@@ -97,79 +86,61 @@ InitStatus CbmLitFindLWClusters::Init()
 
 void CbmLitFindLWClusters::Exec(Option_t *option)
 {
+   typedef std::map<Int_t,std::vector<CbmTrdDigi*>> ModuleMap_t;
    fClusters->Delete();
    fHits->Delete();
    Int_t uniqueModID = 0;
    TStopwatch timer;
    timer.Start();
    cout << "================CbmLitFindLWClusters::Exec===============" << endl;
-
-   Int_t Col, Row, Plane;
-   Int_t Layer, moduleAddress, Sector;
-   Double_t xHit, yHit, zHit;
-   Double_t xHitErr, yHitErr, zHitErr;
-   Double_t ELoss;
-   std::set<Int_t> *seenModIds = new std::set<Int_t>;
-   std::map<Int_t,Int_t> *moduleMap = new std::map<Int_t, Int_t>;
-   TVector3 posHit;
-   TVector3 padSize;
+   ModuleMap_t moduleMap;
+   map<Int_t, Int_t> digiIdMap;
 
    for (Int_t iDigi=0; iDigi < fDigis->GetEntries(); iDigi++ ){
       CbmTrdDigi *digi = (CbmTrdDigi*) fDigis->At(iDigi);
       Int_t digiAddress = digi->GetAddress();
+      Int_t moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
 
-      // Adding a new Cluster into fClusters
-      CbmTrdCluster* cluster = new ((*fClusters)[iDigi]) CbmTrdCluster();
-      cluster->SetAddress(digiAddress);
-      cluster->AddDigi(iDigi);
-
-      // Retrieving Hit Informations
-      Col = CbmTrdAddress::GetColumnId(digiAddress);
-      Row = CbmTrdAddress::GetRowId(digiAddress);
-      ELoss = digi-> GetCharge();
-
-      Layer = CbmTrdAddress::GetLayerId(digiAddress);
-      Sector = CbmTrdAddress::GetSectorId(digiAddress);
-      moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
-      fModuleInfo = fDigiPar->GetModule(moduleAddress);
-
-      fClusterManager->Add(cluster, Layer, Sector, moduleAddress);
-      LOG(INFO) << "Added Cluster to ClusterManager (" << Layer << "," << Sector << "," << moduleAddress << ")" << FairLogger::endl;
-
-      if(seenModIds->find(moduleAddress) == seenModIds->end()){
-    	  seenModIds->insert(moduleAddress);
-          TList* moduleList = new ((*fModules)[uniqueModID]) TList();
-          moduleList->Add(digi);
-          moduleMap->insert( std::pair<Int_t,Int_t>(uniqueModID, moduleAddress) );
-          LOG(INFO) << "Added Module Informations (" << uniqueModID++ << ")" << FairLogger::endl;
-      }else{
-	  TList* moduleList = (TList*) fModules->At(moduleAddress);
-	  moduleList->Add(digi);
-      }
-
-//      CbmTrdModule *modDetails = (CbmTrdModule*) fModuleDetails->At(uniqueModID);
-
-      fModuleInfo->GetPosition(moduleAddress, Sector, Col, Row, posHit, padSize);
-
-      // Calculate the hit error from the pad sizes
-      padSize*=(1/TMath::Sqrt(12.));
-
-      /* ToDo: Create HitFinder to create Hits out of Clusters */
-      // Adding a new hit into fHits
-      CbmTrdHit *hit = new((*fHits)[iDigi]) CbmTrdHit(digiAddress, posHit, padSize, 0., iDigi, 0., 0., ELoss);
+      moduleMap[moduleAddress].push_back(digi);
+      digiIdMap.insert(pair<Int_t,Int_t>(digiAddress, iDigi));
    }
 
-   for (std::map<Int_t,Int_t>::iterator it = moduleMap->begin(); it != moduleMap->end(); it++ ){
-       TList *moduleList = (TList*) fModules->At(it->first);
-       TObjLink *lnk = moduleList->FirstLink();
-       while(lnk){
- 	  CbmTrdDigi* digi = (CbmTrdDigi*) lnk->GetObject();
- 	  Int_t digiAddress = digi->GetAddress();
- 	  cout << "Found Digi in Module (" << it->second << "): "<< digiAddress << endl;
- 	  lnk->Next();
-       }
-   }
+   Int_t index=0;
+   for (const auto& module : moduleMap){
+     Int_t moduleAddress = module.first;
+     const vector<CbmTrdDigi*>& digiVector = module.second;
+     for (const auto& v : digiVector){
+	Int_t digiAddress = v->GetAddress();
+	Int_t digiId = digiIdMap[digiAddress];
+	Int_t digiColumn = CbmTrdAddress::GetColumnId(digiAddress);
+	Int_t digiRow = CbmTrdAddress::GetRowId(digiAddress);
+	CbmTrdCluster* cluster = new ((*fClusters)[index]) CbmTrdCluster();
+	cluster->SetAddress(digiAddress);
+	cluster->AddDigi(digiId);
 
+	Int_t Col, Row, Plane;
+	Int_t Layer, moduleAddress, Sector;
+	Double_t xHit, yHit, zHit;
+	Double_t xHitErr, yHitErr, zHitErr;
+	Double_t ELoss;
+	TVector3 posHit;
+	TVector3 padSize;
+	// Retrieving Hit Informations
+	Col = CbmTrdAddress::GetColumnId(digiAddress);
+	Row = CbmTrdAddress::GetRowId(digiAddress);
+	ELoss = v->GetCharge();
+	Layer = CbmTrdAddress::GetLayerId(digiAddress);
+	Sector = CbmTrdAddress::GetSectorId(digiAddress);
+	moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
+	fModuleInfo = fDigiPar->GetModule(moduleAddress);
+	fModuleInfo->GetPosition(moduleAddress, Sector, Col, Row, posHit, padSize);
+	// Calculate the hit error from the pad sizes
+	padSize*=(1/TMath::Sqrt(12.));
+
+	CbmTrdHit *hit = new((*fHits)[index]) CbmTrdHit(digiAddress, posHit, padSize, 0., index, 0., 0., ELoss);
+	++index;
+     }
+   }
    timer.Stop();
    LOG(INFO) << "CbmLitFindLWClusters::Exec : real time=" << timer.RealTime()
              << " CPU time=" << timer.CpuTime() << FairLogger::endl;
