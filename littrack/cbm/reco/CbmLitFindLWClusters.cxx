@@ -110,6 +110,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
    Double_t xHitErr, yHitErr, zHitErr;
    Double_t ELoss;
    std::set<Int_t> *seenModIds = new std::set<Int_t>;
+   std::map<Int_t,Int_t> *moduleMap = new std::map<Int_t, Int_t>;
    TVector3 posHit;
    TVector3 padSize;
 
@@ -137,8 +138,9 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 
       if(seenModIds->find(moduleAddress) == seenModIds->end()){
     	  seenModIds->insert(moduleAddress);
-          TList* moduleList = new ((*fModules)[moduleAddress]) TList();
+          TList* moduleList = new ((*fModules)[uniqueModID]) TList();
           moduleList->Add(digi);
+          moduleMap->insert( std::pair<Int_t,Int_t>(uniqueModID, moduleAddress) );
           LOG(INFO) << "Added Module Informations (" << uniqueModID++ << ")" << FairLogger::endl;
       }else{
 	  TList* moduleList = (TList*) fModules->At(moduleAddress);
@@ -157,17 +159,15 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
       CbmTrdHit *hit = new((*fHits)[iDigi]) CbmTrdHit(digiAddress, posHit, padSize, 0., iDigi, 0., 0., ELoss);
    }
 
-   TList *moduleList = (TList*) fModules->First();
-   for (Int_t i=0; i < fModules->GetEntries(); i++ ){
-       Int_t moduleAddress = fModules->IndexOf(moduleList);
+   for (std::map<Int_t,Int_t>::iterator it = moduleMap->begin(); it != moduleMap->end(); it++ ){
+       TList *moduleList = (TList*) fModules->At(it->first);
        TObjLink *lnk = moduleList->FirstLink();
        while(lnk){
  	  CbmTrdDigi* digi = (CbmTrdDigi*) lnk->GetObject();
  	  Int_t digiAddress = digi->GetAddress();
- 	  cout << "Found Digi in Module (" << moduleAddress << "): "<< digiAddress << endl;
+ 	  cout << "Found Digi in Module (" << it->second << "): "<< digiAddress << endl;
  	  lnk->Next();
        }
-       TList *moduleList = (TList*) fModules->After(moduleList);
    }
 
    timer.Stop();

@@ -10,6 +10,7 @@
 
 #include<vector>
 #include<set>
+#include<map>
 #include "Rtypes.h"                     // for Bool_t, Int_t, UInt_t, etc
 
 class CbmTrdCluster;
