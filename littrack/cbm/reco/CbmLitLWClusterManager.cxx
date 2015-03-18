@@ -7,9 +7,9 @@
 
 #include "CbmLitLWClusterManager.h"
 
+#include "TTree.h"
 #include "TList.h"
 #include "TClonesArray.h"
-#include "TObjArray.h"
 #include "FairLogger.h"
 #include "CbmTrdCluster.h"
 
@@ -21,7 +21,8 @@ CbmLitLWClusterManager::CbmLitLWClusterManager():
       fMergedCluster(NULL),
       fSeenLayers(NULL),
       fSeenSectors(NULL),
-      fSeenModules(NULL)
+      fSeenModules(NULL),
+      fClusterSorter(NULL)
 {
   Init();
 }
@@ -33,6 +34,7 @@ void CbmLitLWClusterManager::Init()
   fSeenLayers = new set<Int_t>;
   fSeenSectors = new set<Int_t>;
   fSeenModules = new set<Int_t>;
+  fClusterSorter = new TTree();
 }
 
 void CbmLitLWClusterManager::Add(CbmTrdCluster *cluster, Int_t layer, Int_t sector, Int_t module)

@@ -136,9 +136,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
       LOG(INFO) << "Added Cluster to ClusterManager (" << Layer << "," << Sector << "," << moduleAddress << ")" << FairLogger::endl;
 
       if(seenModIds->find(moduleAddress) == seenModIds->end()){
-//    	  seenModIds->insert(moduleAddress);
-          LOG(INFO) << "Added to seenModIds (" << moduleAddress << ")" << FairLogger::endl;
-//          TList* moduleList = (TList*) fModules->At(uniqueModID);
+    	  seenModIds->insert(moduleAddress);
           TList* moduleList = new ((*fModules)[uniqueModID]) TList();
           moduleList->Add(digi);
           LOG(INFO) << "Added Module Informations (" << uniqueModID++ << ")" << FairLogger::endl;

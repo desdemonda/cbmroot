@@ -14,8 +14,8 @@
 
 class CbmTrdCluster;
 class TClonesArray;
-class TObjArray;
 class TList;
+class TTree;
 
 using std::vector;
 using std::set;
@@ -49,6 +49,7 @@ private:
   CbmTrdCluster *fCluster;
   TClonesArray *fUnmergedCluster;
   TClonesArray *fMergedCluster;
+  TTree *fClusterSorter;
   set<Int_t> *fSeenLayers, *fSeenSectors, *fSeenModules;
 
   /**
