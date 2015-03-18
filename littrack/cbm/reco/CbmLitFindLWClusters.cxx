@@ -86,7 +86,8 @@ InitStatus CbmLitFindLWClusters::Init()
 
 void CbmLitFindLWClusters::Exec(Option_t *option)
 {
-   typedef std::map<Int_t,std::vector<CbmTrdDigi*>> ModuleMap_t;
+  typedef std::map<Int_t,std::vector<CbmTrdDigi*>> ModuleMap_t;
+  typedef vector<vector<CbmTrdDigi*>> DigiVector_t;
    fClusters->Delete();
    fHits->Delete();
    Int_t uniqueModID = 0;
@@ -94,22 +95,29 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
    timer.Start();
    cout << "================CbmLitFindLWClusters::Exec===============" << endl;
    ModuleMap_t moduleMap;
+   DigiVector_t digiArray;
    map<Int_t, Int_t> digiIdMap;
 
    for (Int_t iDigi=0; iDigi < fDigis->GetEntries(); iDigi++ ){
       CbmTrdDigi *digi = (CbmTrdDigi*) fDigis->At(iDigi);
       Int_t digiAddress = digi->GetAddress();
       Int_t moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
+      Int_t digiColumn = CbmTrdAddress::GetColumnId(digiAddress);
+      Int_t digiRow = CbmTrdAddress::GetRowId(digiAddress);
 
       moduleMap[moduleAddress].push_back(digi);
       digiIdMap.insert(pair<Int_t,Int_t>(digiAddress, iDigi));
    }
 
    Int_t index=0;
+   Double_t chkEnergy = pow(10,-6);
    for (const auto& module : moduleMap){
      Int_t moduleAddress = module.first;
      const vector<CbmTrdDigi*>& digiVector = module.second;
      for (const auto& v : digiVector){
+	Double_t ELoss = v->GetCharge();
+	if(ELoss < chkEnergy) continue;
+
 	Int_t digiAddress = v->GetAddress();
 	Int_t digiId = digiIdMap[digiAddress];
 	Int_t digiColumn = CbmTrdAddress::GetColumnId(digiAddress);
@@ -118,17 +126,17 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 	cluster->SetAddress(digiAddress);
 	cluster->AddDigi(digiId);
 
+	digiArray[digiColumn][digiRow] = 1;
+
 	Int_t Col, Row, Plane;
 	Int_t Layer, moduleAddress, Sector;
 	Double_t xHit, yHit, zHit;
 	Double_t xHitErr, yHitErr, zHitErr;
-	Double_t ELoss;
 	TVector3 posHit;
 	TVector3 padSize;
 	// Retrieving Hit Informations
 	Col = CbmTrdAddress::GetColumnId(digiAddress);
 	Row = CbmTrdAddress::GetRowId(digiAddress);
-	ELoss = v->GetCharge();
 	Layer = CbmTrdAddress::GetLayerId(digiAddress);
 	Sector = CbmTrdAddress::GetSectorId(digiAddress);
 	moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
