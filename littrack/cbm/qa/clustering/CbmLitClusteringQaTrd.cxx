@@ -161,12 +161,8 @@ void CbmLitClusteringQaTrd::Finish()
 
 void CbmLitClusteringQaTrd::ProcessSectorHistos()
 {
-   static Int_t sLayer = 0;
-   static Int_t sLayer2 = 0;
    static Int_t sModule = 0;
    static Int_t sModule2 = 0;
-   static Int_t sSector = 0;
-   static Int_t sSector2 = 0;
    static Int_t eventNo = 1;
 
    TString fileName = TString("Event") + TString(eventNo) + TString(".csv");
@@ -176,7 +172,7 @@ void CbmLitClusteringQaTrd::ProcessSectorHistos()
       cerr << "Uh oh, Event" << eventNo << ".csv could not be opened for writing!" << std::endl;
       return;
    }
-   file << "iDigi, layerId, moduleId, iSector, secCol, secRow, digiAddress" << std::endl;
+   file << "eventNo, iDigi, moduleId, secCol, secRow, digiAddress" << std::endl;
 
    Int_t nentries = fTrdDigis->GetEntries();
 
@@ -192,51 +188,39 @@ void CbmLitClusteringQaTrd::ProcessSectorHistos()
      Int_t secRow = CbmTrdAddress::GetRowId(digi->GetAddress());
      Int_t secCol = CbmTrdAddress::GetColumnId(digi->GetAddress());
 
-//     fModuleInfo = fDigiPar->GetModule(CbmTrdAddress::GetModuleAddress(digiAddress));
+     fModuleInfo = fDigiPar->GetModule(moduleAddress);
 
 //     printf("digi: %i; layer: %i; module: %i, sect: %i, col: %i, row: %i; digiAddr: %i\n",//; nofCols:%i\n",
-//     	      iDigi, layerId, moduleId, iSector, secCol, secRow, digiAddress);//, fModuleInfo->GetNofColumns());
+//     	      iDigi, layerId, moduleId, iSector, secCol, secRow, digiAddress);//,
+     Int_t nofCols = fModuleInfo->GetNofColumns();
+     Int_t nofRows = fModuleInfo->GetNofRows();
 
-     if((layerId == sLayer2 || (sLayer2 == 0 && sLayer != 0 && layerId != 0)) &&
-	     (moduleId == sModule2 || (sModule2 == 0  && sModule != 0 && moduleId != 0)) &&
-	     (iSector == sSector2 || (sSector2 == 0  && sSector != 0 && iSector != 0))){
-	sLayer2 = layerId;
-	sModule2 = moduleId;
-	sSector2 = iSector;
-
-//	cout << "[Event" << eventNo << ";M1]Inserting from layer (" << layerId << "), Module (" << moduleId << "), Sector (" << iSector << "); Col,Row (" << secCol << "," << secRow << ")" << std::endl;
-	//fHM->H2("hhh_Section1_Clustering_visualisation_H2")->;
-	fHM->H2("hhh_Module1_Clustering_visualisation_col_H2")->Fill(secCol, secRow, charge);
-	fHM->H2("hhh_Module1_Clustering_visualisation_cont_H2")->Fill(secCol, secRow, charge);
+     if(moduleAddress == 19349){
+	 FillModuleDigis("19349", secCol, secRow, charge);
+	//fHM->H2("hhh_Section1_Clustering_visualisation_H2")->SetMaximum(nofRows);
+//	fHM->H2("hhh_Module1_Clustering_visualisation_col_H2")->Fill(secCol, secRow, charge);
+//	fHM->H2("hhh_Module1_Clustering_visualisation_cont_H2")->Fill(secCol, secRow, charge);
      }
+     if(moduleAddress == 901){
+	 FillModuleDigis("901", secCol, secRow, charge);
 
-     if((layerId == sLayer || (sLayer == 0 && layerId != 0)) &&
-	     (moduleId == sModule || (sModule == 0 && moduleId != 0)) &&
-	     (iSector == sSector || (sSector == 0 && iSector != 0))){
-	sLayer = layerId;
-	sModule = moduleId;
-	sSector = iSector;
-
-//	cout << "[Event" << eventNo << ";M0]Inserting from layer (" << layerId << "), Module (" << moduleId << "), Sector (" << iSector << "); Col,Row (" << secCol << "," << secRow << ")" << std::endl;
-	//fHM->H2("hhh_Section1_Clustering_visualisation_H2")->;
-	fHM->H2("hhh_Module0_Clustering_visualisation_col_H2")->Fill(secCol, secRow, charge);
-	fHM->H2("hhh_Module0_Clustering_visualisation_cont_H2")->Fill(secCol, secRow, charge);
-	file << iDigi << "," << layerId << "," << moduleId << "," << iSector << "," << secCol << "," << secRow << "," << digiAddress << std::endl;
+	 //fHM->H2("hhh_Section1_Clustering_visualisation_H2")->;
+//	fHM->H2("hhh_Module0_Clustering_visualisation_col_H2")->Fill(secCol, secRow, charge);
+//	fHM->H2("hhh_Module0_Clustering_visualisation_cont_H2")->Fill(secCol, secRow, charge);
+	file << eventNo <<  iDigi << "," << moduleId << "," << secCol << "," << secRow << "," << digiAddress << std::endl;
      }
-     if((layerId == 6) &&
-	     (moduleId == 4) &&
-	     (iSector == 0)){
-	sLayer = layerId;
-	sModule = moduleId;
-	sSector = iSector;
-
-//	cout << "[Event" << eventNo << ";MX]Inserting from layer (" << layerId << "), Module (" << moduleId << "), Sector (" << iSector << "); Col,Row (" << secCol << "," << secRow << ")" << std::endl;
+     if(moduleAddress == 5){
 	//fHM->H2("hhh_Section1_Clustering_visualisation_H2")->;
-	fHM->H2("hhh_ModuleX_Clustering_visualisation_col_H2")->Fill(secCol, secRow, charge);
-	fHM->H2("hhh_ModuleX_Clustering_visualisation_cont_H2")->Fill(secCol, secRow, charge);
+	 FillModuleDigis("5", secCol, secRow, charge);
      }
    }
    eventNo++;
+}
+
+void CbmLitClusteringQaTrd::FillModuleDigis(const string nr, Int_t col, Int_t row, Int_t charge)
+{
+  fHM->H2("hhh_Module" + nr + "_Clustering_visualisation_col_H2")->Fill(col, row, charge);
+  fHM->H2("hhh_Module" + nr + "_Clustering_visualisation_cont_H2")->Fill(col, row, charge);
 }
 
 void CbmLitClusteringQaTrd::ReadDataBranches()
@@ -399,13 +383,23 @@ void CbmLitClusteringQaTrd::CreateHistograms()
    CreateHitEfficiencyHistograms(kTRD, "Trd", "Station", "Station number", 100, -0.5, 99.5);
 
    // Histogram for the Sections (Cols and Rows)
-   fHM->Create2<TH2F>("hhh_Module0_Clustering_visualisation_cont_H2", "hhh_Layer3_Module1_Clustering_visualisation", 80, 0, 80., 12, 0, 12);
-   fHM->Create2<TH2F>("hhh_Module1_Clustering_visualisation_cont_H2", "hhh_Layer4_Module1_Clustering_visualisation", 80, 0, 80., 12, 0, 12);
-   fHM->Create2<TH2F>("hhh_ModuleX_Clustering_visualisation_cont_H2", "hhh_Layer4_ModuleX_Clustering_visualisation", 80, 0, 80., 12, 0, 12);
-   // Histogram for the Sections (Cols and Rows)
-   fHM->Create2<TH2F>("hhh_Module0_Clustering_visualisation_col_H2", "hhh_Layer3_Module1_Clustering_visualisation", 80, 0, 80., 12, 0, 12);
-   fHM->Create2<TH2F>("hhh_Module1_Clustering_visualisation_col_H2", "hhh_Layer4_Module1_Clustering_visualisation", 80, 0, 80., 12, 0, 12);
-   fHM->Create2<TH2F>("hhh_ModuleX_Clustering_visualisation_col_H2", "hhh_Layer4_ModuleX_Clustering_visualisation", 80, 0, 80., 12, 0, 12);
+   fModuleInfo = fDigiPar->GetModule(19349);
+   Int_t rows = fModuleInfo->GetNofRows();
+   Int_t cols = fModuleInfo->GetNofColumns();
+   fHM->Create2<TH2F>("hhh_Module19349_Clustering_visualisation_cont_H2", "hhh_Module19349_Clustering_visualisation_cont_H2", cols, 0, cols, rows, 0, rows);
+   fHM->Create2<TH2F>("hhh_Module19349_Clustering_visualisation_col_H2", "hhh_Module19349_Clustering_visualisation_col_H2", cols, 0, cols, rows, 0, rows);
+
+   fModuleInfo = fDigiPar->GetModule(901);
+   rows = fModuleInfo->GetNofRows();
+   cols = fModuleInfo->GetNofColumns();
+   fHM->Create2<TH2F>("hhh_Module901_Clustering_visualisation_cont_H2", "hhh_Module901_Clustering_visualisation_cont_H2", cols, 0, cols, rows, 0, rows);
+   fHM->Create2<TH2F>("hhh_Module901_Clustering_visualisation_col_H2", "hhh_Module901_Clustering_visualisation_col_H2", cols, 0, cols, rows, 0, rows);
+
+   fModuleInfo = fDigiPar->GetModule(5);
+   rows = fModuleInfo->GetNofRows();
+   cols = fModuleInfo->GetNofColumns();
+   fHM->Create2<TH2F>("hhh_Module5_Clustering_visualisation_cont_H2", "hhh_Module5_Clustering_visualisation_cont_H2", cols, 0, cols, rows, 0, rows);
+   fHM->Create2<TH2F>("hhh_Module5_Clustering_visualisation_col_H2", "hhh_Module5_Clustering_visualisation_col_H2", cols, 0, cols, rows, 0, rows);
 
    // Histogram stores number of events
    fHM->Create1<TH1F>("hen_EventNo_ClusteringQa", "hen_EventNo_ClusteringQa", 1, 0, 1.);

@@ -41,6 +41,7 @@ core_dump*
 # event output
 macro/littrack/events
 macro/littrack/test*
+macro/littrack/*.csv
 
 # Eclipse settings
 .DS_Store

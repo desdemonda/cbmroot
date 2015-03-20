@@ -67,6 +67,8 @@ private:
 
     void ProcessSectorHistos();
 
+    void FillModuleDigis(const string nr, Int_t col, Int_t row, Int_t charge);
+
     void InitMuchGeoScheme(const string& digiFileName);
 
     void ProcessPoints(

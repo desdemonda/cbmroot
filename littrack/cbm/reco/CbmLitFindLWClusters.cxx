@@ -95,7 +95,6 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
    timer.Start();
    cout << "================CbmLitFindLWClusters::Exec===============" << endl;
    ModuleMap_t moduleMap;
-   DigiVector_t digiArray;
    map<Int_t, Int_t> digiIdMap;
 
    for (Int_t iDigi=0; iDigi < fDigis->GetEntries(); iDigi++ ){
@@ -109,11 +108,19 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
       digiIdMap.insert(pair<Int_t,Int_t>(digiAddress, iDigi));
    }
 
+   DigiVector_t digiArray;
    Int_t index=0;
    Double_t chkEnergy = pow(10,-6);
    for (const auto& module : moduleMap){
      Int_t moduleAddress = module.first;
      const vector<CbmTrdDigi*>& digiVector = module.second;
+     fModuleInfo = fDigiPar->GetModule(moduleAddress);
+     Int_t nofCols = fModuleInfo->GetNofColumns();
+     Int_t nofRows = fModuleInfo->GetNofRows();
+     digiArray.resize(nofCols);
+     for(Int_t i=0; i < nofCols; i++)
+       digiArray[i].resize(nofRows);
+
      for (const auto& v : digiVector){
 	Double_t ELoss = v->GetCharge();
 	if(ELoss < chkEnergy) continue;
@@ -125,8 +132,6 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 	CbmTrdCluster* cluster = new ((*fClusters)[index]) CbmTrdCluster();
 	cluster->SetAddress(digiAddress);
 	cluster->AddDigi(digiId);
-
-	digiArray[digiColumn][digiRow] = 1;
 
 	Int_t Col, Row, Plane;
 	Int_t Layer, moduleAddress, Sector;
@@ -142,11 +147,34 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 	moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
 	fModuleInfo = fDigiPar->GetModule(moduleAddress);
 	fModuleInfo->GetPosition(moduleAddress, Sector, Col, Row, posHit, padSize);
+
+	digiArray[digiColumn][digiRow] = v;
+
 	// Calculate the hit error from the pad sizes
 	padSize*=(1/TMath::Sqrt(12.));
 
 	CbmTrdHit *hit = new((*fHits)[index]) CbmTrdHit(digiAddress, posHit, padSize, 0., index, 0., 0., ELoss);
 	++index;
+     }
+     for (Int_t col=0; col<nofCols; ++col ){
+	 for (Int_t row=0; row<nofRows; ++row ){
+	     CbmTrdDigi* d = digiArray[col][row];
+	     if(d->GetAddress() == 0) continue;
+/*	     Int_t digiAddress = digiArray[col][row]->GetAddress();
+	     if( digiAddress == 0 ) continue;
+	     if( digiArray[col+1][row]->GetAddress() != 0 ){
+		 LOG(INFO) << "Found down Pair (" << digiAddress << ", " << digiArray[col+1][row]->GetAddress() << ")" << FairLogger::endl;
+	     }
+	     if( digiArray[col+1][row+1]->GetAddress() != 0 ){
+		 LOG(INFO) << "Found down right Pair (" << digiAddress << ", " << digiArray[col+1][row+1]->GetAddress() << ")" << FairLogger::endl;
+	     }
+	     if( digiArray[col+1][row-1]->GetAddress() != 0 ){
+		 LOG(INFO) << "Found down left Pair (" << digiAddress << ", " << digiArray[col+1][row-1]->GetAddress() << ")" << FairLogger::endl;
+	     }
+	     if( digiArray[col][row+1]->GetAddress() != 0 ){
+		 LOG(INFO) << "Found right Pair (" << digiAddress << ", " << digiArray[col][row+1]->GetAddress() << ")" << FairLogger::endl;
+	     }*/
+	 }
      }
    }
    timer.Stop();
