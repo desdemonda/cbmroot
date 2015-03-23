@@ -13,9 +13,8 @@ using std::vector;
 using std::string;
 
 
-void global_reco_qa_trd()
+void global_reco_qa_trd(Int_t nEvents = 5)
 {
-	   Int_t nEvents = 5;
 	   TTree::SetMaxTreeSize(90000000000);
 	   TString script = TString(gSystem->Getenv("LIT_SCRIPT"));	// Script Dir
 	   TString parDir = TString(gSystem->Getenv("VMCWORKDIR")) + TString("/parameters");	// Dir for parameters

@@ -119,7 +119,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
      Int_t nofRows = fModuleInfo->GetNofRows();
      digiArray.resize(nofCols);
      for(Int_t i=0; i < nofCols; i++)
-       digiArray[i].resize(nofRows);
+       digiArray[i].resize(nofRows, new CbmTrdDigi());
 
      for (const auto& v : digiVector){
 	Double_t ELoss = v->GetCharge();
@@ -156,26 +156,29 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 	CbmTrdHit *hit = new((*fHits)[index]) CbmTrdHit(digiAddress, posHit, padSize, 0., index, 0., 0., ELoss);
 	++index;
      }
+     LOG(INFO) << "Module " << moduleAddress << ": searching for Pairs" << FairLogger::endl;
      for (Int_t col=0; col<nofCols; ++col ){
 	 for (Int_t row=0; row<nofRows; ++row ){
 	     CbmTrdDigi* d = digiArray[col][row];
-	     if(d->GetAddress() == 0) continue;
+	     if(d->GetAddress() == -1) continue;
+	     LOG(INFO) << "Found digi (" << d->GetAddress() << "): charge: " << d->GetCharge() << FairLogger::endl;
 /*	     Int_t digiAddress = digiArray[col][row]->GetAddress();
-	     if( digiAddress == 0 ) continue;
-	     if( digiArray[col+1][row]->GetAddress() != 0 ){
+	     if( digiArray[col+1][row]->GetAddress() != -1 && col != nofCols-1 ){
 		 LOG(INFO) << "Found down Pair (" << digiAddress << ", " << digiArray[col+1][row]->GetAddress() << ")" << FairLogger::endl;
 	     }
-	     if( digiArray[col+1][row+1]->GetAddress() != 0 ){
+	     if( digiArray[col+1][row+1]->GetAddress() != -1 && (row != nofRows-1 || col != nofCols-1)){
 		 LOG(INFO) << "Found down right Pair (" << digiAddress << ", " << digiArray[col+1][row+1]->GetAddress() << ")" << FairLogger::endl;
 	     }
-	     if( digiArray[col+1][row-1]->GetAddress() != 0 ){
+	     if( digiArray[col+1][row-1]->GetAddress() != -1 && (row != 0 || col != nofCols-1) ){
 		 LOG(INFO) << "Found down left Pair (" << digiAddress << ", " << digiArray[col+1][row-1]->GetAddress() << ")" << FairLogger::endl;
 	     }
-	     if( digiArray[col][row+1]->GetAddress() != 0 ){
+	     if( digiArray[col][row+1]->GetAddress() != -1 && row != nofRows-1 ){
 		 LOG(INFO) << "Found right Pair (" << digiAddress << ", " << digiArray[col][row+1]->GetAddress() << ")" << FairLogger::endl;
 	     }*/
 	 }
      }
+/*     if( moduleAddress == 19349 or moduleAddress == 901 or moduleAddress == 5)
+       LOG(INFO) << "Module " << moduleAddress << ": ; rows: " << nofRows << "; cols: " << nofCols << FairLogger::endl;*/
    }
    timer.Stop();
    LOG(INFO) << "CbmLitFindLWClusters::Exec : real time=" << timer.RealTime()

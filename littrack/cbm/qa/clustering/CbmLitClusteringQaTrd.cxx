@@ -114,10 +114,11 @@ InitStatus CbmLitClusteringQaTrd::Init()
    // Create histogram manager which is used throughout the program
    fHM = new CbmHistManager();
 
+
    fDet.DetermineSetup();
    ReadDataBranches();
 
-//   fDigiPar = (CbmTrdDigiPar*)(FairRunAna::Instance()->GetRuntimeDb()->getContainer("CbmTrdDigiPar"));
+   fDigiPar = (CbmTrdDigiPar*)(FairRunAna::Instance()->GetRuntimeDb()->getContainer("CbmTrdDigiPar"));
 
    CreateHistograms();
    return kSUCCESS;
@@ -161,8 +162,6 @@ void CbmLitClusteringQaTrd::Finish()
 
 void CbmLitClusteringQaTrd::ProcessSectorHistos()
 {
-   static Int_t sModule = 0;
-   static Int_t sModule2 = 0;
    static Int_t eventNo = 1;
 
    TString fileName = TString("Event") + TString(eventNo) + TString(".csv");
@@ -181,37 +180,28 @@ void CbmLitClusteringQaTrd::ProcessSectorHistos()
      Double_t charge = digi->GetCharge();
 
      Int_t digiAddress  = digi->GetAddress();
-     Int_t layerId    = CbmTrdAddress::GetLayerId(digiAddress);
-     Int_t moduleId = CbmTrdAddress::GetModuleId(digiAddress);
      Int_t moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
-     Int_t iSector = CbmTrdAddress::GetSectorId(digi->GetAddress());
      Int_t secRow = CbmTrdAddress::GetRowId(digi->GetAddress());
      Int_t secCol = CbmTrdAddress::GetColumnId(digi->GetAddress());
 
-     fModuleInfo = fDigiPar->GetModule(moduleAddress);
-
-//     printf("digi: %i; layer: %i; module: %i, sect: %i, col: %i, row: %i; digiAddr: %i\n",//; nofCols:%i\n",
-//     	      iDigi, layerId, moduleId, iSector, secCol, secRow, digiAddress);//,
-     Int_t nofCols = fModuleInfo->GetNofColumns();
-     Int_t nofRows = fModuleInfo->GetNofRows();
-
      if(moduleAddress == 19349){
-	 FillModuleDigis("19349", secCol, secRow, charge);
-	//fHM->H2("hhh_Section1_Clustering_visualisation_H2")->SetMaximum(nofRows);
-//	fHM->H2("hhh_Module1_Clustering_visualisation_col_H2")->Fill(secCol, secRow, charge);
-//	fHM->H2("hhh_Module1_Clustering_visualisation_cont_H2")->Fill(secCol, secRow, charge);
+	  TString histo = TString("hhh_Module") + TString("19349") + TString("_Clustering_visualisation_col_H2");
+	  TString histo2 = TString("hhh_Module") + TString("19349") + TString("_Clustering_visualisation_cont_H2");
+	  fHM->H2(histo.Data())->Fill(secCol, secRow, charge);
+	  fHM->H2(histo2.Data())->Fill(secCol, secRow, charge);
      }
      if(moduleAddress == 901){
-	 FillModuleDigis("901", secCol, secRow, charge);
-
-	 //fHM->H2("hhh_Section1_Clustering_visualisation_H2")->;
-//	fHM->H2("hhh_Module0_Clustering_visualisation_col_H2")->Fill(secCol, secRow, charge);
-//	fHM->H2("hhh_Module0_Clustering_visualisation_cont_H2")->Fill(secCol, secRow, charge);
-	file << eventNo <<  iDigi << "," << moduleId << "," << secCol << "," << secRow << "," << digiAddress << std::endl;
+	  TString histo = TString("hhh_Module") + TString("901") + TString("_Clustering_visualisation_col_H2");
+	  TString histo2 = TString("hhh_Module") + TString("901") + TString("_Clustering_visualisation_cont_H2");
+	  fHM->H2(histo.Data())->Fill(secCol, secRow, charge);
+	  fHM->H2(histo2.Data())->Fill(secCol, secRow, charge);
+	file << eventNo << "," <<  iDigi << "," << moduleAddress << "," << secCol << "," << secRow << "," << digiAddress << std::endl;
      }
      if(moduleAddress == 5){
-	//fHM->H2("hhh_Section1_Clustering_visualisation_H2")->;
-	 FillModuleDigis("5", secCol, secRow, charge);
+	  TString histo = TString("hhh_Module5_Clustering_visualisation_col_H2");
+	  TString histo2 = TString("hhh_Module") + TString("5") + TString("_Clustering_visualisation_cont_H2");
+	  fHM->H2(histo.Data())->Fill(secCol, secRow, charge);
+	  fHM->H2(histo2.Data())->Fill(secCol, secRow, charge);
      }
    }
    eventNo++;
@@ -219,8 +209,10 @@ void CbmLitClusteringQaTrd::ProcessSectorHistos()
 
 void CbmLitClusteringQaTrd::FillModuleDigis(const string nr, Int_t col, Int_t row, Int_t charge)
 {
-  fHM->H2("hhh_Module" + nr + "_Clustering_visualisation_col_H2")->Fill(col, row, charge);
-  fHM->H2("hhh_Module" + nr + "_Clustering_visualisation_cont_H2")->Fill(col, row, charge);
+  TString histo = TString("hhh_Module") + TString(nr) + TString("_Clustering_visualisation_col_H2");
+  TString histo2 = TString("hhh_Module") + TString(nr) + TString("_Clustering_visualisation_cont_H2");
+  fHM->H2(histo.Data())->Fill(col, row, charge);
+  fHM->H2(histo2.Data())->Fill(col, row, charge);
 }
 
 void CbmLitClusteringQaTrd::ReadDataBranches()
@@ -383,21 +375,27 @@ void CbmLitClusteringQaTrd::CreateHistograms()
    CreateHitEfficiencyHistograms(kTRD, "Trd", "Station", "Station number", 100, -0.5, 99.5);
 
    // Histogram for the Sections (Cols and Rows)
-   fModuleInfo = fDigiPar->GetModule(19349);
-   Int_t rows = fModuleInfo->GetNofRows();
-   Int_t cols = fModuleInfo->GetNofColumns();
+   cout << "Getting Module Informations (19349)" << std::endl;
+//   fModuleInfo = fDigiPar->GetModule(19349); CRASHES
+//   [INFO   ] Module 19349: ; rows: 6; cols: 128
+   Int_t rows = 6;
+   Int_t cols = 80;
    fHM->Create2<TH2F>("hhh_Module19349_Clustering_visualisation_cont_H2", "hhh_Module19349_Clustering_visualisation_cont_H2", cols, 0, cols, rows, 0, rows);
    fHM->Create2<TH2F>("hhh_Module19349_Clustering_visualisation_col_H2", "hhh_Module19349_Clustering_visualisation_col_H2", cols, 0, cols, rows, 0, rows);
 
-   fModuleInfo = fDigiPar->GetModule(901);
-   rows = fModuleInfo->GetNofRows();
-   cols = fModuleInfo->GetNofColumns();
+   cout << "Getting Module Informations (901)" << std::endl;
+//   fModuleInfo = fDigiPar->GetModule(901);
+//   [INFO   ] Module 901: ; rows: 24; cols: 128
+   rows = 24;
+   cols = 128;
    fHM->Create2<TH2F>("hhh_Module901_Clustering_visualisation_cont_H2", "hhh_Module901_Clustering_visualisation_cont_H2", cols, 0, cols, rows, 0, rows);
    fHM->Create2<TH2F>("hhh_Module901_Clustering_visualisation_col_H2", "hhh_Module901_Clustering_visualisation_col_H2", cols, 0, cols, rows, 0, rows);
 
-   fModuleInfo = fDigiPar->GetModule(5);
-   rows = fModuleInfo->GetNofRows();
-   cols = fModuleInfo->GetNofColumns();
+   cout << "Getting Module Informations (5)" << std::endl;
+//   fModuleInfo = fDigiPar->GetModule(5);
+//   [INFO   ] Module 5: ; rows: 36; cols: 80
+   rows = 36;
+   cols = 80;
    fHM->Create2<TH2F>("hhh_Module5_Clustering_visualisation_cont_H2", "hhh_Module5_Clustering_visualisation_cont_H2", cols, 0, cols, rows, 0, rows);
    fHM->Create2<TH2F>("hhh_Module5_Clustering_visualisation_col_H2", "hhh_Module5_Clustering_visualisation_col_H2", cols, 0, cols, rows, 0, rows);
 

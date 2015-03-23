@@ -36,46 +36,46 @@ BZRCOMMAND:FILEPATH=BZRCOMMAND-NOTFOUND
 BaseMQ_FOUND:FILEPATH=BaseMQ_FOUND-NOTFOUND
 
 //Path to a file.
-Boost_INCLUDE_DIR:PATH=/Users/jonathan/Development/fs2/include
+Boost_INCLUDE_DIR:PATH=/Users/jonathan/dev/fs/include
 
 //Boost library directory
-Boost_LIBRARY_DIR:PATH=/Users/jonathan/Development/fs2/lib64
+Boost_LIBRARY_DIR:PATH=/Users/jonathan/dev/fs/lib64
 
 //Boost program_options library (debug)
-Boost_PROGRAM_OPTIONS_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_program_options.dylib
+Boost_PROGRAM_OPTIONS_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_program_options.dylib
 
 //Boost program_options library (release)
-Boost_PROGRAM_OPTIONS_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_program_options.dylib
+Boost_PROGRAM_OPTIONS_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_program_options.dylib
 
 //Boost regex library (debug)
-Boost_REGEX_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_regex.dylib
+Boost_REGEX_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_regex.dylib
 
 //Boost regex library (release)
-Boost_REGEX_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_regex.dylib
+Boost_REGEX_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_regex.dylib
 
 //Boost serialization library (debug)
-Boost_SERIALIZATION_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_serialization.dylib
+Boost_SERIALIZATION_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_serialization.dylib
 
 //Boost serialization library (release)
-Boost_SERIALIZATION_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_serialization.dylib
+Boost_SERIALIZATION_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_serialization.dylib
 
 //Boost system library (debug)
-Boost_SYSTEM_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_system.dylib
+Boost_SYSTEM_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_system.dylib
 
 //Boost system library (release)
-Boost_SYSTEM_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_system.dylib
+Boost_SYSTEM_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_system.dylib
 
 //Boost thread library (debug)
-Boost_THREAD_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_thread.dylib
+Boost_THREAD_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_thread.dylib
 
 //Boost thread library (release)
-Boost_THREAD_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_thread.dylib
+Boost_THREAD_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_thread.dylib
 
 //Boost timer library (debug)
-Boost_TIMER_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_timer.dylib
+Boost_TIMER_LIBRARY_DEBUG:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_timer.dylib
 
 //Boost timer library (release)
-Boost_TIMER_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/Development/fs2/lib64/libboost_timer.dylib
+Boost_TIMER_LIBRARY_RELEASE:FILEPATH=/Users/jonathan/dev/fs/lib64/libboost_timer.dylib
 
 //Value Computed by CMake
 CBMROOT_BINARY_DIR:STATIC=/Users/jonathan/Development/cbmroot/build
@@ -87,10 +87,10 @@ CBMROOT_SOURCE_DIR:STATIC=/Users/jonathan/Development/cbmroot
 CLHEP_CONFIG_EXE:FILEPATH=CLHEP_CONFIG_EXE-NOTFOUND
 
 //Path to a file.
-CLHEP_INCLUDE_DIR:PATH=/Users/jonathan/Development/fs2/include/geant4
+CLHEP_INCLUDE_DIR:PATH=/Users/jonathan/dev/fs/include/geant4
 
 //Path to a file.
-CLHEP_LIBRARY_DIR:PATH=/Users/jonathan/Development/fs2/lib
+CLHEP_LIBRARY_DIR:PATH=/Users/jonathan/dev/fs/lib
 
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
@@ -317,85 +317,85 @@ Ecal_LIB_DEPENDS:STATIC=general;CbmBase;general;CbmData;general;Base;general;MLP
 FAIRBASE:PATH=FAIRBASE-NOTFOUND
 
 //Path to a file.
-FAIRROOT_CMAKEMOD_DIR:PATH=/Users/jonathan/Development/fairroot_v-14.11-fairsoft_mar15a/share/fairbase/cmake
+FAIRROOT_CMAKEMOD_DIR:PATH=/Users/jonathan/dev/fr/share/fairbase/cmake
 
 //Path to a file.
-FAIRROOT_INCLUDE_DIR:PATH=/Users/jonathan/Development/fairroot_v-14.11-fairsoft_mar15a/include
+FAIRROOT_INCLUDE_DIR:PATH=/Users/jonathan/dev/fr/include
 
 //Path to a file.
-FAIRROOT_LIBRARY_DIR:PATH=/Users/jonathan/Development/fairroot_v-14.11-fairsoft_mar15a/lib
+FAIRROOT_LIBRARY_DIR:PATH=/Users/jonathan/dev/fr/lib
 
 //Path to a program.
-FAIRSOFT_CONFIG:FILEPATH=/Users/jonathan/Development/fs2/bin/fairsoft-config
+FAIRSOFT_CONFIG:FILEPATH=/Users/jonathan/dev/fs/bin/fairsoft-config
 
 //Dependencies for the target
 Field_LIB_DEPENDS:STATIC=general;Base;
 
 //Path to a file.
-G4LEDATA:PATH=/Users/jonathan/Development/fs2/share/Geant4/data/G4EMLOW
+G4LEDATA:PATH=G4LEDATA-NOTFOUND
 
 //Path to a file.
-G4LEVELGAMMADATA:PATH=/Users/jonathan/Development/fs2/share/Geant4/data/PhotonEvaporation
+G4LEVELGAMMADATA:PATH=G4LEVELGAMMADATA-NOTFOUND
 
 //Path to a file.
-G4NEUTRONXSDATA:PATH=/Users/jonathan/Development/fs2/share/Geant4/data/G4NEUTRONXS
+G4NEUTRONXSDATA:PATH=G4NEUTRONXSDATA-NOTFOUND
 
 //Path to a file.
-G4NeutronHPCrossSections:PATH=/Users/jonathan/Development/fs2/share/Geant4/data/G4NDL
+G4NeutronHPCrossSections:PATH=G4NeutronHPCrossSections-NOTFOUND
 
 //Path to a file.
-G4PIIDATA:PATH=/Users/jonathan/Development/fs2/share/Geant4/data/G4PII
+G4PIIDATA:PATH=G4PIIDATA-NOTFOUND
 
 //Path to a file.
-G4RADIOACTIVEDATA:PATH=/Users/jonathan/Development/fs2/share/Geant4/data/RadioactiveDecay
+G4RADIOACTIVEDATA:PATH=G4RADIOACTIVEDATA-NOTFOUND
 
 //Path to a file.
-G4REALSURFACEDATA:PATH=/Users/jonathan/Development/fs2/share/Geant4/data/RealSurface
+G4REALSURFACEDATA:PATH=G4REALSURFACEDATA-NOTFOUND
 
 //Path to a file.
-G4SAIDXSDATA:PATH=/Users/jonathan/Development/fs2/share/Geant4/data/G4SAIDDATA
+G4SAIDXSDATA:PATH=G4SAIDXSDATA-NOTFOUND
 
 //Path to a file.
-GEANT3_INCLUDE_DIR:PATH=/Users/jonathan/Development/fs2/include/TGeant3
+GEANT3_INCLUDE_DIR:PATH=/Users/jonathan/dev/fs/include/TGeant3
 
 //Path to a library.
-GEANT3_LIB:FILEPATH=/Users/jonathan/Development/fs2/lib64/libgeant321.so
+GEANT3_LIB:FILEPATH=/Users/jonathan/dev/fs/lib64/libgeant321.so
 
 //Path to a file.
-GEANT3_LIBRARY_DIR:PATH=/Users/jonathan/Development/fs2/lib
+GEANT3_LIBRARY_DIR:PATH=/Users/jonathan/dev/fs/lib
 
 //Path to a file.
-GEANT3_SYSTEM_DIR:PATH=/Users/jonathan/Development/fs2/share/geant3
+GEANT3_SYSTEM_DIR:PATH=/Users/jonathan/dev/fs/share/geant3
 
 //Path to a file.
-GEANT4VMC_INCLUDE_DIR:PATH=/Users/jonathan/Development/fs2/include/geant4vmc
+GEANT4VMC_INCLUDE_DIR:PATH=/Users/jonathan/dev/fs/include/geant4vmc
 
 //Path to a file.
-GEANT4VMC_LIBRARY_DIR:PATH=/Users/jonathan/Development/fs2/lib
+GEANT4VMC_LIBRARY_DIR:PATH=/Users/jonathan/dev/fs/lib
 
 //Path to a file.
-GEANT4VMC_MACRO_DIR:PATH=/Users/jonathan/Development/fs2/share/geant4_vmc/macro
+GEANT4VMC_MACRO_DIR:PATH=/Users/jonathan/dev/fs/share/geant4_vmc/macro
 
 //Path to a file.
-GEANT4_DATA:PATH=/Users/jonathan/Development/fs2/share/Geant4/data
+GEANT4_DATA:PATH=GEANT4_DATA-NOTFOUND
 
 //Path to a file.
-GEANT4_DIR:PATH=/Users/jonathan/Development/fs2/bin
+GEANT4_DIR:PATH=/Users/jonathan/dev/fs/bin
 
 //Path to a file.
-GEANT4_INCLUDE_DIR:PATH=/Users/jonathan/Development/fs2/include/geant4
+GEANT4_INCLUDE_DIR:PATH=/Users/jonathan/dev/fs/include/geant4
 
 //Path to a file.
-GEANT4_LIB_DIR:PATH=/Users/jonathan/Development/fs2/lib
+GEANT4_LIB_DIR:PATH=/Users/jonathan/dev/fs/lib
 
 //Path to a file.
 GEANT4_MODULAR_PHYSICS_LIST:FILEPATH=GEANT4_MODULAR_PHYSICS_LIST-NOTFOUND
 
 //Path to a program.
-GITCOMMAND:FILEPATH=/usr/bin/git
+GITCOMMAND:FILEPATH=/usr/local/bin/git
 
 //Path to a program.
-GSL_CONFIG_EXECUTABLE:FILEPATH=/Users/jonathan/Development/fs2/bin/gsl-config
+GSL_CONFIG_EXECUTABLE:FILEPATH=/Users/jonathan/dev/fs/bin/gsl-config
 
 //Dependencies for the target
 Global_LIB_DEPENDS:STATIC=general;KF;general;Ecal;general;CbmBase;general;CbmData;general;Base;
@@ -449,13 +449,13 @@ Mvd_LIB_DEPENDS:STATIC=general;CbmBase;general;CbmData;general;Base;general;G4cl
 P4COMMAND:FILEPATH=P4COMMAND-NOTFOUND
 
 //Path to a file.
-PLUTO_INCLUDE_DIR:PATH=/Users/jonathan/Development/fs2/include/pluto
+PLUTO_INCLUDE_DIR:PATH=/Users/jonathan/dev/fs/include/pluto
 
 //Path to a file.
-PLUTO_LIBRARY_DIR:PATH=/Users/jonathan/Development/fs2/lib
+PLUTO_LIBRARY_DIR:PATH=/Users/jonathan/dev/fs/lib
 
 //Path to a file.
-PYTHIA6_LIBRARY_DIR:PATH=/Users/jonathan/Development/fs2/lib
+PYTHIA6_LIBRARY_DIR:PATH=/Users/jonathan/dev/fs/lib
 
 //Dependencies for the target
 Passive_LIB_DEPENDS:STATIC=general;CbmBase;general;Base;
@@ -464,13 +464,13 @@ Passive_LIB_DEPENDS:STATIC=general;CbmBase;general;Base;
 Psd_LIB_DEPENDS:STATIC=general;CbmData;general;Base;
 
 //Path to a program.
-RLIBMAP_EXECUTABLE:FILEPATH=/Users/jonathan/Development/fs2/bin/rlibmap
+RLIBMAP_EXECUTABLE:FILEPATH=/Users/jonathan/dev/fs/bin/rlibmap
 
 //Path to a program.
-ROOT_CINT_EXECUTABLE:FILEPATH=/Users/jonathan/Development/fs2/bin/rootcint
+ROOT_CINT_EXECUTABLE:FILEPATH=/Users/jonathan/dev/fs/bin/rootcint
 
 //Path to a program.
-ROOT_CONFIG_EXECUTABLE:FILEPATH=/Users/jonathan/Development/fs2/bin/root-config
+ROOT_CONFIG_EXECUTABLE:FILEPATH=/Users/jonathan/dev/fs/bin/root-config
 
 //Dependencies for the target
 Rich_LIB_DEPENDS:STATIC=general;KF;general;L1;general;CbmBase;general;CbmData;general;Base;general;MLP;general;boost_regex;general;Gdml;
@@ -480,7 +480,7 @@ Run_LIB_DEPENDS:STATIC=general;CbmData;general;Base;general;CbmBase;general;Fiel
 
 //Path to scp command, used by CTest for submitting results to
 // a Dart server
-SCPCOMMAND:FILEPATH=/usr/bin/scp
+SCPCOMMAND:FILEPATH=/opt/local/bin/scp
 
 //Name of the computer/site where compile is being run
 SITE:STRING=eumolos.local
@@ -507,16 +507,16 @@ Trd_LIB_DEPENDS:STATIC=general;CbmBase;general;CbmData;general;Base;general;TMVA
 USE_PATH_INFO:BOOL=OFF
 
 //Path to a file.
-VGM_LIBRARY_DIR:PATH=/Users/jonathan/Development/fs2/lib
+VGM_LIBRARY_DIR:PATH=/Users/jonathan/dev/fs/lib
 
 //Path to ZeroMQ include header files.
-ZMQ_INCLUDE_DIR:PATH=/Users/jonathan/Development/fs2/include
+ZMQ_INCLUDE_DIR:PATH=/Users/jonathan/dev/fs/include
 
 //Path to libzmq.so.
-ZMQ_LIBRARY_SHARED:FILEPATH=/Users/jonathan/Development/fs2/lib64/libzmq.so
+ZMQ_LIBRARY_SHARED:FILEPATH=/Users/jonathan/dev/fs/lib64/libzmq.so
 
 //Path to libzmq.a.
-ZMQ_LIBRARY_STATIC:FILEPATH=/Users/jonathan/Development/fs2/lib64/libzmq.a
+ZMQ_LIBRARY_STATIC:FILEPATH=/Users/jonathan/dev/fs/lib64/libzmq.a
 
 //Dependencies for the target
 fles_ipc_LIB_DEPENDS:STATIC=general;boost_thread;general;boost_system;general;boost_serialization;general;zmq;
@@ -780,13 +780,13 @@ ZMQ_LIBRARY_SHARED-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: ZMQ_LIBRARY_STATIC
 ZMQ_LIBRARY_STATIC-ADVANCED:INTERNAL=1
 //Last used BOOST_ROOT value.
-_BOOST_ROOT_LAST:INTERNAL=/Users/jonathan/Development/fs2
+_BOOST_ROOT_LAST:INTERNAL=/Users/jonathan/dev/fs
 //Components requested for this build tree.
 _Boost_COMPONENTS_SEARCHED:INTERNAL=program_options;regex;serialization;system;thread;timer
 //Last used Boost_INCLUDE_DIR value.
-_Boost_INCLUDE_DIR_LAST:INTERNAL=/Users/jonathan/Development/fs2/include
+_Boost_INCLUDE_DIR_LAST:INTERNAL=/Users/jonathan/dev/fs/include
 //Last used Boost_LIBRARY_DIR value.
-_Boost_LIBRARY_DIR_LAST:INTERNAL=/Users/jonathan/Development/fs2/lib64
+_Boost_LIBRARY_DIR_LAST:INTERNAL=/Users/jonathan/dev/fs/lib64
 //Last used Boost_NAMESPACE value.
 _Boost_NAMESPACE_LAST:INTERNAL=boost
 //Last used Boost_NO_SYSTEM_PATHS value.
