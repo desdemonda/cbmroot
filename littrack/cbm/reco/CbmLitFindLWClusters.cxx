@@ -46,6 +46,7 @@ CbmLitFindLWClusters::CbmLitFindLWClusters():
 	 fDigiPar(NULL),
 	 fModuleDetails(NULL),
 	 fClusterManager(NULL),
+	 fSeenDigis(),
 	 fGeoHandler(NULL)
 {
 }
@@ -87,9 +88,11 @@ InitStatus CbmLitFindLWClusters::Init()
 void CbmLitFindLWClusters::Exec(Option_t *option)
 {
   typedef std::map<Int_t,std::vector<CbmTrdDigi*>> ModuleMap_t;
-  typedef vector<vector<CbmTrdDigi*>> DigiVector_t;
+  typedef std::vector<std::vector<CbmTrdDigi*>> DigiVector_t;
    fClusters->Delete();
    fHits->Delete();
+   fSeenDigis.clear();
+
    Int_t uniqueModID = 0;
    TStopwatch timer;
    timer.Start();
@@ -101,8 +104,6 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
       CbmTrdDigi *digi = (CbmTrdDigi*) fDigis->At(iDigi);
       Int_t digiAddress = digi->GetAddress();
       Int_t moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
-      Int_t digiColumn = CbmTrdAddress::GetColumnId(digiAddress);
-      Int_t digiRow = CbmTrdAddress::GetRowId(digiAddress);
 
       moduleMap[moduleAddress].push_back(digi);
       digiIdMap.insert(pair<Int_t,Int_t>(digiAddress, iDigi));
@@ -110,7 +111,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 
    DigiVector_t digiArray;
    Int_t index=0;
-   Double_t chkEnergy = pow(10,-6);
+   Double_t chkEnergy = 1e-6;
    for (const auto& module : moduleMap){
      Int_t moduleAddress = module.first;
      const vector<CbmTrdDigi*>& digiVector = module.second;
@@ -119,7 +120,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
      Int_t nofRows = fModuleInfo->GetNofRows();
      digiArray.resize(nofCols);
      for(Int_t i=0; i < nofCols; i++)
-       digiArray[i].resize(nofRows, new CbmTrdDigi());
+       digiArray[i].resize(nofRows, nullptr);
 
      for (const auto& v : digiVector){
 	Double_t ELoss = v->GetCharge();
@@ -129,60 +130,140 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 	Int_t digiId = digiIdMap[digiAddress];
 	Int_t digiColumn = CbmTrdAddress::GetColumnId(digiAddress);
 	Int_t digiRow = CbmTrdAddress::GetRowId(digiAddress);
-	CbmTrdCluster* cluster = new ((*fClusters)[index]) CbmTrdCluster();
-	cluster->SetAddress(digiAddress);
-	cluster->AddDigi(digiId);
-
-	Int_t Col, Row, Plane;
-	Int_t Layer, moduleAddress, Sector;
-	Double_t xHit, yHit, zHit;
-	Double_t xHitErr, yHitErr, zHitErr;
-	TVector3 posHit;
-	TVector3 padSize;
-	// Retrieving Hit Informations
-	Col = CbmTrdAddress::GetColumnId(digiAddress);
-	Row = CbmTrdAddress::GetRowId(digiAddress);
-	Layer = CbmTrdAddress::GetLayerId(digiAddress);
-	Sector = CbmTrdAddress::GetSectorId(digiAddress);
-	moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
-	fModuleInfo = fDigiPar->GetModule(moduleAddress);
-	fModuleInfo->GetPosition(moduleAddress, Sector, Col, Row, posHit, padSize);
 
 	digiArray[digiColumn][digiRow] = v;
-
-	// Calculate the hit error from the pad sizes
-	padSize*=(1/TMath::Sqrt(12.));
-
-	CbmTrdHit *hit = new((*fHits)[index]) CbmTrdHit(digiAddress, posHit, padSize, 0., index, 0., 0., ELoss);
-	++index;
      }
      LOG(INFO) << "Module " << moduleAddress << ": searching for Pairs" << FairLogger::endl;
      for (Int_t col=0; col<nofCols; ++col ){
 	 for (Int_t row=0; row<nofRows; ++row ){
 	     CbmTrdDigi* d = digiArray[col][row];
-	     if(d->GetAddress() == -1) continue;
-	     LOG(INFO) << "Found digi (" << d->GetAddress() << "): charge: " << d->GetCharge() << FairLogger::endl;
-/*	     Int_t digiAddress = digiArray[col][row]->GetAddress();
-	     if( digiArray[col+1][row]->GetAddress() != -1 && col != nofCols-1 ){
-		 LOG(INFO) << "Found down Pair (" << digiAddress << ", " << digiArray[col+1][row]->GetAddress() << ")" << FairLogger::endl;
-	     }
-	     if( digiArray[col+1][row+1]->GetAddress() != -1 && (row != nofRows-1 || col != nofCols-1)){
-		 LOG(INFO) << "Found down right Pair (" << digiAddress << ", " << digiArray[col+1][row+1]->GetAddress() << ")" << FairLogger::endl;
-	     }
-	     if( digiArray[col+1][row-1]->GetAddress() != -1 && (row != 0 || col != nofCols-1) ){
-		 LOG(INFO) << "Found down left Pair (" << digiAddress << ", " << digiArray[col+1][row-1]->GetAddress() << ")" << FairLogger::endl;
-	     }
-	     if( digiArray[col][row+1]->GetAddress() != -1 && row != nofRows-1 ){
-		 LOG(INFO) << "Found right Pair (" << digiAddress << ", " << digiArray[col][row+1]->GetAddress() << ")" << FairLogger::endl;
-	     }*/
+	     if(d == nullptr || fSeenDigis.find(d->GetAddress()) != fSeenDigis.end()) continue;
+	     vector<CbmTrdDigi*> result;
+	     FindRecursive(digiArray, col, row, result, digiIdMap);
 	 }
      }
-/*     if( moduleAddress == 19349 or moduleAddress == 901 or moduleAddress == 5)
+/*     if( moduleAddress == 11269 or moduleAddress == 11077 or moduleAddress == 11013)
        LOG(INFO) << "Module " << moduleAddress << ": ; rows: " << nofRows << "; cols: " << nofCols << FairLogger::endl;*/
    }
+
+   HitFinder();
+
    timer.Stop();
    LOG(INFO) << "CbmLitFindLWClusters::Exec : real time=" << timer.RealTime()
              << " CPU time=" << timer.CpuTime() << FairLogger::endl;
+}
+
+void CbmLitFindLWClusters::FindRecursive(const DigiVector_t &digiArray,
+					 Int_t col,
+					 Int_t row,
+					 vector<CbmTrdDigi*> &result,
+					 const map<Int_t, Int_t> &digiIdMap)
+{
+  CbmTrdDigi* d = digiArray[col][row];
+  Int_t digiAddress = d->GetAddress();
+  Int_t moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
+  Int_t nofCols = digiArray.size();
+  Int_t nofRows = digiArray[0].size();
+
+  CbmTrdDigi* d2 = nullptr;
+  if( col != nofCols-1 && digiArray[col+1][row] != nullptr ){
+	 d2 = digiArray[col+1][row];
+  }
+  if( (row != nofRows-1 && col != nofCols-1) && digiArray[col+1][row+1] != nullptr ){
+	 d2 = digiArray[col+1][row+1];
+  }
+  if( (row != 0 && col != nofCols-1) && digiArray[col+1][row-1] != nullptr ){
+	 d2 = digiArray[col+1][row-1];
+  }
+  if( row != nofRows-1 && digiArray[col][row+1] != nullptr ){
+	 d2 = digiArray[col][row+1];
+  }
+
+  if(d2 != nullptr){
+      result.push_back(d);
+      Int_t col2 = CbmTrdAddress::GetColumnId(d2->GetAddress());
+      Int_t row2 = CbmTrdAddress::GetRowId(d2->GetAddress());
+      FindRecursive(digiArray, col2, row2, result, digiIdMap);
+  }else{
+      result.push_back(d);
+      LOG(INFO) << "Creating Cluster with " << result.size() << " Digis ..." << FairLogger::endl;
+      // Adding a new Cluster into fClusters
+      Int_t clusterNo = fClusters->GetEntries();
+      CbmTrdCluster* cluster = new ((*fClusters)[clusterNo]) CbmTrdCluster();
+      cluster->SetAddress(digiAddress);
+
+      vector<CbmTrdDigi*>::iterator lnk = result.begin();
+      while( lnk != result.end() ){
+	  CbmTrdDigi* digi = (CbmTrdDigi*) *lnk;
+	  digiAddress = digi->GetAddress();
+	  Int_t iDigi = digiIdMap.at(digiAddress);
+	  cluster->AddDigi(iDigi);
+	  fSeenDigis.insert(digiAddress);
+	  ++lnk;
+      }
+      ++clusterNo;
+  }
+}
+
+void CbmLitFindLWClusters::HitFinder()
+{
+  Int_t hitNo = 0;
+  for (Int_t iCluster=0; iCluster < fClusters->GetEntries(); iCluster++ ){
+    CbmTrdCluster* cluster = (CbmTrdCluster*) fClusters->At(iCluster);
+    Int_t nofDigis = cluster->GetNofDigis();
+    TVector3 posHit, testPosHit, padSize;
+    testPosHit.SetXYZ(0.0, 0.0, 0.0);
+    padSize.SetXYZ(0.0, 0.0, 0.0);
+    Double_t ELoss, maxELoss;
+    maxELoss = 0;
+    Int_t digiAddress2;
+    LOG(INFO) << "Retrieving Hit Informations of " << nofDigis << " Digis ..." << FairLogger::endl;
+//    LOG(INFO) << "Processing Hit digiAddress (posHit.x, posHit.y, posHit.z, maxELoss, padSize)" << FairLogger::endl;
+    printf("digiAddress, dCol, dRow, posHit2.x(), posHit2.y(), posHit2.z(), ELoss2, padSize.x(), padSize.y(), padSize.z()\n");
+    for(Int_t iDigi=0; iDigi < nofDigis; ++iDigi){
+      CbmTrdDigi* digi = (CbmTrdDigi*) fDigis->At(cluster->GetDigi(iDigi));
+      Int_t digiAddress = digi->GetAddress();
+
+      // Retrieving Hit Informations
+      Int_t dCol = CbmTrdAddress::GetColumnId(digiAddress);
+      Int_t dRow = CbmTrdAddress::GetRowId(digiAddress);
+      Double_t ELoss2 = digi->GetCharge();
+
+      Int_t Layer = CbmTrdAddress::GetLayerId(digiAddress);
+      Int_t Sector = CbmTrdAddress::GetSectorId(digiAddress);
+      Int_t moduleAddress = CbmTrdAddress::GetModuleAddress(digiAddress);
+
+      TVector3 posHit2;
+      TVector3 padSize2;
+      fModuleInfo = fDigiPar->GetModule(moduleAddress);
+      fModuleInfo->GetPosition(moduleAddress, Sector, dCol, dRow, posHit2, padSize2);
+
+      padSize += padSize2;
+      testPosHit += posHit2;
+      ELoss += ELoss2;
+      if(max(abs(ELoss2),abs(maxELoss)) == ELoss2){
+	  maxELoss = ELoss2;
+	  posHit = posHit2;
+	  digiAddress2 = digiAddress;
+      }
+      printf("%d, %d, %d, %e, %e, %e, %e, %e, %e, %e\n", digiAddress, dCol, dRow, posHit2.x(), posHit2.y(), posHit2.z(), ELoss2, padSize.x(), padSize.y(), padSize.z());
+    }
+
+    // Calculate the hit error from the pad sizes
+    testPosHit *= 1/nofDigis;
+    ELoss   /= nofDigis;
+    padSize *= 1/nofDigis;
+    padSize *= 1/TMath::Sqrt(12.);
+
+    // Adding a new hit into fHits
+    LOG(INFO) << "Processing Hit digiAddress (posHit.x, posHit.y, posHit.z, ELoss, padSize.x, padSize.y, padSize.z)" << FairLogger::endl;
+    printf("Processing Hit %d (%e, %e, %e, %e, %e, %e, %e)\n", digiAddress2, posHit.x(), posHit.y(), posHit.z(), maxELoss, padSize.x(), padSize.y(), padSize.z());
+    printf("Hit Info Test: %d (%e, %e, %e, %e, %e, %e, %e)\n", digiAddress2, testPosHit.x(), testPosHit.y(), testPosHit.z(), ELoss, padSize.x(), padSize.y(), padSize.z());
+//    LOG(INFO) << "Processing Hit " << digiAddress2 << " (" << posHit.x() << "," << posHit.y() << "," << posHit.z() << "," << maxELoss << "," << padSize.x() << "," << padSize.y() << "," << padSize.z() << ")" << FairLogger::endl;
+//    LOG(INFO) << "Hit Info test " << digiAddress2 << " (" << testPosHit.x() << "," << testPosHit.y() << "," << testPosHit.z() << "," << ELoss << "," << padSize.x() << "," << padSize.y() << "," << padSize.z() << ")" << FairLogger::endl;
+    LOG(INFO) << "Creating Hit with " << nofDigis << " Digis ..." << FairLogger::endl;
+    CbmTrdHit *hit = new((*fHits)[hitNo++]) CbmTrdHit(digiAddress2, posHit, padSize, 0., iCluster, 0., 0., maxELoss);
+  }
 }
 
 void CbmLitFindLWClusters::Finish()

@@ -12,14 +12,19 @@
 #include<utility>
 #include<map>
 #include<set>
+#include<vector>
 
 class TClonesArray;
 class CbmTrdModule;
+class CbmTrdDigi;
 class CbmTrdDigiPar;
 class CbmTrdGeoHandler;
-//class CbmLitClusterDistance;
-class CbmCluster;
+class CbmTrdCluster;
 class CbmLitLWClusterManager;
+
+using std::vector;
+using std::map;
+typedef vector<vector<CbmTrdDigi*>> DigiVector_t;
 
 class CbmLitFindLWClusters : public FairTask
 {
@@ -84,6 +89,19 @@ private:
    CbmTrdDigiPar *fDigiPar;       // Parameters of Digis
    CbmTrdGeoHandler* fGeoHandler; // GeoHandler
    CbmLitLWClusterManager* fClusterManager;  // Cluster Manager
+
+   std::set<Int_t> fSeenDigis;
+
+   /**
+    * \brief
+    */
+   void FindRecursive(const DigiVector_t &digiArray,
+		      Int_t col,
+		      Int_t row,
+		      vector<CbmTrdDigi*> &result,
+		      const map<Int_t, Int_t> &digiIdMap);
+
+   void HitFinder();
 
    /**
     * \brief Copy Constructor
