@@ -206,6 +206,9 @@ void global_reco(Int_t nEvents = 5, // number of events
 			   CbmLitFindLWClusters* trdCluster = new CbmLitFindLWClusters();
 			   run->AddTask(trdCluster);
 
+			   CbmLitClusteringQaTrd* trdQA = new CbmLitClusteringQaTrd();
+			   run->AddTask(trdQA);
+
 			   /** ToDo: Write following Class **/
 //			   CbmLitFindLWHits* trdHit = new CbmLitFindLWHits();
 //			   run->AddTask(trdHit);

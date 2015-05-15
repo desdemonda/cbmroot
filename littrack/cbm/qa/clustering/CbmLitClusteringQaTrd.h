@@ -18,6 +18,7 @@ using std::vector;
 using std::map;
 class CbmHistManager;
 class TClonesArray;
+class TCanvas;
 class CbmTrdModule;
 class CbmTrdDigiPar;
 
@@ -195,6 +196,7 @@ private:
     CbmTrdModule  *fModuleInfo;
 
     string fMuchDigiFileName;
+    map<UInt_t, TCanvas*> fCanvases;
 
     CbmLitClusteringQaTrd(const CbmLitClusteringQaTrd&);
     CbmLitClusteringQaTrd& operator=(const CbmLitClusteringQaTrd&);

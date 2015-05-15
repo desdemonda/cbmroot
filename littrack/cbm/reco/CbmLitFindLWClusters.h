@@ -56,19 +56,10 @@ public:
 
 protected:
    /**
-    * \brief Create an array to measure the distance between Clusters
+    * \brief Checks the distance between two Digis and returns, if you can link them together.
+    * \out[bool] true: if the Digis fit together, otherwise false.
     */
-//   virtual void create_dm() const;
-
-   /**
-    * \brief Update the distance array
-    */
-//   virtual void update_dm(Int_t p, Int_t q, Int_t r) const = 0;
-
-   /**
-    * \brief Checks the distance between all Clusters and links them together
-    */
-   //virtual void linkage() const;
+   bool CheckLink(vector<CbmTrdDigi*> &list, CbmTrdDigi* digi, CbmTrdDigi* oldDigi);
 
    // Protected Variables
 //   mutable std::map<UInt_t, Double_t> fDistanceMap;

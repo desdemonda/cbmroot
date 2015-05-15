@@ -52,6 +52,8 @@ class CbmTrdDigiPar : public FairParGenericSet
 
   CbmTrdModule* GetModule(Int_t i) { return fModuleMap[i]; }
 
+  const std::map<Int_t, CbmTrdModule*>& GetModuleMap() { return fModuleMap; }
+
  private:
 
   /** Map of Unique Trd Module Id to corresponding TrdModule **/

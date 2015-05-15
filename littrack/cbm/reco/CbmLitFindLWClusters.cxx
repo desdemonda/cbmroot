@@ -179,8 +179,9 @@ void CbmLitFindLWClusters::FindRecursive(const DigiVector_t &digiArray,
 	 d2 = digiArray[col][row+1];
   }
 
-  if(d2 != nullptr){
+  if( d2 != nullptr && CheckLink(result, d, d2) ){
       result.push_back(d);
+
       Int_t col2 = CbmTrdAddress::GetColumnId(d2->GetAddress());
       Int_t row2 = CbmTrdAddress::GetRowId(d2->GetAddress());
       FindRecursive(digiArray, col2, row2, result, digiIdMap);
@@ -203,6 +204,13 @@ void CbmLitFindLWClusters::FindRecursive(const DigiVector_t &digiArray,
       }
       ++clusterNo;
   }
+}
+
+bool CbmLitFindLWClusters::CheckLink(vector<CbmTrdDigi*> &list, CbmTrdDigi* digi, CbmTrdDigi* oldDigi)
+{
+//  if( digi->GetCharge() < oldDigi->GetCharge() )
+//    return false;
+  return true;
 }
 
 void CbmLitFindLWClusters::HitFinder()
