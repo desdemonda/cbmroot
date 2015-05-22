@@ -54,3 +54,11 @@ input/fieldmap*
 
 # Build
 build
+
+# image output
+*.png
+*.pdf
+*.eps
+*.ps
+*.html
+*.tex

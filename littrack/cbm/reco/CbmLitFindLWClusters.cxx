@@ -111,6 +111,8 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 
    DigiVector_t digiArray;
    Int_t index=0;
+   Int_t nofDigisChecked = 0;
+   cout << "Points in total: " << fDigis->GetEntries() << endl;
    Double_t chkEnergy = 1e-6;
    for (const auto& module : moduleMap){
      Int_t moduleAddress = module.first;
@@ -125,6 +127,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
      for (const auto& v : digiVector){
 	Double_t ELoss = v->GetCharge();
 	if(ELoss < chkEnergy) continue;
+	nofDigisChecked++;
 
 	Int_t digiAddress = v->GetAddress();
 	Int_t digiId = digiIdMap[digiAddress];
@@ -133,6 +136,7 @@ void CbmLitFindLWClusters::Exec(Option_t *option)
 
 	digiArray[digiColumn][digiRow] = v;
      }
+     cout << "Points above threshold: " << nofDigisChecked << endl;
      LOG(INFO) << "Module " << moduleAddress << ": searching for Pairs" << FairLogger::endl;
      for (Int_t col=0; col<nofCols; ++col ){
 	 for (Int_t row=0; row<nofRows; ++row ){

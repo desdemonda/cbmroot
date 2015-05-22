@@ -18,6 +18,7 @@
 #pragma link C++ class CbmLitLWClusterManager+;
 
 #pragma link C++ class CbmLitTrackingQa+;
+#pragma link C++ class CbmLitShowClusters+;
 #pragma link C++ class CbmLitClusteringQa+;
 #pragma link C++ class CbmLitClusteringQaTrd+;
 #pragma link C++ class CbmLitFieldQa+;
@@ -34,6 +35,7 @@
 
 #pragma link C++ class CbmLitTrackingQaReport+;
 #pragma link C++ class CbmLitTrackingQaStudyReport+;
+#pragma link C++ class CbmLitShowClustersReport+;
 #pragma link C++ class CbmLitClusteringQaReport+;
 #pragma link C++ class CbmLitClusteringQaTrdReport+;
 #pragma link C++ class CbmLitClusteringQaStudyReport+;

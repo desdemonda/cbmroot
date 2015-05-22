@@ -99,6 +99,7 @@ CbmLitClusteringQaTrd::CbmLitClusteringQaTrd():
    fTofHits(NULL),
    fDigiPar(NULL),
    fModuleInfo(NULL),
+//   fMarker(), // error: no matching constructor for initialization of 'map<UInt_t, vector<TEllipse *> *>'
 //   fCanvases(NULL),
    fMuchDigiFileName("")
 {
@@ -126,6 +127,7 @@ InitStatus CbmLitClusteringQaTrd::Init()
    assert( fDigiPar != nullptr );
 
    CreateHistograms();
+
    return kSUCCESS;
 }
 
@@ -158,8 +160,6 @@ void CbmLitClusteringQaTrd::Exec(
    cout << "FillHitEfficiencyHistograms" << std::endl;
    FillHitEfficiencyHistograms(fTrdPoints, fTrdHits, fTrdHitMatches, "Trd", kTRD);
 
-   ProcessSectorHistos();
-
    // Increment and output the event counter
    fHM->H1("hen_EventNo_ClusteringQa")->Fill(0.5);
    std::cout << "CbmLitClusteringQaTrd::Exec: event=" << fHM->H1("hen_EventNo_ClusteringQa")->GetEntries() << std::endl;
@@ -190,6 +190,7 @@ void CbmLitClusteringQaTrd::ProcessSectorHistos()
    file << "eventNo, iDigi, moduleId, secCol, secRow, charge, digiAddress" << std::endl;*/
 
    Int_t nentries = fTrdDigis->GetEntries();
+   map<UInt_t, vector<TBox*>> markerMap;
 
    for (Int_t iDigi=0; iDigi < nentries; iDigi++ ) {
      CbmTrdDigi *digi = (CbmTrdDigi*) fTrdDigis->At(iDigi);
@@ -205,37 +206,29 @@ void CbmLitClusteringQaTrd::ProcessSectorHistos()
      Int_t secCol = CbmTrdAddress::GetColumnId(digi->GetAddress());
 
      if(layerId == 0){
-	  cout << layerId << ", " << moduleAddress << ", " << moduleId << ", " << secCol << ", " << secRow << ", " << charge << std::endl;
-
-	  TCanvas* c1 = fCanvases[moduleAddress];
+	  cout << moduleAddress << ", " << layerId << ", " << moduleId << ", " << secCol << ", " << secRow << ", " << charge << std::endl;
 
 	  TVector3 posHit;
 	  TVector3 padSize;
 	  fModuleInfo = fDigiPar->GetModule(moduleAddress);
-	  Int_t maxX = fModuleInfo->GetSizeX();
-	  Int_t maxY = fModuleInfo->GetSizeY();
+	  Double_t maxX = fModuleInfo->GetSizeX();
+	  Double_t maxY = fModuleInfo->GetSizeY();
 	  fModuleInfo->GetPosition(moduleAddress, sectorId, secCol, secRow, posHit, padSize);
 
-	  TMarker *m = new TMarker(posHit.X()/maxX, posHit.Y()/maxY, 26);
-	  TPad* p1 = c1->Pick(1,1,m);
-	  c1->SetSelectedPad(p1);
-	  m->Draw();
-	  c1->Update();
+//	  stringstream histo;
+//	  histo << "hhh_Layer1_Module" << moduleId << "_Clustering_visualisation_col_H2";
+//	  TH2 *pad = fHM->H2(histo.str());
+//	  pad->Fill(posHit.X(), posHit.Y(), charge);
+	  Double_t x = posHit.X()/maxX;
+	  Double_t y = posHit.Y()/maxY;
+	  Double_t padx = padSize.X()/maxX;
+	  Double_t pady = padSize.Y()/maxY;
+	  TBox *m = new TBox(x-padx, y-pady, x+padx, y+pady);  // Define the Marker
 
-     }/*
-     if(moduleAddress == 11077){
-	  TString histo = TString("hhh_Module") + TString("11077") + TString("_Clustering_visualisation_col_H2");
-	  TString histo2 = TString("hhh_Module") + TString("11077") + TString("_Clustering_visualisation_cont_H2");
-	  fHM->H2(histo.Data())->Fill(secCol, secRow, charge);
-	  fHM->H2(histo2.Data())->Fill(secCol, secRow, charge);
-          file << eventNo << "," <<  iDigi << "," << moduleAddress << "," << secCol << "," << secRow << "," << charge << "," << digiAddress << std::endl;
+	  vector<TBox*> moduleVector = markerMap[moduleAddress];
+	  moduleVector.push_back(m);
+
      }
-     if(moduleAddress == 11013){
-	  TString histo = TString("hhh_Module") + TString("11013") + TString("_Clustering_visualisation_col_H2");
-	  TString histo2 = TString("hhh_Module") + TString("11013") + TString("_Clustering_visualisation_cont_H2");
-	  fHM->H2(histo.Data())->Fill(secCol, secRow, charge);
-	  fHM->H2(histo2.Data())->Fill(secCol, secRow, charge);
-     }*/
    }
    eventNo++;
 }
@@ -407,58 +400,6 @@ void CbmLitClusteringQaTrd::CreateHistograms()
    CreateClusterParametersHistograms(kTRD, "Trd");
    CreateHitEfficiencyHistograms(kTRD, "Trd", "Station", "Station number", 100, -0.5, 99.5);
 
-   // Histogram for the Sections (Cols and Rows)
-   cout << "Getting Module Informations (2325)" << std::endl;
-   std::map<Int_t, CbmTrdModule*> map = fDigiPar->GetModuleMap();
-   std::cout << map.size() << std::endl;
-   for(const auto& v : map) {
-       std::cout << v.first << " --> " << v.second->GetSizeX() << std::endl;
-   }
-
-//   [INFO   ] Module 11269: ; rows: 6; cols: 128
-   Int_t rows = 9;
-   Int_t cols = 128;
-
-   for(Int_t moduleId = 0; moduleId < 128; ++moduleId){
-      UInt_t address = CbmTrdAddress::GetAddress(0,moduleId,0,0,0);
-      UInt_t moduleAddress = CbmTrdAddress::GetModuleAddress(address);
-      fModuleInfo = fDigiPar->GetModule(moduleAddress);
-      if( fModuleInfo == nullptr )
-        continue;
-
-      Int_t maxX = fModuleInfo->GetSizeX();
-      Int_t maxY = fModuleInfo->GetSizeY();
-      cout << "Module [" << moduleId << "]: " <<  maxX << ", " << maxY << std::endl;
-
-
-     stringstream histo, histo2;
-     histo << "hhh_Layer1_Module" << moduleId << "_Clustering_visualisation_col_H2";
-//     histo2 << "hhh_Layer1_Module" << moduleId << "_Clustering_visualisation_cont_H2";
-     TCanvas *c1 = new TCanvas(histo.str().c_str(), histo.str().c_str(), maxX, maxY, 600, 400);
-//     c1->SetName(histo.str().c_str());
-//     c1->SetCanvasSize(600, 400);
-     fCanvases[moduleAddress] = c1;
-
-//     fHM->Create2<TH2F>(histo.str(), histo.str(), cols, 0, cols, rows, 0, rows);
-//     fHM->Create2<TH2F>(histo2.str(), histo2.str(), cols, 0, cols, rows, 0, rows);
-   }
-
-/*   cout << "Getting Module Informations (11077)" << std::endl;
-//   fModuleInfo = fDigiPar->GetModule(11077);
-//   [INFO   ] Module 11077: ; rows: 6; cols: 128
-   rows = 6;
-   cols = 128;
-   fHM->Create2<TH2F>("hhh_Module11077_Clustering_visualisation_cont_H2", "hhh_Module11077_Clustering_visualisation_cont_H2", cols, 0, cols, rows, 0, rows);
-   fHM->Create2<TH2F>("hhh_Module11077_Clustering_visualisation_col_H2", "hhh_Module11077_Clustering_visualisation_col_H2", cols, 0, cols, rows, 0, rows);
-
-   cout << "Getting Module Informations (11013)" << std::endl;
-//   fModuleInfo = fDigiPar->GetModule(11013);
-//   [INFO   ] Module 11013: ; rows: 6; cols: 128
-   rows = 36;
-   cols = 80;
-   fHM->Create2<TH2F>("hhh_Module11013_Clustering_visualisation_cont_H2", "hhh_Module11013_Clustering_visualisation_cont_H2", cols, 0, cols, rows, 0, rows);
-   fHM->Create2<TH2F>("hhh_Module11013_Clustering_visualisation_col_H2", "hhh_Module11013_Clustering_visualisation_col_H2", cols, 0, cols, rows, 0, rows);
-*/
    // Histogram stores number of events
    fHM->Create1<TH1F>("hen_EventNo_ClusteringQa", "hen_EventNo_ClusteringQa", 1, 0, 1.);
 }

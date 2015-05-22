@@ -1,12 +1,12 @@
 /*
- * \file CbmLitClusteringQaTrd.h
- * \brief FairTask for clustering performance calculation.
- * \author Jonathan Pieper <j.pieper@gsi.de>
- * \date Dec 1, 2014
+ * CbmLitShowClusters.h
+ *
+ *  Created on: 18.05.2015
+ *      Author: jonathan
  */
 
-#ifndef CBMLITCLUSTERINGQATRD_H_
-#define CBMLITCLUSTERINGQATRD_H_
+#ifndef CBMLITSHOWCLUSTERS_H_
+#define CBMLITSHOWCLUSTERS_H_
 
 #include "FairTask.h"
 #include "../cbm/base/CbmLitDetectorSetup.h"
@@ -21,20 +21,19 @@ class TClonesArray;
 class TCanvas;
 class CbmTrdModule;
 class CbmTrdDigiPar;
-class TEllipse;
 
-class CbmLitClusteringQaTrd : public FairTask
+class CbmLitShowClusters : public FairTask
 {
 public:
    /**
     * \brief Constructor.
     */
-   CbmLitClusteringQaTrd();
+  CbmLitShowClusters();
 
    /**
     * \brief Destructor.
     */
-   virtual ~CbmLitClusteringQaTrd();
+   virtual ~CbmLitShowClusters();
 
    /**
      * \brief Derived from FairTask.
@@ -69,85 +68,11 @@ private:
 
     void ProcessSectorHistos();
 
-    void FillModuleDigis(const string nr, Int_t col, Int_t row, Int_t charge);
-
-    void InitMuchGeoScheme(const string& digiFileName);
-
-    void ProcessPoints(
-          const TClonesArray* points,
-          const string& detName,
-          DetectorId detId);
-
-    void ProcessDigis(
-          const TClonesArray* digis,
-          const TClonesArray* digiMatches,
-          const string& detName,
-          DetectorId detId);
-
-    void ProcessClusters(
-          const TClonesArray* clusters,
-          const TClonesArray* clusterMatches,
-          const string& detName,
-          DetectorId detId);
-
-    void ProcessHits(
-          const TClonesArray* hits,
-          const TClonesArray* hitMatches,
-          const string& detName,
-          DetectorId detId);
-
-    /**
-     *
-     */
-    void FillEventCounterHistograms();
-
     /**
      *
      */
     void CreateHistograms();
 
-    /**
-     *
-     */
-    void CreateNofObjectsHistograms(
-          DetectorId detId,
-          const string& detName);
-
-    /**
-     *
-     */
-    void CreateNofObjectsHistograms(
-          DetectorId detId,
-          const string& detName,
-          const string& parameter,
-          const string& xTitle);
-
-    void CreateClusterParametersHistograms(
-          DetectorId detId,
-          const string& detName);
-
-    void FillResidualAndPullHistograms(
-          const TClonesArray* points,
-          const TClonesArray* hits,
-          const TClonesArray* hitMatches,
-          const string& detName,
-          DetectorId detId);
-
-    void FillHitEfficiencyHistograms(
-          const TClonesArray* points,
-          const TClonesArray* hits,
-          const TClonesArray* hitMatches,
-          const string& detName,
-          DetectorId detId);
-
-    void CreateHitEfficiencyHistograms(
-          DetectorId detId,
-          const string& detName,
-          const string& parameter,
-          const string& xTitle,
-          Int_t nofBins,
-          Double_t minBin,
-          Double_t maxBin);
 
     CbmHistManager* fHM; // Histogram manager
     string fOutputDir; // Output directory for results
@@ -197,13 +122,14 @@ private:
     CbmTrdModule  *fModuleInfo;
 
     string fMuchDigiFileName;
-//    map<UInt_t, TCanvas*> fCanvases;
 //    map<UInt_t, vector<TBox*>*> fMarker;
 
-    CbmLitClusteringQaTrd(const CbmLitClusteringQaTrd&);
-    CbmLitClusteringQaTrd& operator=(const CbmLitClusteringQaTrd&);
+    CbmLitShowClusters(const CbmLitShowClusters&);
+    CbmLitShowClusters& operator=(const CbmLitShowClusters&);
 
-    ClassDef(CbmLitClusteringQaTrd, 1);
+    ClassDef(CbmLitShowClusters, 1);
 };
 
-#endif /* CBMLITCLUSTERINGQATRD_H_ */
+
+
+#endif /* CBMLITSHOWCLUSTERS_H_ */

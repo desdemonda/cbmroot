@@ -102,7 +102,7 @@ void CbmLitClusteringQaTrdReport::Draw()
    DrawH2ByPattern("hpa_.*Hit_Sigma.*_H2", kLinear, kLinear, kLinear, "colz");
 
    DrawH2ByPattern("hhh_.*Clustering_visualisation.*col_H2", kLinear, kLinear, kLinear, "colz");
-   DrawH2ByPattern("hhh_.*Clustering_visualisation.*cont_H2", kLinear, kLinear, kLinear, "contz");
+//   DrawH2ByPattern("hhh_.*Clustering_visualisation.*cont_H2", kLinear, kLinear, kLinear, "contz");
 
    DrawResidualsAndPulls("Trd");
 

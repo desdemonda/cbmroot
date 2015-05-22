@@ -93,6 +93,8 @@ set(SRCS
    cbm/qa/tracking/CbmLitTrackingQa.cxx
    cbm/qa/tracking/CbmLitTrackingQaStudyReport.cxx            
    cbm/qa/tracking/CbmLitTrackingQaReport.cxx
+   cbm/qa/clustering/CbmLitShowClustersReport.cxx
+   cbm/qa/clustering/CbmLitShowClusters.cxx
    cbm/qa/clustering/CbmLitClusteringQa.cxx
    cbm/qa/clustering/CbmLitClusteringQaTrd.cxx
    cbm/qa/clustering/CbmLitClusteringQaReport.cxx
@@ -132,6 +134,8 @@ set(HEADERS
    cbm/qa/tracking/CbmLitTrackingQa.h
    cbm/qa/tracking/CbmLitTrackingQaStudyReport.h
    cbm/qa/tracking/CbmLitTrackingQaReport.h
+   cbm/qa/clustering/CbmLitShowClustersReport.h
+   cbm/qa/clustering/CbmLitShowClusters.h
    cbm/qa/clustering/CbmLitClusteringQa.h
    cbm/qa/clustering/CbmLitClusteringQaTrd.h
    cbm/qa/clustering/CbmLitClusteringQaTrdReport.h
