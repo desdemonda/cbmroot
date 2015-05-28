@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+<define>
+
+<position name="central" x="0" y="0" z="0" unit="mm"/>
+<rotation name="identity" x="0" y="0" z="0" unit="degree"/>
+<variable name="DEGtoRAD" value="1.74532925199433E-02"/>
+<variable name="Mirror_Y_shift" value="805"/>
+<variable name="Mirror_pos_from_IP" value="3500"/>
+<variable name="GAS_position_from_IP" value="1700"/>
+<variable name="GAS_length" value="2000"/>
+<variable name="PMT_X_origin" value="600"/>
+<variable name="PMT_thickness" value="0.5"/>
+<variable name="PIPE_R1_min" value="100.5"/>
+<variable name="PIPE_R1_max" value="103.5"/>
+<variable name="PIPE_R2_min" value="200"/>
+<variable name="PIPE_R2_max" value="205"/>

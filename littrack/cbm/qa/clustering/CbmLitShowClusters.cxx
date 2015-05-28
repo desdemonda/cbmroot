@@ -162,6 +162,11 @@ void CbmLitShowClusters::ProcessSectorHistos()
    if(eventNo > 1)
      return;
 
+   Int_t nofClusters = fTrdClusters->GetEntries();
+   for(Int_t iCluster=0; iCluster < nofClusters; iCluster++ ){
+       CbmCluster *cluster = (CbmCluster*) fTrdClusters->At(iCluster);
+       printf("Found Cluster [%u] consist of %u Digis.", iCluster, cluster->GetNofDigis());
+   }
 /*   TString fileName = TString("test") + TString(".csv");
 
    std::ofstream file(fileName);

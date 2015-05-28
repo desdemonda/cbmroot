@@ -1,0 +1,157 @@
+</define>
+
+<materials>
+<material name="vacuum" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="aluminium" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="CsI" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="RICHglass" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="RICHgas_CO2_dis+" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="RICHgas_CO2_dis" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+</materials>
+
+<solids>
+<cone name="RICH_BEAMPIPE_VAC_PartBody" rmin1="0.00000000" rmax1="(PIPE_R1_min)" rmin2="0.00000000" rmax2="(PIPE_R2_min)" z="(1000.00000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<cone name="RICH_BEAMPIPE_PartBody" rmin1="0.00000000" rmax1="(PIPE_R1_max)" rmin2="0.00000000" rmax2="(PIPE_R2_max)" z="(1000.00000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<box name="PMT_PartBody" x="((PMT_width/2))*2" y="((PMT_height/2))*2" z="((PMT_thickness/2))*2" lunit="mm"/>
+<sphere name="MIRROR_TILE_1_PartBody" rmin="3000.00000000" rmax="3006.00000000" startphi="-16.424000" deltaphi="32.848000" starttheta="75.000000" deltatheta="30.000000" lunit="mm" aunit="degree"/>
+<sphere name="MIRROR_TILE_2_PartBody" rmin="3000.00000000" rmax="3006.00000000" startphi="-4.106000" deltaphi="8.212000" starttheta="75.000000" deltatheta="25.000000" lunit="mm" aunit="degree"/>
+<box name="SENS_PLANE_2" x="(3000.00000000)*2" y="(2500.00000000)*2" z="(0.50000000)*2" lunit="mm"/>
+<tube name="SENS_PLANE_3" rmin="0.00000000" rmax="(PIPE_R2_min)" z="(40.00000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<subtraction name="SENS_PLANE_PartBody">
+<first ref="SENS_PLANE_2"/>
+<second ref="SENS_PLANE_3"/>
+<positionref ref="central"/>
+<rotationref ref="identity"/>
+</subtraction>
+<box name="GAS_PartBody" x="(3000.00000000)*2" y="(2500.00000000)*2" z="((GAS_length/2))*2" lunit="mm"/>
+</solids>
+
+<structure>
+<volume name="RICH_BEAMPIPE_VAC">
+<materialref ref="vacuum"/>
+<solidref ref="RICH_BEAMPIPE_VAC_PartBody"/>
+</volume>
+<volume name="RICH_BEAMPIPE">
+<materialref ref="aluminium"/>
+<solidref ref="RICH_BEAMPIPE_PartBody"/>
+<physvol>
+<volumeref ref="RICH_BEAMPIPE_VAC"/>
+<position name="RICH_BEAMPIPE_pos_RICH_BEAMPIPE_VAC_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="RICH_BEAMPIPE_rot_RICH_BEAMPIPE_VAC_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="PMT">
+<materialref ref="CsI"/>
+<solidref ref="PMT_PartBody"/>
+</volume>
+<volume name="MIRROR_TILE_1">
+<materialref ref="RICHglass"/>
+<solidref ref="MIRROR_TILE_1_PartBody"/>
+</volume>
+<volume name="MIRROR_TILE_2">
+<materialref ref="RICHglass"/>
+<solidref ref="MIRROR_TILE_2_PartBody"/>
+</volume>
+<volume name="SENS_PLANE">
+<materialref ref="RICHgas_CO2_dis+"/>
+<solidref ref="SENS_PLANE_PartBody"/>
+</volume>
+<volume name="GAS">
+<materialref ref="RICHgas_CO2_dis"/>
+<solidref ref="GAS_PartBody"/>
+<physvol>
+<volumeref ref="MIRROR_TILE_1"/>
+<position name="GAS_pos_MIRROR_TILE_1_1" x="0.00000000" y="(Mirror_Y_shift+3000*sin((-Mirror_angle)*DEGtoRAD))" z="((-GAS_position_from_IP-GAS_length/2-3000*cos((-Mirror_angle)*DEGtoRAD)+Mirror_pos_from_IP))" unit="mm"/>
+<rotation name="GAS_rot_MIRROR_TILE_1_1" x="-(90-Mirror_angle)" y="-180.000000" z="-110.530000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="MIRROR_TILE_1"/>
+<position name="GAS_pos_MIRROR_TILE_1_2" x="0.00000000" y="(Mirror_Y_shift+3000*sin((-Mirror_angle)*DEGtoRAD))" z="((-GAS_position_from_IP-GAS_length/2-3000*cos((-Mirror_angle)*DEGtoRAD)+Mirror_pos_from_IP))" unit="mm"/>
+<rotation name="GAS_rot_MIRROR_TILE_1_2" x="-(90-Mirror_angle)" y="-180.000000" z="-69.470000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="MIRROR_TILE_2"/>
+<position name="GAS_pos_MIRROR_TILE_2_1" x="0.00000000" y="(Mirror_Y_shift+3000*sin((-Mirror_angle)*DEGtoRAD))" z="((-GAS_position_from_IP-GAS_length/2-3000*cos((-Mirror_angle)*DEGtoRAD)+Mirror_pos_from_IP))" unit="mm"/>
+<rotation name="GAS_rot_MIRROR_TILE_2_1" x="-(90-Mirror_angle)" y="-180.000000" z="-90.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="MIRROR_TILE_1"/>
+<position name="GAS_pos_MIRROR_TILE_1_3" x="0.00000000" y="-(Mirror_Y_shift+3000*sin((-Mirror_angle)*DEGtoRAD))" z="((-GAS_position_from_IP-GAS_length/2-3000*cos((-Mirror_angle)*DEGtoRAD)+Mirror_pos_from_IP))" unit="mm"/>
+<rotation name="GAS_rot_MIRROR_TILE_1_3" x="-(90+Mirror_angle)" y="-0.000000" z="-110.530000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="MIRROR_TILE_1"/>
+<position name="GAS_pos_MIRROR_TILE_1_4" x="0.00000000" y="-(Mirror_Y_shift+3000*sin((-Mirror_angle)*DEGtoRAD))" z="((-GAS_position_from_IP-GAS_length/2-3000*cos((-Mirror_angle)*DEGtoRAD)+Mirror_pos_from_IP))" unit="mm"/>
+<rotation name="GAS_rot_MIRROR_TILE_1_4" x="-(90+Mirror_angle)" y="-0.000000" z="-69.470000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="MIRROR_TILE_2"/>
+<position name="GAS_pos_MIRROR_TILE_2_2" x="0.00000000" y="-(Mirror_Y_shift+3000*sin((-Mirror_angle)*DEGtoRAD))" z="((-GAS_position_from_IP-GAS_length/2-3000*cos((-Mirror_angle)*DEGtoRAD)+Mirror_pos_from_IP))" unit="mm"/>
+<rotation name="GAS_rot_MIRROR_TILE_2_2" x="-(90+Mirror_angle)" y="-0.000000" z="-90.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="PMT"/>
+<position name="GAS_pos_PMT_1" x="((PMT_X_origin+PMT_X_addend))" y="(Mirror_Y_shift+1500*sin((-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD)*DEGtoRAD)+PMT_Y_addend)" z="((-GAS_position_from_IP-GAS_length/2-1500*cos((-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD)*DEGtoRAD)+Mirror_pos_from_IP)+PMT_Z_addend)" unit="mm"/>
+<rotation name="GAS_rot_PMT_1" x="-(-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD+PMT_X_rot_addend)" y="-(18.477+PMT_Y_rot_addend)" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="PMT"/>
+<position name="GAS_pos_PMT_2" x="(-(PMT_X_origin+PMT_X_addend))" y="(Mirror_Y_shift+1500*sin((-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD)*DEGtoRAD)+PMT_Y_addend)" z="((-GAS_position_from_IP-GAS_length/2-1500*cos((-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD)*DEGtoRAD)+Mirror_pos_from_IP)+PMT_Z_addend)" unit="mm"/>
+<rotation name="GAS_rot_PMT_2" x="-(-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD+PMT_X_rot_addend)" y="(18.477+PMT_Y_rot_addend)" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="PMT"/>
+<position name="GAS_pos_PMT_3" x="((PMT_X_origin+PMT_X_addend))" y="(-(Mirror_Y_shift+1500*sin((-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD)*DEGtoRAD))-PMT_Y_addend)" z="((-GAS_position_from_IP-GAS_length/2-1500*cos((-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD)*DEGtoRAD)+Mirror_pos_from_IP)+PMT_Z_addend)" unit="mm"/>
+<rotation name="GAS_rot_PMT_3" x="(-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD+PMT_X_rot_addend)" y="-(18.477+PMT_Y_rot_addend)" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="PMT"/>
+<position name="GAS_pos_PMT_4" x="(-(PMT_X_origin+PMT_X_addend))" y="(-(Mirror_Y_shift+1500*sin((-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD)*DEGtoRAD))-PMT_Y_addend)" z="((-GAS_position_from_IP-GAS_length/2-1500*cos((-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD)*DEGtoRAD)+Mirror_pos_from_IP)+PMT_Z_addend)" unit="mm"/>
+<rotation name="GAS_rot_PMT_4" x="(-2*Mirror_angle+atan(Mirror_Y_shift/Mirror_pos_from_IP)/DEGtoRAD+PMT_X_rot_addend)" y="(18.477+PMT_Y_rot_addend)" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="SENS_PLANE"/>
+<position name="GAS_pos_SENS_PLANE_1" x="0.00000000" y="0.00000000" z="-45.00000000" unit="mm"/>
+<rotation name="GAS_rot_SENS_PLANE_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="RICH_BEAMPIPE"/>
+<position name="GAS_pos_RICH_BEAMPIPE_1" x="0.00000000" y="0.00000000" z="0.00000000" unit="mm"/>
+<rotation name="GAS_rot_RICH_BEAMPIPE_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<!--
+<assembly name="TOP">
+<physvol>
+<volumeref ref="GAS"/>
+<position name="TOP_pos_GAS_1" x="0.00000000" y="0.00000000" z="2700.00000000" unit="mm"/>
+<rotation name="TOP_rot_GAS_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</assembly>
+-->
+</structure>
+
+<setup name="FAIRgeom" version="1.0">
+<!--<world ref="TOP"/>-->
+<world ref="GAS"/>
+</setup>
+
+</gdml>

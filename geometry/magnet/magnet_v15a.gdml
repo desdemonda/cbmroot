@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gdml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://service-spi.web.cern.ch/service-spi/app/releases/GDML/schema/gdml.xsd">
+
+<define>
+<position name="central" x="0" y="0" z="0" unit="mm"/>
+<rotation name="identity" x="0" y="0" z="0" unit="degree"/>
+<variable name="DEGtoRAD" value="1.74532925199433E-02"/>
+</define>
+
+<materials>
+<material name="iron" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="cu" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="vacuum" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+<material name="air" Z="1.0">
+<D value="1"/>
+<atom value="1"/>
+</material>
+</materials>
+
+<solids>
+<cone name="Yoke_cone_PartBody" rmin1="0.000000" rmax1="600.000000" rmin2="0.000000" rmax2="400.000000" z="(250.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<box name="Yoke_hbeam_box_PartBody" x="(2200.000000)*2" y="(1000.000000)*2" z="(75.000000)*2" lunit="mm"/>
+<trd name="Yoke_hbeam_trd_PartBody" x1="(1700.000000)*2" x2="(2200.000000)*2" y1="(1000.000000)*2" y2="(1000.000000)*2" z="(250.000000)*2" lunit="mm"/>
+<box name="Yoke_leg_box_PartBody" x="(350.000000)*2" y="(450.000000)*2" z="(1200.000000)*2" lunit="mm"/>
+<trap name="Yoke_leg_trap_2" z="(275.000000)*2" theta="16.102114" phi="0.000000" y1="(1200.000000)*2" x1="(508.771324)*2" x2="(508.771324)*2" alpha1="0.000000" y2="(1200.000000)*2" x3="(350.000000)*2" x4="(350.000000)*2" alpha2="0.000000" lunit="mm" aunit="degree"/>
+<trd name="Yoke_leg_trap_3" x1="(700.000000)*2" x2="(450.000000)*2" y1="(600.000000)*2" y2="(600.000000)*2" z="(125.000000)*2" lunit="mm"/>
+<subtraction name="Yoke_leg_trap_PartBody">
+<first ref="Yoke_leg_trap_2"/>
+<second ref="Yoke_leg_trap_3"/>
+<position name="Yoke_leg_trap__position__3__by__2" x="0.000000" y="0.000000" z="-150.000000" unit="mm"/>
+<rotation name="Yoke_leg_trap__rotation__3__by__2" x="0" y="0" z="90.000000" unit="degree"/>
+</subtraction>
+<box name="Yoke_screen_box-cons_2" x="(1350.000000)*2" y="(95.000000)*2" z="(180.000000)*2" lunit="mm"/>
+<cone name="Yoke_screen_box-cons_4" rmin1="0.000000" rmax1="2380.000000" rmin2="0.000000" rmax2="130.000000" z="(1000.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<subtraction name="Yoke_screen_box-cons_PartBody">
+<first ref="Yoke_screen_box-cons_2"/>
+<second ref="Yoke_screen_box-cons_4"/>
+<position name="Yoke_screen_box-cons__position__4__by__2" x="0.000000" y="2295.000000" z="820.000000" unit="mm"/>
+<rotationref ref="identity"/>
+</subtraction>
+<box name="Yoke_screen_box-cyl_4" x="(1350.000000)*2" y="(95.000000)*2" z="(120.000000)*2" lunit="mm"/>
+<tube name="Yoke_screen_box-cyl_3" rmin="0.000000" rmax="2380.000000" z="(120.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<subtraction name="Yoke_screen_box-cyl_PartBody">
+<first ref="Yoke_screen_box-cyl_4"/>
+<second ref="Yoke_screen_box-cyl_3"/>
+<position name="Yoke_screen_box-cyl__position__3__by__4" x="0.000000" y="2295.000000" z="0.000000" unit="mm"/>
+<rotationref ref="identity"/>
+</subtraction>
+<tube name="Dyuar_pipe_1_PartBody" rmin="104.000000" rmax="108.000000" z="(142.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Dyuar_pipe_2_PartBody" rmin="104.000000" rmax="108.000000" z="(982.686449)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Dyuar_pipe_3_PartBody" rmin="104.000000" rmax="108.000000" z="(141.850000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Dyuar_pipe_4_PartBody" rmin="246.000000" rmax="250.000000" z="(412.500000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Coils_layer_8_PartBody" rmin="709.500000" rmax="890.000000" z="(4.500000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Coils_layer_7_PartBody" rmin="709.000000" rmax="709.500000" z="(88.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Coils_layer_6_PartBody" rmin="709.000000" rmax="890.000000" z="(88.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Coils_layer_5_PartBody" rmin="689.000000" rmax="910.000000" z="(118.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Coils_layer_4_PartBody" rmin="637.120000" rmax="959.880000" z="(137.500000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Coils_layer_3_PartBody" rmin="635.000000" rmax="962.000000" z="(139.500000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Coils_layer_2_PartBody" rmin="615.000000" rmax="985.000000" z="(216.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<tube name="Coils_layer_1_PartBody" rmin="600.000000" rmax="1000.000000" z="(250.000000)*2" startphi="0.000000" deltaphi="360.000000" lunit="mm" aunit="degree"/>
+<box name="Magnet_container_29" x="(2900.000000)*2" y="(2166.700000)*2" z="(1190.000000)*2" lunit="mm"/>
+<box name="Magnet_container_30" x="(1180.000000)*2" y="(700.000000)*2" z="(1190.000000)*2" lunit="mm"/>
+<subtraction name="Magnet_container_PartBody">
+<first ref="Magnet_container_29"/>
+<second ref="Magnet_container_30"/>
+<positionref ref="central"/>
+<rotationref ref="identity"/>
+</subtraction>
+</solids>
+
+<structure>
+<volume name="Yoke_cone">
+<materialref ref="iron"/>
+<solidref ref="Yoke_cone_PartBody"/>
+</volume>
+<volume name="Yoke_hbeam_box">
+<materialref ref="iron"/>
+<solidref ref="Yoke_hbeam_box_PartBody"/>
+</volume>
+<volume name="Yoke_hbeam_trd">
+<materialref ref="iron"/>
+<solidref ref="Yoke_hbeam_trd_PartBody"/>
+</volume>
+<volume name="Yoke_leg_box">
+<materialref ref="iron"/>
+<solidref ref="Yoke_leg_box_PartBody"/>
+</volume>
+<volume name="Yoke_leg_trap">
+<materialref ref="iron"/>
+<solidref ref="Yoke_leg_trap_PartBody"/>
+</volume>
+<volume name="Yoke_screen_box-cons">
+<materialref ref="iron"/>
+<solidref ref="Yoke_screen_box-cons_PartBody"/>
+</volume>
+<volume name="Yoke_screen_box-cyl">
+<materialref ref="iron"/>
+<solidref ref="Yoke_screen_box-cyl_PartBody"/>
+</volume>
+<volume name="Dyuar_pipe_1">
+<materialref ref="iron"/>
+<solidref ref="Dyuar_pipe_1_PartBody"/>
+</volume>
+<volume name="Dyuar_pipe_2">
+<materialref ref="iron"/>
+<solidref ref="Dyuar_pipe_2_PartBody"/>
+</volume>
+<volume name="Dyuar_pipe_3">
+<materialref ref="iron"/>
+<solidref ref="Dyuar_pipe_3_PartBody"/>
+</volume>
+<volume name="Dyuar_pipe_4">
+<materialref ref="iron"/>
+<solidref ref="Dyuar_pipe_4_PartBody"/>
+</volume>
+<volume name="Coils_layer_8">
+<materialref ref="iron"/>
+<solidref ref="Coils_layer_8_PartBody"/>
+</volume>
+<volume name="Coils_layer_7">
+<materialref ref="iron"/>
+<solidref ref="Coils_layer_7_PartBody"/>
+</volume>
+<volume name="Coils_layer_6">
+<materialref ref="cu"/>
+<solidref ref="Coils_layer_6_PartBody"/>
+<physvol>
+<volumeref ref="Coils_layer_8"/>
+<position name="Coils_layer_6_pos_Coils_layer_8_1" x="0.000000" y="0.000000" z="-83.500000" unit="mm"/>
+<rotation name="Coils_layer_6_rot_Coils_layer_8_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coils_layer_7"/>
+<position name="Coils_layer_6_pos_Coils_layer_7_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Coils_layer_6_rot_Coils_layer_7_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Coils_layer_5">
+<materialref ref="iron"/>
+<solidref ref="Coils_layer_5_PartBody"/>
+<physvol>
+<volumeref ref="Coils_layer_6"/>
+<position name="Coils_layer_5_pos_Coils_layer_6_1" x="0.000000" y="0.000000" z="8.000000" unit="mm"/>
+<rotation name="Coils_layer_5_rot_Coils_layer_6_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Coils_layer_4">
+<materialref ref="vacuum"/>
+<solidref ref="Coils_layer_4_PartBody"/>
+<physvol>
+<volumeref ref="Coils_layer_5"/>
+<position name="Coils_layer_4_pos_Coils_layer_5_1" x="0.000000" y="0.000000" z="1.500000" unit="mm"/>
+<rotation name="Coils_layer_4_rot_Coils_layer_5_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Coils_layer_3">
+<materialref ref="cu"/>
+<solidref ref="Coils_layer_3_PartBody"/>
+<physvol>
+<volumeref ref="Coils_layer_4"/>
+<position name="Coils_layer_3_pos_Coils_layer_4_1" x="0.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Coils_layer_3_rot_Coils_layer_4_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Coils_layer_2">
+<materialref ref="vacuum"/>
+<solidref ref="Coils_layer_2_PartBody"/>
+<physvol>
+<volumeref ref="Coils_layer_3"/>
+<position name="Coils_layer_2_pos_Coils_layer_3_1" x="0.000000" y="0.000000" z="61.500000" unit="mm"/>
+<rotation name="Coils_layer_2_rot_Coils_layer_3_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="Coils_layer_1">
+<materialref ref="iron"/>
+<solidref ref="Coils_layer_1_PartBody"/>
+<physvol>
+<volumeref ref="Coils_layer_2"/>
+<position name="Coils_layer_1_pos_Coils_layer_2_1" x="0.000000" y="0.000000" z="14.000000" unit="mm"/>
+<rotation name="Coils_layer_1_rot_Coils_layer_2_1" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+<volume name="magnet_v15a">
+<materialref ref="air"/>
+<solidref ref="Magnet_container_PartBody"/>
+<physvol>
+<volumeref ref="Yoke_cone"/>
+<position name="Magnet_container_pos_Yoke_cone_1" x="0.000000" y="-950.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_cone_1" x="90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_cone"/>
+<position name="Magnet_container_pos_Yoke_cone_2" x="0.000000" y="950.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_cone_2" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_hbeam_box"/>
+<position name="Magnet_container_pos_Yoke_hbeam_box_1" x="0.000000" y="1275.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_hbeam_box_1" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_hbeam_box"/>
+<position name="Magnet_container_pos_Yoke_hbeam_box_2" x="0.000000" y="-1275.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_hbeam_box_2" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_hbeam_trd"/>
+<position name="Magnet_container_pos_Yoke_hbeam_trd_1" x="0.000000" y="-1600.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_hbeam_trd_1" x="90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_hbeam_trd"/>
+<position name="Magnet_container_pos_Yoke_hbeam_trd_2" x="0.000000" y="1600.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_hbeam_trd_2" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_leg_box"/>
+<position name="Magnet_container_pos_Yoke_leg_box_1" x="1850.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_leg_box_1" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_leg_box"/>
+<position name="Magnet_container_pos_Yoke_leg_box_2" x="-1850.000000" y="0.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_leg_box_2" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_leg_trap"/>
+<position name="Magnet_container_pos_Yoke_leg_trap_1" x="1770.614339" y="0.000000" z="725.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_leg_trap_1" x="-180.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_leg_trap"/>
+<position name="Magnet_container_pos_Yoke_leg_trap_2" x="1770.614339" y="0.000000" z="-725.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_leg_trap_2" x="-0.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_leg_trap"/>
+<position name="Magnet_container_pos_Yoke_leg_trap_3" x="-1770.614339" y="0.000000" z="725.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_leg_trap_3" x="-180.000000" y="-0.000000" z="-180.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_leg_trap"/>
+<position name="Magnet_container_pos_Yoke_leg_trap_4" x="-1770.614339" y="0.000000" z="-725.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_leg_trap_4" x="-0.000000" y="-0.000000" z="-180.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_screen_box-cons"/>
+<position name="Magnet_container_pos_Yoke_screen_box-cons_1" x="0.000000" y="1220.000000" z="-1095.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_screen_box-cons_1" x="-90.000000" y="-180.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_screen_box-cons"/>
+<position name="Magnet_container_pos_Yoke_screen_box-cons_2" x="0.000000" y="-1220.000000" z="-1095.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_screen_box-cons_2" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_screen_box-cons"/>
+<position name="Magnet_container_pos_Yoke_screen_box-cons_3" x="0.000000" y="1220.000000" z="1095.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_screen_box-cons_3" x="90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_screen_box-cons"/>
+<position name="Magnet_container_pos_Yoke_screen_box-cons_4" x="0.000000" y="-1220.000000" z="1095.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_screen_box-cons_4" x="90.000000" y="-180.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_screen_box-cyl"/>
+<position name="Magnet_container_pos_Yoke_screen_box-cyl_1" x="0.000000" y="920.000000" z="-1095.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_screen_box-cyl_1" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_screen_box-cyl"/>
+<position name="Magnet_container_pos_Yoke_screen_box-cyl_2" x="0.000000" y="-920.000000" z="-1095.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_screen_box-cyl_2" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_screen_box-cyl"/>
+<position name="Magnet_container_pos_Yoke_screen_box-cyl_3" x="0.000000" y="920.000000" z="1095.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_screen_box-cyl_3" x="90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Yoke_screen_box-cyl"/>
+<position name="Magnet_container_pos_Yoke_screen_box-cyl_4" x="0.000000" y="-920.000000" z="1095.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Yoke_screen_box-cyl_4" x="90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Dyuar_pipe_1"/>
+<position name="Magnet_container_pos_Dyuar_pipe_1_1" x="-2342.000000" y="-950.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Dyuar_pipe_1_1" x="-0.000000" y="-90.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Dyuar_pipe_1"/>
+<position name="Magnet_container_pos_Dyuar_pipe_1_2" x="-2342.000000" y="950.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Dyuar_pipe_1_2" x="-0.000000" y="-90.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Dyuar_pipe_2"/>
+<position name="Magnet_container_pos_Dyuar_pipe_2_1" x="-2592.000000" y="86.304756" z="-340.102018" unit="mm"/>
+<rotation name="Magnet_container_rot_Dyuar_pipe_2_1" x="-71.830823" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Dyuar_pipe_3"/>
+<position name="Magnet_container_pos_Dyuar_pipe_3_1" x="-2592.000000" y="1199.850000" z="-659.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Dyuar_pipe_3_1" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Dyuar_pipe_3"/>
+<position name="Magnet_container_pos_Dyuar_pipe_3_2" x="-2592.000000" y="1199.850000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Dyuar_pipe_3_2" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Dyuar_pipe_4"/>
+<position name="Magnet_container_pos_Dyuar_pipe_4_1" x="-2592.000000" y="1754.200000" z="-659.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Dyuar_pipe_4_1" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Dyuar_pipe_4"/>
+<position name="Magnet_container_pos_Dyuar_pipe_4_2" x="-2592.000000" y="1754.200000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Dyuar_pipe_4_2" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coils_layer_1"/>
+<position name="Magnet_container_pos_Coils_layer_1_1" x="0.000000" y="950.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Coils_layer_1_1" x="-90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+<physvol>
+<volumeref ref="Coils_layer_1"/>
+<position name="Magnet_container_pos_Coils_layer_1_2" x="0.000000" y="-950.000000" z="0.000000" unit="mm"/>
+<rotation name="Magnet_container_rot_Coils_layer_1_2" x="90.000000" y="-0.000000" z="-0.000000" unit="degree"/>
+</physvol>
+</volume>
+</structure>
+
+<setup name="Default" version="1.0">
+<world ref="magnet_v15a"/>
+</setup>
+
+</gdml>

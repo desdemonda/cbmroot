@@ -271,8 +271,6 @@ void CbmLitFindLWClusters::HitFinder()
     LOG(INFO) << "Processing Hit digiAddress (posHit.x, posHit.y, posHit.z, ELoss, padSize.x, padSize.y, padSize.z)" << FairLogger::endl;
     printf("Processing Hit %d (%e, %e, %e, %e, %e, %e, %e)\n", digiAddress2, posHit.x(), posHit.y(), posHit.z(), maxELoss, padSize.x(), padSize.y(), padSize.z());
     printf("Hit Info Test: %d (%e, %e, %e, %e, %e, %e, %e)\n", digiAddress2, testPosHit.x(), testPosHit.y(), testPosHit.z(), ELoss, padSize.x(), padSize.y(), padSize.z());
-//    LOG(INFO) << "Processing Hit " << digiAddress2 << " (" << posHit.x() << "," << posHit.y() << "," << posHit.z() << "," << maxELoss << "," << padSize.x() << "," << padSize.y() << "," << padSize.z() << ")" << FairLogger::endl;
-//    LOG(INFO) << "Hit Info test " << digiAddress2 << " (" << testPosHit.x() << "," << testPosHit.y() << "," << testPosHit.z() << "," << ELoss << "," << padSize.x() << "," << padSize.y() << "," << padSize.z() << ")" << FairLogger::endl;
     LOG(INFO) << "Creating Hit with " << nofDigis << " Digis ..." << FairLogger::endl;
     CbmTrdHit *hit = new((*fHits)[hitNo++]) CbmTrdHit(digiAddress2, posHit, padSize, 0., iCluster, 0., 0., maxELoss);
   }
