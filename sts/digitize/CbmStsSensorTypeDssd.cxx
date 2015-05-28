@@ -118,6 +118,17 @@ void CbmStsSensorTypeDssd::GetClusterPosition(Double_t centre,
 	// coordinate
 	xCluster = (Double_t(iStrip) + xDif + 0.5 ) * fPitch[side];
 
+	// Correct for Lorentz-Shift
+	// Simplification: The correction uses only the y component of the
+	// magnetic field. The shift is calculated using the mid-plane of the
+	// sensor, which is not correct for tracks not traversing the entire
+	// sensor thickness (i.e., are created or stopped somewhere in the sensor).
+	// However, this is the best one can do in reconstruction.
+	//Double_t mobility = (side == 0 ? 0.1650 : 0.0310 );  // in m^2/(Vs)
+	//Double_t tanLorentz = mobility * sensor->GetConditions().GetBy();
+	//xCluster -= tanLorentz * fDz / 2.;
+	xCluster -= sensor->GetConditions().GetMeanLorentzShift(side);
+
 	LOG(DEBUG4) << GetName() << ": Cluster centre " << centre
 			        << ", sensor index " << sensorId << ", side "
 			        << side << ", cluster position " << xCluster

@@ -14,7 +14,7 @@ class TClonesArray;
 class CbmBuildEventsSimple : public FairTask
 {
 public:
-  CbmBuildEventsSimple() {};
+  CbmBuildEventsSimple();
   CbmBuildEventsSimple(const char* name, Int_t iVerbose=1);
 
   virtual InitStatus Init();
@@ -52,6 +52,12 @@ private:
   Double_t fEndT;	/** End of current event **/
 
   Int_t fOpenEvent;
+
+  /** Prevent usage of copy constructor and assignment operator **/
+  CbmBuildEventsSimple(const CbmBuildEventsSimple&);
+  CbmBuildEventsSimple& operator =(const CbmBuildEventsSimple&);
+
+
   ClassDef(CbmBuildEventsSimple, 0)
 };
 

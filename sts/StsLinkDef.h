@@ -69,6 +69,7 @@
 #pragma link C++ class CbmStsSimulationQa+;
 #pragma link C++ class CbmStsFindHitsQa+;
 #pragma link C++ class CbmStsReconstructionQa+;
+#pragma link C++ class CbmStsDigitizeQa+;
 
 /* Obsolete
 #pragma link C++ class CbmStsIdealDigitize;

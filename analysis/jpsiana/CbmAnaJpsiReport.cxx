@@ -53,6 +53,7 @@ void CbmAnaJpsiReport::Draw()
 	  // Draw RICH hits distribution
 	   Draw2DCut("fhRichPmtXY");
 
+	  //e+/- MC
 	  {
 		  TCanvas* c = CreateCanvas("jpsi_McEpmRapidityPt","jpsi_McEpmRapidityPt",600,600);
 		  DrawH2(H2("fhMcEpmRapidityPt"));
@@ -64,6 +65,7 @@ void CbmAnaJpsiReport::Draw()
 	  	  DrawH1(H1("fhMcEpmMinv"));
 	  }
 
+	  //e+/- Accepted
 	  {
 		  TCanvas* c = CreateCanvas("jpsi_AccEpmRapidityPt","jpsi_AccEpmRapidityPt",600,600);
 		  DrawH2(H2("fhAccEpmRapidityPt"));
@@ -76,6 +78,25 @@ void CbmAnaJpsiReport::Draw()
 	  }
 
 	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_AccEpmMomentum","jpsi_AccEpmMomentum",600,600);
+	  	  H1("fhAccEpmMomentum")->Scale(1. / H1("fhAccEpmMomentum")->Integral());//Scale Yield
+	  	  DrawH1(H1("fhAccEpmMomentum"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_AccEpmRapidity","jpsi_AccEpmRapidity",600,600);
+	  	  H1("fhAccEpmRapidity")->Scale(1. / H1("fhAccEpmRapidity")->Integral());//Scale Yield
+	  	  DrawH1(H1("fhAccEpmRapidity"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_AccEpmPt","jpsi_AccEpmPt",600,600);
+	  	  H1("fhAccEpmPt")->Scale(1. / H1("fhAccEpmPt")->Integral());//Scale Yield
+	  	  DrawH1(H1("fhAccEpmPt"));
+	  }
+
+	  //e+/- Candidate reconstructed, using Mc to identify y and P_t
+	  {
 	  	  TCanvas* c = CreateCanvas("jpsi_CandMcEpmPtY","jpsi_CandMcEpmPtY",600,600);
 	  	  DrawH2(H2("fhCandMcEpmPtY"));
 	  }
@@ -85,7 +106,7 @@ void CbmAnaJpsiReport::Draw()
 	  	  H1("fhCandEpmMinv")->Scale(1. / H1("fhCandEpmMinv")->Integral());//Scale Yield
 	  	  DrawH1(H1("fhCandEpmMinv"));
 	  }
-
+	  //e+/- Candidate reconstructed, using Mc to identify y and P_t AND Chi2PrimCut
 	  {
 	  	  TCanvas* c = CreateCanvas("jpsi_CandMcEpmPtYChi2PrimCut","jpsi_CandMcEpmPtYChi2PrimCut",600,600);
 	  	  DrawH2(H2("fhCandMcEpmPtYChi2PrimCut"));
@@ -98,6 +119,25 @@ void CbmAnaJpsiReport::Draw()
 	  }
 
 	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_CandEpmMomentumChi2PrimCut","jpsi_CandEpmMomentumChi2PrimCut",600,600);
+	  	  H1("fhCandEpmMomentumChi2PrimCut")->Scale(1. / H1("fhCandEpmMomentumChi2PrimCut")->Integral());//Scale Yield
+	  	  DrawH1(H1("fhCandEpmMomentumChi2PrimCut"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_CandMcEpmRapidityChi2PrimCut","jpsi_CandMcEpmRapidityChi2PrimCut",600,600);
+	  	  H1("fhCandMcEpmRapidityChi2PrimCut")->Scale(1. / H1("fhCandMcEpmRapidityChi2PrimCut")->Integral());//Scale Yield
+	  	  DrawH1(H1("fhCandMcEpmRapidityChi2PrimCut"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_CandMcEpmPtChi2PrimCut","jpsi_CandMcEpmPtChi2PrimCut",600,600);
+	  	  H1("fhCandMcEpmPtChi2PrimCut")->Scale(1. / H1("fhCandMcEpmPtChi2PrimCut")->Integral());//Scale Yield
+	  	  DrawH1(H1("fhCandMcEpmPtChi2PrimCut"));
+	  }
+
+	  //e+/- reconstructed, using IsElectron -> CUTS
+	  {
 	  	  TCanvas* c = CreateCanvas("jpsi_RecoCandEpmPtYChi2PrimCut","jpsi_RecoCandEpmPtYChi2PrimCut",600,600);
 	  	  DrawH2(H2("fhRecoCandEpmPtYChi2PrimCut"));
 	  }
@@ -106,6 +146,51 @@ void CbmAnaJpsiReport::Draw()
 	  	  TCanvas* c = CreateCanvas("jpsi_RecoCandEpmMinvChi2PrimCut","jpsi_RecoCandEpmMinvChi2PrimCut",600,600);
 	  	  H1("fhRecoCandEpmMinvChi2PrimCut")->Scale(1. / H1("fhRecoCandEpmMinvChi2PrimCut")->Integral());//Scale Yield
 	      DrawH1(H1("fhRecoCandEpmMinvChi2PrimCut"));
+	  }
+
+	  {
+	   	  TCanvas* c = CreateCanvas("jpsi_RecoCandEpmMomentumChi2PrimCut","jpsi_RecoCandEpmMomentumChi2PrimCut",600,600);
+	   	  H1("fhRecoCandEpmMomentumChi2PrimCut")->Scale(1. / H1("fhRecoCandEpmMomentumChi2PrimCut")->Integral());//Scale Yield
+	   	  DrawH1(H1("fhRecoCandEpmMomentumChi2PrimCut"));
+	  }
+
+	  {
+	   	  TCanvas* c = CreateCanvas("jpsi_RecoCandMcEpmRapidityChi2PrimCut","jpsi_RecoCandMcEpmRapidityChi2PrimCut",600,600);
+	   	  H1("fhRecoCandMcEpmRapidityChi2PrimCut")->Scale(1. / H1("fhRecoCandMcEpmRapidityChi2PrimCut")->Integral());//Scale Yield
+	   	  DrawH1(H1("fhRecoCandMcEpmRapidityChi2PrimCut"));
+ 	  }
+
+	  {
+	   	  TCanvas* c = CreateCanvas("jpsi_RecoCandMcEpmPtChi2PrimCut","jpsi_RecoCandMcEpmPtChi2PrimCut",600,600);
+	   	  H1("fhRecoCandMcEpmPtChi2PrimCut")->Scale(1. / H1("fhRecoCandMcEpmPtChi2PrimCut")->Integral());//Scale Yield
+	   	  DrawH1(H1("fhRecoCandMcEpmPtChi2PrimCut"));
+	  }
+
+	  //Number of Candidates after several cuts
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_NofCandidatesAfterCuts","jpsi_NofCandidatesAfterCuts",600,600);
+	      DrawH2(H2("fhNofCandidatesAfterCuts"));
+	  }
+
+	  //inv. Mass of Gamma Conversion pairs
+	  {
+	   	  TCanvas* c = CreateCanvas("jpsi_RecoGammaConvEpmMinv","jpsi_RecoGammaConvEpmMinv",600,600);
+	   	  H1("fhRecoGammaConvEpmMinv")->Scale(1. / H1("fhRecoGammaConvEpmMinv")->Integral());//Scale Yield
+	      DrawH1(H1("fhRecoGammaConvEpmMinv"));
+	  }
+
+	  //inv. Mass of e+- pairs from Pi0
+	  {
+	   	  TCanvas* c = CreateCanvas("jpsi_RecoPi0EpmMinv","jpsi_RecoPi0EpmMinv",600,600);
+	   	  H1("fhRecoPi0EpmMinv")->Scale(1. / H1("fhRecoPi0EpmMinv")->Integral());//Scale Yield
+	      DrawH1(H1("fhRecoPi0EpmMinv"));
+	  }
+
+	  //inv. Mass of e+- pairs from Pi0
+	  {
+	   	  TCanvas* c = CreateCanvas("jpsi_BgIdentificationRightWrong","jpsi_BgIdentificationRightWrong",600,600);
+	   	  H1("fhBgIdentificationRightWrong")->Scale(1. / H1("fhBgIdentificationRightWrong")->Integral());//Scale Yield
+	      DrawH1(H1("fhBgIdentificationRightWrong"));
 	  }
 
 	  DrawCutDistributions();

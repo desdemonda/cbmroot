@@ -24,6 +24,8 @@ class FairPrimaryGenerator;
 class TClonesArray;
 class TFile;
 class TTree;
+class PStaticData;
+class PDataBase;
 
 class CbmPlutoGenerator : public FairGenerator
 {
@@ -53,6 +55,8 @@ class CbmPlutoGenerator : public FairGenerator
 
 
   private:
+    PStaticData *fdata;  //! pluto static data
+    PDataBase *fbase;  //! pluto data base
 
     Int_t iEvent;      //! Event number
     const Char_t* fFileName;   //! Input file name

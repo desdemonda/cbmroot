@@ -183,6 +183,9 @@ void CbmAnaJpsiTask::InitHist()
    //e+/- Accepted
    fHM->Create2<TH2D>("fhAccEpmRapidityPt","fhAccEpmRapidityPt;P_{t} [GeV/c];y;Entries",40,0,4,30,0,3);
    fHM->Create1<TH1D>("fhAccEpmMinv","fhAccEpmMinv;m_{inv} [GeV/c^{2}];Yield",500,0,5);//invariant mass
+   fHM->Create1<TH1D>("fhAccEpmMomentum","fhAccEpmMomentum;P [GeV/c];Yield",200,0,20);
+   fHM->Create1<TH1D>("fhAccEpmRapidity","fhAccEpmRapidity;y;Yield",10,0,10);
+   fHM->Create1<TH1D>("fhAccEpmPt","fhAccEpmPt;P_{t} [GeV/c];Yield",40,0,4);
 
    //e+/- Candidate
    fHM->Create2<TH2D>("fhCandMcEpmPtY","fhCandMcEpmPtY;P_{t} [GeV/c];y;Entries",40,0,4,30,0,3);
@@ -191,11 +194,27 @@ void CbmAnaJpsiTask::InitHist()
    //e+/- Candidate with Chi2primCut
    fHM->Create2<TH2D>("fhCandMcEpmPtYChi2PrimCut","fhCandMcEpmPtYChi2PrimCut;P_{t} [GeV/c];y;Entries",40,0,4,30,0,3);
    fHM->Create1<TH1D>("fhCandEpmMinvChi2PrimCut","fhCandEpmMinvChi2PrimCut;m_{inv} [GeV/c^{2}];Yield",500,0,5);// reconstructed invariant mass
+   fHM->Create1<TH1D>("fhCandEpmMomentumChi2PrimCut","fhCandEpmMomentumChi2PrimCut;P [GeV/c];Yield",200,0,20);
+   fHM->Create1<TH1D>("fhCandMcEpmRapidityChi2PrimCut","fhCandMcEpmRapidityChi2PrimCut;y;Yield",10,0,10);
+   fHM->Create1<TH1D>("fhCandMcEpmPtChi2PrimCut","fhCandMcEpmPtChi2PrimCut;P_{t} [GeV/c];Yield",40,0,4);
 
-
-   //e+/- Candidate with Chi2primCut
+   //e+/- Candidate with Chi2primCut Reconstructed
    fHM->Create2<TH2D>("fhRecoCandEpmPtYChi2PrimCut","fhRecoCandMcEpmPtYChi2PrimCut;P_{t} [GeV/c];y;Entries",40,0,4,30,0,3);
    fHM->Create1<TH1D>("fhRecoCandEpmMinvChi2PrimCut","fhRecoCandEpmMinvChi2PrimCut;m_{inv} [GeV/c^{2}];Yield",500,0,5);// reconstructed invariant mass
+   fHM->Create1<TH1D>("fhRecoCandEpmMomentumChi2PrimCut","fhRecoCandEpmMomentumChi2PrimCut;P [GeV/c];Yield",200,0,20);
+   fHM->Create1<TH1D>("fhRecoCandMcEpmRapidityChi2PrimCut","fhRecoCandMcEpmRapidityChi2PrimCut;y;Yield",10,0,10);
+   fHM->Create1<TH1D>("fhRecoCandMcEpmPtChi2PrimCut","fhRecoCandMcEpmPtChi2PrimCut;P_{t} [GeV/c];Yield",40,0,4);
+
+   // Number of candidates after Cuts
+   fHM->Create2<TH2D>("fhNofCandidatesAfterCuts","fhNofCandidatesAfterCuts;Cut;Charge;Candidates",4,0,4,3,-1,2);
+
+   //M_inv of ep- from GammaConv and from Pi0
+   fHM->Create1<TH1D>("fhRecoGammaConvEpmMinv","fhRecoGammaConvEpmMinv;m_{inv} [GeV/c^{2}];Yield",35,0,3.5);
+   fHM->Create1<TH1D>("fhRecoPi0EpmMinv","fhRecoPi0EpmMinv;m_{inv} [GeV/c^{2}];Yield",10,0,1);
+
+   //background identification right/wrong
+   fHM->Create1<TH1D>("fhBgIdentificationRightWrong","fhBgIdentificationRightWrong;right, Mismatch, Ghost;Yield",3,0,3);
+
 }
 
 
@@ -226,6 +245,10 @@ void CbmAnaJpsiTask::Exec(
   DifferenceSignalAndBg();
 
   PairMcAndAcceptance();
+
+  NofCandidatesAfterCuts();
+
+  BgIdentification();
 }
 
 
@@ -419,6 +442,9 @@ void CbmAnaJpsiTask::PairMcAndAcceptance()
 				if (isAccP && isAccM) {
 					fHM->H2("fhAccEpmRapidityPt")->Fill(p.fRapidity,p.fPt);
 					fHM->H1("fhAccEpmMinv")->Fill(p.fMinv);
+					fHM->H1("fhAccEpmMomentum")->Fill(p.fMomentumMag);
+					fHM->H1("fhAccEpmRapidity")->Fill(p.fRapidity);
+					fHM->H1("fhAccEpmPt")->Fill(p.fPt);
 				}
 			}
 		}//iM
@@ -458,6 +484,10 @@ void CbmAnaJpsiTask::PairMcAndAcceptance()
 					//Fill histograms
 					fHM->H2("fhCandMcEpmPtYChi2PrimCut")->Fill(cMc.fRapidity,cMc.fPt);//histogram Rapidity vs. transv. Momentum
 					fHM->H1("fhCandEpmMinvChi2PrimCut")->Fill(cRec.fMinv); //histogram invariant mass
+					fHM->H1("fhCandEpmMomentumChi2PrimCut")->Fill(cRec.fMomentumMag);
+					fHM->H1("fhCandMcEpmRapidityChi2PrimCut")->Fill(cMc.fRapidity);
+					fHM->H1("fhCandMcEpmPtChi2PrimCut")->Fill(cMc.fPt);
+
 				}//Signal positrons
 			}//loop over positrons
 
@@ -467,27 +497,72 @@ void CbmAnaJpsiTask::PairMcAndAcceptance()
 		//reconstructed Electron
 		if (fCandidates[iM].fIsElectron && fCandidates[iM].fCharge < 0)
 		{
-			for (Int_t iP=0 ; iP<nCand ; iP++) //loop over positrons
+			if (fCandidates[iM].fIsMcSignalElectron)
 			{
+			  for (Int_t iP=0 ; iP<nCand ; iP++) //loop over positrons
+			  {
 				if (iP==iM) continue;
 
 				if (fCandidates[iP].fIsElectron && fCandidates[iP].fCharge > 0)
-				{	// !!!NO SELECTION OF SIGNAL ELECTRONS!!!
+				{
+					if (fCandidates[iP].fIsMcSignalElectron==false) continue;
 
 					CbmAnaJpsiKinematicParams candidateRec = CbmAnaJpsiKinematicParams::KinematicParamsWithCandidates(&fCandidates[iM],&fCandidates[iP]);
 
 					//Chi2Prim Cut
-					if (fCandidates[iP].fChi2Prim >= 3) continue;
-					if (fCandidates[iM].fChi2Prim >= 3) continue;
+					if (fCandidates[iP].fChi2Prim >= fCuts.fChiPrimCut) continue;
+					if (fCandidates[iM].fChi2Prim >= fCuts.fChiPrimCut) continue;
 
 					//Fill histograms
 					fHM->H2("fhRecoCandEpmPtYChi2PrimCut")->Fill(candidateRec.fRapidity,candidateRec.fPt);//histogram Rapidity vs. transv. Momentum
 					fHM->H1("fhRecoCandEpmMinvChi2PrimCut")->Fill(candidateRec.fMinv); //histogram invariant mass
-
+					fHM->H1("fhRecoCandEpmMomentumChi2PrimCut")->Fill(candidateRec.fMomentumMag);
+					fHM->H1("fhRecoCandMcEpmRapidityChi2PrimCut")->Fill(candidateRec.fRapidity);
+					fHM->H1("fhRecoCandMcEpmPtChi2PrimCut")->Fill(candidateRec.fPt);
 				}
-			}
-		}
+			  }
+			}//iM IsMcSignalEelctron
+		}//select e-
+
+		//M_inv of e+- from Gamma Conversion
+		if (fCandidates[iM].fIsMcGammaElectron && fCandidates[iM].fCharge < 0)
+		{
+			for (Int_t iP=0; iP<nCand;iP++)
+			{
+				if (iP==iM) continue;
+
+				if (fCandidates[iP].fIsMcGammaElectron && fCandidates[iP].fCharge > 0)
+				{
+					CbmAnaJpsiKinematicParams gammaReco = CbmAnaJpsiKinematicParams::KinematicParamsWithCandidates(&fCandidates[iM],&fCandidates[iP]);
+
+					fHM->H1("fhRecoGammaConvEpmMinv")->Fill(gammaReco.fMinv);
+
+				} //Is a GammaConv Positron
+			}//loop over positrons
+		}//Is a GammaConv Electron
+
+
+		//M_inv of e+- from Pi0
+		if (fCandidates[iM].fIsMcPi0Electron && fCandidates[iM].fCharge < 0)
+				{
+					for (Int_t iP=0; iP<nCand;iP++)
+					{
+						if (iP==iM) continue;
+
+						if (fCandidates[iP].fIsMcPi0Electron && fCandidates[iP].fCharge > 0)
+						{
+							CbmAnaJpsiKinematicParams gammaReco = CbmAnaJpsiKinematicParams::KinematicParamsWithCandidates(&fCandidates[iM],&fCandidates[iP]);
+
+							fHM->H1("fhRecoPi0EpmMinv")->Fill(gammaReco.fMinv);
+
+						} //Is a GammaConv Positron
+					}//loop over positrons
+				}//Is a GammaConv Electron
+
+
 	}//cand | loop over electrons
+
+
 } // PairsAcceptance
 
 void CbmAnaJpsiTask::IsElectron(
@@ -591,6 +666,108 @@ Bool_t CbmAnaJpsiTask::IsTofElectron(
 	return false;
 }
 
+
+Bool_t CbmAnaJpsiTask::IsMismatch(
+		CbmAnaJpsiCandidate* cand)
+{
+	if (cand->fStsMcTrackId == cand->fRichMcTrackId && cand->fStsMcTrackId == cand->fTrdMcTrackId &&
+	       cand->fStsMcTrackId == cand->fTofMcTrackId && cand->fStsMcTrackId !=-1) return false;
+	return true;
+}
+
+Bool_t CbmAnaJpsiTask::IsGhost(
+		CbmAnaJpsiCandidate* cand)
+{
+   if (cand->fStsMcTrackId == -1 || cand->fRichMcTrackId == -1 || cand->fTrdMcTrackId == -1 ||
+         cand->fTofMcTrackId == -1) return true;
+   return false;
+}
+
+void CbmAnaJpsiTask::NofCandidatesAfterCuts()
+{	// # of Candidates after Cuts WITHOUT Signal Electrons
+	Int_t nCand = fCandidates.size();
+
+	for (Int_t i=0; i<nCand; i++)
+	{	//reconstructed Candidates (Non SignalElectrons)
+		if (fCandidates[i].fIsMcSignalElectron) continue;
+		fHM->H2("fhNofCandidatesAfterCuts")->Fill(0.,1.);//NofCandReco++;
+
+			//Electrons and Positrons
+			if (fCandidates[i].fCharge > 0)
+			{
+				fHM->H2("fhNofCandidatesAfterCuts")->Fill(0., 0.);
+			}
+			else if (fCandidates[i].fCharge < 0)
+			{
+				fHM->H2("fhNofCandidatesAfterCuts")->Fill(0., -1.);
+			}
+
+		//IdCut
+		if (fCandidates[i].fIsElectron==false) continue;
+		fHM->H2("fhNofCandidatesAfterCuts")->Fill(1.,1);//NofCandIdCut++;
+
+			if (fCandidates[i].fCharge > 0)
+			{
+				fHM->H2("fhNofCandidatesAfterCuts")->Fill(1., 0.);
+			}
+			else if (fCandidates[i].fCharge < 0)
+			{
+				fHM->H2("fhNofCandidatesAfterCuts")->Fill(1., -1.);
+			}
+
+		//ChiPrimCut
+		if (fCandidates[i].fChi2Prim > fCuts.fChiPrimCut) continue;
+		fHM->H2("fhNofCandidatesAfterCuts")->Fill(2.,1.);//NofCandChi2PrimCut++;
+
+			if (fCandidates[i].fCharge > 0)
+			{
+				fHM->H2("fhNofCandidatesAfterCuts")->Fill(2., 0.);
+			}
+			else if (fCandidates[i].fCharge < 0)
+			{
+				fHM->H2("fhNofCandidatesAfterCuts")->Fill(2., -1.);
+			}
+
+		//fPtCut
+		if(fCandidates[i].fMomentum.Perp() > fCuts.fPtCut ) continue;
+		fHM->H2("fhNofCandidatesAfterCuts")->Fill(3.,1.);//NofCandPtCut++;
+			if (fCandidates[i].fCharge > 0)
+			{
+				fHM->H2("fhNofCandidatesAfterCuts")->Fill(3., 0.);
+			}
+			else if (fCandidates[i].fCharge < 0)
+			{
+				fHM->H2("fhNofCandidatesAfterCuts")->Fill(3., -1.);
+			}
+	}//loop
+
+}
+
+void CbmAnaJpsiTask::BgIdentification()
+{//background identification right/wrong
+ Int_t nCand = fCandidates.size();
+
+ for (Int_t i=0;i<nCand;i++)
+ {
+	 if (IsMismatch(&fCandidates[i]))
+	 {
+		 fHM->H1("fhBgIdentificationRightWrong")->Fill(1.);
+
+		 //Fill Mismatch
+
+	 }
+	 if (IsGhost(&fCandidates[i]))
+	 {
+		 fHM->H1("fhBgIdentificationRightWrong")->Fill(2.);//Fill Ghosts
+	 }
+	 if (IsMismatch(&fCandidates[i])==false && IsGhost(&fCandidates[i])==false)
+	 {
+		 fHM->H1("fhBgIdentificationRightWrong")->Fill(0.);//Fill right identificated
+	 }
+
+ }//Loop over Cand
+
+}//BgIdent
 
 void CbmAnaJpsiTask::RichPmtXY() {
 	Int_t nofRichHits = fRichHits->GetEntriesFast();

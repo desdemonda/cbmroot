@@ -86,6 +86,7 @@ CbmStsTrackFitterIdeal.cxx
 CbmStsSimulationQa.cxx 
 CbmStsFindHitsQa.cxx
 CbmStsReconstructionQa.cxx
+CbmStsDigitizeQa.cxx
 )
 # -----  End of sources   ---------------------------------
 

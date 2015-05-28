@@ -1,3 +1,7 @@
+# add subdirectories
+add_subdirectory (papa)
+
+
 Set(INCLUDE_DIRECTORIES
 ${CBMROOT_SOURCE_DIR}/analysis
 ${CBMROOT_SOURCE_DIR}/analysis/hyperon

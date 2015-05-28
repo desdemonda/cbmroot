@@ -81,8 +81,19 @@ class CbmStsSensorConditions : public TObject {
 		 ** @return Full depletion voltage [V]
 		 **/
 		Double_t GetVfd() const { return fVfd; }
+                
+		/** Mean shift due to magnetic field
+		 ** @param  Side: 0 - electrons, 1 - holes 
+		 ** @return Mean shift[cm] 
+		 **/
+		Double_t GetMeanLorentzShift(Int_t side) const { return fMeanLorentzShift[side]; }
 
+                /** Get parameters for Hall mobility calculation into array**/
+		void GetHallMobilityParametersInto(Double_t * hallMobilityParameters, Int_t chargeType) const;
 
+                /** Parameters for Hall mobility calculation **/
+		void SetHallMobilityParameters();
+		
 		/** Set the magnetic field
 		 ** @param bx,by,bz  Magnetic field components in sensor centre [T]
 		 **/
@@ -108,6 +119,9 @@ class CbmStsSensorConditions : public TObject {
 		Double_t fBx;            ///< Mag. field (x comp.) at sensor centre [T]
 		Double_t fBy;            ///< Mag. field (y comp.) at sensor centre [T]
 		Double_t fBz;            ///< Mag. field (z comp.) at sensor centre [T]
+		Double_t fHallMobilityParametersE[4]; ///< Array with parameters for electron Hall mobility calculation
+		Double_t fHallMobilityParametersH[4]; ///< Array with parameters for hole     Hall mobility calculation
+		Double_t fMeanLorentzShift[2];///< Lorenz shift averaged over the z-coordinate of the chage carrier creation
 
 		ClassDef(CbmStsSensorConditions, 1);
 };

@@ -6,6 +6,8 @@
 
 #include "FairPrimaryGenerator.h"       // for FairPrimaryGenerator
 
+#include "PStaticData.h"                // for PStaticData
+#include "PDataBase.h"                  // for PDataBase
 #include "PParticle.h"                  // for PParticle
 
 #include "Riosfwd.h"                    // for ostream
@@ -28,6 +30,9 @@ CbmPlutoGenerator::CbmPlutoGenerator()
    fInputTree(NULL),
    fParticles(NULL)
 {
+  // Get Pluto database
+  fdata = makeStaticData();
+  fbase = makeDataBase();
   /*
   iEvent     = 0;
   fInputFile = NULL;
@@ -47,6 +52,9 @@ CbmPlutoGenerator::CbmPlutoGenerator(const Char_t* fileName)
    fInputTree(NULL),
    fParticles(new TClonesArray("PParticle",100))
 {
+  // Get Pluto database
+  fdata = makeStaticData();
+  fbase = makeDataBase();
   /*
   iEvent     = 0;
   fFileName  = fileName;
@@ -63,6 +71,9 @@ CbmPlutoGenerator::CbmPlutoGenerator(const Char_t* fileName)
 // -----   Destructor   ---------------------------------------------------
 CbmPlutoGenerator::~CbmPlutoGenerator()
 {
+  // remove Pluto database
+  delete fdata;
+  delete fbase;
   CloseInput();
 }
 // ------------------------------------------------------------------------
@@ -99,27 +110,42 @@ Bool_t CbmPlutoGenerator::ReadEvent(FairPrimaryGenerator* primGen)
   // Loop over particles in TClonesArray
   for (Int_t iPart=0; iPart < nParts; iPart++) {
     PParticle* part = (PParticle*) fParticles->At(iPart);
-    Int_t pdgType = dataBase->ConvertGeant3ToPdg( part->ID() );
+
+    Int_t *pdgType = 0x0;
+    Bool_t found = fbase->GetParamInt("pid",part->ID(),"pythiakf",&pdgType);
+    // TODO: replace by fdata->GetParticleKF(part->ID()); as soon as FairSoft uses pluto version 5.42.6 or higher and remove fbase
 
     // Check if particle type is known to database
-    if ( ! pdgType ) {
-      cout << "-W CbmPlutoGenerator: Unknown type " << part->ID()
-           << ", skipping particle." << endl;
+    if ( ! found ) {
+      cout << "-W CbmPlutoGenerator: Unknown type " << part->ID() << ", skipping particle." << endl;
       continue;
     }
+    Printf(" %d Particle (geant%d) PDG %d -> %s", iPart,part->ID(),*pdgType, dataBase->GetParticle(*pdgType)->GetName());
+
+    // get the mother
+    Int_t parIdx = part->GetParentIndex();
+    // get daughter
+    Int_t idx = part->GetDaughterIndex();
 
     TLorentzVector mom = part->Vect4();
     Double_t px = mom.Px();
     Double_t py = mom.Py();
     Double_t pz = mom.Pz();
+    Double_t ee = mom.E();
 
     TVector3 vertex = part->getVertex();
     Double_t vx = vertex.x();
     Double_t vy = vertex.y();
     Double_t vz = vertex.z();
 
+    Bool_t wanttracking = kTRUE;
+    if(idx>-1) wanttracking=kFALSE; // only tracking for decay products
+    Int_t parent = parIdx;
+    Printf(" \t add particle with parent at index %d and do tracking %d",parIdx,wanttracking);
+    //    part->Print();
+
     // Give track to PrimaryGenerator
-    primGen->AddTrack(pdgType, px, py, pz, vx, vy, vz);
+    primGen->AddTrack(*pdgType, px, py, pz, vx, vy, vz, parent, wanttracking, ee);
 
   }        //  Loop over particle in event
 

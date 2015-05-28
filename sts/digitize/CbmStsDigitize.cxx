@@ -523,6 +523,39 @@ void CbmStsDigitize::SetModuleParameters() {
 
 
 
+// -----   Set the percentage of dead channels   ---------------------------
+void CbmStsDigitize::SetDeadChannelFraction(Double_t fraction) {
+	if ( fraction < 0. ) {
+		LOG(WARNING) << GetName()
+				         << ": illegal dead channel fraction " << fraction
+				         << "% , is set to 0 %" << FairLogger::endl;
+		fDeadChannelFraction = 0.;
+		return;
+	}
+	if ( fraction > 100. ) {
+		LOG(WARNING) << GetName()
+				         << ": illegal dead channel fraction " << fraction
+				         << "% , is set to 100 %" << FairLogger::endl;
+		fDeadChannelFraction = 100.;
+		return;
+	}
+	fDeadChannelFraction = fraction;
+}
+// -------------------------------------------------------------------------
+
+
+// -----   Set the switches for physical processes for real digitizer model -
+void CbmStsDigitize::SetPhysicalProcesses(Bool_t nonUniform, Bool_t diffusion, Bool_t crossTalk, Bool_t lorentzShift){
+      if (fDigiModel != 2) LOG(WARNING) << GetName() << ": cannot switch the physical processes for the simple(1) or for hte ideal (0) model of the Digitizer. Please use the real model: CbmStsDigitize(2). Continue without physical processes" << FairLogger::endl;
+      else  {
+	  fNonUniform   = nonUniform;
+	  fDiffusion    = diffusion;
+	  fCrossTalk    = crossTalk;
+	  fLorentzShift = lorentzShift;
+      }
+  }
+// -------------------------------------------------------------------------
+
 // -----   Set the operating parameters for the sensors   ------------------
 // TODO: Currently, all sensors have the same parameters. In future,
 // more flexible schemes must be used (initialisation from a database).
@@ -639,6 +672,7 @@ void CbmStsDigitize::SetSensorTypes() {
 		else if ( fDigiModel == 2 ) {
 			newType = new CbmStsSensorTypeDssdReal();
 			newType->SetTitle("DssdReal");
+			((CbmStsSensorTypeDssdReal*)newType)->SetPhysicalProcesses(fNonUniform, fDiffusion, fCrossTalk, fLorentzShift);
 		}
 		else
 			LOG(FATAL) << GetName() << ": Unknown response model " << fDigiModel

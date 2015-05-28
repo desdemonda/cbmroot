@@ -125,6 +125,17 @@ Int_t CbmStsSetup::DefineSensorTypes() {
 	sensor06->SetName("Sensor06");
 	fSensorTypes[6] = sensor06;
 
+	// Sensor07: DSSD, 3.1 cm x 4.2 cm
+	CbmStsSensorTypeDssd* sensor07 = new CbmStsSensorTypeDssd();
+	lx       = 2.8594;    // active size in x
+	ly       = 3.96;      // active size in y
+	nStripsF = 493;       // number of strips front side (58 mum)
+	nStripsB = 493;       // number of strips back side  (58 mum)
+	sensor07->SetParameters(lx, ly, lz, nStripsF, nStripsB, stereoF, stereoB);
+	sensor07->SetName("Sensor07");
+	fSensorTypes[7] = sensor07;
+
+
 	return fSensorTypes.size();
 }
 // -------------------------------------------------------------------------
@@ -308,6 +319,7 @@ Int_t CbmStsSetup::SetSensorTypes() {
 		else if ( volX > 6.19 && volX < 6.21 && volY > 6.19 && volY < 6.21 ) iType = 4;
 		else if ( volX > 3.09 && volX < 3.11 && volY > 3.09 && volY < 3.11 ) iType = 5;
 		else if ( volX > 1.49 && volX < 1.51 && volY > 4.19 && volY < 4.21 ) iType = 6;
+		else if ( volX > 3.09 && volX < 3.11 && volY > 4.19 && volY < 4.21 ) iType = 7;
 
 		// Look for type in DB
 		map<Int_t, CbmStsSensorType*>::iterator it = fSensorTypes.find(iType);

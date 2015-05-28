@@ -13,6 +13,15 @@
 
 using namespace std;
 
+CbmBuildEventsSimple::CbmBuildEventsSimple()
+  : FairTask(), fSlice(NULL), fSTSDigi(NULL),
+    fNSTSDigis(0), fEv(0), fSliceN(0),
+    fStepLength(30), fEventStartThreshold(4000), fSliceLength(200),
+    fPrevT(-1111), fPrevN(-1111), fCurT(-1111), fCurN(-1111),
+    fStartT(-1111), fEndT(-1111), fOpenEvent(0)
+{
+}
+
 CbmBuildEventsSimple::CbmBuildEventsSimple(const char* name, Int_t iVerbose)
   : FairTask(name, iVerbose), fSlice(NULL), fSTSDigi(NULL),
     fNSTSDigis(0), fEv(0), fSliceN(0),

@@ -6,6 +6,7 @@
 
 #include "FairLogger.h"
 
+#include "TMCProcess.h"
 #include "TParticle.h"
 #ifndef ROOT_TParticlePDG
  #include "TParticlePDG.h"
@@ -19,11 +20,13 @@
 // -----   Default constructor   -------------------------------------------
 CbmMCTrack::CbmMCTrack() 
   : TObject(),
+    fProcessId(kPNoProcess),
     fPdgCode(0),
     fMotherId(-1),
     fPx(0.),
     fPy(0.),
     fPz(0.),
+    fE(-1.),
     fStartX(0.),
     fStartY(0.),
     fStartZ(0.),
@@ -40,11 +43,13 @@ CbmMCTrack::CbmMCTrack(Int_t pdgCode, Int_t motherId, Double_t px,
 		       Double_t py, Double_t pz, Double_t x, Double_t y,
 		       Double_t z, Double_t t, Int_t nPoints = 0) 
   : TObject(),
+    fProcessId(kPNoProcess),
     fPdgCode(pdgCode),
     fMotherId(motherId),
     fPx(px),
     fPy(py),
     fPz(pz),
+    fE(-1.),
     fStartX(x),
     fStartY(y),
     fStartZ(z),
@@ -61,11 +66,13 @@ CbmMCTrack::CbmMCTrack(Int_t pdgCode, Int_t motherId, Double_t px,
 // -----   Copy constructor   ----------------------------------------------
 CbmMCTrack::CbmMCTrack(const CbmMCTrack& track) 
   : TObject(track),
+    fProcessId(track.fProcessId),
     fPdgCode(track.fPdgCode),
     fMotherId(track.fMotherId),
     fPx(track.fPx),
     fPy(track.fPy),
     fPz(track.fPz),
+    fE(track.GetEnergy()),
     fStartX(track.fStartX),
     fStartY(track.fStartY),
     fStartZ(track.fStartZ),
@@ -81,11 +88,13 @@ CbmMCTrack::CbmMCTrack(const CbmMCTrack& track)
 // -----   Constructor from TParticle   ------------------------------------
 CbmMCTrack::CbmMCTrack(TParticle* part) 
   : TObject(),
+    fProcessId(part->GetUniqueID()),
     fPdgCode(part->GetPdgCode()),
     fMotherId(part->GetMother(0)),
     fPx(part->Px()),
     fPy(part->Py()),
     fPz(part->Pz()),
+    fE(part->Energy()),
     fStartX(part->Vx()),
     fStartY(part->Vy()),
     fStartZ(part->Vz()),
@@ -106,6 +115,7 @@ CbmMCTrack::~CbmMCTrack() { }
 // -----   Public method Print   -------------------------------------------
 void CbmMCTrack::Print(Int_t trackId) const {
   LOG(DEBUG) << "Track " << trackId << ", mother : " << fMotherId 
+	     << ", GeantProcess " << TMCProcessName[fProcessId] 
 	     << ", Type " << fPdgCode << ", momentum (" << fPx << ", " 
 	     << fPy << ", " << fPz << ") GeV" << FairLogger::endl;
   LOG(DEBUG) << "       Ref " << GetNPoints(kREF) 
