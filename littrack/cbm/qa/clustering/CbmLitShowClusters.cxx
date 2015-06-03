@@ -208,6 +208,7 @@ void CbmLitShowClusters::ProcessSectorHistos()
       fModuleInfo = fDigiPar->GetModule(moduleAddress);
       fModuleInfo->GetPosition(moduleAddress, sectorId, secCol, secRow, posHit, padSize);
 
+      padSize *= 1/TMath::Sqrt(12.);
       Double_t nofRows = fModuleInfo->GetNofRowsInSector(1);
       Double_t nofCols = fModuleInfo->GetNofColumnsInSector(1);
       Double_t sizeX = fModuleInfo->GetSizeX();
@@ -319,6 +320,7 @@ void CbmLitShowClusters::ProcessSectorHistos()
 	     TVector3 padSize;
 	     fModuleInfo->GetPosition(moduleAddress, sectorId, curCol, curRow, posHit, padSize);
 
+	     padSize *= 1/TMath::Sqrt(12.);
 	     Double_t cornX = midX-sizeX;
 	     Double_t cornY = midY-sizeY;
 	     Double_t x = posHit.X() - cornX;
@@ -326,19 +328,18 @@ void CbmLitShowClusters::ProcessSectorHistos()
 	     Double_t padx = padSize.X();
 	     Double_t pady = padSize.Y();
 
-	     pad->AddBin(x-padx, y-pady, x+padx, y+pady);
-	     pad3->AddBin(x-padx, y-pady, x+padx, y+pady);
 
 	     Double_t digiCharge=1e-9;
 	     Double_t digiTime=0;
-	     cout << "checking for Digi (" << sectorId << ", " << curCol << ", " << curRow << ")" << endl;
 	     if( sectorMap->count(pair<Int_t, Int_t>(curCol, curRow)) != 0 ){
+		pad->AddBin(x-padx, y-pady, x+padx, y+pady);
+		pad3->AddBin(x-padx, y-pady, x+padx, y+pady);
 		CbmTrdDigi *digi = sectorMap->at(pair<Int_t,Int_t>(curCol, curRow));
 		digiCharge = digi->GetCharge();
 		digiTime = digi->GetTime();
 		TBox *digiMarker = new TBox(x-padx, y-pady, x+padx, y+pady);
-		digiMarker->SetFillColor(kViolet-(digiCharge*1e6));
-		digiMarker->SetFillStyle((digiCharge>1e7)?3001:3244);
+		digiMarker->SetFillColor(kViolet-(digiCharge*1e7));
+		digiMarker->SetFillStyle((digiCharge>1e7)?3002:3001);
 	        digiMarker->Draw();
 	        pad->Fill(x, y, digiCharge);
 	        pad3->Fill(x, y, digiTime);
