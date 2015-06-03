@@ -28,7 +28,6 @@
 #include "CbmTrdHit.h"
 #include "CbmTrdModule.h"
 #include "CbmTrdDigiPar.h"
-#include "CbmTrdGeoHandler.h"
 #include "CbmTrdAddress.h"
 
 using std::cout;
@@ -40,8 +39,7 @@ CbmLitFindSimpleTrdClusters::CbmLitFindSimpleTrdClusters():
 	 fClusters(NULL),
 	 fHits(NULL),
 	 fModuleInfo(NULL),
-	 fDigiPar(NULL),
-	 fGeoHandler(NULL)
+	 fDigiPar(NULL)
 {
 }
 

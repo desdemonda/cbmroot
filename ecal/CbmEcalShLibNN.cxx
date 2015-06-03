@@ -101,7 +101,7 @@ Float_t CbmEcalShLibNN::GetResponse(Float_t x, Float_t y, Float_t phi, Float_t t
     ty=t;
   }
 
-  par[0]=tx; par[1]=ty; par[2]=tphi*TMath::DegToRad(); par[3]=theta*TMath::DegToRad(); par[5]=e;
+  par[0]=tx; par[1]=ty; par[2]=tphi*TMath::DegToRad(); par[3]=theta*TMath::DegToRad(); par[4]=e;
   return fRec[celltype]->Evaluate(0, par)*e;
 }
 

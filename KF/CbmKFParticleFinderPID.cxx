@@ -68,18 +68,24 @@ InitStatus CbmKFParticleFinderPID::Init()
       return kERROR;
     }
     
-    fTrdTrackArray = (TClonesArray*) ioman->GetObject(fTrdBranchName);
-    if(fTrdTrackArray==0)
+    if(fTrdPIDMode > 0)
     {
-      Error("CbmKFParticleFinderPID::Init","TRD track-array not found!");
-      return kERROR;
+      fTrdTrackArray = (TClonesArray*) ioman->GetObject(fTrdBranchName);
+      if(fTrdTrackArray==0)
+      {
+        Error("CbmKFParticleFinderPID::Init","TRD track-array not found!");
+        return kERROR;
+      }
     }
     
-    fRichRingArray = (TClonesArray*) ioman->GetObject(fRichBranchName);
-    if(fRichRingArray == 0)
-    {
-      Error("CbmKFParticleFinderPID::Init","Rich ring array not found!");
-      return kERROR;
+    if(fRichPIDMode>0)
+    {  
+      fRichRingArray = (TClonesArray*) ioman->GetObject(fRichBranchName);
+      if(fRichRingArray == 0)
+      {
+        Error("CbmKFParticleFinderPID::Init","Rich ring array not found!");
+        return kERROR;
+      }
     }
   }
   
@@ -154,7 +160,11 @@ void CbmKFParticleFinderPID::SetMCPID()
          TMath::Abs(cbmMCTrack->GetPdgCode()) == 13 ||
          TMath::Abs(cbmMCTrack->GetPdgCode()) == 211 ||
          TMath::Abs(cbmMCTrack->GetPdgCode()) == 321 ||
-         TMath::Abs(cbmMCTrack->GetPdgCode()) == 2212) )
+         TMath::Abs(cbmMCTrack->GetPdgCode()) == 2212 ||
+         TMath::Abs(cbmMCTrack->GetPdgCode()) == 1000010020 ||
+         TMath::Abs(cbmMCTrack->GetPdgCode()) == 1000010030 ||
+         TMath::Abs(cbmMCTrack->GetPdgCode()) == 1000020030 ||
+         TMath::Abs(cbmMCTrack->GetPdgCode()) == 1000020040 ) )
       continue;
     fPID[iTr] = cbmMCTrack->GetPdgCode();
   }
@@ -165,35 +175,38 @@ void CbmKFParticleFinderPID::SetRecoPID()
   if (NULL == fGlobalTrackArray) { Fatal("KF Particle Finder", "No GlobalTrack array!"); }
   if (NULL == fTofHitArray) { Fatal("KF Particle Finder", "No TOF hits array!"); }
 
-  const Double_t m2P  = 0.885;
-  const Double_t m2K  = 0.245;
-  const Double_t m2Pi = 0.019479835;
-  const Double_t m2El = 0.;
+  const Double_t m2TOF[7] = { 0.885, 0.245, 0.019479835, 0., 3.49, 7.83, 1.95};
   
-  Double_t sP[4][5];
+  Double_t sP[7][5];
   if(fSisMode == 0) //SIS-100
   {
-    Double_t sPLocal[4][5] = { {0.056908,-0.0470572,0.0216465,-0.0021016,8.50396e-05},
+    Double_t sPLocal[7][5] = { {0.056908,-0.0470572,0.0216465,-0.0021016,8.50396e-05},
                                {0.00943075,-0.00635429,0.00998695,-0.00111527,7.77811e-05},
                                {0.00176298,0.00367263,0.00308013,0.000844013,-0.00010423},
-                               {0.00218401, 0.00152391, 0.00895357, -0.000533423, 3.70326e-05} }; 
-    for(Int_t iSp=0; iSp<4; iSp++)
+                               {0.00218401, 0.00152391, 0.00895357, -0.000533423, 3.70326e-05},
+                               {0.261491, -0.103121, 0.0247587, -0.00123286, 2.61731e-05},
+                               {0.657274, -0.22355, 0.0430177, -0.0026822, 7.34146e-05},
+                               {0.116525, -0.045522,0.0151319, -0.000495545, 4.43144e-06}  }; 
+    for(Int_t iSp=0; iSp<7; iSp++)
       for(Int_t jSp=0; jSp<5; jSp++)
         sP[iSp][jSp] = sPLocal[iSp][jSp];
   }
   
   if(fSisMode == 1) //SIS-300
   {
-    Double_t sPLocal[4][5] = { {0.0337428,-0.013939,0.00567602,-0.000202229,4.07531e-06},
+    Double_t sPLocal[7][5] = { {0.0337428,-0.013939,0.00567602,-0.000202229,4.07531e-06},
                                {0.00717827,-0.00257353, 0.00389851,-9.83097e-05, 1.33011e-06},
                                {0.001348,0.00220126,0.0023619,7.35395e-05,-4.06706e-06},
-                               {0.00142972, 0.00308919, 0.00326995, 6.91715e-05, -2.44194e-06} };
-    for(Int_t iSp=0; iSp<4; iSp++)
+                               {0.00142972, 0.00308919, 0.00326995, 6.91715e-05, -2.44194e-06},
+                               {0.261491, -0.103121, 0.0247587, -0.00123286, 2.61731e-05},  //TODO tune for SIS300
+                               {0.657274, -0.22355, 0.0430177, -0.0026822, 7.34146e-05},
+                               {0.116525, -0.045522,0.0151319, -0.000495545, 4.43144e-06}  }; 
+    for(Int_t iSp=0; iSp<7; iSp++)
       for(Int_t jSp=0; jSp<5; jSp++)
         sP[iSp][jSp] = sPLocal[iSp][jSp];
   }
 
-  const Int_t PdgHypo[4] = {2212, 321, 211, -11};
+  const Int_t PdgHypo[7] = {2212, 321, 211, -11, 1000010020, 1000010030, 1000020030};
 
   for (Int_t igt = 0; igt < fGlobalTrackArray->GetEntriesFast(); igt++) {
     const CbmGlobalTrack* globalTrack = static_cast<const CbmGlobalTrack*>(fGlobalTrackArray->At(igt));
@@ -318,15 +331,14 @@ void CbmKFParticleFinderPID::SetRecoPID()
 
     Double_t m2 = p*p*(1./((l/time/29.9792458)*(l/time/29.9792458))-1.);
 
-    Double_t sigma[4];
-    sigma[0] = sP[0][0] + sP[0][1]*p + sP[0][2]*p*p + sP[0][3]*p*p*p + sP[0][4]*p*p*p*p;
-    sigma[1] = sP[1][0] + sP[1][1]*p + sP[1][2]*p*p + sP[1][3]*p*p*p + sP[1][4]*p*p*p*p;
-    sigma[2] = sP[2][0] + sP[2][1]*p + sP[2][2]*p*p + sP[2][3]*p*p*p + sP[2][4]*p*p*p*p;
+    Double_t sigma[7];
+    Double_t dm2[7];
 
-    Double_t dm2[4];
-    dm2[0] = fabs(m2 - m2P)/sigma[0];
-    dm2[1] = fabs(m2 - m2K)/sigma[1];
-    dm2[2] = fabs(m2 - m2Pi)/sigma[2];
+    for(int iSigma=0; iSigma<7; iSigma++)
+    {
+      sigma[iSigma] = sP[iSigma][0] + sP[iSigma][1]*p + sP[iSigma][2]*p*p + sP[iSigma][3]*p*p*p + sP[iSigma][4]*p*p*p*p;
+      dm2[iSigma] = fabs(m2 - m2TOF[iSigma])/sigma[iSigma];
+    }
 
     int iPdg=2;
     Double_t dm2min = dm2[2];
@@ -342,9 +354,6 @@ void CbmKFParticleFinderPID::SetRecoPID()
     
     if(isElectron)
     {
-      sigma[3] = sP[3][0] + sP[3][1]*p + sP[3][2]*p*p + sP[3][3]*p*p*p + sP[3][4]*p*p*p*p;
-      dm2[3] = fabs(m2 - m2El)/sigma[3];
-      
       if(dm2[3] > 3.)
         isElectron = 0;
     }
@@ -352,20 +361,14 @@ void CbmKFParticleFinderPID::SetRecoPID()
     if(!isElectron)
     {
       if(p>12.) continue;
-      if(q>0)
+      
+      for(int jPDG=0; jPDG<7; jPDG++)
       {
-        if(dm2[1] < dm2min) { iPdg = 1; dm2min = dm2[1]; }
-        if(dm2[0] < dm2min) { iPdg = 0; dm2min = dm2[0]; }
-
-        if(dm2min > 2) iPdg=-1;
+        if(jPDG==3) continue;
+        if(dm2[jPDG] < dm2min) { iPdg = jPDG; dm2min = dm2[jPDG]; }
       }
-      else
-      {
-        if(dm2[1] < dm2min) { iPdg = 1; dm2min = dm2[1]; }
-        if((dm2min>3) && (dm2[0] < dm2min)) { iPdg = 0; dm2min = dm2[0]; }
 
-        if(dm2min > 2) iPdg=-1;
-      }
+      if(dm2min > 2) iPdg=-1;
 
       if(iPdg > -1)
         fPID[stsTrackIndex] = q*PdgHypo[iPdg];

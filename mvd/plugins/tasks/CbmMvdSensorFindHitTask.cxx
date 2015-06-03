@@ -97,6 +97,7 @@ CbmMvdSensorFindHitTask::CbmMvdSensorFindHitTask()
   fNeighThreshold(1.),
   fShowDebugHistos(kFALSE),
   fUseMCInfo(kFALSE),
+  inputSet(kFALSE),
   fLayerRadius(0.),
   fLayerRadiusInner(0.),
   fLayerPosZ(0.),
@@ -108,8 +109,7 @@ CbmMvdSensorFindHitTask::CbmMvdSensorFindHitTask()
   fHitPosErrZ(0.0),
   fBranchName("MvdHit"),
   fDigisInCluster(-1),
-  fAddNoise(kFALSE),
-  inputSet(kFALSE)
+  fAddNoise(kFALSE)
 {
     CbmMvdCluster* clusterTemp= new CbmMvdCluster;
     fDigisInCluster= clusterTemp->GetMaxDigisInThisObject(); // read the number of memory cells from the cluster object
@@ -160,6 +160,7 @@ CbmMvdSensorFindHitTask::CbmMvdSensorFindHitTask(const char* name, Int_t iMode,
   fNeighThreshold(1.),
   fShowDebugHistos(kFALSE),
   fUseMCInfo(kFALSE),
+  inputSet(kFALSE),
   fLayerRadius(0.),
   fLayerRadiusInner(0.),
   fLayerPosZ(0.),
@@ -171,8 +172,7 @@ CbmMvdSensorFindHitTask::CbmMvdSensorFindHitTask(const char* name, Int_t iMode,
   fHitPosErrZ(0.0),
   fBranchName("MvdHit"),
   fDigisInCluster(-1),
-  fAddNoise(kFALSE),
-  inputSet(kFALSE)
+  fAddNoise(kFALSE)
 {    
     CbmMvdCluster* clusterTemp= new CbmMvdCluster;
     fDigisInCluster= clusterTemp->GetMaxDigisInThisObject(); // read the number of memory cells from the cluster object

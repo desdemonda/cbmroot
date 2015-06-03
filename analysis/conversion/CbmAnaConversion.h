@@ -23,6 +23,8 @@
 #include "CbmAnaConversionRich.h"
 #include "CbmAnaConversionKF.h"
 #include "CbmAnaConversionReco.h"
+#include "CbmAnaConversionPhotons.h"
+#include "CbmAnaConversionRecoFull.h"
 
 class TH1;
 class TH2;
@@ -94,9 +96,9 @@ public:
    virtual void Finish();
    
    void		AnalyseElectrons(CbmMCTrack* mctrack);
-   void		FillMCTracklists(CbmMCTrack* mctrack);
+   void		FillMCTracklists(CbmMCTrack* mctrack, int i);
    void		FillRecoTracklist(CbmMCTrack* mtrack);
-   void		FillRecoTracklistEPEM(CbmMCTrack* mctrack, TVector3 stsMomentum, TVector3 refittedMom);
+   void		FillRecoTracklistEPEM(CbmMCTrack* mctrack, TVector3 stsMomentum, TVector3 refittedMom, int i);
    void		InvariantMassTest();
    void		InvariantMassTest_4epem();
    void		InvariantMassTestReco();
@@ -117,6 +119,8 @@ private:
 	Int_t DoRichAnalysis;
 	Int_t DoKFAnalysis;
 	Int_t DoReconstruction;
+	Int_t DoPhotons;
+	Int_t DoRecoFull;
    
    TH1D * fhNofElPrim;
    TH1D * fhNofElSec;
@@ -204,10 +208,11 @@ private:
    vector<TH1*> fHistoList_kfparticle;	// list of all histograms containing results from KFParticle package
    vector<TH1*> fHistoList_richrings;	// list of all histograms related to rich rings
    
-   vector<CbmMCTrack*> fMCTracklist;
-   vector<CbmMCTrack*> fMCTracklist_all;
-   vector<CbmMCTrack*> fRecoTracklist;
-   vector<CbmMCTrack*> fRecoTracklistEPEM;
+   vector<CbmMCTrack*>	fMCTracklist;
+   vector<CbmMCTrack*>	fMCTracklist_all;
+   vector<CbmMCTrack*>	fRecoTracklist;
+   vector<CbmMCTrack*>	fRecoTracklistEPEM;
+   vector<int>			fRecoTracklistEPEM_id; // ids of mctracks from fRecoTracklistEPEM
    
    vector<TVector3> fRecoMomentum;
    vector<TVector3> fRecoRefittedMomentum;
@@ -228,6 +233,8 @@ private:
    CbmAnaConversionRich			*fAnaRich;
    CbmAnaConversionKF			*fAnaKF;
    CbmAnaConversionReco			*fAnaReco;
+   CbmAnaConversionPhotons		*fAnaPhotons;
+   CbmAnaConversionRecoFull		*fAnaRecoFull;
    
    
    

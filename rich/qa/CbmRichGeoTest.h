@@ -15,6 +15,7 @@
 
 class TH1;
 class TH2;
+class TH3;
 class TH1D;
 class TH2D;
 class TH3D;
@@ -25,6 +26,7 @@ class CbmRichRing;
 class CbmRichRingLight;
 //class CbmGeoRichPar;
 class TCanvas;
+class CbmHistManager;
 
 #include <vector>
 
@@ -51,11 +53,6 @@ public:
     * \brief Standard destructor.
     */
    virtual ~CbmRichGeoTest();
-
-   /**
-    * \brief SetParContainers.
-    */
-   void SetParContainers();
 
    /**
     * \brief Inherited from FairTask.
@@ -93,23 +90,12 @@ public:
     */
    void SetOutputDir(const string& dir) {fOutputDir = dir;}
 
-   /**
-    * \brief Set detector type ("standard" or "prototype").
-    * \param[in] type Detector type.
-    */
-   void SetRichDetectorType(const string& type) {fRichDetectorType = type;}
-
 private:
 
    /**
     * \brief Initialize histograms.
     */
    void InitHistograms();
-
-   /**
-    * \brief Temporary function for summary plots drawing.
-    */
-   void DrawSummaryPlotsTemp();
 
 
    /**
@@ -206,15 +192,7 @@ private:
 	      TH1D* hist);
 
 	void DrawH2MeanRms(
-	      TH2D* hist,
-	      const string& canvasName);
-
-	void FitH1OneOverX(
-	      TH1D* hist,
-	      double xMinFit,
-	      double xMaxFit,
-	      double xMin,
-	      double xMax,
+	      TH2* hist,
 	      const string& canvasName);
 
 	/**
@@ -226,26 +204,6 @@ private:
 	   TH1* histRec,
 	   TH1* histAcc);
 
-	/**
-	 * \brief Divide two histograms and create third one.
-	 */
-	TH1D* DivideH1(
-	   TH1D* h1,
-	   TH1D* h2,
-	   const string& name,
-	   const string& title,
-	   const string& axisX,
-	   const string& axisY);
-
-	TH2D* DivideH2(
-	   TH1D* h1,
-	   TH1D* h2,
-	   const string& name,
-	   const string& title,
-	   const string& axisX,
-	   const string& axisY,
-	   const string& axisZ);
-
 	TCanvas* CreateCanvas(
 	      const string& name,
 	      const string& title,
@@ -253,7 +211,7 @@ private:
 	      int height);
 
 	void DrawH3(
-	      TH3D* h,
+	      TH3* h,
 	      const string& cName,
 	      const string& zAxisTitle,
 	      double zMin,
@@ -272,8 +230,6 @@ private:
     */
    CbmRichGeoTest& operator=(const CbmRichGeoTest&);
 
-   string fRichDetectorType; // "standard" or prototype
-
    string fOutputDir; // output dir for results
 
 	TClonesArray* fRichHits;
@@ -290,50 +246,10 @@ private:
 
 	vector<TCanvas*> fCanvas;
 
+	CbmHistManager* fHM; // Histogram manager
+
 	Int_t fEventNum;
 	Int_t fMinNofHits; // Min number of hits in ring for detector acceptance calculation.
-
-	TH2D* fhHitsXY; // distribution of X and Y position of hits
-	TH2D* fhHitsXYEl;
-	TH2D* fhHitsXYMore2GevEl;
-	TH2D* fhHitsXYLess2GevEl;
-	TH2D* fhPointsXY; // distribution of X and Y position of points
-	TH1D* fhNofPhotonsPerHit; // Number of photons per hit
-
-   // fitting parameters
-	// [0] = hits fit, [1] = MC points fit
-	vector<TH1D*> fhNofHits; // number of hits per ring
-	// for ellipse
-	vector<TH2D*> fhAaxisVsMom; // major axis (A) vs. MC momentum
-	vector<TH2D*> fhBaxisVsMom; // minor axis (B) vs. MC momentum
-	vector<TH1D*> fhBoverA; // B/A distribution
-	vector<TH2D*> fhXcYcEllipse; // (Xc, Yc) of ellipse center
-   vector<TH2D*> fhChi2EllipseVsMom; // Chi2
-   // for circle
-	vector<TH2D*> fhXcYcCircle; // (Xc, Yc) of circle center
-	vector<TH2D*> fhRadiusVsMom; // circle radius vs. MC momentum
-   vector<TH2D*> fhChi2CircleVsMom; // chi2
-   vector<TH2D*> fhDRVsMom; // dR
-
-   // R, A, B distribution for different number of hits from 0 to 40
-   TH2D* fhRadiusVsNofHits;
-   TH2D* fhAaxisVsNofHits;
-   TH2D* fhBaxisVsNofHits;
-
-	// Difference between MC Points and Hits fit
-   // for ellipse fitting parameters
-   TH2D* fhDiffAaxis; // major axis (A)
-   TH2D* fhDiffBaxis; // minor axis (B)
-   TH2D* fhDiffXcEllipse; // Xc of ellipse center
-   TH2D* fhDiffYcEllipse; // Yc of ellipse center
-   // for circle fitting parameters
-   TH2D* fhDiffXcCircle; // Xc of circle center
-   TH2D* fhDiffYcCircle; // Xc of circle center
-   TH2D* fhDiffRadius; // circle radius
-
-   // Hits and points
-   TH1D* fhDiffXhit;
-   TH1D* fhDiffYhit;
 
    // fitting efficiency
    Double_t fMinAaxis;
@@ -342,38 +258,6 @@ private:
    Double_t fMaxBaxis;
    Double_t fMinRadius;
    Double_t fMaxRadius;
-   TH1D* fhNofHitsAll; // distribution of the number of hits in ring for all
-   TH1D* fhNofHitsCircleFit; // distribution of the number of hits in ring
-                             // for good fitted rings using circle  fitting
-   TH1D* fhNofHitsEllipseFit; // distribution of the number of hits in ring
-                              // for good fitted rings using ellipse  fitting
-   TH1D* fhNofHitsCircleFitEff;
-   TH1D* fhNofHitsEllipseFitEff;
-
-   // Detector acceptance vs (pt,y) and p for e+/- and pi+/-
-   TH1D* fh_mc_mom_el;
-   TH2D* fh_mc_pty_el;
-   TH1D* fh_acc_mom_el;
-   TH2D* fh_acc_pty_el;
-
-   TH1D* fh_mc_mom_pi;
-   TH2D* fh_mc_pty_pi;
-   TH1D* fh_acc_mom_pi;
-   TH2D* fh_acc_pty_pi;
-
-
-   // numbers in dependence on XY position onto the photodetector
-   TH3D* fhNofHitsXYZ; // number of hits
-   TH3D* fhNofPointsXYZ; // number of points
-   TH3D* fhBoverAXYZ; // B/A ratio
-   TH3D* fhBaxisXYZ; // B axis
-   TH3D* fhAaxisXYZ; // A axis
-   TH3D* fhRadiusXYZ; // Radius
-   TH3D* fhdRXYZ; // dR
-
-
-
-	vector<TH1*> fHists; // store all TH1 pointers of the histogram
 
 	Int_t fNofDrawnRings; // store number of drawn rings
 

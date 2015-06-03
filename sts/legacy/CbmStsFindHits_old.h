@@ -22,7 +22,7 @@ class CbmGeoStsPar;
 class CbmStsDigiPar;
 class CbmStsDigiScheme;
 class CbmStsSector;
-class CbmStsStation;
+class CbmStsStation_old;
 
 /**
  * \class CbmStsFindHits_old
@@ -68,7 +68,7 @@ private:
 
     void SortClusters();
 
-    void FindHits(CbmStsStation* station, CbmStsSector* sector, const std::set<Int_t>& fSet, const std::set<Int_t>& bSet);
+    void FindHits(CbmStsStation_old* station, CbmStsSector* sector, const std::set<Int_t>& fSet, const std::set<Int_t>& bSet);
 
     CbmStsFindHits_old(const CbmStsFindHits_old&);
     CbmStsFindHits_old operator=(const CbmStsFindHits_old&);

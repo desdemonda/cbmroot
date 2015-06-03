@@ -128,11 +128,9 @@ Double_t CbmStsPhysics::StoppingPower(Double_t energy, Double_t mass,
 	if ( ! isElectron ) eEquiv = energy * 0.938 / mass;
 	Double_t stopPower = -1.;
 
-	// --- For energies > 10 GeV use asymptotic values
-	if ( eEquiv > 10. ) {
-		if ( isElectron ) stopPower = 100. * 1.e-3;
-		else              stopPower =   2. * 1.e-3;
-	} //? E > 10 GeV
+	// --- For energies larger than tabulated range use asymptotic values
+	if ( isElectron && eEquiv > 100. )          stopPower = 4.527;
+	else if ( (! isElectron) && eEquiv > 600. ) stopPower = 0.0241;
 
 	// --- For lower energies: get largest value smaller than this energy
 	// --- from data tables
@@ -141,7 +139,7 @@ Double_t CbmStsPhysics::StoppingPower(Double_t energy, Double_t mass,
 		if ( isElectron ) it = fStoppingElectron.lower_bound(eEquiv);
 		else              it = fStoppingProton.lower_bound(eEquiv);
 		stopPower = it->second; // specific stopping power [GeV*g/cm^2]
-	} //? E < 10 GeV
+	} //? E inside tabulated range
 
 	// --- Calculate stopping power (from specific SP and density of silicon)
 	stopPower *= 2.33;    // density of silicon is 2.33 g/cm^3
@@ -170,9 +168,9 @@ Double_t CbmStsPhysics::EnergyLoss(Double_t dz, Double_t mass, Double_t eKin,
 
 	// Mean energy losses
 	Double_t sigma1 = c * fgF1 / fgE1 * ( xLog - TMath::Log(fgE1) - beta2 )
-			            / ( ( xLog - TMath::Log(fgI) - beta2 ) * (1. - fgkR) );
+			            / ( xLog - TMath::Log(fgI) - beta2 ) * (1. - fgkR);
 	Double_t sigma2 = c * fgF2 / fgE2 * ( xLog - TMath::Log(fgE2) - beta2 )
-			            / ( ( xLog - TMath::Log(fgI) - beta2 ) * (1. - fgkR) );
+			            / ( xLog - TMath::Log(fgI) - beta2 ) * (1. - fgkR);
 	Double_t sigma3 = c * fgkEmax * fgkR /
 			( fgI * ( fgkEmax + fgI ) * TMath::Log( (fgkEmax + fgI) / fgI ) );
 

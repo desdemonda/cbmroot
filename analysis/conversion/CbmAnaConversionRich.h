@@ -41,6 +41,7 @@ public:
 	void FillAdditionalPDGhisto(Int_t pdg, Int_t motherpdg);
 	void Protons(CbmMCTrack* mcTrack);
 
+	void CheckMC();
 
 
 
@@ -99,7 +100,7 @@ private:
 	TH2D * fhRichRings_protons;
 	TH1D * fhRichRings_protons2;
 
-
+	TH1D * fhRichRings_start;
 
 	// timer
 	TStopwatch timer;

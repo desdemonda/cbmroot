@@ -15,7 +15,6 @@
 #pragma link C++ class CbmLitFindGlobalTracksIdeal+;
 #pragma link C++ class CbmLitFindSimpleTrdClusters+;
 #pragma link C++ class CbmLitFindLWClusters+;
-#pragma link C++ class CbmLitLWClusterManager+;
 
 #pragma link C++ class CbmLitTrackingQa+;
 #pragma link C++ class CbmLitShowClusters+;

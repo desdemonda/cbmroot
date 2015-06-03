@@ -12,7 +12,7 @@
 #include "CbmStsSensorDigiPar.h"
 #include "CbmStsSector.h"
 #include "CbmStsSectorDigiPar.h"
-#include "CbmStsStation.h"
+#include "CbmStsStation_old.h"
 #include "CbmStsStationDigiPar.h"
 
 #include "FairGeoMedium.h"
@@ -141,16 +141,16 @@ void CbmStsDigiScheme::Reset() {
 
 
 // -----   Public method GetStation   --------------------------------------
-CbmStsStation* CbmStsDigiScheme::GetStation(Int_t iStation) {
+CbmStsStation_old* CbmStsDigiScheme::GetStation(Int_t iStation) {
   if ( ! fStations ) return NULL;
-  return dynamic_cast<CbmStsStation*>(fStations->At(iStation));
+  return dynamic_cast<CbmStsStation_old*>(fStations->At(iStation));
 }
 // -------------------------------------------------------------------------
 
 
 
 // -----   Public method GetStationByNr   ----------------------------------
-CbmStsStation* CbmStsDigiScheme::GetStationByNr(Int_t stationNr) {
+CbmStsStation_old* CbmStsDigiScheme::GetStationByNr(Int_t stationNr) {
   if ( ! fStations ) return NULL;
   if ( fStationMap.find(stationNr) == fStationMap.end() ) return NULL;
   return fStationMap[stationNr];
@@ -207,7 +207,7 @@ void CbmStsDigiScheme::Print(Bool_t kLong) {
   cout << "===================  STS digitisation scheme   ================="
        << endl;
   for (Int_t iStat=0; iStat<GetNStations(); iStat++) {
-    CbmStsStation* station = GetStation(iStat);
+    CbmStsStation_old* station = GetStation(iStat);
     station->Print(kLong);
   }
   cout << "================================================================"
@@ -237,7 +237,7 @@ Bool_t CbmStsDigiScheme::InitOld(CbmGeoStsPar* geoPar,
     Int_t    nSectors = statPar->GetNSectors();
     Double_t statZPos = -666.;// = statPar->GetZPosition();
 
-    CbmStsStation* station;
+    CbmStsStation_old* station;
     TString stationName = Form("stat%02d",iStation+1);
 
     TString statVolName = Form("stsstation%02ikeepvol",statNr);
@@ -319,7 +319,7 @@ Bool_t CbmStsDigiScheme::InitOld(CbmGeoStsPar* geoPar,
 	    FairGeoMedium* material = geoSensor->getMedium();
 	    Double_t sensorRL    = material->getRadiationLength();
 
-	    station = new CbmStsStation(stationName.Data(), statNr, statZPos,
+	    station = new CbmStsStation_old(stationName.Data(), statNr, statZPos,
 					sensorZDim, sensorRL, 0., 
 					100., statRot);
 	    fStations->Add(station);
@@ -423,7 +423,7 @@ Bool_t CbmStsDigiScheme::InitNew(CbmGeoStsPar* geoPar,
     Double_t  statRmin = 0.;
     Double_t  statRmax = 2. * TMath::Max(shape->GetDX(), shape->GetDY());
     Double_t  statRot = stationPar->GetRotation();
-    CbmStsStation* station = new CbmStsStation(statName, statNr, statZ, statD,
+    CbmStsStation_old* station = new CbmStsStation_old(statName, statNr, statZ, statD,
 					       statRadLength, statRmin, 
 					       statRmax, statRot);
     fStations->Add(station);

@@ -45,7 +45,7 @@ Double_t CbmGeoEcalPar::GetVariableStrict(const char* key)
   {
     cerr << "Can't find variable named \"" << key << "\"";
     cerr << ". Exiting..." << endl;
-    Fatal("","");
+    Fatal("GetVariableStrict","Can't find variable.");
   }
   Double_t val;
   char* err=NULL;
@@ -56,7 +56,7 @@ Double_t CbmGeoEcalPar::GetVariableStrict(const char* key)
     cerr << "\" to floating point. Value is \"";
     cerr << value->GetString() << "\"." << endl;
     cerr << "Exiting..." << endl;
-    Fatal("","");
+    Fatal("GetVariableStrict","Can't find variable.");
   }
   return val;
 }

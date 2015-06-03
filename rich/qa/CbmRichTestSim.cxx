@@ -33,23 +33,20 @@ using std::map;
 
 CbmRichTestSim::CbmRichTestSim():
    FairTask("CbmRichTestSim"),
-   fNEvents(0),
    fMCRichPointArray(NULL),
    fMCTrackArray(NULL),
-
+   fNEvents(0),
    fh_Det1ev(NULL),
    fh_Det1ev_zoom(NULL),
    fh_Detall(NULL),
    fh_n_vs_p(NULL),
    fh_v_el(NULL),
-
    fh_Nall(NULL),
    fh_Nel(NULL),
    fh_Nelprim(NULL),
    fh_Npi(NULL),
    fh_Nk(NULL),
    fh_Nhad(NULL),
-
    fSensNodes(NULL),
    fPar(NULL),
    fDetZ(0.)

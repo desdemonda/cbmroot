@@ -127,7 +127,7 @@ void CbmTSUnpackTrb::ProcessTdc(CbmRawSubEvent* rawSubEvent)
 {
   UInt_t tdcDataIndex = 0;
   UInt_t tdcData = 0x0;
-  UInt_t trbId = rawSubEvent->SubId();
+//  UInt_t trbId = rawSubEvent->SubId();
   
   while (true) {
     tdcData = rawSubEvent->SubDataValue(tdcDataIndex);
@@ -199,8 +199,8 @@ void CbmTSUnpackTrb::DecodeTdcDataNew(UInt_t* data, UInt_t length, UInt_t tdcId)
 
       if( 110 == tdcId ) {
 	pair<Double_t, CbmTrbRawMessage*> 
-	  value (fullTime, static_cast<CbmTrbRawMessage*>(fTrbRaw->At(fTrbRaw->GetEntriesFast())));
-	  fTimeBuffer.insert(value);
+	  value_pair (fullTime, static_cast<CbmTrbRawMessage*>(fTrbRaw->At(fTrbRaw->GetEntriesFast())));
+	  fTimeBuffer.insert(value_pair);
 
 
 
@@ -337,16 +337,22 @@ void CbmTSUnpackTrb::DecodeTdcData(UInt_t* data, UInt_t size, UInt_t trbId, UInt
     
     UInt_t tdcMarker = (tdcData >> 29) & 0x7; //3 bits
     if (tdcMarker == 0x1) {// TDC header
+/*
       UInt_t randomCode = (tdcData >> 16) & 0xff; // 8bits
       UInt_t errorBits = (tdcData) & 0xffff; //16 bits
-      //printf("TDC HEADER randomCode:0x%02x, errorBits:0x%04x\n", randomCode, errorBits);
+      printf("TDC HEADER randomCode:0x%02x, errorBits:0x%04x\n", randomCode, errorBits);
+*/
     } else if (tdcMarker == 0x2) {// DEBUG
+/*
       UInt_t debugMode = (tdcData >> 24) & 0x1f; //5
       UInt_t debugBits = (tdcData) & 0xffffff;//24 bits
-      //printf("DEBUG debugMode:%i, debugBits:0x%06x\n", debugMode, debugBits);
+      printf("DEBUG debugMode:%i, debugBits:0x%06x\n", debugMode, debugBits);
+*/
     } else if (tdcMarker == 0x3){ // EPOCH counter
+/*
       curEpochCounter = (tdcData) & 0xfffffff; //28 bits
-      //printf("EPOCH COUNTER epochCounter:0x%07x\n", curEpochCounter);
+      printf("EPOCH COUNTER epochCounter:0x%07x\n", curEpochCounter);
+*/
     }
   }// for loop
 }

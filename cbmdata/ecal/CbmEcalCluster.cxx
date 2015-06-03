@@ -106,7 +106,7 @@ CbmEcalCluster::CbmEcalCluster(Int_t num, const std::list<CbmEcalCell*>& cluster
     e=(*p)->GetTotalEnergy();
     x=(*p)->GetCenterX();
     y=(*p)->GetCenterY();
-    fX+=x*e; fY*=y*e;
+    fX+=x*e; fY+=y*e;
     fEnergy+=e;
     fType+=(*p)->GetType();
   }

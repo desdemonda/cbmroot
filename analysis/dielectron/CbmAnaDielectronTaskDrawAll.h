@@ -48,6 +48,7 @@ public:
     fh_mean_pi0_minv(),
     fh_mean_eta_minv_pt(),
     fh_mean_pi0_minv_pt(),
+    fh_mean_sbg_vs_minv(),
     fh_sum_s_minv(),
     fOutputDir("")
       {
@@ -93,6 +94,8 @@ private:
    vector<TH1D*> fh_mean_pi0_minv;
    vector<TH2D*> fh_mean_eta_minv_pt;
    vector<TH2D*> fh_mean_pi0_minv_pt;
+   vector<TH1D*> fh_mean_sbg_vs_minv; //Coctail/BG vs. invariant mass for different analysis steps
+
 
    // index: AnalysisSteps
    vector<TH1D*> fh_sum_s_minv; // sum of all signals
@@ -113,6 +116,16 @@ private:
          int signalType,
          const string& name);
 
+   /**
+    * \brief Create and return cotail vs. minv
+    */
+   TH1D* GetCoctailMinv(
+   		CbmLmvmAnalysisSteps step);
+
+   /**
+    * \brief Draw S/Bg vs minv.
+    */
+   void DrawSBgVsMinv();
 
    /**
     * \brief Draw invariant mass histograms.
@@ -142,6 +155,11 @@ private:
     * \brief It creates a mean histogram from 4 files.
     */
    void FillMeanHist();
+
+   /**
+    * \brief Save histograms for the study report
+    */
+   void SaveHist();
 
    /**
     * \brief Fill sum signals.

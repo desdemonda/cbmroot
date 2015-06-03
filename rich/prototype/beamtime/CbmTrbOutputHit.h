@@ -10,8 +10,8 @@ public:
    CbmTrbOutputHit():
       fTdcId(0),
       fLeadingChannel(0),
-      fLeadingFullTime(0.),
       fTrailingChannel(0),
+      fLeadingFullTime(0.),
       fTrailingFullTime(0.)
    {
 
@@ -20,8 +20,8 @@ public:
    CbmTrbOutputHit (UShort_t tdc, UShort_t lChannel, Double_t lFullTime, UShort_t tChannel, Double_t tFullTime) :
       fTdcId(tdc),
       fLeadingChannel(lChannel),
-      fLeadingFullTime(lFullTime),
       fTrailingChannel(tChannel),
+      fLeadingFullTime(lFullTime),
       fTrailingFullTime(tFullTime)
    {
 

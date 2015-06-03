@@ -61,7 +61,7 @@ void sis300_muon_setup()
   // -----  Geometries  -----------------------------------------------------
   caveGeom     = "cave.geo";
   pipeGeom     = "pipe/pipe_v13c.geo.root";
-  magnetGeom   = "magnet/magnet_v12b.geo.root";
+  magnetGeom   = "magnet/magnet_v15a.geo.root";
   mvdGeom      = "";
   stsGeom      = "sts/sts_" + stsTag + ".geo.root";
   richGeom     = "";

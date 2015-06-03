@@ -20,6 +20,8 @@
 #include "CbmMatch.h"
 #include "CbmStsAddress.h"
 
+#include "CbmMvdHitMatch.h"
+
 
 #include "TDatabasePDG.h"
 #include "TRandom.h"
@@ -31,6 +33,9 @@ using std::cout;
 using std::endl;
 using std::vector;
 using std::find;
+
+//#define MVDIDEALHITS
+//#define STSIDEALHITS
 
 struct TmpMCPoint{ // used for sort MCPoints for creation of MCTracks
   int ID;         // MCPoint ID
@@ -105,6 +110,47 @@ void CbmL1::ReadEvent()
 
     // get MVD hits
   int nMvdHits=0;
+#ifdef MVDIDEALHITS
+  if(listMvdPts){
+    Int_t nMC  = listMvdPts->GetEntries();
+    isUsedMvdPoint.resize(nMC);
+    for(int iMc=0; iMc<nMC; iMc++){
+      isUsedMvdPoint[iMc]=0;
+      TmpHit th;
+      CbmMvdPoint *point = L1_DYNAMIC_CAST<CbmMvdPoint*>( listMvdPts->At(iMc) );
+      th.ExtIndex = -(1+iMc);
+      if((point->GetZOut() < 4) || (point->GetZOut() > 21)){
+        std::cout<<"[CbmL1ReadEvent]: MVDIdealHits - wrong Z-coord of MCPoint\n";
+        if(point->GetZOut() < 4) th.iStation = 0;
+        else th.iStation = 3;
+      }
+      else if(point->GetZOut() < 6) th.iStation = 0;
+      else if(point->GetZOut() < 11) th.iStation = 1;
+      else if(point->GetZOut() < 16) th.iStation = 2;
+      else th.iStation = 3;
+      th.iSector  = 0;
+      th.isStrip  = 0;
+      th.iStripF = iMc;
+      th.iStripB = -1;
+      if( th.iStripF<0 ) continue;
+      if( th.iStripF>=0 && th.iStripB>=0 ) th.isStrip  = 1;
+      if( th.iStripB <0 ) th.iStripB = th.iStripF;
+      th.x = 0.5 * ( point->GetX() + point->GetXOut() );
+      th.y = 0.5 * ( point->GetY() + point->GetYOut() );
+      L1Station &st = algo->vStations[th.iStation];
+      th.u_front = th.x*st.frontInfo.cos_phi[0] + th.y*st.frontInfo.sin_phi[0] + gRandom->Gaus(0,0.00048);
+      th.u_back  = th.x*st.backInfo.cos_phi[0] + th.y*st.backInfo.sin_phi[0] + gRandom->Gaus(0,0.00048);
+      CbmL1MCPoint MC;
+      ReadMCPoint( &MC, iMc, 1 );
+      MC.iStation = th.iStation;
+      vMCPoints.push_back( MC );
+      isUsedMvdPoint[iMc] = 1;
+      th.iMC = vMCPoints.size() - 1;
+      tmpHits.push_back(th);
+      nMvdHits++;
+    }
+  }
+#else
   if( listMvdHits ){
     Int_t nEnt  = listMvdHits->GetEntries();
     Int_t nMC = (listMvdPts) ? listMvdPts->GetEntries() : 0;
@@ -121,7 +167,6 @@ void CbmL1::ReadEvent()
         CbmMvdHit *mh = L1_DYNAMIC_CAST<CbmMvdHit*>( listMvdHits->At(j) );
         th.ExtIndex = -(1+j);
         th.iStation = mh->GetStationNr();// - 1;
-      // cout<<th.iStation << " th.iStation !!!!!!!!!!!!!!!!!!!!"<<endl;
         th.iSector  = 0;
         th.isStrip  = 0;
         th.iStripF = j;
@@ -129,17 +174,17 @@ void CbmL1::ReadEvent()
         if( th.iStripF<0 ) continue;
         if( th.iStripF>=0 && th.iStripB>=0 ) th.isStrip  = 1;
         if( th.iStripB <0 ) th.iStripB = th.iStripF;
-  
+
         TVector3 pos, err;
         mh->Position(pos);
         mh->PositionError(err);
 
         th.x = pos.X();
         th.y = pos.Y();
-  
+
         L1Station &st = algo->vStations[th.iStation];
         th.u_front = th.x*st.frontInfo.cos_phi[0] + th.y*st.frontInfo.sin_phi[0];
-        th.u_back  = th.x* st.backInfo.cos_phi[0] + th.y*st.backInfo.sin_phi[0];
+        th.u_back  = th.x*st.backInfo.cos_phi[0] + th.y*st.backInfo.sin_phi[0];
       }
       th.iMC=-1;
       int iMC = -1;
@@ -192,9 +237,62 @@ void CbmL1::ReadEvent()
     } // for j
   } // if listMvdHits
   if (fVerbose >= 10) cout << "ReadEvent: mvd hits are gotten." << endl;
+#endif
 
     // get STS hits
-  int nStsHits=0;
+  int nStsHits = 0;
+#ifdef STSIDEALHITS
+  if(listStsPts){
+    Int_t nMC = listStsPts->GetEntries();
+    isUsedStsPoint.resize(nMC);
+    for(Int_t iMc = 0; iMc < nMC; iMc++){
+      isUsedStsPoint[iMc] = 0;
+      CbmStsPoint* point = L1_DYNAMIC_CAST<CbmStsPoint*>( listStsPts->At(iMc) );
+      TmpHit th;
+      th.ExtIndex = iMc;
+      if((point->GetZIn() < 29) || (point->GetZIn() > 101)){
+        std::cout<<"[CbmL1ReadEvent]: STSIdealHits - wrong Z-coord of MCPoint\n";
+        if(point->GetZIn() < 29) th.iStation = NMvdStations;
+        else th.iStation = NMvdStations + 7; //!!!
+      }
+      else if(point->GetZOut() < 31) th.iStation = NMvdStations;
+      else if(point->GetZOut() < 41) th.iStation = NMvdStations + 1;
+      else if(point->GetZOut() < 51) th.iStation = NMvdStations + 2;
+      else if(point->GetZOut() < 61) th.iStation = NMvdStations + 3;
+      else if(point->GetZOut() < 71) th.iStation = NMvdStations + 4;
+      else if(point->GetZOut() < 81) th.iStation = NMvdStations + 5;
+      else if(point->GetZOut() < 91) th.iStation = NMvdStations + 6;
+      else if(point->GetZOut() < 101) th.iStation = NMvdStations + 7;
+      else continue;
+      th.iSector = 0;
+      th.isStrip = 0;
+      th.iStripF = 0;
+      th.iStripB = 0;
+      th.time = point->GetTime();
+      th.iStripF += nMvdHits;
+      th.iStripB += nMvdHits;
+      Double_t z_coord = 0.5 * (point->GetZOut() + point->GetZIn());
+      th.x = point->GetX(z_coord);
+      th.y = point->GetY(z_coord);
+      L1Station &st = algo->vStations[th.iStation];
+      th.u_front = th.x*st.frontInfo.cos_phi[0] + th.y*st.frontInfo.sin_phi[0] + gRandom->Gaus(0,0.00167432);
+      th.u_back  = th.x*st.backInfo.cos_phi[0] + th.y*st.backInfo.sin_phi[0] + gRandom->Gaus(0,0.00167432);
+      CbmL1MCPoint MC;
+      if( ! ReadMCPoint( &MC, iMc, 0 ) ){
+        MC.iStation = th.iStation;
+        vMCPoints.push_back( MC );
+        isUsedStsPoint[iMc] = 1;
+        th.iMC = vMCPoints.size()-1;
+      }
+      MC.iStation = th.iStation;
+      vMCPoints.push_back( MC );
+      isUsedStsPoint[iMc] = 1;
+      th.iMC = vMCPoints.size() - 1;
+      tmpHits.push_back(th);
+      nStsHits++;
+    }
+  }
+#else
   if( listStsHits ){
     Int_t nEnt = listStsHits->GetEntries();
     Int_t nMC = (listStsPts) ? listStsPts->GetEntries() : 0;
@@ -339,6 +437,7 @@ void CbmL1::ReadEvent()
     } // for j
   } // if listStsHits
   if (fVerbose >= 10) cout << "ReadEvent: sts hits are gotten." << endl;
+#endif
 
   //add MC points, which has not been added yet
   if(listMvdHits && listMvdPts)
@@ -505,14 +604,23 @@ void CbmL1::ReadEvent()
       // find and save z positions
     float z_tmp;
     int ist = th.iStation;
-//     cout<<NMvdStations<<" NMvdStations "<<ist<<" ist "<<(s.ExtIndex)<<" (s.ExtIndex) "<<endl;
     if (ist < NMvdStations){
-      CbmKFTube &t = CbmKF::Instance()->vMvdMaterial[ist];
-      z_tmp = t.z;
+#ifdef MVDIDEALHITS
+      CbmMvdPoint* point = L1_DYNAMIC_CAST<CbmMvdPoint*>(listMvdPts->At(- s.ExtIndex - 1));
+      z_tmp = 0.5 * ( point->GetZOut() + point->GetZIn() );
+#else
+      CbmMvdHit *mh_m = L1_DYNAMIC_CAST<CbmMvdHit*>( listMvdHits->At(- s.ExtIndex - 1));
+      z_tmp = mh_m->GetZ();
+#endif
     }
     else {
+#ifdef STSIDEALHITS
+      CbmStsPoint* point = L1_DYNAMIC_CAST<CbmStsPoint*>(listStsPts->At(s.ExtIndex));
+      z_tmp = 0.5 * ( point->GetZOut() + point->GetZIn() );
+#else
       CbmStsHit *mh_m = L1_DYNAMIC_CAST<CbmStsHit*>( listStsHits->At(s.ExtIndex));
       z_tmp = mh_m->GetZ();
+#endif
     }
 //     h.z = z_tmp;
     
@@ -823,9 +931,13 @@ bool CbmL1::ReadMCPoint( CbmL1MCPoint *MC, int iPoint, bool MVD )
   if ( !MCTrack ) return 1;
   MC->pdg  = MCTrack->GetPdgCode();
   MC->mother_ID = MCTrack->GetMotherId();
-  if ( abs(MC->pdg) >= 10000 ) return 1;
-  MC->q = TDatabasePDG::Instance()->GetParticle(MC->pdg)->Charge()/3.0;
-  MC->mass = TDatabasePDG::Instance()->GetParticle(MC->pdg)->Mass();
+
+  TParticlePDG* particlePDG = TDatabasePDG::Instance()->GetParticle(MC->pdg);
+  if(particlePDG)
+  {
+    MC->q = particlePDG->Charge()/3.0;
+    MC->mass = particlePDG->Mass();
+  }
 
   return 0;
 }

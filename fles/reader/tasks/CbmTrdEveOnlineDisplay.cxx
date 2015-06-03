@@ -200,7 +200,7 @@ InitStatus CbmTrdEveOnlineDisplay::Init()
   CbmTrdRawBeamProfile* c = static_cast<CbmTrdRawBeamProfile*>(gROOT->FindObjectAny("CbmTrdRawBeamProfile")).Data()); 
   LOG(INFO)<<"Found class "<< c->GetName() << FairLogger::endl;
   
-  /*
+
     CbmTrdRawBeamProfile* c = static_cast<CbmTrdRawBeamProfile*>(gROOT->FindObjectAny("CbmTrdRawBeamProfile")).Data()); 
     LOG(INFO)<<"Found class "<< c->GetName() << FairLogger::endl;
 
@@ -234,7 +234,7 @@ InitStatus CbmTrdEveOnlineDisplay::ReInit()
 }
 
 // ---- Exec ----------------------------------------------------------
-void CbmTrdEveOnlineDisplay::Exec(Option_t* option)
+void CbmTrdEveOnlineDisplay::Exec(Option_t*)
 {
 
   fEventCounter++;

@@ -110,7 +110,7 @@ void  CbmEcalAnalysisBSh::FormPreCluster(CbmEcalCell* cell)
   if (fCalibration==1) reg=fCurAlgo;
   Int_t i;
   Int_t j;
-  Int_t max;
+  Int_t max=-1111;
   Double_t mine;
   Double_t maxe;
   Double_t e;
@@ -143,9 +143,9 @@ void  CbmEcalAnalysisBSh::FormPreCluster(CbmEcalCell* cell)
   }
   maxe+=cell->GetTotalEnergy();
   if (fCal)
-    if (GetEnergy(maxe, cell)<fMinClusterE[reg]) return;
+  { if (GetEnergy(maxe, cell)<fMinClusterE[reg]) return; }
   else
-    if (maxe<fMinClusterE[reg]) return;
+  { if (maxe<fMinClusterE[reg]) return; }
   cell->GetNeighborsList(max, cells);
   cells.push_back(cell);
   if (find(cells.begin(), cells.end(), min)==cells.end())
@@ -160,12 +160,12 @@ void  CbmEcalAnalysisBSh::FormPreClusterNew(CbmEcalCell* cell)
   Int_t i;
   Double_t e2m;
   Double_t e2=0;
-  Int_t imax;
+  Int_t imax=-1111;
   list<CbmEcalCell*>::const_iterator p;
   list<CbmEcalCell*> cells;
   Double_t x;
   Double_t y;
-  Double_t max;
+  Double_t max=-1111;
   Int_t reg=GetRegion(cell);
   if (fCalibration==1) reg=fCurAlgo;
   Int_t cCl2Size=fParI[reg];
@@ -239,9 +239,9 @@ void  CbmEcalAnalysisBSh::FormPreClusterNew(CbmEcalCell* cell)
     e+=cls[j]->GetTotalEnergy();
 //  cout << e << "	" << GetEnergy(e, cell) << endl;
   if (fCal)
-    if (GetEnergy(e, cell)<fMinClusterE[reg]) return;
+  { if (GetEnergy(e, cell)<fMinClusterE[reg]) return; }
   else
-    if (e<fMinClusterE[reg]) return;
+  { if (e<fMinClusterE[reg]) return; }
   fE=GetEnergy(e, cell);
 
 //fPreClusters.push_back(new CbmEcalPreCluster(cls, cCl2Size, cell, NULL)); 
@@ -327,7 +327,7 @@ void CbmEcalAnalysisBSh::Exec(Option_t* option)
   Int_t i;
   Int_t j;
   Int_t n;
-  Int_t imax;
+  Int_t imax=-1111;
   Int_t dx;
   Int_t dy;
   Int_t ix;
@@ -351,7 +351,7 @@ void CbmEcalAnalysisBSh::Exec(Option_t* option)
   list<CbmEcalCell*>::const_iterator p2;
   Double_t e;
   Double_t max=-1111;
-  Double_t efull;
+ // Double_t efull;
   Double_t e2m;
   Double_t e2;
   Double_t e3;
@@ -370,7 +370,7 @@ void CbmEcalAnalysisBSh::Exec(Option_t* option)
   CbmMCTrack* tr;
   
   fStr->GetCells(cells);
-  efull=0;
+ // efull=0;
   n=0;
   cout << "." << flush;
   for(p=cells.begin();p!=cells.end();++p)

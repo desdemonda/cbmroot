@@ -174,6 +174,7 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
         "fles/spadic"
         "fles/tsclient"
         "fles/softdpb"
+        "fles/reader.*old-style cast"
         "L1/vectors/P4_F32vec4.h"
         "Dict.cxx"
   )

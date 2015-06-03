@@ -11,7 +11,7 @@
 
 #include "CbmMuchTrackFinder.h"
 
-#include "CbmBaseHit.h"
+#include "CbmHit.h"
 
 #include <map>
 

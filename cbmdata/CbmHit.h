@@ -1,69 +1,98 @@
-// -------------------------------------------------------------------------
-// -----                     CbmHit header file                        -----
-// -----                 Created 16/11/07  by V. Friese                -----
-// -------------------------------------------------------------------------
-
-#ifndef CBMHIT_H
-#define CBMHIT_H
-
-
-#include "FairHit.h"
-
-
 /**
- ** Abstract base class for hits used for tracking in CBM.
- ** Derives from FairHit. 
- ** Additional member is the covariance of x and y.
- ** Derived classes have to implement the pure virtual method GetStationNr()
- **
- **@author V.Friese <v.friese@gsi.de>
- **@since 16/11/07
- */
+ * \file CbmHit.h
+ * \author Andrey Lebedev <andrey.lebedev@gsi.de>
+ * \date 2009
+ *
+ * Base class for hits used for tracking in CBM.
+ * Derives from TObject.
+ * Each hit has its unique identifier of type HitType,
+ * which can be later use for safe type casting.
+ *
+ * Former name: CbmBaseHit (renamed 11 May 2015)
+ **/
+#ifndef CBMHIT_H_
+#define CBMHIT_H_
 
-class CbmHit : public FairHit 
-{
-
- public:
-
-  /** Default constructor **/
-  CbmHit();
-
-
-  /** Constructor with hit parameters 
-  *@param detId  Unique detector identifier
-  *@param pos    Position vector [cm]
-  *@param dpos   Error of position vector [cm]
-  *@param covXY  Covariance of x and y [cm**2]
-  *@param index  Reference index
-  **/
-  CbmHit(Int_t detID, TVector3& pos, TVector3& dpos, 
-	    Double_t covXY, Int_t index);
-
-
-  /** Destructor **/
-  virtual ~CbmHit();
-
-
-  /** Accessors **/
-  Double_t GetCovXY() const { return fCovXY; }
-  virtual Int_t GetStationNr() const = 0;
-
-
-  /** Output to screen **/
-  virtual void Print(const Option_t* opt = 0) const;
-
-
-
- protected:
-
-  Double32_t fCovXY;          // Covariance of x and y coordinates
-
-
-
-ClassDef(CbmHit,1);
-
+enum HitType {
+	kHIT,
+	kPIXELHIT,
+	kSTRIPHIT,
+	kSTSHIT,
+	kMVDHIT,
+	kRICHHIT,
+	kMUCHPIXELHIT,
+	kMUCHSTRAWHIT,
+	kTRDHIT,
+	kTOFHIT,
+	kECALHIT
 };
 
+#include "TObject.h"
+#include <string>
+using std::string;
+class CbmMatch;
 
+class CbmHit : public TObject
+{
+public:
+	/**
+	 * \brief Default constructor.
+	 */
+	CbmHit();
 
-#endif
+	/**
+	 * \brief Destructor.
+	 */
+	virtual ~CbmHit();
+
+	/* Accessors */
+	HitType GetType() const { return fType; }
+	Double_t GetZ() const { return fZ; }
+	Double_t GetDz() const { return fDz; }
+	Int_t GetRefId() const { return fRefId; }
+	Int_t GetAddress() const { return fAddress; }
+	CbmMatch* GetMatch() const { return fMatch; }
+
+	/* Setters */
+	void SetZ(Double_t z) { fZ = z; }
+	void SetDz(Double_t dz) { fDz = dz; }
+	void SetRefId(Int_t refId) { fRefId = refId; }
+	void SetAddress(Int_t address) { fAddress = address; }
+	 void SetMatch(CbmMatch* match) { fMatch = match; }
+
+	/**
+	 * Virtual function. Must be implemented in derived class.
+	 * Should return plane identifier of the hit. Usually this is station or layer
+	 * number of the detector. Can be calculated using unique detector identifier
+	 * or can use additional class member from the derived class to store the plane identifier.
+	 **/
+	virtual Int_t GetPlaneId() const { return -1; }
+
+	/**
+	 * \brief Virtual function. Must be implemented in derived class.
+	 * Has to return string representation of the object.
+	 **/
+	virtual string ToString() const { return "Has to be implemented in derrived class"; }
+
+protected:
+	/**
+     * \brief Sets hit type.
+     * \param type hit type
+     **/
+	void SetType(HitType type) { fType = type; }
+
+        CbmHit(const CbmHit&);
+        CbmHit& operator=(const CbmHit&);
+
+private:
+	HitType fType; ///< hit type
+	Double_t fZ; ///< Z position of hit [cm]
+	Double_t fDz; ///< Z position error [cm]
+	Int_t fRefId; ///< some reference id (usually to cluster, digi or MC point)
+	Int_t fAddress; ///< detector unique identifier
+	CbmMatch* fMatch; ///< Monte-Carlo information
+
+	ClassDef(CbmHit, 2);
+};
+
+#endif /* CBMHIT_H_ */

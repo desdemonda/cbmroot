@@ -118,10 +118,10 @@ void LxSimpleTrack::RebindMuchTrack()
 }
 
 LxTrackAna::LxTrackAna() : listMCTracks(0), listStsPts(0), listMuchPts(0), listMuchPixelHits(0), listMuchClusters(0),
-    listMuchPixelDigiMatches(0), buildConnectStat(false), useHitsInStat(false), averagePoints(false), dontTouchNonPrimary(true),
-    useChargeSignInCuts(false), buildBgrInvMass(false), buildSigInvMass(false), joinData(false), superEventTracks(0),
-    superEventBrachTrack(0, 0, 0, 0, 0, 0, 0, 0), buildNearestHitDist(false), cropHits(false), segmentsAnalyzer(*this),
-    buildSegmentsStat(true)
+    listMuchPixelDigiMatches(0), allTracks(), posTracks(), negTracks(), superEventTracks(0),
+    superEventBrachTrack(0, 0, 0, 0, 0, 0, 0, 0), useHitsInStat(false), averagePoints(false), dontTouchNonPrimary(true),
+    useChargeSignInCuts(false), buildConnectStat(false), buildBgrInvMass(false), buildSigInvMass(false), joinData(false),
+    buildNearestHitDist(false), cropHits(false), buildSegmentsStat(true), segmentsAnalyzer(*this)
 {
 }
 

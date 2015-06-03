@@ -140,8 +140,16 @@ void CbmKFParticleFinder::Exec(Option_t* opt)
     
     float a = parameters->GetTx(), b = parameters->GetTy(), qp = parameters->GetQp();
   
+    Int_t q = 0;
+    if(qp>0.f)
+      q = 1;
+    if(qp<0.f)
+      q=-1;
+    if( TMath::Abs(pdg[iTr]) == 1000020030 || TMath::Abs(pdg[iTr]) == 1000020040 ) q *= 2;
+      
+    
     float c2 = 1.f/(1.f + a*a + b*b);
-    float pq = 1.f/qp;
+    float pq = 1.f/qp * TMath::Abs(q);
     float p2 = pq*pq;
     float pz = sqrt(p2*c2);
     float px = a*pz;
@@ -185,12 +193,6 @@ void CbmKFParticleFinder::Exec(Option_t* opt)
     cov[18] = capz*pz + a*cpzpz;
     cov[19] = cbpz*pz + b*cpzpz;
     cov[20] = cpzpz;
-  
-    Int_t q = 0;
-    if(qp>0.f)
-      q = 1;
-    if(qp<0.f)
-      q=-1;
     
     float field[10];
     int entrSIMD = iTr % fvecLen;

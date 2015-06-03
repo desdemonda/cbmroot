@@ -11,8 +11,8 @@ ${CBMROOT_SOURCE_DIR}/tof/TofTools
 ${CBMROOT_SOURCE_DIR}/tof/TofData
 ${CBMROOT_SOURCE_DIR}/tof/TofDigi
 ${CBMROOT_SOURCE_DIR}/tof/TofTests
-${CBMROOT_SOURCE_DIR}/unpack/tof/tdc
-${CBMROOT_SOURCE_DIR}/unpack/tof/mapping
+#${CBMROOT_SOURCE_DIR}/unpack/tof/tdc
+#${CBMROOT_SOURCE_DIR}/unpack/tof/mapping
 
 ${CBMROOT_SOURCE_DIR}/cbmbase 
 

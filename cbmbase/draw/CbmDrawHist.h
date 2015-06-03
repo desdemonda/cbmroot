@@ -207,4 +207,20 @@ void DrawGraph2D(
    HistScale logz = kLinear,
    const string& drawOpt = "colz");
 
+/**
+ * \fn DrawTextOnPad
+ * \brief Draw text on a current pad. Latex expression can be used.
+ * \param[in] text Your text. Latex can be also used.
+ * \param[in] x1 X1 coordinate of legend in current pad.
+ * \param[in] y1 Y1 coordinate of legend in current pad.
+ * \param[in] x2 X2 coordinate of legend in current pad.
+ * \param[in] y2 Y2 coordinate of legend in current pad.
+ */
+void DrawTextOnPad(
+    const string& text,
+	Double_t x1,
+	Double_t y1,
+	Double_t x2,
+	Double_t y2);
+
 #endif

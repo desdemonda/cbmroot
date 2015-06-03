@@ -63,6 +63,7 @@ class CbmMCTrack : public TObject
   Int_t AccPSD() const {return GetNPoints(kPSD);}
 
   /**  Accessors  **/
+  UInt_t   GetGeantProcessId()  const { return fProcessId; }
   Int_t    GetPdgCode()  const { return fPdgCode; }
   Int_t    GetMotherId() const { return fMotherId; }
   Double_t GetPx()       const { return fPx; }
@@ -95,6 +96,9 @@ class CbmMCTrack : public TObject
 
 private:
 
+  /**  TMCProcess code  **/
+  UInt_t  fProcessId;
+
   /**  PDG particle code  **/
   Int_t  fPdgCode;
 
@@ -103,6 +107,9 @@ private:
 
   /** Momentum components at start vertex [GeV]  **/
   Double32_t fPx, fPy, fPz;
+
+  /** energy at start vertex [GeV]  **/
+  Double32_t fE;
 
   /** Coordinates of start vertex [cm, ns]  **/
   Double32_t fStartX, fStartY, fStartZ, fStartT;
@@ -125,7 +132,7 @@ private:
   Int_t fNPoints;
 
 
-  ClassDef(CbmMCTrack,2);
+  ClassDef(CbmMCTrack,3);
 
 };
 
@@ -134,6 +141,7 @@ private:
 // ==========   Inline functions   ========================================
 
 inline Double_t CbmMCTrack::GetEnergy() const {
+  if(fE>0.) return fE;
   Double_t mass = GetMass();
   return TMath::Sqrt(mass*mass + fPx*fPx + fPy*fPy + fPz*fPz );
 }

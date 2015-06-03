@@ -1,23 +1,21 @@
 
-void run_reco_geotest(Int_t nEvents = 10000)
+void run_reco_geotest(Int_t nEvents = 10)
 {
    TTree::SetMaxTreeSize(90000000000);
    TString script = TString(gSystem->Getenv("SCRIPT"));
    gRandom->SetSeed(10);
 
    TString outDir = "/Users/slebedev/Development/cbm/data/simulations/rich/geotest/";
-   TString inFile = outDir + "test.mc.0000.root";
-   TString parFile = outDir + "test.param.0000.root";
-   TString outFile = outDir + "test.reco.00000.root";
-   std::string resultDir = "results/";
-   std::string richDetectorType = "standard"; // "standard" or "prototype"
+   TString inFile = outDir + "mc.0005.root";
+   TString parFile = outDir + "param.0005.root";
+   TString outFile = outDir + "reco.0005.root";
+   std::string resultDir = "";// "results_1/";
 
    if (script == "yes") {
       inFile = TString(gSystem->Getenv("MC_FILE"));
       outFile = TString(gSystem->Getenv("RECO_FILE"));
       parFile = TString(gSystem->Getenv("PAR_FILE"));
       resultDir = TString(gSystem->Getenv("RICH_GEO_TEST_RESULT_DIR"));
-      richDetectorType = std::string(gSystem->Getenv("RICH_DETECTOR_TYPE"));
    }
 
    gDebug = 0;
@@ -34,42 +32,21 @@ void run_reco_geotest(Int_t nEvents = 10000)
    CbmKF *kalman = new CbmKF();
    run->AddTask(kalman);
 
-   if (richDetectorType == "prototype"){
-      CbmRichProtHitProducer* richHitProd  = new CbmRichProtHitProducer();
-      richHitProd->SetDetectorType(4);
-      richHitProd->SetNofNoiseHits(5);
-      richHitProd->SetCollectionEfficiency(1.0);
-      richHitProd->SetSigmaMirror(0.00001);
-      run->AddTask(richHitProd);
+	CbmRichHitProducer* richHitProd  = new CbmRichHitProducer();
+	richHitProd->SetDetectorType(6);
+	richHitProd->SetNofNoiseHits(220);
+	richHitProd->SetCollectionEfficiency(1.0);
+	richHitProd->SetSigmaMirror(0.06);
+	richHitProd->SetCrossTalkHitProb(0.0);
+	run->AddTask(richHitProd);
 
-      CbmRichProtPrepareExtrapolation *richPrepare = new CbmRichProtPrepareExtrapolation();
-      richPrepare->SetReso(0., 0.);
-      run->AddTask(richPrepare);
+	CbmRichReconstruction* richReco = new CbmRichReconstruction();
+	richReco->SetRunExtrapolation(false);
+	richReco->SetRunProjection(false);
+	richReco->SetRunTrackAssign(false);
+	richReco->SetFinderName("ideal");
+	run->AddTask(richReco);
 
-      CbmRichReconstruction* richReco = new CbmRichReconstruction();
-      richReco->SetZTrackExtrapolation(50.);
-      richReco->SetMinNofStsHits(0);
-      richReco->SetFinderName("ideal");
-      richReco->SetProjectionName("prototype");
-      richReco->SetRunTrackAssign(false);
-      run->AddTask(richReco);
-
-   } else if (richDetectorType == "standard"){
-      CbmRichHitProducer* richHitProd  = new CbmRichHitProducer();
-      richHitProd->SetDetectorType(6);
-      richHitProd->SetNofNoiseHits(220);
-      richHitProd->SetCollectionEfficiency(1.0);
-      richHitProd->SetSigmaMirror(0.06);
-      richHitProd->SetCrossTalkHitProb(0.0);
-      run->AddTask(richHitProd);
-
-      CbmRichReconstruction* richReco = new CbmRichReconstruction();
-      richReco->SetRunExtrapolation(false);
-      richReco->SetRunProjection(false);
-      richReco->SetRunTrackAssign(false);
-      richReco->SetFinderName("ideal");
-      run->AddTask(richReco);
-   }
 
    CbmRichMatchRings* matchRings = new CbmRichMatchRings();
    run->AddTask(matchRings);
@@ -79,7 +56,6 @@ void run_reco_geotest(Int_t nEvents = 10000)
 
    CbmRichGeoTest* geoTest = new CbmRichGeoTest();
    geoTest->SetOutputDir(resultDir);
-   geoTest->SetRichDetectorType(richDetectorType);
    run->AddTask(geoTest);
 
    // -----  Parameter database   --------------------------------------------

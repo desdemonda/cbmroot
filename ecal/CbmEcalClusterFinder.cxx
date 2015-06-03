@@ -91,7 +91,7 @@ void CbmEcalClusterFinder::FormPreClusters()
   list<CbmEcalCell*>::const_iterator p;
   list<CbmEcalCell*> cls;
   CbmEcalCell* cell;
-  CbmEcalCell* min;
+  CbmEcalCell* min=NULL;
   Double_t e;
   Double_t ecls;
   CbmEcalPreCluster* precluster;

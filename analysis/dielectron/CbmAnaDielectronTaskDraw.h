@@ -8,6 +8,7 @@
 #define CBM_ANA_DIELECTRON_TASK_DRAW_H
 
 #include "CbmLmvmHist.h"
+#include "CbmLmvmCuts.h"
 #include <string>
 
 #include "TObject.h"
@@ -48,23 +49,7 @@ private:
     Bool_t fUseMvd; // do you want to draw histograms related to the MVD detector?
     Bool_t fDrawSignificance; // do you want to draw significance histograms of 1D cuts?
 
-    // analysis cut values for drawing in the histograms
-    double fTrdAnnCut;
-    double fRichAnnCut;
-    double fPtCut;
-    double fAngleCut;
-    double fChiPrimCut;
-    double fGammaCut;
-    double fStCutAngle;
-    double fStCutPP;
-    double fRtCutAngle;
-    double fRtCutPP;
-    double fTtCutAngle;
-    double fTtCutPP;
-    double fMvd1CutP;
-    double fMvd1CutD;
-    double fMvd2CutP;
-    double fMvd2CutD;
+    CbmLmvmCuts fCuts; // electron identification and analysis cuts
 
     CbmHistManager* fHM; //histogram manager
     vector<TCanvas*> fCanvas; // store pointers to all canvas -> save as image
@@ -122,21 +107,6 @@ private:
           TH1* h2,
           Double_t xPos,
           Double_t yPos);
-
-    /**
-     * Draw text on the histogram. Histogram must be drawn in advance.
-     * \param[in] text Text you want to draw.
-     * \param[in] x1
-     * \param[in] y1
-     * \param[in] x2
-     * \param[in] y2
-     */
-    void DrawTextOnHist(
-          const string& text,
-          Double_t x1,
-          Double_t y1,
-          Double_t x2,
-          Double_t y2);
 
     /**
      * Produce 1D significance histogram Significance=S/sqrt(S+BG).

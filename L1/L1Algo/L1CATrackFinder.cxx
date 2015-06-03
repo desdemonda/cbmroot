@@ -963,32 +963,24 @@ inline void L1Algo::DupletsStaPort(  /// creates duplets: input: @istal - start 
 
       int NHits_m = StsHitsUnusedStopIndex[istam] - StsHitsUnusedStartIndex[istam];
 
-
-
       int start_mhit = 0;   // hit on the middle stantion to start find new doublets
-
-
 
         fvec u_front[Portion/fvecLen], u_back[Portion/fvecLen];
         fvec zPos[Portion/fvecLen];
-
           /// prepare the portion of left hits data
 
         int n1 = n_g1[ip];
-        
         f10(  // input
             (ip - portionStopIndex[istal+1]) * Portion, n1, vStsHits_l,
               // output
             u_front, u_back, zPos,
             hitsl_1
           );
-
         for (int i = 0; i < n1; i++)
           L1_ASSERT(hitsl_1[i] < StsHitsUnusedStopIndex[istal] - StsHitsUnusedStartIndex[istal],
             hitsl_1[i] << " < " << StsHitsUnusedStopIndex[istal] - StsHitsUnusedStartIndex[istal]);
         
         int n1_V = (n1+fvecLen-1)/fvecLen;
-
           /// Get the field approximation. Add the target to parameters estimation. Propagaete to middle station.
 
         f11(istal, istam,
@@ -1020,14 +1012,13 @@ inline void L1Algo::DupletsStaPort(  /// creates duplets: input: @istal - start 
             hitsm_2,
             lmDuplets
            );
-
         for (unsigned int i = 0; i < hitsm_2.size(); i++)
           L1_ASSERT(hitsm_2[i] < StsHitsUnusedStopIndex[istam] - StsHitsUnusedStartIndex[istam], hitsm_2[i] << " " << StsHitsUnusedStopIndex[istam] - StsHitsUnusedStartIndex[istam]);
 
 #ifdef DOUB_PERFORMANCE
         THitI* RealIHitL = &(RealIHit[StsHitsUnusedStartIndex[istal]]);
         THitI* RealIHitM = &(RealIHit[StsHitsUnusedStartIndex[istam]]);
-        for (int i = 0; i < n2; i++){
+        for (int i = 0; i < n_2; i++){
           // int i_4 = i%4;
           // int i_V = i/4;
           THitI iHits[2] = {
@@ -1201,12 +1192,6 @@ inline void L1Algo::TripletsStaPort(   /// creates triplets: input: @istal - sta
 void L1Algo::CATrackFinder()
 {
 
-//   cout << "Start TrackFinder" << endl;
-
-//   cout<<" total STS hits "<<vStsHits.size()<<endl;
-    //cout<<" total STS hits, strips, back strips "
-    //<<vStsHits.size()<<" "<<vStsStrips.size()<<" "<<vStsStripsB.size()<<endl;
-
 #ifdef PULLS
   static L1AlgoPulls *l1Pulls_ = new L1AlgoPulls();
   fL1Pulls = l1Pulls_;
@@ -1336,7 +1321,6 @@ void L1Algo::CATrackFinder()
     StsHitsUnusedStartIndex[ista] = ihN;
     for(THitI ih = StsHitsStartIndex[ista]; ih < StsHitsStopIndex[ista]; ih++){
       L1StsHit &hit = vStsHits[ih];
-      
       const L1HitPoint p = CreateHitPoint(hit,ista);
       //if (!( int(p.y/p.x*10000)%100 > 75 )) continue;
         
@@ -1491,7 +1475,7 @@ void L1Algo::CATrackFinder()
     vector<unsigned int> TripStartIndexH_v, TripStopIndexH_v;
     vector<unsigned int> TripStartIndexHG124_v, TripStopIndexHG124_v;
     vector<unsigned int> TripStartIndexHG134_v, TripStopIndexHG134_v;
-            
+
     TripStartIndexH_v.resize(vStsHitsUnused->size());
     TripStopIndexH_v .resize(vStsHitsUnused->size());
     TripStartIndexHG124_v.resize(vStsHitsUnused->size());
@@ -1701,7 +1685,6 @@ void L1Algo::CATrackFinder()
 //     cout<<"isec: " << isec <<  "  n hits, dup, tr_c, trip: "
 //         <<istat_nhits<<" "<<istat_nduplets<<" "<<istat_n_triplet_c<<" "<<istat_n_triplets<<endl;
 // #endif
-
           /// save triplets in vTriplets
 // #ifdef XXX
 //     cout << " copy triplets in vTriplets " << endl;

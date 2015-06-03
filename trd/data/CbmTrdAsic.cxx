@@ -11,6 +11,7 @@
 
 CbmTrdAsic::CbmTrdAsic() 
   : TNamed(),
+    fChannelAddresses(),
     fAsicAddress(0),
     fX(0.),
     fY(0.),
@@ -18,7 +19,6 @@ CbmTrdAsic::CbmTrdAsic()
     fSizeX(0.),
     fSizeY(0.),
     fSizeZ(0.),
-    fChannelAddresses(),
     fnofChannels(0),
     fFebGrouping(-1)
 {
@@ -29,6 +29,7 @@ CbmTrdAsic::CbmTrdAsic(
 		       Double_t x, Double_t y, Double_t z,
 		       Double_t sizex, Double_t sizey, Double_t sizez)
   : TNamed(),
+    fChannelAddresses(),
     fAsicAddress(address),
     fX(x),
     fY(y),
@@ -36,7 +37,6 @@ CbmTrdAsic::CbmTrdAsic(
     fSizeX(sizex),
     fSizeY(sizey),
     fSizeZ(sizez),
-    fChannelAddresses(),
     fnofChannels(nofChannels),
     fFebGrouping(FebGrouping)
 {

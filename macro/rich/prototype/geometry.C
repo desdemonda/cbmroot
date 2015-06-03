@@ -1,6 +1,6 @@
 
 
-{
+void geometry(){
     TFile *file = new TFile("geofile_full.newgeo4.root");
 //    TFile *file = new TFile("geofile_full.rich.prototype.standard.root");
     TGeoManager *geo = (TGeoManager*) file->Get("FAIRGeom");

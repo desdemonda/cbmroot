@@ -11,16 +11,15 @@
 using std::cout;
 using std::endl;
 
-
 // -----   Default constructor   -------------------------------------------
 CbmMvdCluster::CbmMvdCluster() 
  : CbmCluster(),
    fDigiArray(),
+   fPixelMap(),
    fNeighbourDown(-1),
    fNeighbourUp(-1),
    fDigisInThisObject(0),
    fTotalDigisInCluster(-1),
-   fPixelMap(),
    fStation(-1),
    fRefId(-1),
    fDetectorId(-1),
@@ -34,11 +33,11 @@ CbmMvdCluster::CbmMvdCluster()
 CbmMvdCluster::CbmMvdCluster(Int_t* digiList, Short_t digisInThisObject, Short_t totalDigisInCluster, Int_t neighbourDown) 
  : CbmCluster(),
    fDigiArray(),
-   fNeighbourDown(-1),
-   fNeighbourUp(-1),
-   fDigisInThisObject(0),
-   fTotalDigisInCluster(-1),
    fPixelMap(),
+   fNeighbourDown(neighbourDown),
+   fNeighbourUp(-1),
+   fDigisInThisObject(digisInThisObject),
+   fTotalDigisInCluster(totalDigisInCluster),
    fStation(-1),
    fRefId(-1),
    fDetectorId(-1),
@@ -53,11 +52,11 @@ CbmMvdCluster::CbmMvdCluster(Int_t* digiList, Short_t digisInThisObject, Short_t
 CbmMvdCluster::CbmMvdCluster(const CbmMvdCluster& rhs)
  : CbmCluster(),
    fDigiArray(),
+   fPixelMap(),
    fNeighbourDown(-1),
    fNeighbourUp(-1),
    fDigisInThisObject(0),
    fTotalDigisInCluster(-1),
-   fPixelMap(),
    fStation(-1),
    fRefId(-1),
    fDetectorId(-1),

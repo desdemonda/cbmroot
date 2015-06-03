@@ -129,7 +129,7 @@ void CbmRichProjectionProducer::DoProjection(
             if (normP2!=0.)  rho1=(-RxP+TMath::Sqrt(RxP*RxP-normP2*dist))/normP2;
             if (normP2 == 0) cout << " Error in track extrapolation: momentum = 0 " << endl;
          } else {
-            cout << " -E- RichProjectionProducer:  RxP*RxP-normP2*dist = " << RxP*RxP-normP2*dist << endl;
+            //cout << " -E- RichProjectionProducer:  RxP*RxP-normP2*dist = " << RxP*RxP-normP2*dist << endl;
          }
 
          Double_t crossPx = startP.x() + rho1*momP.x();
@@ -150,7 +150,7 @@ void CbmRichProjectionProducer::DoProjection(
                if (normP2!=0.)  rho1=(-RxP+TMath::Sqrt(RxP*RxP-normP2*dist))/normP2;
                if (normP2 == 0) cout << " Error in track extrapolation: momentum = 0 " << endl;
             } else{
-               cout << " -E- RichProjectionProducer:  RxP*RxP-normP2*dist = " << RxP*RxP-normP2*dist << endl;
+               //cout << " -E- RichProjectionProducer:  RxP*RxP-normP2*dist = " << RxP*RxP-normP2*dist << endl;
             }
 
             crossPx=startP.x()+rho1*momP.x();
@@ -169,8 +169,8 @@ void CbmRichProjectionProducer::DoProjection(
          if  ((1+point->GetTx()*point->GetTx()+point->GetTy()*point->GetTy()) > 0. ){
             pz = p/TMath::Sqrt(1+point->GetTx()*point->GetTx()+point->GetTy()*point->GetTy());
          } else {
-            cout << " -E- RichProjectionProducer: strange value for calculating pz: " <<
-                  (1+point->GetTx()*point->GetTx()+point->GetTy()*point->GetTy()) << endl;
+            //cout << " -E- RichProjectionProducer: strange value for calculating pz: " <<
+            //      (1+point->GetTx()*point->GetTx()+point->GetTy()*point->GetTy()) << endl;
             pz = 0.;
          }
          Double_t px = pz*point->GetTx();

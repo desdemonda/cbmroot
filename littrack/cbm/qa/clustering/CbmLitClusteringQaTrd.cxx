@@ -6,8 +6,8 @@
  */
 
 #include "CbmHistManager.h"
-#include "CbmHit.h"
-#include "CbmBaseHit.h"
+//#include "CbmHit.h"
+//#include "CbmBaseHit.h"
 #include "FairRootManager.h"
 #include "FairRunAna.h"
 #include "FairRuntimeDb.h"

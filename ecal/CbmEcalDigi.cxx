@@ -27,8 +27,8 @@ CbmEcalDigi::CbmEcalDigi(const char* name, Int_t iVerbose)
   : FairTask(name, iVerbose),
     fPedestal(80),
     fADCMax(4096),
-    fADCChannel(0.5e-3),
     fADCNoise(0.5e-3),
+    fADCChannel(0.5e-3),
     fStr(NULL)
 
 {

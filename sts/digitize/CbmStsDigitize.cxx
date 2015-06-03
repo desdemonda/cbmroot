@@ -7,6 +7,7 @@
 #include "CbmStsDigitize.h"
 
 // Includes from C++
+#include <cstring>
 #include <iomanip>
 #include <iostream>
 
@@ -54,6 +55,11 @@ CbmStsDigitize::CbmStsDigitize(Int_t digiModel)
     fTimeResolution(0.),
     fDeadTime(0.),
     fNoise(0.),
+    fDeadChannelFraction(0.),
+    fNonUniform(kTRUE),
+    fDiffusion(kTRUE),
+    fCrossTalk(kTRUE),
+    fLorentzShift(kTRUE),
     fSetup(NULL),
     fPoints(NULL),
     fDigis(NULL),
@@ -265,8 +271,11 @@ void CbmStsDigitize::Finish() {
 // -----   Initialisation    -----------------------------------------------
 InitStatus CbmStsDigitize::Init() {
 
-  // Get STS setup interface
-  fSetup = CbmStsSetup::Instance();
+	// Initialise STS setup
+	InitSetup();
+
+  // Instantiate StsPhysics
+  CbmStsPhysics::Instance();
 
 	std::cout << std::endl;
   LOG(INFO) << "=========================================================="
@@ -310,17 +319,6 @@ InitStatus CbmStsDigitize::Init() {
 
   } //? event mode
 
-  // Instantiate StsPhysics
-  CbmStsPhysics::Instance();
-
-  // Assign types to the sensors in the setup
-  SetSensorTypes();
-
-  // Set sensor conditions
-  SetSensorConditions();
-
-  // Set the digitisation parameters of the modules
-  SetModuleParameters();
 
   // Register this task to the setup
   fSetup->SetDigitizer(this);
@@ -332,6 +330,26 @@ InitStatus CbmStsDigitize::Init() {
 	std::cout << std::endl;
 
 	return kSUCCESS;
+
+}
+// -------------------------------------------------------------------------
+
+
+
+// -----   Initialisation of setup    --------------------------------------
+void CbmStsDigitize::InitSetup() {
+
+  // Get STS setup interface
+	fSetup = CbmStsSetup::Instance();
+
+  // Assign types to the sensors in the setup
+	SetSensorTypes();
+
+  // Set sensor conditions
+	SetSensorConditions();
+
+  // Set the digitisation parameters of the modules
+	SetModuleParameters();
 
 }
 // -------------------------------------------------------------------------
@@ -364,7 +382,7 @@ void CbmStsDigitize::ProcessMCBuffer() {
   	// To be redone with redesign of MCPoint classes.
     Int_t index = (point->GetLink(0)).GetIndex();
 
-    CbmLink* link = new CbmLink(1., index, entry);
+    CbmLink* link = new CbmLink(1., index, entry, 0);
     LOG(DEBUG2) << GetName() << ": Processing point at " << index
     		     	  << ", event " << entry << ", time " << point->GetTime()
     		        << " ns" << FairLogger::endl;
@@ -506,6 +524,8 @@ void CbmStsDigitize::SetModuleParameters() {
 			      << fDeadTime << " ns" << FairLogger::endl;
 	LOG(INFO) << "\t ENC             " << setw(10) << right
 			      << fNoise << " e" << FairLogger::endl;
+	LOG(INFO) << "\t Dead channel fraction " << setw(10) << right
+			      << fDeadChannelFraction << " %" << FairLogger::endl;
 
  // --- Set parameters for all modules
 	Int_t nModules = fSetup->GetNofModules();
@@ -515,6 +535,7 @@ void CbmStsDigitize::SetModuleParameters() {
 				                                      fTimeResolution,
 				                                      fDeadTime,
 				                                      fNoise);
+		fSetup->GetModule(iModule)->SetDeadChannels(fDeadChannelFraction);
 	}
 	LOG(INFO) << GetName() << ": Set parameters for " << nModules
 			      << " modules " << FairLogger::endl;
@@ -522,6 +543,39 @@ void CbmStsDigitize::SetModuleParameters() {
 // -------------------------------------------------------------------------
 
 
+
+// -----   Set the percentage of dead channels   ---------------------------
+void CbmStsDigitize::SetDeadChannelFraction(Double_t fraction) {
+	if ( fraction < 0. ) {
+		LOG(WARNING) << GetName()
+				         << ": illegal dead channel fraction " << fraction
+				         << "% , is set to 0 %" << FairLogger::endl;
+		fDeadChannelFraction = 0.;
+		return;
+	}
+	if ( fraction > 100. ) {
+		LOG(WARNING) << GetName()
+				         << ": illegal dead channel fraction " << fraction
+				         << "% , is set to 100 %" << FairLogger::endl;
+		fDeadChannelFraction = 100.;
+		return;
+	}
+	fDeadChannelFraction = fraction;
+}
+// -------------------------------------------------------------------------
+
+
+// -----   Set the switches for physical processes for real digitizer model -
+void CbmStsDigitize::SetPhysicalProcesses(Bool_t nonUniform, Bool_t diffusion, Bool_t crossTalk, Bool_t lorentzShift){
+      if (fDigiModel != 2) LOG(WARNING) << GetName() << ": cannot switch the physical processes for the simple(1) or for hte ideal (0) model of the Digitizer. Please use the real model: CbmStsDigitize(2). Continue without physical processes" << FairLogger::endl;
+      else  {
+	  fNonUniform   = nonUniform;
+	  fDiffusion    = diffusion;
+	  fCrossTalk    = crossTalk;
+	  fLorentzShift = lorentzShift;
+      }
+  }
+// -------------------------------------------------------------------------
 
 // -----   Set the operating parameters for the sensors   ------------------
 // TODO: Currently, all sensors have the same parameters. In future,
@@ -532,8 +586,8 @@ void CbmStsDigitize::SetSensorConditions() {
 	Double_t vDep        =  70.;    //depletion voltage, V
 	Double_t vBias       = 140.;    //bias voltage, V
 	Double_t temperature = 268.;    //temperature of sensor, K
-	Double_t cCoupling   = 100.;    //coupling capacitance, pF
-	Double_t cInterstrip =   3.5;   //inter-strip capacitance, pF
+	Double_t cCoupling   =  17.5;   //coupling capacitance, pF
+	Double_t cInterstrip =   1.;    //inter-strip capacitance, pF
 
 	// --- Control output of parameters
 	LOG(INFO) << GetName() << ": Sensor operation conditions :"
@@ -639,6 +693,7 @@ void CbmStsDigitize::SetSensorTypes() {
 		else if ( fDigiModel == 2 ) {
 			newType = new CbmStsSensorTypeDssdReal();
 			newType->SetTitle("DssdReal");
+			((CbmStsSensorTypeDssdReal*)newType)->SetPhysicalProcesses(fNonUniform, fDiffusion, fCrossTalk, fLorentzShift);
 		}
 		else
 			LOG(FATAL) << GetName() << ": Unknown response model " << fDigiModel

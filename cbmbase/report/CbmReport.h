@@ -111,6 +111,8 @@ protected:
     */
    void PrintCanvases() const;
 
+   vector<TCanvas*> GetCanvases() const{ return fCanvases; }
+
 private:
    /**
     * \brief Create concrete CbmReportElement instance based on report type.

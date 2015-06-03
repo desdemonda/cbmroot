@@ -13,7 +13,7 @@ using std::stringstream;
 using std::endl;
 
 CbmStripHit::CbmStripHit():
-	CbmBaseHit(),
+	CbmHit(),
 	fU(0.),
 	fDu(0.),
 	fPhi(0.),
@@ -31,7 +31,7 @@ CbmStripHit::CbmStripHit(
 		Double_t dphi,
 		Double_t dz,
 		Int_t refId):
-	CbmBaseHit(),
+	CbmHit(),
 	fU(u),
 	fDu(du),
 	fPhi(phi),
@@ -49,7 +49,7 @@ CbmStripHit::CbmStripHit(
 		const TVector3& pos,
 		const TVector3& err,
 		Int_t refId):
-	CbmBaseHit(),
+	CbmHit(),
 	fU(pos.X()),
 	fDu(err.X()),
 	fPhi(pos.Y()),

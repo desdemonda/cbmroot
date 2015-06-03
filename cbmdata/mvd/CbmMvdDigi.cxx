@@ -13,7 +13,6 @@
 using std::cout;
 using std::endl;
 
-
 // -----   Default constructor   -------------------------------------------
 CbmMvdDigi::CbmMvdDigi()
   : CbmDigi(),
@@ -29,8 +28,8 @@ CbmMvdDigi::CbmMvdDigi()
     fChannelNr(0),
     fDigiTime(0.),
     fFrameNumber(0),
-    fDigiFlag(-1),
-    fRefId(-1)
+    fRefId(-1),
+    fDigiFlag(-1)
 {  
  
 }
@@ -38,10 +37,25 @@ CbmMvdDigi::CbmMvdDigi()
 
 
 
-/*// -----   Constructor with parameters   -----------------------------------
+/*
+// -----   Constructor with parameters   -----------------------------------
 CbmMvdDigi::CbmMvdDigi(Int_t iStation, Int_t iChannelNrX, Int_t iChannelNrY, Float_t charge,
                        Float_t pixelSizeX, Float_t pixelSizeY)
-:CbmDigi(kMVD, 0)
+  : CbmDigi(kMVD, 0),
+    CbmMvdDetectorId(), 	
+    fCharge(charge),
+    fChannelNrX(iChannelNrX),
+    fChannelNrY(iChannelNrY),
+    fTrackID(-1),
+    fPointID(0),
+    fPixelSizeX(pixelSizeX),
+    fPixelSizeY(pixelSizeY),
+    fDetectorId(0),
+    fChannelNr(0),
+    fDigiTime(0.),
+    fFrameNumber(0),
+    fRefId(-1),
+    fDigiFlag(-1)
 {
     // Check range for station
     if ( ! ( iStation >= 0 && iStation <= 255 ) ) {
@@ -50,17 +64,18 @@ CbmMvdDigi::CbmMvdDigi(Int_t iStation, Int_t iChannelNrX, Int_t iChannelNrY, Flo
     }
 
     fDetectorId = DetectorId(iStation);
+
     fChannelNrY = iChannelNrY;
     fCharge  = charge;
     fChannelNrX=iChannelNrX;
     fChannelNrY=iChannelNrY;
     fPixelSizeX=pixelSizeX;
     fPixelSizeY=pixelSizeY;
-    
     fDigiFlag=-1;
     
 }
-// -------------------------------------------------------------------------*/
+// -------------------------------------------------------------------------
+*/
 
 // -----   Constructor with parameters  --> used only due to error TODO include correct version -----------------------------------
 CbmMvdDigi::CbmMvdDigi(Int_t iStation, Int_t iChannelNrX, Int_t iChannelNrY, Float_t charge,
@@ -78,8 +93,8 @@ CbmMvdDigi::CbmMvdDigi(Int_t iStation, Int_t iChannelNrX, Int_t iChannelNrY, Flo
    fChannelNr(0),
    fDigiTime(time),
    fFrameNumber(frame),
-   fDigiFlag(-1),
-   fRefId(-1)
+   fRefId(-1),
+   fDigiFlag(-1)
 {
     // Check range for station
     if ( ! ( iStation >= 0 && iStation <= 600 ) ) {

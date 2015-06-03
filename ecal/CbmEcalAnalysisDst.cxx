@@ -31,9 +31,9 @@ void CbmEcalAnalysisDst::Exec(Option_t* option)
   Double_t max=-1111;
   list<CbmEcalCell*> cells;
   list<CbmEcalCell*>::const_iterator p;
-  CbmEcalCell* cl;
-  Int_t imax;
-  Double_t e2;
+  CbmEcalCell* cl=NULL;
+  Int_t imax=-1111;
+  Double_t e2=-1111;
   Double_t e2m;
   Int_t i;
   TVector2 v;

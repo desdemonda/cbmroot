@@ -39,7 +39,7 @@ void CreateGDMLfileOld(float PMTrotX=5, float PMTrotY=-5, int RotMir=-10){//int 
   if(RotMir==1){sprintf(InFileUpper,"CreateGeo/Upper_RotMir_p%d.txt",RotMir);}
   std::ifstream infile1 (InFileUpper);
   std::ifstream infile2 ("CreateGeo/Lower.txt");
-  sprintf(GeoFileName,"/data/cbmroot/geometry/rich/GeoOpt/RotPMT/GeoFiles/OldGeo/rich_geo_%s_RotPMT_%s_%s.gdml",RotMirText,ShiftXTxt,ShiftYTxt);
+  sprintf(GeoFileName,"/hera/cbm/users/tariq/cbmroot/geometry/rich/GeoOpt/RotPMT/OldGeo/rich_geo_%s_RotPMT_%s_%s.gdml",RotMirText,ShiftXTxt,ShiftYTxt);
   
   cout<<GeoFileName<<endl; 
   //return;

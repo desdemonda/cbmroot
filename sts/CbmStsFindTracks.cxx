@@ -33,20 +33,20 @@ using std::setprecision;
 // -----   Default constructor   -------------------------------------------
 CbmStsFindTracks::CbmStsFindTracks() 
   : FairTask("STSFindTracks"), 
-  fUseMvd(kFALSE),
-  fGeoPar(NULL),
-  fDigiPar(NULL),
-  fField(NULL),
-  fMvdHits(NULL),
-  fStsHits(NULL),
-  fTracks(NULL),
-  fNEvents(0),
-  fNEventsFailed(0),
-  fTime(0.),
-  fNTracks(0.),
-  fDigiScheme(new CbmStsDigiScheme()),
-  fFinder(new CbmStsTrackFinderIdeal(1)),
-  fTimer()
+    fUseMvd(kFALSE),
+    fGeoPar(NULL),
+    fDigiPar(NULL),
+    fDigiScheme(new CbmStsDigiScheme()),
+    fField(NULL),
+    fFinder(new CbmStsTrackFinderIdeal(1)),
+    fMvdHits(NULL),
+    fStsHits(NULL),
+    fTracks(NULL),
+    fTimer(),
+    fNEvents(0),
+    fNEventsFailed(0),
+    fTime(0.),
+    fNTracks(0.)
 {
   fVerbose        = 1;
 }
@@ -59,20 +59,20 @@ CbmStsFindTracks::CbmStsFindTracks(Int_t iVerbose,
 				   CbmStsTrackFinder* finder, 
 				   Bool_t useMvd, const char* name)
   : FairTask(name, iVerbose), 
-  fUseMvd(useMvd),
-  fGeoPar(NULL),
-  fDigiPar(NULL),
-  fField(NULL),
-  fMvdHits(NULL),
-  fStsHits(NULL),
-  fTracks(NULL),
-  fNEvents(0),
-  fNEventsFailed(0),
-  fTime(0.),
-  fNTracks(0.),
-  fDigiScheme(new CbmStsDigiScheme()),
-  fFinder(NULL),
-  fTimer()
+    fUseMvd(useMvd),
+    fGeoPar(NULL),
+    fDigiPar(NULL),
+    fDigiScheme(new CbmStsDigiScheme()),
+    fField(NULL),
+    fFinder(NULL),
+    fMvdHits(NULL),
+    fStsHits(NULL),
+    fTracks(NULL),
+    fTimer(),
+    fNEvents(0),
+    fNEventsFailed(0),
+    fTime(0.),
+    fNTracks(0.)
 {
   if ( finder ) fFinder = finder;
   else          fFinder = new CbmStsTrackFinderIdeal(iVerbose);

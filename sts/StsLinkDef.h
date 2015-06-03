@@ -14,7 +14,7 @@
 #pragma link C++ class CbmStsSensorPoint;
 #pragma link C++ class CbmStsSensorType;
 #pragma link C++ class CbmStsSetup;
-#pragma link C++ class CbmStsStation_new;
+#pragma link C++ class CbmStsStation;
 
 // Monte-Carlo
 #pragma link C++ class CbmStsMC;
@@ -38,6 +38,7 @@
 #pragma link C++ class CbmStsDigitize_old;
 #pragma link C++ class CbmStsFindHits_old;
 #pragma link C++ class CbmStsSensor_old;
+#pragma link C++ class CbmStsStation_old;
 
 // Enumerators
 #pragma link C++ enum EStsElementLevel;
@@ -62,13 +63,13 @@
 #pragma link C++ class CbmStsSector+;
 #pragma link C++ class CbmStsSensorDigiPar+;
 #pragma link C++ class CbmStsSectorDigiPar+;
-#pragma link C++ class CbmStsStation+;
 #pragma link C++ class CbmStsStationDigiPar+;
 #pragma link C++ class CbmStsTrackFinderIdeal+;
 #pragma link C++ class CbmStsTrackFitterIdeal+;
 #pragma link C++ class CbmStsSimulationQa+;
 #pragma link C++ class CbmStsFindHitsQa+;
 #pragma link C++ class CbmStsReconstructionQa+;
+#pragma link C++ class CbmStsDigitizeQa+;
 
 /* Obsolete
 #pragma link C++ class CbmStsIdealDigitize;

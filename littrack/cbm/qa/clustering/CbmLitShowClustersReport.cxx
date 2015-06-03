@@ -34,6 +34,14 @@ CbmLitShowClustersReport::CbmLitShowClustersReport():
 
 CbmLitShowClustersReport::~CbmLitShowClustersReport()
 {
+  vector<TCanvas*> cVector = this->GetCanvases();
+  Int_t nofCanvases = cVector.size();
+  for (Int_t i = 0; i < nofCanvases; i++) {
+    TCanvas* canvas = cVector[i];
+    stringstream cPng;
+    cPng << this->GetOutputDir() << "png/" << canvas->GetName() << ".png";
+    canvas->Print(cPng.str().c_str());
+  }
 
 }
 
@@ -51,7 +59,6 @@ void CbmLitShowClustersReport::Create()
 void CbmLitShowClustersReport::Draw()
 {
    DrawH2ByPattern("hhh_.*Clustering_visualisation.*col_H2", kLinear, kLinear, kLinear, "colz");
-   DrawH2ByPattern("hhh_.*Clustering_visualisation.*cont_H2", kLinear, kLinear, kLinear, "contz");
 
 }
 

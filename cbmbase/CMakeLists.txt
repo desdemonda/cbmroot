@@ -65,6 +65,8 @@ CbmMCResult.cxx
 CbmMCTestHitCompare.cxx
 CbmMCEntry.cxx
 CbmMCList.cxx
+CbmMCDataArray.cxx
+CbmMCDataManager.cxx
 
 CbmModule.cxx
 

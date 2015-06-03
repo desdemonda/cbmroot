@@ -217,6 +217,9 @@ class eventPlane : public FairTask
 	Double_t STS_harmo2_mean_cosphi_sub2[fNbinFlat][8], STS_harmo2_mean_sinphi_sub2[fNbinFlat][8];
         Double_t STS_harmo2_mean_cosphi_full[fNbinFlat][8], STS_harmo2_mean_sinphi_full[fNbinFlat][8];
 
+        eventPlane(const eventPlane&);
+        eventPlane& operator=(const eventPlane&);
+
 	ClassDef(eventPlane,2);
 };
 

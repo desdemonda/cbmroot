@@ -358,7 +358,7 @@ template<int NHits>
       }
     } // if extra
     ntra_sta[iSta].clones += mtra.GetNClones(); // TODO:check if works
-  }; // for mcTracklets
+  };  //for mcTracklets
 
   for (int iSta = 0; iSta < MaxNStations; iSta++){
     ntra += ntra_sta[iSta];

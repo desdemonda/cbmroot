@@ -97,7 +97,9 @@ class CbmTrdRadiator
 
   /** Compute the sigma coeff. for the detector gas **/
   Float_t SigmaDet(Float_t energykeV);
+
   TString fWindowFoil;
+
   /** Computation of photon absorption cross sections taken from http://physics.nist.gov/PhysRefData/Xcom/html/xcom1.html**/
   Float_t      GetMuAl(Float_t energyMeV);
   Float_t      GetMuPo(Float_t energyMeV);

@@ -41,7 +41,26 @@ public:
                trbId==0x8055 || trbId==0x8065 || trbId==0x8075 || trbId==0x8085 ||
                trbId==0x8095 || trbId==0x80a5 || trbId==0x80b5 || trbId==0x80c5 ||
                trbId==0x80d5 || trbId==0x80e5 || trbId==0x80f5 || trbId==0x8105 || trbId == 0x8115);
+	}
 
+	Bool_t IsPmtTdc(UInt_t tdcId) const
+	{
+		return  (tdcId==0x0010 || tdcId==0x0011 || tdcId==0x0012 || tdcId==0x0013 ||
+				 tdcId==0x0020 || tdcId==0x0021 || tdcId==0x0022 || tdcId==0x0023 ||
+				 tdcId==0x0030 || tdcId==0x0031 || tdcId==0x0032 || tdcId==0x0033 ||
+				 tdcId==0x0040 || tdcId==0x0041 || tdcId==0x0042 || tdcId==0x0043 ||
+				 tdcId==0x0050 || tdcId==0x0051 || tdcId==0x0052 || tdcId==0x0053 ||
+				 tdcId==0x0060 || tdcId==0x0061 || tdcId==0x0062 || tdcId==0x0063 ||
+				 tdcId==0x0070 || tdcId==0x0071 || tdcId==0x0072 || tdcId==0x0073 ||
+				 tdcId==0x0080 || tdcId==0x0081 || tdcId==0x0082 || tdcId==0x0083 ||
+				 tdcId==0x0090 || tdcId==0x0091 || tdcId==0x0092 || tdcId==0x0093 ||
+				 tdcId==0x00a0 || tdcId==0x00a1 || tdcId==0x00a2 || tdcId==0x00a3 ||
+				 tdcId==0x00b0 || tdcId==0x00b1 || tdcId==0x00b2 || tdcId==0x00b3 ||
+				 tdcId==0x00c0 || tdcId==0x00c1 || tdcId==0x00c2 || tdcId==0x00c3 ||
+				 tdcId==0x00d0 || tdcId==0x00d1 || tdcId==0x00d2 || tdcId==0x00d3 ||
+				 tdcId==0x00e0 || tdcId==0x00e1 || tdcId==0x00e2 || tdcId==0x00e3 ||
+				 tdcId==0x00f0 || tdcId==0x00f1 || tdcId==0x00f2 || tdcId==0x00f3 ||
+				 tdcId==0x0100 || tdcId==0x0101 || tdcId==0x0102 || tdcId==0x0103);
 	}
 
    UInt_t TDCidToInteger (UInt_t tdcId) {

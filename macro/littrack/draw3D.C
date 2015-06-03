@@ -7,7 +7,7 @@
 
 void draw3D()
 {
-   TString dir = "/Users/jonathan/Development/cbmroot/macro/littrack/events/trd_v13p_3e/";;
+   TString dir = "/Users/andrey/Development/cbm/d/events/sts_tof/";;
 	TString parFile = dir + "param.0000.root";
 
 	gROOT->LoadMacro("$VMCWORKDIR/gconfig/basiclibs.C");

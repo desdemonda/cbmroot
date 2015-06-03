@@ -10,7 +10,7 @@
 #include "setup/CbmStsModule.h"
 #include "setup/CbmStsSensor.h"
 #include "setup/CbmStsSetup.h"
-#include "setup/CbmStsStation_new.h"
+#include "setup/CbmStsStation.h"
 
 
 
@@ -172,7 +172,7 @@ void CbmStsElement::InitDaughters() {
       CbmStsElement* dElement = NULL;
       switch ( fLevel) {
       	case kStsSystem:
-      		dElement = new CbmStsStation_new(name, title, pNode); break;
+      		dElement = new CbmStsStation(name, title, pNode); break;
       	case kStsHalfLadder:
       		dElement = new CbmStsModule(name, title, pNode); break;
       	case kStsModule:

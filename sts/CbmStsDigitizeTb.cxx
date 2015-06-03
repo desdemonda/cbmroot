@@ -33,7 +33,7 @@
 #include "CbmStsPoint.h"
 #include "legacy/CbmStsSensor_old.h"
 #include "CbmStsSector.h"
-#include "CbmStsStation.h"
+#include "CbmStsStation_old.h"
 
 #include <iostream>
 #include <iomanip>

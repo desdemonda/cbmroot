@@ -131,13 +131,15 @@ void CbmEcalClusterFinderV2::FormPreCluster(CbmEcalMaximum* max)
   maxe+=cell->GetTotalEnergy();
   /** Check for calibration **/
   if (fCal)
-    if (fCal->GetEnergy(maxe+mine, cell)<fMinClusterE[reg]) return;
+  { if (fCal->GetEnergy(maxe+mine, cell)<fMinClusterE[reg]) return; }
   else
-    if (maxe<fMinClusterE[reg]) return;
+  {  if (maxe<fMinClusterE[reg]) return; }
   cells.push_back(cell);
   if (fUseMinimumCell==1)
+  {
     if (find(cells.begin(), cells.end(), min)==cells.end())
       cells.push_back(min);
+  }
   if (fCalibration==0)
   {
     fPreClusters.push_back(new CbmEcalPreCluster(cells, max, min, mine+maxe)); 
@@ -225,9 +227,9 @@ void CbmEcalClusterFinderV2::FormPreClusterNew(CbmEcalMaximum* maximum)
   for(j=0;j<cCl2Size;j++)
     e+=cls[j]->GetTotalEnergy();
   if (fCal)
-    if (fCal->GetEnergy(e, cell)<fMinClusterE[reg]) return;
+  { if (fCal->GetEnergy(e, cell)<fMinClusterE[reg]) return; }
   else
-    if (e<fMinClusterE[reg]) return;
+  { if (e<fMinClusterE[reg]) return; }
 
   if (fCalibration==0)
   {

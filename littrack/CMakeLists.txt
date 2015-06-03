@@ -36,8 +36,6 @@ ${CBMROOT_SOURCE_DIR}/KF/Interface
 
 ${CBMROOT_SOURCE_DIR}/trd/data
 ${CBMROOT_SOURCE_DIR}/trd/param
-${CBMROOT_SOURCE_DIR}/trd/tools
-
 )
 
 Include_Directories( ${INCLUDE_DIRECTORIES})
@@ -81,24 +79,22 @@ set(SRCS
    cbm/base/CbmLitFieldFitter.cxx
    cbm/base/CbmLitToolFactory.cxx
    cbm/base/CbmLitTrackingGeometryConstructor.cxx
-   cbm/reco/CbmLitFindSimpleTrdClusters.cxx 
-   cbm/reco/CbmLitFindLWClusters.cxx 
-   cbm/reco/CbmLitLWClusterManager.cxx 
+   cbm/reco/CbmLitFindSimpleTrdClusters.cxx
+   cbm/reco/CbmLitFindLWClusters.cxx
    cbm/reco/CbmLitFindGlobalTracks.cxx 
    cbm/reco/CbmLitFindGlobalTracksIdeal.cxx 
    cbm/reco/CbmLitFindGlobalTracksParallel.cxx
-#   cbm/utils/CbmLitClusterDistance.cxx
    cbm/utils/CbmLitConverter.cxx
    cbm/utils/CbmLitConverterParallel.cxx
    cbm/qa/tracking/CbmLitTrackingQa.cxx
    cbm/qa/tracking/CbmLitTrackingQaStudyReport.cxx            
    cbm/qa/tracking/CbmLitTrackingQaReport.cxx
-   cbm/qa/clustering/CbmLitShowClustersReport.cxx
    cbm/qa/clustering/CbmLitShowClusters.cxx
-   cbm/qa/clustering/CbmLitClusteringQa.cxx
+   cbm/qa/clustering/CbmLitShowClustersReport.cxx
    cbm/qa/clustering/CbmLitClusteringQaTrd.cxx
-   cbm/qa/clustering/CbmLitClusteringQaReport.cxx
    cbm/qa/clustering/CbmLitClusteringQaTrdReport.cxx
+   cbm/qa/clustering/CbmLitClusteringQa.cxx
+   cbm/qa/clustering/CbmLitClusteringQaReport.cxx
    cbm/qa/clustering/CbmLitClusteringQaStudyReport.cxx
    cbm/qa/fit/CbmLitFitQa.cxx
    cbm/qa/fit/CbmLitFitQaReport.cxx
@@ -115,7 +111,6 @@ set(SRCS
 )
 
 set(HEADERS
-#   cbm/utils/CbmLitClusterDistance.h
    cbm/elid/CbmLitGlobalElectronId.h
    cbm/reco/CbmLitFindGlobalTracks.h
    cbm/reco/CbmLitFindMvdTracks.h
@@ -125,7 +120,6 @@ set(HEADERS
    cbm/reco/CbmLitFindGlobalTracksParallel.h
    cbm/reco/CbmLitFindSimpleTrdClusters.h
    cbm/reco/CbmLitFindLWClusters.h
-   cbm/reco/CbmLitLWClusterManager.h
    cbm/generators/CbmLitPolarizedGenerator.h
    cbm/qa/material/CbmLitCheckEnergyLossMuons.h 
    cbm/qa/material/CbmLitCheckBrem.h 
@@ -134,11 +128,11 @@ set(HEADERS
    cbm/qa/tracking/CbmLitTrackingQa.h
    cbm/qa/tracking/CbmLitTrackingQaStudyReport.h
    cbm/qa/tracking/CbmLitTrackingQaReport.h
-   cbm/qa/clustering/CbmLitShowClustersReport.h
    cbm/qa/clustering/CbmLitShowClusters.h
-   cbm/qa/clustering/CbmLitClusteringQa.h
+   cbm/qa/clustering/CbmLitShowClustersReport.h
    cbm/qa/clustering/CbmLitClusteringQaTrd.h
    cbm/qa/clustering/CbmLitClusteringQaTrdReport.h
+   cbm/qa/clustering/CbmLitClusteringQa.h
    cbm/qa/clustering/CbmLitClusteringQaReport.h
    cbm/qa/clustering/CbmLitClusteringQaStudyReport.h
    cbm/qa/fit/CbmLitFitQa.h 

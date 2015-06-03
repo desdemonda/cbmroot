@@ -9,9 +9,9 @@
 #-------------------------------------
 
 # put your desired variants here:
-export FSOFTVER=dec14
-export FROOTVER=v-14.11
-export NUMOFCPU=12
+export FSOFTVER=mar15
+export FROOTVER=v-15.03a
+export NUMOFCPU=`cat /proc/cpuinfo | grep processor | wc -l`
 export CBMSRCDIR=`pwd`
 
 #-------------------------------------
@@ -27,7 +27,7 @@ export CBMSRCDIR=`pwd`
 
 cd ..
 git clone https://github.com/FairRootGroup/FairSoft fairsoft_$FSOFTVER
-cd fairsoft_$FSOFTVER/
+cd fairsoft_$FSOFTVER
 git tag -l
 git checkout -b $FSOFTVER $FSOFTVER
 #emacs -nw automatic.conf
@@ -49,8 +49,8 @@ export SIMPATH=`pwd`
 echo "SIMPATH	 : $SIMPATH"
 cd ../..
 
-git clone https://github.com/FairRootGroup/FairRoot.git fairroot_src
-cd fairroot_src
+git clone https://github.com/FairRootGroup/FairRoot.git fairroot_src_$FROOTVER
+cd fairroot_src_$FROOTVER
 git tag -l
 git checkout -b $FROOTVER $FROOTVER
 mkdir build
@@ -77,7 +77,7 @@ echo "FAIRROOTPATH: $FAIRROOTPATH"
 
 svn co https://subversion.gsi.de/cbmsoft/cbmroot/fieldmaps fieldmaps
 
-#svn co https://subversion.gsi.de/cbmsoft/cbmroot/trunk $CBMSRCDIR
+#svn co https://subversion.gsi.de/cbmsoft/cbmroot/trunk cbm_$CBMSRCDIR
 cd $CBMSRCDIR
 mkdir build
 cd build

@@ -16,6 +16,7 @@
 #include "CbmDrawHist.h"
 #include "TFolder.h"
 #include "CbmRichTrbTimeMessage.h"
+#include "CbmRichEpicsData.h"
 
 #include "TH1D.h"
 #include "TCanvas.h"
@@ -202,6 +203,7 @@ void CbmRichTrbUnpack::ProcessTdc(CbmRawSubEvent* rawSubEvent)
 			tdcDataIndex++;
 			continue;
 		}
+
 		//read TDC words to array
 		UInt_t dataArray[tdcNofWords];
 		for (UInt_t i = 0; i < tdcNofWords; i++) {
@@ -220,8 +222,16 @@ void CbmRichTrbUnpack::DecodeTdcData(
 		UInt_t trbId,
 		UInt_t tdcId)
 {
+	// decode epics data
+	if (tdcId == 0x0112){
+		DecodeEpicsData(data, size);
+		return;
+	}
+	//printf("TRBID=0x%04x, TDCID=0x%04x\n", trbId, tdcId);
+
 	CbmRichTrbParam* param = CbmRichTrbParam::Instance();
-	Bool_t isPmtHit = CbmRichTrbParam::Instance()->IsPmtTrb(trbId);
+	//Bool_t isPmtHit = CbmRichTrbParam::Instance()->IsPmtTrb(trbId);
+	Bool_t isPmtHit = CbmRichTrbParam::Instance()->IsPmtTdc(tdcId);
 	UInt_t curEpochCounter = 0;
 	queue<CbmRichTrbTimeMessage> mesQ;
 
@@ -319,6 +329,120 @@ void CbmRichTrbUnpack::DecodeTdcData(
 	}// for loop
 }
 
+void CbmRichTrbUnpack::DecodeEpicsData(UInt_t* data, UInt_t size)
+{
+
+	if (size <= 4) return;
+	CbmRichEpicsData ed;
+	for (UInt_t i = 0; i < size; i++){
+		if (i <= 3) continue; // MBS data and header
+		UInt_t tdcData = data[i];
+
+		if (i == 4) { // 0
+			ed.fCBM_BMP180_GetTemp = (tdcData & 0x1ff) / 10.; //9 bits
+			ed.fCBM_BMP180_GetPressure = (tdcData << 9) & 0x1fffff; // 21 bits
+			ed.fDataFormatVersion = (tdcData << 30) & 0x3; // 2 bits
+		} else if (i == 5) { // 1
+			ed.fCBM_PWRSWITCH_GetCurrent00 = tdcData & 0xffff;
+			ed.fCBM_PWRSWITCH_GetCurrent01 = (tdcData << 16) & 0xffff;
+		} else if (i == 6) { // 2
+			ed.fCBM_PWRSWITCH_GetCurrent02 = tdcData & 0xffff;
+			ed.fCBM_PWRSWITCH_GetCurrent03 = (tdcData << 16) & 0xffff;
+		} else if (i == 7) { // 3
+			ed.fCBM_PWRSWITCH_GetCurrent04 = tdcData & 0xffff;
+			ed.fCBM_PWRSWITCH_GetCurrent05 = (tdcData << 16) & 0xffff;
+		} else if (i == 8) { // 4
+			ed.fCBM_PWRSWITCH_GetCurrent06 = tdcData & 0xffff;
+			ed.fCBM_PWRSWITCH_GetCurrent07 = (tdcData << 16) & 0xffff;
+		} else if (i == 9) { // 5
+			ed.fCBM_PWRSWITCH_GetCurrent08 = tdcData & 0xffff;
+			ed.fCBM_PWRSWITCH_GetCurrent09 = (tdcData << 16) & 0xffff;
+		} else if (i == 10) { // 6
+			ed.fCBM_PWRSWITCH_GetCurrent0A = tdcData & 0xffff;
+			ed.fCBM_PWRSWITCH_GetCurrent0B = (tdcData << 16) & 0xffff;
+		} else if (i == 11) { // 7
+			ed.fCBM_PWRSWITCH_GetCurrent0C = tdcData & 0xffff;
+			ed.fCBM_PWRSWITCH_GetCurrent0D = (tdcData << 16) & 0xffff;
+		} else if (i == 12) { // 8
+			ed.fCBM_PWRSWITCH_GetCurrent0E = tdcData & 0xffff;
+			ed.fCBM_PWRSWITCH_GetCurrent0F = (tdcData << 16) & 0xffff;
+		} else if (i == 13) { // 9
+			ed.fTimestampThresholdFile = tdcData;
+		} else if (i == 14) { // 10
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U0 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U0 = (tdcData << 16) & 0xffff;
+		} else if (i == 15) { // 11
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U1 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U1 = (tdcData << 16) & 0xffff;
+		} else if (i == 16) { // 12
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U2 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U2 = (tdcData << 16) & 0xffff;
+		} else if (i == 17) { // 13
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U3 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U3 = (tdcData << 16) & 0xffff;
+		} else if (i == 18) { // 14
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U4 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U4 = (tdcData << 16) & 0xffff;
+		} else if (i == 19) { // 15
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U5 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U5 = (tdcData << 16) & 0xffff;
+		} else if (i == 20) { // 16
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U6 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U6 = (tdcData << 16) & 0xffff;
+		} else if (i == 21) { // 17
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U7 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U7 = (tdcData << 16) & 0xffff;
+		} else if (i == 22) { // 18
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U8 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U8 = (tdcData << 16) & 0xffff;
+		} else if (i == 23) { // 19
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U9 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U9 = (tdcData << 16) & 0xffff;
+		} else if (i == 24) { // 20
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U10 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U10 = (tdcData << 16) & 0xffff;
+		} else if (i == 25) { // 21
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U11 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U11 = (tdcData << 16) & 0xffff;
+		} else if (i == 26) { // 22
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U12 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U12 = (tdcData << 16) & 0xffff;
+		} else if (i == 27) { // 23
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U13 = (tdcData & 0xffff) / 100.;
+			ed.fMEASUREMENT_CURRENT_U13 = (tdcData << 16) & 0xffff;
+		} else if (i == 28) { // 24
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U14 = (tdcData & 0xffff) / 100.;
+		    ed.fMEASUREMENT_CURRENT_U14 = (tdcData << 16) & 0xffff;
+		} else if (i == 29) { // 25
+			ed.fOUTPUT_TERMINAL_VOLTAGE_U15 = (tdcData & 0xffff) / 100.;
+		    ed.fMEASUREMENT_CURRENT_U15 = (tdcData << 16) & 0xffff;
+		} else if (i == 30) { // 26
+			ed.fCBM_RICH_Mirror_Pos_ActualPosition1 = (tdcData & 0xffff) / 100.;
+			ed.fCBM_RICH_Mirror_Pos_ActualPosition2 = ((tdcData << 16) & 0xffff) / 100.;
+		} else if (i == 31) { // 27
+			ed.fCBM_RICH_Gas_O2 = (tdcData & 0xffff) / 32.;
+			ed.fCBM_RICH_Gas_H2O = ((tdcData << 16) & 0xffff) / 32.;
+		} else if (i == 32) { // 28
+			ed.fCBM_RICH_Gas_PT_1 = (tdcData & 0xffff) / 12800.;
+		    ed.fCBM_RICH_Gas_PTB = ((tdcData << 16) & 0xffff) / 32.;
+		} else if (i == 33) { // 29
+			ed.fCBM_RICH_Gas_PT_2 = (tdcData & 0xffff) / 32.;
+			ed.fCBM_RICH_Gas_PT_3 = ((tdcData << 16) & 0xffff) / 32.;
+		} else if (i == 34) { // 30
+			ed.fCBM_RICH_Gas_TT_1 = (tdcData & 0xffff) / 128.;
+			ed.fCBM_RICH_Gas_TT_2 = ((tdcData << 16) & 0xffff) / 128.;
+		} else if (i == 35) { // 31
+			ed.fCBM_RICH_Gas_PT_4 = (tdcData & 0xffff) / 16384.;
+			ed.fCBM_RICH_Gas_FM_1 = ((tdcData << 16) & 0xffff) / 512.;
+		} else if (i == 36) { // 32
+			ed.fCBM_RICH_Gas_RefrIndex = tdcData / 128.0e6;
+		} else if (i == 37) { // 33
+			ed.fPadiwaThresholdOffset = (tdcData & 0xffff) - 32768;
+		}
+		//ed.Print();
+	}//
+}
+
 CbmTrbOutputHit* CbmRichTrbUnpack::CreateOutputHit(CbmTrbRawHit* h)
 {
 	Double_t lFullTime = this->GetFullTime(h->GetTdc(), h->GetLChannel(), h->GetLEpoch(), h->GetLCTime(), h->GetLFTime());
@@ -336,7 +460,7 @@ Double_t CbmRichTrbUnpack::GetFullTime(UShort_t TDC, UShort_t CH, UInt_t epoch, 
 
 	if (CH != 0){
 		if (fSynchOffsetTimeMap[TDC] > 150) {
-			LOG(ERROR) << "CbmRichTrbUnpack::GetFullTime Synch Offset > 150 ns for TDC" << std::hex << TDC << std::dec << FairLogger::endl;
+			LOG(ERROR) << "CbmRichTrbUnpack::GetFullTime Synch Offset" << fSynchOffsetTimeMap[TDC] << "ns > 150 ns for TDC" << std::hex << TDC << std::dec << FairLogger::endl;
 		} else {
 			time = time + fSynchOffsetTimeMap[TDC];
 		}
@@ -427,6 +551,7 @@ void CbmRichTrbUnpack::AddRichHitToOutputArray(UShort_t trbId, CbmRichHitInfo* h
 	CbmRichHit* hit = static_cast<CbmRichHit*>(fRichHits->At(counter1));
 	hit->SetX(hitInfo->GetX());
 	hit->SetY(hitInfo->GetY());
+	hit->SetPmtId(hitInfo->GetPmtNum());
 
 	UInt_t counter2 = fRichHitInfos->GetEntries();
 	new((*fRichHitInfos)[counter2]) CbmRichHitInfo();

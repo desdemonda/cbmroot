@@ -1,4 +1,4 @@
-void run_sim(Int_t nEvents = 2)
+void run_sim(Int_t nEvents = 1)
 {
    TTree::SetMaxTreeSize(90000000000);
 	Int_t iVerbose = 0;
@@ -9,9 +9,9 @@ void run_sim(Int_t nEvents = 2)
 	//gRandom->SetSeed(10);
 
 	TString inFile = "/Users/slebedev/Development/cbm/data/urqmd/auau/25gev/centr/urqmd.auau.25gev.centr.00001.root";
-	TString parFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/param.0001.root";
-	TString geoFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/geofilefull.0001.root";
-	TString outFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/mc.0001.root";
+	TString parFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/param.00090.root";
+	TString geoFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/geofilefull.00090.root";
+	TString outFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/mc.00090.root";
 
 	TString caveGeom = "cave.geo";
 	TString pipeGeom = "pipe/pipe_v14h.root";
@@ -59,6 +59,9 @@ void run_sim(Int_t nEvents = 2)
 		plutoParticle = TString(gSystem->Getenv("PLUTO_PARTICLE"));
 		fieldScale = TString(gSystem->Getenv("FIELD_MAP_SCALE")).Atof();
 	}
+
+	remove(parFile.Data());
+	remove(outFile.Data());
 
 	gDebug = 0;
 	TStopwatch timer;

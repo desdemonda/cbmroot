@@ -5,21 +5,18 @@
 <position name="central" x="0" y="0" z="0" unit="mm"/>
 <rotation name="identity" x="0" y="0" z="0" unit="degree"/>
 <variable name="RICH_trapezoid_angle" value="116"/>
-<variable name="RICH_entrance_width" value="2551.17"/>
-<variable name="RICH_exit_width" value="5136"/>
-<variable name="RICH_height" value="4100"/>
-<variable name="RICH_length" value="1899.5"/>
-<variable name="RICH_covering_thickness" value="5"/>
-<variable name="entrance_width_addend" value="2"/>
 <variable name="RICH_pipe_entrance_r" value="103.5"/>
 <variable name="RICH_pipe_exit_r" value="205"/>
 <variable name="RICH_pipe_entrance_thickness" value="3"/>
 <variable name="RICH_pipe_exit_thickness" value="5"/>
 <variable name="RICH_pipe_angle" value="0"/>
-<variable name="RICH_position_from_IP" value="1800"/>
+<variable name="RICH_position_from_IP" value="1702"/>
 <variable name="RICH_mirror_position_from_IP" value="3500"/>
 <variable name="RICH_mirror_r" value="3000"/>
 <variable name="RICH_mirror_thickness" value="6"/>
 <variable name="mirror_cont_supp_addend_out" value="6"/>
 <variable name="pmt_thickness" value="0.5"/>
 <variable name="TTT" value="1500"/>
+<variable name="kapton_thickness" value="0.25"/>
+<variable name="DEGtoRAD" value="1.74532925199433E-02"/>
+<variable name="RICH_covering_thickness" value="5"/>

@@ -8,12 +8,9 @@ ${CBMROOT_SOURCE_DIR}/cbmdata/mvd
 ${CBMROOT_SOURCE_DIR}/field
 
 ${CBMROOT_SOURCE_DIR}/sts
+${CBMROOT_SOURCE_DIR}/sts/legacy
 
 ${CBMROOT_SOURCE_DIR}/mvd
-
-${CBMROOT_SOURCE_DIR}/trackbase
-
-${CBMROOT_SOURCE_DIR}/geane
 
 ${CBMROOT_SOURCE_DIR}/htrack
 

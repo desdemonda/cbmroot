@@ -1,6 +1,7 @@
 add_subdirectory(run)
 add_subdirectory(htrack)
 add_subdirectory(much)
+add_subdirectory(tof)
 add_subdirectory(trd)
 add_subdirectory(mvd)
 add_subdirectory(littrack)

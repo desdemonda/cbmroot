@@ -1,3 +1,19 @@
+/*
+ *====================================================================
+ *
+ *  Class for linear spline function used by CbmBilinearSpline class in CbmModels package
+ *  
+ *  Authors: V.Vovchenko
+ *
+ *  e-mail : 
+ *
+ *====================================================================
+ *
+ *  2D spline class
+ *
+ *====================================================================
+ */
+ 
 #ifndef SPLINEFUNCTION_H
 #define SPLINEFUNCTION_H
 #include <vector>
@@ -10,8 +26,8 @@ class SplineFunction
 {
 public:
     vector< pair<double, double> > vals;
-    SplineFunction():vals(0) { vals.resize(0); }
-    SplineFunction(vector<double> x, vector<double> y):vals(0)
+    SplineFunction():vals() { vals.resize(0); }
+    SplineFunction(vector<double> x, vector<double> y):vals()
     {
         for(unsigned int i=0;i<x.size();++i)
         {
@@ -26,15 +42,11 @@ public:
     }
     double f(double arg) const
     {
-        unsigned int ind = 0;
+        if (vals.size()<2) return 0.;
+		unsigned int ind = 0;
         pair<double, double> op = make_pair(arg, 0.);
         vector< pair<double, double> >::const_iterator it = lower_bound(vals.begin(), vals.end(), op);
         ind = distance(vals.begin(), it);
-        /*while (ind<vals.size() && arg>=vals[ind].first)
-        {
-            if (fabs(vals[ind].first-arg)<1e-10) return vals[ind].second;
-            ind++;
-        }*/
         if (ind==0) return vals[0].second +
             (arg - vals[0].first) *
             (vals[1].second - vals[0].second) / (vals[1].first - vals[0].first);
@@ -77,12 +89,7 @@ public:
         vals.push_back(make_pair(0., val));
         vals.push_back(make_pair(1., val));
     }
-    //void loadFromFile(const char *file);
 };
 
-/*SplineFunction::SplineFunction()
-{
-    vals.resize(0);
-}*/
 
 #endif // SPLINEFUNCTION_H

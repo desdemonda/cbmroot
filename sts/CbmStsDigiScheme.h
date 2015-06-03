@@ -28,7 +28,7 @@ class CbmGeoStsPar;
 class CbmStsDigiPar;
 class CbmStsSector;
 class CbmStsSensor_old;
-class CbmStsStation;
+class CbmStsStation_old;
 
 
 
@@ -64,8 +64,8 @@ class CbmStsDigiScheme : public TObject
   Int_t GetNSensors()  { return fNSensors; }
   Int_t GetNChannels() { return fNChannels; }
   TObjArray*     GetStations() { return fStations; }
-  CbmStsStation* GetStation(Int_t iStation);                                       /** Station by index **/
-  CbmStsStation* GetStationByNr(Int_t stationNr);                                  /** Station by number **/
+  CbmStsStation_old* GetStation(Int_t iStation);                                       /** Station by index **/
+  CbmStsStation_old* GetStationByNr(Int_t stationNr);                                  /** Station by number **/
   CbmStsSector*  GetSector     (Int_t stationNr, Int_t sectorNr);                  /** Sector  by number **/
   CbmStsSensor_old*  GetSensor     (Int_t stationNr, Int_t sectorNr, Int_t sensorNr);  /** Sensor  by number **/
   Int_t GetDetectorIdByName(TString sensorName);
@@ -88,7 +88,7 @@ class CbmStsDigiScheme : public TObject
   Int_t fNChannels;           /** Total number of channels **/
   Bool_t fIsNewGeometry;      /** New geometry ( v12 or later ) **/
 
-  std::map<Int_t,  CbmStsStation*> fStationMap; //! Map from number to station
+  std::map<Int_t,  CbmStsStation_old*> fStationMap; //! Map from number to station
   std::map<TString, Int_t>          fDetIdByName;
   std::map<TString, CbmStsSensor_old*> fSensorByName;
 

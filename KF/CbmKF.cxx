@@ -19,8 +19,10 @@
 #include "CbmGeoTofPar.h"
 #include "CbmGeoMuchPar.h"
 #include "CbmGeoPassivePar.h"
-#include "CbmStsStation.h"
+#include "CbmStsStation_old.h"
 #include "FairRuntimeDb.h"
+
+#include "../mvd/tools/CbmMvdGeoHandler.h"
 
 #include <iostream>
 #include <list>
@@ -34,6 +36,7 @@ using std::pair;
 using std::vector;
 using std::map;
 using std::fabs;
+
 
 ClassImp(CbmKF)
 
@@ -145,17 +148,25 @@ InitStatus CbmKF::Init()
 
 /** 					*/
   // fill vector of material
-    
+
   //=== Mvd ===
   
-  CbmMvdGeoPar* MvdPar = reinterpret_cast<CbmMvdGeoPar*>(RunDB->findContainer("CbmMvdGeoPar"));
-  if( MvdPar ){
+  FairRootManager *fManger = FairRootManager::Instance();
+  Bool_t useMVD = 0;
+  if(fManger->GetObject("MvdPoint")) useMVD = 1;
+  //CbmMvdGeoPar* MvdPar = reinterpret_cast<CbmMvdGeoPar*>(RunDB->findContainer("CbmMvdGeoPar"));
+  if( useMVD ){
+    if ( !CbmMvdDetector::Instance() ){
+      CbmMvdDetector* Detector = new CbmMvdDetector("A");
+      CbmMvdGeoHandler* mvdHandler = new CbmMvdGeoHandler();
+      mvdHandler->Init();
+      mvdHandler->Fill();
+    }
     CbmMvdDetector* mvdDetector = CbmMvdDetector::Instance();
     if(mvdDetector)
     {
-      CbmMvdStationPar* mvdStationPar = mvdDetector->GetParameterFile();  
-    
-    
+      CbmMvdStationPar* mvdStationPar = mvdDetector->GetParameterFile();
+
       if( fVerbose ) cout<<"KALMAN FILTER : === READ MVD MATERIAL ==="<<endl;
 
       int NStations = mvdStationPar->GetStationCount();
@@ -168,20 +179,20 @@ InitStatus CbmKF::Init()
      //   tube.F = 1.;
         tube.z  = mvdStationPar->GetZPosition(ist);
         tube.dz = mvdStationPar->GetThickness(ist);
-        tube.RadLength = mvdStationPar->GetRadLength(ist);
+        tube.RadLength = 100 * tube.dz / mvdStationPar->GetRadLength(ist);
         tube.r  = std::min( mvdStationPar->GetBeamHeight(ist), mvdStationPar->GetBeamWidth(ist));
         tube.R  = std::max( mvdStationPar->GetHeight(ist), mvdStationPar->GetWidth(ist));
         tube.rr = tube.r * tube.r;
         tube.RR = tube.R * tube.R;
         tube.ZThickness = tube.dz;
         tube.ZReference = tube.z;
-        
+
         vMvdMaterial.push_back(tube);
         MvdStationIDMap.insert(pair<Int_t,Int_t>(tube.ID, ist ) );
-        
+
         if( fVerbose ) cout<<" Mvd material ( id, z, dz, r, R, RadL )= ( "
                            << tube.ID<<", " << tube.z<<", " << tube.dz
-                           <<", " << tube.r<<", " << tube.R<<", " << tube.RadLength<<" )"<<endl;        
+                           <<", " << tube.r<<", " << tube.R<<", " << tube.RadLength<<" )"<<endl;
       }
     }
   }
@@ -197,7 +208,7 @@ InitStatus CbmKF::Init()
 
     for ( Int_t ist = 0; ist<NStations; ist++ )
       {
-	CbmStsStation *st = StsDigi.GetStation(ist);
+	CbmStsStation_old *st = StsDigi.GetStation(ist);
 	if ( !st ) continue;
 
 	CbmKFTube tube;

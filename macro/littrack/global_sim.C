@@ -15,7 +15,7 @@ void global_sim(Int_t nEvents = 5)
 	TString script = TString(gSystem->Getenv("LIT_SCRIPT"));
 
 	// Specify "electron" or "muon" setup of CBM
-//	TString setup = "muon";
+	//TString setup = "muon";
 	TString setup = "electron";
 
 	// Event parameters
@@ -33,7 +33,8 @@ void global_sim(Int_t nEvents = 5)
     TString pluto = "no"; // If "yes" PLUTO generator will be used
 
 	// Files
-	TString urqmdFile  = "/Users/jonathan/Development/cbmroot/input/urqmd.ftn14"; // input UrQMD file
+	// TString urqmdFile  = "/Users/andrey/Development/cbm/prod/gen/urqmd/auau/25gev/centr/urqmd.auau.25gev.centr.00001.root"; // input UrQMD file
+	TString urqmdFile = TString(gSystem->Getenv("VMCWORKDIR")) +TString("/input/urqmd.ftn14");
 	TString dir = "events/trd_v13p_3e/"; // Directory for output simulation files
 	TString mcFile = dir + "mc.0000.root"; //MC file name
 	TString parFile = dir + "param.0000.root"; //Parameter file name
@@ -323,6 +324,8 @@ void global_sim(Int_t nEvents = 5)
 
 	run->SetGenerator(primGen);
 	run->Init();
+
+	cout << "creating CbmFieldPar" << endl;
 
 	// -----   Runtime database   ---------------------------------------------
 	CbmFieldPar* fieldPar = (CbmFieldPar*) rtdb->getContainer("CbmFieldPar");

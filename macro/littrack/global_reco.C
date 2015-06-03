@@ -40,8 +40,8 @@ void global_reco(Int_t nEvents = 5, // number of events
 
    // Reconstruction parameters
    TString globalTrackingType = "nn"; // Global tracking type
-   TString stsHitProducerType = "real"; // STS hit producer type: real, ideal
-   TString trdHitProducerType = "LW"; // TRD hit producer type: smearing, digi, clustering, {simple, LW by jonathan}
+   TString stsHitProducerType = "real"; // STS hit producer type: real, ideal, new
+   TString trdHitProducerType = "LW"; // TRD hit producer type: smearing, digi, clustering
    TString muchHitProducerType = "advanced"; // MUCH hit producer type: simple, advanced
 
 	if (script == "yes") {
@@ -63,7 +63,8 @@ void global_reco(Int_t nEvents = 5, // number of events
 		stsMatBudgetFile = TString(gSystem->Getenv("LIT_STS_MAT_BUDGET_FILE"));
 	}
 
-   parFileList->Add(&stsDigiFile);
+	   parFileList->Add(&stsDigiFile);
+	   //parFileList->Add(&trdDigiFile);
 
 	Int_t iVerbose = 1;
 	TStopwatch timer;
@@ -88,16 +89,33 @@ void global_reco(Int_t nEvents = 5, // number of events
 		exit(0);
 	}
 
+  // ----- MC Data Manager   ------------------------------------------------
+  CbmMCDataManager* mcManager=new CbmMCDataManager("MCManager", 1);
+  mcManager->AddFile(mcFile);
+  run->AddTask(mcManager);
+  // ------------------------------------------------------------------------
+
+
 	if (opt == "all" || opt == "hits") {
 
-		if (IsMvd(parFile)) {
+		if (0){//IsMvd(parFile)) {
 			// ----- MVD reconstruction    --------------------------------------------
-			CbmMvdDigitizeL* mvdDigi = new CbmMvdDigitizeL("MVD Digitiser", 0, iVerbose);
-			run->AddTask(mvdDigi);
+  // -----   MVD Digitiser   -------------------------------------------------
+  CbmMvdDigitizer* mvdDigitise = new CbmMvdDigitizer("MVD Digitiser", 0, iVerbose);
+  run->AddTask(mvdDigitise);
+  // -------------------------------------------------------------------------
 
-			CbmMvdFindHits* mvdHitFinder = new CbmMvdFindHits("MVD Hit Finder", 0, iVerbose);
-			run->AddTask(mvdHitFinder);
-			// -------------------------------------------------------------------------
+  // -----   MVD Clusterfinder   ---------------------------------------------
+  CbmMvdClusterfinder* mvdCluster = new CbmMvdClusterfinder("MVD Clusterfinder", 0, iVerbose);
+  run->AddTask(mvdCluster);
+  // -------------------------------------------------------------------------
+
+  // -----   MVD Hit Finder   ------------------------------------------------
+  CbmMvdHitfinder* mvdHitfinder = new CbmMvdHitfinder("MVD Hit Finder", 0, iVerbose);
+  mvdHitfinder->UseClusterfinder(kTRUE);
+  run->AddTask(mvdHitfinder);
+
+
 		}
 
 		if (stsHitProducerType == "real") {
@@ -128,13 +146,37 @@ void global_reco(Int_t nEvents = 5, // number of events
 
        //  FairTask* stsMatchHits = new CbmStsIdealMatchHits("STSMatchHits", iVerbose);
        //  run->AddTask(stsMatchHits);
+		} else if (stsHitProducerType == "new") {
+			  // --- The following settings correspond to the settings for the old
+			  // --- digitizer in run_reco.C
+			  Double_t dynRange       =   40960.;  // Dynamic range [e]
+			  Double_t threshold      =    4000.;  // Digitisation threshold [e]
+			  Int_t nAdc              =    4096;   // Number of ADC channels (12 bit)
+			  Double_t timeResolution =       5.;  // time resolution [ns]
+			  Double_t deadTime       = 9999999.;  // infinite dead time (integrate entire event)
+			  Int_t digiModel         = 1;  // Model: 1 = uniform charge distribution along track
+
+			  CbmStsDigitize* stsDigi = new CbmStsDigitize(digiModel);
+			  stsDigi->SetParameters(dynRange, threshold, nAdc, timeResolution, deadTime, 0);
+			  run->AddTask(stsDigi);
+
+			  // -----   STS Cluster Finder   --------------------------------------------
+			  FairTask* stsCluster = new CbmStsFindClusters();
+			  run->AddTask(stsCluster);
+			  // -------------------------------------------------------------------------
+
+
+			  // -----   STS hit finder   ------------------------------------------------
+			  FairTask* stsHit = new CbmStsFindHits();
+			  run->AddTask(stsHit);
+			  // -------------------------------------------------------------------------
 		}
 
 		FairTask* kalman = new CbmKF();
 		run->AddTask(kalman);
 		CbmL1* l1 = new CbmL1();
-		l1->SetExtrapolateToTheEndOfSTS(false);
-		l1->SetMaterialBudgetFileName(stsMatBudgetFile);
+		l1->SetExtrapolateToTheEndOfSTS(true);
+		//l1->SetMaterialBudgetFileName(stsMatBudgetFile);
 		run->AddTask(l1);
 		CbmStsTrackFinder* trackFinder = new CbmL1StsTrackFinder();
 		FairTask* findTracks = new CbmStsFindTracks(iVerbose, trackFinder);
@@ -144,7 +186,7 @@ void global_reco(Int_t nEvents = 5, // number of events
 	//	run->AddTask(stsMatchTracks);
 		// ------------------------------------------------------------------------
 
-		if (IsMuch(parFile)) {
+		if (0){//IsMuch(parFile)) {
 			// -------- MUCH digitization ------------
 			CbmMuchDigitizeGem* digitize = new CbmMuchDigitizeGem(muchDigiFile.Data());
 			if (muchHitProducerType == "simple") {
@@ -166,9 +208,9 @@ void global_reco(Int_t nEvents = 5, // number of events
 			// -----------------------------------------------------------------
 		}
 
-		if (IsTrd(parFile)) {
+		if (1){//IsTrd(parFile)) {
 			// ----- TRD reconstruction-----------------------------------------
-		   parFileList->Add(&trdDigiFile);
+   parFileList->Add(&trdDigiFile);
 			CbmTrdRadiator *radiator = new CbmTrdRadiator(kTRUE , "H++");
 			if (trdHitProducerType == "smearing") {
 				CbmTrdHitProducerSmearing* trdHitProd = new CbmTrdHitProducerSmearing(radiator);
@@ -190,35 +232,34 @@ void global_reco(Int_t nEvents = 5, // number of events
 
 			   CbmTrdHitProducerCluster* trdHit = new CbmTrdHitProducerCluster();
 			   run->AddTask(trdHit);
-			   // ----- End TRD Clustering -----
-			} else if (trdHitProducerType == "simple") {
-//			   CbmTrdDigitizerPRF* trdDigiPrf = new CbmTrdDigitizerPRF(radiator);
-			   CbmTrdDigitizer* trdDigitizer = new CbmTrdDigitizer(radiator);
-			   run->AddTask(trdDigitizer);
+                        } else if (trdHitProducerType == "simple") {
+ //                        CbmTrdDigitizerPRF* trdDigiPrf = new CbmTrdDigitizerPRF(radiator);
+                           CbmTrdDigitizer* trdDigitizer = new CbmTrdDigitizer(radiator);
+                           run->AddTask(trdDigitizer);
 
-			   CbmLitFindSimpleTrdClusters* trdSimpleFinder = new CbmLitFindSimpleTrdClusters();
-			   run->AddTask(trdSimpleFinder);
-			} else if (trdHitProducerType == "LW") {
-				// ----- TRD clustering -----
-			   CbmTrdDigitizerPRF* trdDigiPrf = new CbmTrdDigitizerPRF(radiator);
-			   run->AddTask(trdDigiPrf);
+                           CbmLitFindSimpleTrdClusters* trdSimpleFinder = new CbmLitFindSimpleTrdClusters();
+                           run->AddTask(trdSimpleFinder);
+                        } else if (trdHitProducerType == "LW") {
+                                // ----- TRD clustering -----
+                           CbmTrdDigitizerPRF* trdDigiPrf = new CbmTrdDigitizerPRF(radiator);
+                           run->AddTask(trdDigiPrf);
 
-			   CbmLitFindLWClusters* trdCluster = new CbmLitFindLWClusters();
-			   run->AddTask(trdCluster);
+                           CbmLitFindLWClusters* trdCluster = new CbmLitFindLWClusters();
+                           run->AddTask(trdCluster);
 
-			   CbmLitShowClusters* trdQA = new CbmLitShowClusters();
-			   trdQA->SetOutputDir(std::string("test/"));
-			   run->AddTask(trdQA);
+                           CbmLitShowClusters* trdQA = new CbmLitShowClusters();
+                           trdQA->SetOutputDir(std::string("test/"));
+                           run->AddTask(trdQA);
 
-			   /** ToDo: Write following Class **/
-//			   CbmLitFindLWHits* trdHit = new CbmLitFindLWHits();
-//			   run->AddTask(trdHit);
-			   // ----- End TRD Clustering -----
+                           /** ToDo: Write following Class **/
+ //                        CbmLitFindLWHits* trdHit = new CbmLitFindLWHits();
+ //                        run->AddTask(trdHit);
+				// ----- End TRD Clustering -----
 			}
 			// ------------------------------------------------------------------------
 		}
 
-		if (IsTof(parFile)) {
+		if (1){//IsTof(parFile)) {
    parFileList->Add(&tofDigiFile);
 			// ------ TOF hits --------------------------------------------------------
 		   CbmTofHitProducerNew* tofHitProd = new CbmTofHitProducerNew("TOF HitProducerNew",iVerbose);
@@ -247,7 +288,7 @@ void global_reco(Int_t nEvents = 5, // number of events
 	}
 
 	if (opt == "all" || opt == "tracking") {
-	  if (IsRich(parFile)) {
+	  if (1){//IsRich(parFile)) {
 	     if (opt == "tracking") {
 	        FairTask* kalman = new CbmKF();
 	        run->AddTask(kalman);

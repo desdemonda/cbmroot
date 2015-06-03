@@ -1,7 +1,7 @@
 /*
  *====================================================================
  *
- *  CBM Thermal Model, No Flow
+ *  CBM Thermal Model, No Flow. This module is obsolete, to be completely replaced by CbmBoltzmannDistribution
  *  
  *  Authors: V.Vovchenko
  *
@@ -9,7 +9,7 @@
  *
  *====================================================================
  *
- *  Thermal model calculations
+ *  Boltzmann distribution calculations
  *
  *====================================================================
  */
@@ -17,7 +17,7 @@
 #ifndef _CbmThermalModelNoFlow_h_
 #define _CbmThermalModelNoFlow_h_
  
-#include "FairTask.h"
+#include "CbmModelBase.h"
 #include "../KFQA/CbmKFTrErrMCPoints.h"
 #include "TMath.h"
 #include <vector>
@@ -34,14 +34,12 @@ class FairRootManager;
 namespace ThermalModelNoFlowNamespace {
 	
 	struct AcceptanceFunction {
-          AcceptanceFunction():dy(0.),dpt(0.),ys(0),pts(0),probs(0),sfunc() {};
-	  
-          Double_t dy, dpt;
+	  Double_t dy, dpt;
 	  vector<Double_t> ys, pts, probs;
 	  BilinearSplineFunction sfunc;
-          
 	  void setSpline() { sfunc.setData(ys, pts, probs); }
 	  Double_t getAcceptance(const Double_t & y, const Double_t & pt) const;
+	  AcceptanceFunction(): dy(), dpt(), ys(), pts(), probs(), sfunc() { }
 	};
 	
 	struct ReconstructionEfficiencyFunction {
@@ -55,7 +53,7 @@ namespace ThermalModelNoFlowNamespace {
 
 using namespace ThermalModelNoFlowNamespace;
 
-class CbmThermalModelNoFlow: public TObject
+class CbmThermalModelNoFlow: public CbmModelBase
 {
  public:
  static const int p_sz = 2;
@@ -66,22 +64,16 @@ class CbmThermalModelNoFlow: public TObject
                        Int_t iVerbose = 1);
   ~CbmThermalModelNoFlow();
 
-  void ReInit(FairRootManager *fManger);
-  void Init();
-  void Exec();
-  void Finish();
-
-//  std::vector<float>& GetChiPrim()  {return fChiToPrimVtx;}
+  virtual void ReInit(FairRootManager *fManger);
+  virtual void Init();
+  virtual void Exec();
+  virtual void Finish();
 
   ClassDef(CbmThermalModelNoFlow,1);
 
  private:
    
-  //Double_t ThermalMt(double T, double m);
-  
-//  void WriteHistos( TObject *obj );
-//  void WriteHistosCurFile( TObject *obj );
-  
+
   void ReadAcceptanceFunction(ThermalModelNoFlowNamespace::AcceptanceFunction & func, TString filename);
   
   Double_t RecEfficiency(Double_t p);
@@ -181,39 +173,6 @@ class CbmThermalModelNoFlow: public TObject
   TDirectory* histodir;
   
   Int_t events;
-  /*TH1F **hTempFullMC;
-  TH1F **hTempFullReco;
-  TH1F **hTempFullRecoCor;
-  TH1F **hTempErrStatFullMC;
-  TH1F **hTempErrStatFullReco;
-  TH1F **hTempErrStatFullRecoCor;
-  TH1F **hTempErrMomFullMC;
-  TH1F **hTempErrMomFullReco;
-  TH1F **hTempErrMomFullRecoCor;
-  TH1F **hRadFullMC;
-  TH1F **hRadFullReco;
-  TH1F **hRadFullRecoCor;
-  TH1F **hRadErrStatFullMC;
-  TH1F **hRadErrStatFullReco;
-  TH1F **hRadErrStatFullRecoCor;
-  TH1F **hRadErrMomFullMC;
-  TH1F **hRadErrMomFullReco;
-  TH1F **hRadErrMomFullRecoCor;
-  
-  TH1F **hfyMC;
-  TH1F **hfyMCmodel;
-  TH2F **hfdndydptMC;
-  TH2F **hfdndydptMCmodel;
-  
-  TH1F **hfyReco;
-  TH1F **hfyRecomodel;
-  TH2F **hfdndydptReco;
-  TH2F **hfdndydptRecomodel;
-  
-  TH1F **hfyRecoCor;
-  TH1F **hfyRecoCormodel;
-  TH2F **hfdndydptRecoCor;
-  TH2F **hfdndydptRecoCormodel;*/
   
   TH1F *hTempFullMC[p_sz];
   TH1F *hTempFullReco[p_sz];

@@ -84,23 +84,26 @@ void CbmStack::PushTrack(Int_t toBeDone, Int_t parentId, Int_t pdgCode,
                          Double_t e, Double_t vx, Double_t vy, Double_t vz,
                          Double_t time, Double_t polx, Double_t poly,
                          Double_t polz, TMCProcess proc, Int_t& ntr,
-                         Double_t weight, Int_t is,Int_t secondparentID)
+                         Double_t weight, Int_t is, Int_t secondparentID)
 {
 
   // --> Get TParticle array
   TClonesArray& partArray = *fParticles;
 
+  // change parentId (was forces as a dummyparent of -1)
+  if(parentId==-1 && secondparentID<fNParticles) parentId = secondparentID;
 
   // --> Create new TParticle and add it to the TParticle array
   Int_t trackId = fNParticles;
   Int_t nPoints = 0;
   Int_t daughter1Id = -1;
   Int_t daughter2Id = -1;
+
   TParticle* particle =
     new(partArray[fNParticles++]) TParticle(pdgCode, trackId, parentId,
-        nPoints, daughter1Id,
-        daughter2Id, px, py, pz, e,
-        vx, vy, vz, time);
+					    nPoints, daughter1Id,
+					    daughter2Id, px, py, pz, e,
+					    vx, vy, vz, time);
   particle->SetPolarisation(polx, poly, polz);
   particle->SetWeight(weight);
   particle->SetUniqueID(proc);
@@ -112,7 +115,6 @@ void CbmStack::PushTrack(Int_t toBeDone, Int_t parentId, Int_t pdgCode,
   ntr = trackId;
 
   // --> Push particle on the stack if toBeDone is set
-
   if (toBeDone == 1) { fStack.push(particle); }
 
 }
@@ -430,7 +432,7 @@ void CbmStack::SelectTracks()
     }
 
     // --> Check for cuts (store primaries in any case)
-    if (iMother < 0) { store = kTRUE; }
+    if (iMother < 0 || thisPart->GetUniqueID()==kPPrimary) { store = kTRUE; }
     else {
       if (!fStoreSecondaries) { store = kFALSE; }
       if (nPoints < fMinPoints) { store = kFALSE; }

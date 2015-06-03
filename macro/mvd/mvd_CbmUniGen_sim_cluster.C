@@ -20,11 +20,7 @@ void mvd_CbmUniGen_sim_cluster(const char* input = "auau.25gev", const char* sys
   inFile = inFile + ".root";
 
   // Output file
-  TString outFile = "data/mvd.mc.unigen.";
-  outFile = outFile + input;
-  outFile = outFile + ".";
-  outFile = outFile + system;
-  outFile = outFile + ".root";
+  TString outFile = "data/mvd.mc.unigen." + input + "." + system + ".root";
 
   // Parameter file name
   TString parFile = "data/paramsunigen.";
@@ -37,7 +33,7 @@ void mvd_CbmUniGen_sim_cluster(const char* input = "auau.25gev", const char* sys
   TString caveGeom = "cave.geo";
 
   // Beam pipe geometry
-  TString pipeGeom = "pipe/pipe_v14y.geo.root";
+  TString pipeGeom = "pipe/pipe_v14l.root";
 
   // Magnet geometry and field map
   TString magnetGeom  = "magnet/magnet_v12b.geo.root";
@@ -47,13 +43,13 @@ void mvd_CbmUniGen_sim_cluster(const char* input = "auau.25gev", const char* sys
   Int_t fieldSymType  = 3;
 
   // MVD geometry
-  TString mvdGeom = "mvd/mvd_v14a.geo.root";
+  TString mvdGeom = "mvd/mvd_v15a.geo.root";
 
  // StS geometry
   TString stsGeom = "sts/sts_v13d.geo.root";
 
   // Tof geometry
-  TString tofGeom = "tof/tof_v13b.geo.root";
+ // TString tofGeom = "tof/tof_v13b.geo.root";
 
   // In general, the following parts need not be touched
   // ========================================================================
@@ -106,9 +102,9 @@ void mvd_CbmUniGen_sim_cluster(const char* input = "auau.25gev", const char* sys
   sts->SetGeometryFileName(stsGeom);
   fRun->AddModule(sts);
 
-  FairDetector* tof = new CbmTof("TOF", kTRUE);
-  tof->SetGeometryFileName(tofGeom);
-  fRun->AddModule(tof);
+ // FairDetector* tof = new CbmTof("TOF", kTRUE);
+ // tof->SetGeometryFileName(tofGeom);
+ // fRun->AddModule(tof);
   // ------------------------------------------------------------------------
 
 

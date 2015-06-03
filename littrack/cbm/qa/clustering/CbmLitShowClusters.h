@@ -120,9 +120,8 @@ private:
 
     CbmTrdDigiPar *fDigiPar;
     CbmTrdModule  *fModuleInfo;
-
     string fMuchDigiFileName;
-//    map<UInt_t, vector<TBox*>*> fMarker;
+    //map<UInt_t, map<Int_t, CbmTrdDigi*>*> fMarker;
 
     CbmLitShowClusters(const CbmLitShowClusters&);
     CbmLitShowClusters& operator=(const CbmLitShowClusters&);

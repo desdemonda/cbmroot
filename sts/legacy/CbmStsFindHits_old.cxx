@@ -10,7 +10,7 @@
 #include "CbmStsDigiScheme.h"
 #include "CbmStsHit.h"
 #include "CbmStsSector.h"
-#include "CbmStsStation.h"
+#include "CbmStsStation_old.h"
 #include "CbmStsAddress.h"
 
 #include "FairRootManager.h"
@@ -29,9 +29,9 @@ CbmStsFindHits_old::CbmStsFindHits_old()
     : FairTask("CbmStsFindHits_old", 1)
     , fGeoPar(NULL)
     , fDigiPar(NULL)
+    , fDigiScheme(NULL)
     , fClusters(NULL)
     , fHits(NULL)
-    , fDigiScheme(NULL)
     , fClusterMapF()
     , fClusterMapB()
 {
@@ -62,7 +62,7 @@ void CbmStsFindHits_old::Exec(Option_t* opt)
     Int_t nofStations = fDigiScheme->GetNStations();
     for (Int_t iStation = 0; iStation < nofStations; iStation++)
     {
-        CbmStsStation* station = fDigiScheme->GetStation(iStation);
+        CbmStsStation_old* station = fDigiScheme->GetStation(iStation);
 
         Int_t nofSectors = station->GetNSectors();
         for (Int_t iSector = 0; iSector < nofSectors; iSector++)
@@ -136,7 +136,7 @@ void CbmStsFindHits_old::MakeSets()
     Int_t nofStations = fDigiScheme->GetNStations();
     for (Int_t iStation = 0; iStation < nofStations; iStation++)
     {
-        CbmStsStation* station = fDigiScheme->GetStation(iStation);
+        CbmStsStation_old* station = fDigiScheme->GetStation(iStation);
         Int_t nofSectors = station->GetNSectors();
         for (Int_t iSector = 0; iSector < nofSectors; iSector++)
         {
@@ -181,7 +181,7 @@ void CbmStsFindHits_old::SortClusters()
     }
 }
 
-void CbmStsFindHits_old::FindHits(CbmStsStation* station, CbmStsSector* sector, const set<Int_t>& frontSet, const set<Int_t>& backSet)
+void CbmStsFindHits_old::FindHits(CbmStsStation_old* station, CbmStsSector* sector, const set<Int_t>& frontSet, const set<Int_t>& backSet)
 {
     Int_t sectorType = sector->GetType();
 
@@ -203,7 +203,7 @@ void CbmStsFindHits_old::FindHits(CbmStsStation* station, CbmStsSector* sector, 
     else if (sectorType == 3)
     {
         static const Double_t SQRT12 = TMath::Sqrt(12.);
-        static const Double_t SQRT6 = TMath::Sqrt(12.);
+        static const Double_t SQRT6 = TMath::Sqrt(6.);
 
         const Double_t rotation = sector->GetRotation();
         const Double_t dx = sector->GetDx();

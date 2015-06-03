@@ -43,74 +43,291 @@ using std::endl;
 using std::ifstream;
 
 // -----   Default constructor   -------------------------------------------
-eventPlane::eventPlane() : FairTask("EventPlane",1), fHeader(NULL), fMCEventData(NULL), flistPSDdigit(NULL), flistPSDhit(NULL), fCbmPsdEvent(NULL), flistSTSMCtrack(NULL), flistSTSRECOtrack(NULL), flistSTStrackMATCH(NULL), flistPV(NULL), fCbmStsEvent(NULL)
+eventPlane::eventPlane() 
+  : FairTask("EventPlane",1), 
+    fPi(TMath::Pi()),
+    fHeader(NULL), 
+    fMCEventData(NULL), 
+    fileName_PsdModCoord(""),
+    fileName_Qcorr(""),
+    fileName_Barr(""),
+    doFixStat(kFALSE),
+    b_STS(),
+    b_PSD(),
+    b_PSD1(),
+    b_PSD2(),
+    b_PSD3(),
+    funct(),
+    sPreSel("StsEvent.fmult > 40."),
+    flistPSDdigit(NULL), 
+    flistPSDhit(NULL), 
+    fCbmPsdEvent(NULL), 
+    finc_mod(0),
+    fX_mod(),
+    fY_mod(),
+    fphi_mod(),
+    fR_mod(),
+    fedep_mod(),
+    fedep_mod_av(),
+    fedep_sec_av(),
+    hEsec(new TH1F ("hEsec"," Edep vs sec ", 15, 0., 15.)),
+    hEmod(new TH2F ("hEmod"," Edep vs module ", 250, -100., 150., 200, -100., 100.)),
+    hCoormod_sub1(new TH2F ("hCoormod_sub1"," Edep vs module (sub1) ", 250, -100., 150., 200, -100., 100.)),
+    hCoormod_sub2(new TH2F ("hCoormod_sub2"," Edep vs module (sub2) ", 250, -100., 150., 200, -100., 100.)),
+    hCoormod_sub3(new TH2F ("hCoormod_sub3"," Edep vs module (sub3) ", 250, -100., 150., 200, -100., 100.)),
+    fdoFlat_PSD_Qcorr(kFALSE),
+    fdoFlat_PSD_Barr(kFALSE),
+    PSD_shift_Qx(),
+    PSD_shift_Qy(),
+    PSD_RMS_Qx(), 
+    PSD_RMS_Qy(), 
+    PSD_shift_Qx_sub1(),
+    PSD_shift_Qy_sub1(), 
+    PSD_RMS_Qx_sub1(), 
+    PSD_RMS_Qy_sub1(),
+    PSD_shift_Qx_sub2(),
+    PSD_shift_Qy_sub2(), 
+    PSD_RMS_Qx_sub2(), 
+    PSD_RMS_Qy_sub2(),
+    PSD_shift_Qx_sub3(),
+    PSD_shift_Qy_sub3(), 
+    PSD_RMS_Qx_sub3(), 
+    PSD_RMS_Qy_sub3(),
+    PSD_mean_cosphi(), 
+    PSD_mean_sinphi(),
+    PSD_mean_cosphi_sub1(), 
+    PSD_mean_sinphi_sub1(),
+    PSD_mean_cosphi_sub2(), 
+    PSD_mean_sinphi_sub2(),
+    PSD_mean_cosphi_sub3(), 
+    PSD_mean_sinphi_sub3(),
+    flistSTSMCtrack(NULL), 
+    flistSTSRECOtrack(NULL), 
+    flistSTStrackMATCH(NULL), 
+    flistPV(NULL), 
+    fCbmStsEvent(NULL),
+    hY(new TH1F("hY","mc/reco. track rapidity (cm)", 400, -2., 2.)),
+    hP(new TH1F("hP","reco. track momentum", 1000, 0., 10.)),
+    hIP(new TH1F ("hIP"," reco. track impact parameter ", 1000, 0., 10.)),
+    hChi2toNDF(new TH1F("hChi2toNDF"," reco. track chi2 to NDF ", 1000, 0., 30.)),
+    fdoSTSreco(kTRUE),
+    fy_proj_cm(0.),
+    fy_cm(0.),
+    fEn(25.),
+    fcut_STS_PSDsub(10.),
+    fdoFlat_STS_Qcorr(kFALSE),
+    fdoFlat_STS_Barr(kFALSE),
+    STS_harmo1_shift_Qx_sub1(), 
+    STS_harmo1_shift_Qy_sub1(), 
+    STS_harmo1_RMS_Qx_sub1(), 
+    STS_harmo1_RMS_Qy_sub1(), 
+    STS_harmo1_shift_Qx_sub2(), 
+    STS_harmo1_shift_Qy_sub2(), 
+    STS_harmo1_RMS_Qx_sub2(), 
+    STS_harmo1_RMS_Qy_sub2(),
+    STS_harmo1_shift_Qx_full(), 
+    STS_harmo1_shift_Qy_full(), 
+    STS_harmo1_RMS_Qx_full(), 
+    STS_harmo1_RMS_Qy_full(),
+    STS_harmo2_shift_Qx_sub1(), 
+    STS_harmo2_shift_Qy_sub1(), 
+    STS_harmo2_RMS_Qx_sub1(), 
+    STS_harmo2_RMS_Qy_sub1(), 
+    STS_harmo2_shift_Qx_sub2(), 
+    STS_harmo2_shift_Qy_sub2(), 
+    STS_harmo2_RMS_Qx_sub2(), 
+    STS_harmo2_RMS_Qy_sub2(),
+    STS_harmo2_shift_Qx_full(), 
+    STS_harmo2_shift_Qy_full(), 
+    STS_harmo2_RMS_Qx_full(), 
+    STS_harmo2_RMS_Qy_full(),
+    STS_harmo1_mean_cosphi_sub1(), 
+    STS_harmo1_mean_sinphi_sub1(),
+    STS_harmo1_mean_cosphi_sub2(), 
+    STS_harmo1_mean_sinphi_sub2(),
+    STS_harmo1_mean_cosphi_full(), 
+    STS_harmo1_mean_sinphi_full(), 
+    STS_harmo2_mean_cosphi_sub1(), 
+    STS_harmo2_mean_sinphi_sub1(),
+    STS_harmo2_mean_cosphi_sub2(), 
+    STS_harmo2_mean_sinphi_sub2(),
+    STS_harmo2_mean_cosphi_full(), 
+    STS_harmo2_mean_sinphi_full()
 {
-    fPi = TMath::Pi();
 
-    hEsec = new TH1F ("hEsec"," Edep vs sec ", 15, 0., 15.);
+//    hEsec = new TH1F ("hEsec"," Edep vs sec ", 15, 0., 15.);
+//
+//    hEmod = new TH2F ("hEmod"," Edep vs module ", 250, -100., 150., 200, -100., 100.);
+//    hCoormod_sub1 = new TH2F ("hCoormod_sub1"," Edep vs module (sub1) ", 250, -100., 150., 200, -100., 100.);
+//    hCoormod_sub2 = new TH2F ("hCoormod_sub2"," Edep vs module (sub2) ", 250, -100., 150., 200, -100., 100.);
+//    hCoormod_sub3 = new TH2F ("hCoormod_sub3"," Edep vs module (sub3) ", 250, -100., 150., 200, -100., 100.);
 
-    hEmod = new TH2F ("hEmod"," Edep vs module ", 250, -100., 150., 200, -100., 100.);
-    hCoormod_sub1 = new TH2F ("hCoormod_sub1"," Edep vs module (sub1) ", 250, -100., 150., 200, -100., 100.);
-    hCoormod_sub2 = new TH2F ("hCoormod_sub2"," Edep vs module (sub2) ", 250, -100., 150., 200, -100., 100.);
-    hCoormod_sub3 = new TH2F ("hCoormod_sub3"," Edep vs module (sub3) ", 250, -100., 150., 200, -100., 100.);
-
-    hY = new TH1F("hY","mc/reco. track rapidity (cm)", 400, -2., 2.);
-    hP = new TH1F("hP","reco. track momentum", 1000, 0., 10.);
-    hIP = new TH1F ("hIP"," reco. track impact parameter ", 1000, 0., 10.);
-    hChi2toNDF = new TH1F("hChi2toNDF"," reco. track chi2 to NDF ", 1000, 0., 30.);
-
-    doFixStat = kFALSE;
-
-    fdoFlat_PSD_Qcorr = kFALSE;
-    fdoFlat_PSD_Barr = kFALSE;
+//    hY = new TH1F("hY","mc/reco. track rapidity (cm)", 400, -2., 2.);
+//    hP = new TH1F("hP","reco. track momentum", 1000, 0., 10.);
+//    hIP = new TH1F ("hIP"," reco. track impact parameter ", 1000, 0., 10.);
+//    hChi2toNDF = new TH1F("hChi2toNDF"," reco. track chi2 to NDF ", 1000, 0., 30.);
     
-    fdoFlat_STS_Qcorr = kFALSE;
-    fdoFlat_STS_Barr = kFALSE;
+    //    doFixStat = kFALSE;
 
-    fileName_Qcorr = "";
-    fileName_Barr = "";
-    sPreSel = "StsEvent.fmult > 40.";
+    //    fdoFlat_PSD_Qcorr = kFALSE;
+    //    fdoFlat_PSD_Barr = kFALSE;
     
-    fy_proj_cm = 0.;
-    fy_cm = 0.;
-    fEn = 25.;
-    fdoSTSreco = kTRUE;
-    fcut_STS_PSDsub = 10.;
+  //    fdoFlat_STS_Qcorr = kFALSE;
+    //    fdoFlat_STS_Barr = kFALSE;
+
+    //    fileName_Qcorr = "";
+    //    fileName_Barr = "";
+    //    sPreSel = "StsEvent.fmult > 40.";
+    
+//    fy_proj_cm = 0.;
+//    fy_cm = 0.;
+//    fEn = 25.;
+//    fdoSTSreco = kTRUE;
+//    fcut_STS_PSDsub = 10.;
 }
 
-eventPlane::eventPlane(const char* name, Int_t verbose, Double_t En) : FairTask(name, verbose), fHeader(NULL), fMCEventData(NULL), flistPSDdigit(NULL), flistPSDhit(NULL), fCbmPsdEvent(NULL), flistSTSMCtrack(NULL), flistSTSRECOtrack(NULL), flistSTStrackMATCH(NULL), flistPV(NULL), fCbmStsEvent(NULL)
+eventPlane::eventPlane(const char* name, Int_t verbose, Double_t En) 
+  : FairTask(name, verbose), 
+    fPi(TMath::Pi()),
+    fHeader(NULL), 
+    fMCEventData(NULL), 
+    fileName_PsdModCoord(""),
+    fileName_Qcorr(""),
+    fileName_Barr(""),
+    doFixStat(kFALSE),
+    b_STS(),
+    b_PSD(),
+    b_PSD1(),
+    b_PSD2(),
+    b_PSD3(),
+    funct(),
+    sPreSel("StsEvent.fmult > 40."),
+    flistPSDdigit(NULL), 
+    flistPSDhit(NULL), 
+    fCbmPsdEvent(NULL), 
+    finc_mod(0),
+    fX_mod(),
+    fY_mod(),
+    fphi_mod(),
+    fR_mod(),
+    fedep_mod(),
+    fedep_mod_av(),
+    fedep_sec_av(),
+    hEsec(new TH1F ("hEsec"," Edep vs sec ", 15, 0., 15.)),
+    hEmod(new TH2F ("hEmod"," Edep vs module ", 250, -100., 150., 200, -100., 100.)),
+    hCoormod_sub1(new TH2F ("hCoormod_sub1"," Edep vs module (sub1) ", 250, -100., 150., 200, -100., 100.)),
+    hCoormod_sub2(new TH2F ("hCoormod_sub2"," Edep vs module (sub2) ", 250, -100., 150., 200, -100., 100.)),
+    hCoormod_sub3(new TH2F ("hCoormod_sub3"," Edep vs module (sub3) ", 250, -100., 150., 200, -100., 100.)),
+    fdoFlat_PSD_Qcorr(kFALSE),
+    fdoFlat_PSD_Barr(kFALSE),
+    PSD_shift_Qx(),
+    PSD_shift_Qy(),
+    PSD_RMS_Qx(), 
+    PSD_RMS_Qy(), 
+    PSD_shift_Qx_sub1(),
+    PSD_shift_Qy_sub1(), 
+    PSD_RMS_Qx_sub1(), 
+    PSD_RMS_Qy_sub1(),
+    PSD_shift_Qx_sub2(),
+    PSD_shift_Qy_sub2(), 
+    PSD_RMS_Qx_sub2(), 
+    PSD_RMS_Qy_sub2(),
+    PSD_shift_Qx_sub3(),
+    PSD_shift_Qy_sub3(), 
+    PSD_RMS_Qx_sub3(), 
+    PSD_RMS_Qy_sub3(),
+    PSD_mean_cosphi(), 
+    PSD_mean_sinphi(),
+    PSD_mean_cosphi_sub1(), 
+    PSD_mean_sinphi_sub1(),
+    PSD_mean_cosphi_sub2(), 
+    PSD_mean_sinphi_sub2(),
+    PSD_mean_cosphi_sub3(), 
+    PSD_mean_sinphi_sub3(),
+    flistSTSMCtrack(NULL), 
+    flistSTSRECOtrack(NULL), 
+    flistSTStrackMATCH(NULL), 
+    flistPV(NULL), 
+    fCbmStsEvent(NULL),
+    hY(new TH1F("hY","mc/reco. track rapidity (cm)", 400, -2., 2.)),
+    hP(new TH1F("hP","reco. track momentum", 1000, 0., 10.)),
+    hIP(new TH1F ("hIP"," reco. track impact parameter ", 1000, 0., 10.)),
+    hChi2toNDF(new TH1F("hChi2toNDF"," reco. track chi2 to NDF ", 1000, 0., 30.)),
+    fdoSTSreco(kTRUE),
+    fy_proj_cm(0.),
+    fy_cm(0.),
+    fEn(En),
+    fcut_STS_PSDsub(10.),
+    fdoFlat_STS_Qcorr(kFALSE),
+    fdoFlat_STS_Barr(kFALSE),
+    STS_harmo1_shift_Qx_sub1(), 
+    STS_harmo1_shift_Qy_sub1(), 
+    STS_harmo1_RMS_Qx_sub1(), 
+    STS_harmo1_RMS_Qy_sub1(), 
+    STS_harmo1_shift_Qx_sub2(), 
+    STS_harmo1_shift_Qy_sub2(), 
+    STS_harmo1_RMS_Qx_sub2(), 
+    STS_harmo1_RMS_Qy_sub2(),
+    STS_harmo1_shift_Qx_full(), 
+    STS_harmo1_shift_Qy_full(), 
+    STS_harmo1_RMS_Qx_full(), 
+    STS_harmo1_RMS_Qy_full(),
+    STS_harmo2_shift_Qx_sub1(), 
+    STS_harmo2_shift_Qy_sub1(), 
+    STS_harmo2_RMS_Qx_sub1(), 
+    STS_harmo2_RMS_Qy_sub1(), 
+    STS_harmo2_shift_Qx_sub2(), 
+    STS_harmo2_shift_Qy_sub2(), 
+    STS_harmo2_RMS_Qx_sub2(), 
+    STS_harmo2_RMS_Qy_sub2(),
+    STS_harmo2_shift_Qx_full(), 
+    STS_harmo2_shift_Qy_full(), 
+    STS_harmo2_RMS_Qx_full(), 
+    STS_harmo2_RMS_Qy_full(),
+    STS_harmo1_mean_cosphi_sub1(), 
+    STS_harmo1_mean_sinphi_sub1(),
+    STS_harmo1_mean_cosphi_sub2(), 
+    STS_harmo1_mean_sinphi_sub2(),
+    STS_harmo1_mean_cosphi_full(), 
+    STS_harmo1_mean_sinphi_full(), 
+    STS_harmo2_mean_cosphi_sub1(), 
+    STS_harmo2_mean_sinphi_sub1(),
+    STS_harmo2_mean_cosphi_sub2(), 
+    STS_harmo2_mean_sinphi_sub2(),
+    STS_harmo2_mean_cosphi_full(), 
+    STS_harmo2_mean_sinphi_full()
 {
-    fPi = TMath::Pi();
-
-    hEsec = new TH1F ("hEsec"," Edep vs sec ", 15, 0., 15.);
-
-    hEmod = new TH2F ("hEmod"," Edep vs module ", 250, -100., 150., 200, -100., 100.);
-    hCoormod_sub1 = new TH2F ("hCoormod_sub1"," Edep vs module (sub1) ", 250, -100., 150., 200, -100., 100.);
-    hCoormod_sub2 = new TH2F ("hCoormod_sub2"," Edep vs module (sub2) ", 250, -100., 150., 200, -100., 100.);
-    hCoormod_sub3 = new TH2F ("hCoormod_sub3"," Edep vs module (sub3) ", 250, -100., 150., 200, -100., 100.);
-
-    hY = new TH1F("hY","mc/reco. track rapidity (cm)", 400, -2., 2.);
-    hP = new TH1F("hP","reco. track momentum", 1000, 0., 10.);
-    hIP = new TH1F ("hIP"," reco. track impact parameter ", 1000, 0., 10.);
-    hChi2toNDF = new TH1F("hChi2toNDF"," reco. track chi2 to NDF ", 1000, 0, 30);
-
-    doFixStat = kFALSE;
-
-    fdoFlat_PSD_Qcorr = kFALSE;
-    fdoFlat_PSD_Barr = kFALSE;
-    
-    fdoFlat_STS_Qcorr = kFALSE;
-    fdoFlat_STS_Barr = kFALSE;
-
-    fileName_Qcorr = "";
-    fileName_Barr = "";
-    sPreSel = "StsEvent.fmult > 40.";
-
-    fy_proj_cm = 0.;
-    fy_cm = 0.;
-    fEn = En;
-    fdoSTSreco = kTRUE;
-    fcut_STS_PSDsub = 10.;
+//    fPi = TMath::Pi();
+//
+//    hEsec = new TH1F ("hEsec"," Edep vs sec ", 15, 0., 15.);
+//
+//    hEmod = new TH2F ("hEmod"," Edep vs module ", 250, -100., 150., 200, -100., 100.);
+//    hCoormod_sub1 = new TH2F ("hCoormod_sub1"," Edep vs module (sub1) ", 250, -100., 150., 200, -100., 100.);
+//    hCoormod_sub2 = new TH2F ("hCoormod_sub2"," Edep vs module (sub2) ", 250, -100., 150., 200, -100., 100.);
+//    hCoormod_sub3 = new TH2F ("hCoormod_sub3"," Edep vs module (sub3) ", 250, -100., 150., 200, -100., 100.);
+//
+//    hY = new TH1F("hY","mc/reco. track rapidity (cm)", 400, -2., 2.);
+//    hP = new TH1F("hP","reco. track momentum", 1000, 0., 10.);
+//    hIP = new TH1F ("hIP"," reco. track impact parameter ", 1000, 0., 10.);
+//    hChi2toNDF = new TH1F("hChi2toNDF"," reco. track chi2 to NDF ", 1000, 0, 30);
+//
+//    doFixStat = kFALSE;
+//
+//    fdoFlat_PSD_Qcorr = kFALSE;
+//    fdoFlat_PSD_Barr = kFALSE;
+//    
+//    fdoFlat_STS_Qcorr = kFALSE;
+//    fdoFlat_STS_Barr = kFALSE;
+//
+//    fileName_Qcorr = "";
+//    fileName_Barr = "";
+//    sPreSel = "StsEvent.fmult > 40.";
+//
+//    fy_proj_cm = 0.;
+//    fy_cm = 0.;
+//    fEn = En;
+//    fdoSTSreco = kTRUE;
+//    fcut_STS_PSDsub = 10.;
 }
 // -------------------------------------------------------------------------
 

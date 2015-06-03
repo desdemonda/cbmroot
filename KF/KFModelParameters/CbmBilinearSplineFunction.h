@@ -1,3 +1,19 @@
+/*
+ *====================================================================
+ *
+ *  Class for 2D spline function used by CbmModels package
+ *  
+ *  Authors: V.Vovchenko
+ *
+ *  e-mail : 
+ *
+ *====================================================================
+ *
+ *  2D spline class
+ *
+ *====================================================================
+ */
+
 #ifndef BILINEARSPLINEFUNCTION_H
 #define BILINEARSPLINEFUNCTION_H
 #include "CbmSplineFunction.h"
@@ -7,25 +23,9 @@ class BilinearSplineFunction
 	vector<double> xs;
 	vector<SplineFunction> xspls;
 public:
-	BilinearSplineFunction(void):xs(0),xspls(0) { xs.resize(0); xspls.resize(0); }
-	BilinearSplineFunction(const vector<double> & x, const vector<double> & y, const vector<double> & vals):xs(0),xspls(0)
+	BilinearSplineFunction(void):xs(), xspls() { xs.resize(0); xspls.resize(0); }
+	BilinearSplineFunction(const vector<double> & x, const vector<double> & y, const vector<double> & vals):xs(), xspls()
     {
-		/*if (x.size()>0) {
-			xs.resize(0);
-			xspls.resize(0);
-			double cx = -1e50;
-			for(int i=0;i<x.size();++i) {
-				if (fabs(x[i]-cx)>1e-6) {
-					xspls.push_back(SplineFunction());
-					xs.push_back(x[i]);
-					xspls[xspls.size()-1].add_val(y[i], vals[i]);
-					cx = x[i];
-				}
-				else {
-					xspls[xspls.size()-1].add_val(y[i], vals[i]);
-				}
-			}
-		}*/
 		setData(x, y, vals);
     }
 	void setData(const vector<double> & x, const vector<double> & y, const vector<double> & vals) {
@@ -70,16 +70,5 @@ public:
 	}
 	~BilinearSplineFunction(void) { }
 };
-
-/*BilinearSplineFunction::BilinearSplineFunction(void)
-{
-	xs.resize(0);
-	xspls.resize(0);
-}
-
-
-BilinearSplineFunction::~BilinearSplineFunction(void)
-{
-}*/
 
 #endif

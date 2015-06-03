@@ -50,6 +50,9 @@ using std::setprecision;
 // -----   Default constructor   -------------------------------------------
 CbmStsFindTracksQa::CbmStsFindTracksQa(Int_t iVerbose)
   : FairTask("STSFindTracksQA", iVerbose),
+    fHitMap(),
+    fMatchMap(),
+    fQualiMap(),
     fMCTracks(NULL),
     fStsPoints(NULL),
     fStsHits(NULL),
@@ -78,9 +81,9 @@ CbmStsFindTracksQa::CbmStsFindTracksQa(Int_t iVerbose)
     fhNpAccPrim(new TH1F()),
     fhNpRecPrim(new TH1F()),
     fhNpEffPrim(new TH1F()),
+    fhNpAccSec(new TH1F()),
     fhNpRecSec(new TH1F()),
     fhNpEffSec(new TH1F()),
-    fhNpAccSec(new TH1F()),
     fhZAccSec(new TH1F()),
     fhZRecSec(new TH1F()),
     fhZEffSec(new TH1F()),
@@ -100,10 +103,7 @@ CbmStsFindTracksQa::CbmStsFindTracksQa(Int_t iVerbose)
     fNEvents(0),
     fNEventsFailed(0),
     fTime(0.),
-    fTimer(),
-    fHitMap(),
-    fMatchMap(),
-    fQualiMap()
+    fTimer()
 {}
 
 // -------------------------------------------------------------------------
@@ -114,6 +114,9 @@ CbmStsFindTracksQa::CbmStsFindTracksQa(Int_t iVerbose)
 CbmStsFindTracksQa::CbmStsFindTracksQa(Int_t minHits, Double_t quota,
 				       Int_t iVerbose)
   : FairTask("STSFindTracksQA", iVerbose),
+    fHitMap(),
+    fMatchMap(),
+    fQualiMap(),
     fMCTracks(NULL),
     fStsPoints(NULL),
     fStsHits(NULL),
@@ -142,9 +145,9 @@ CbmStsFindTracksQa::CbmStsFindTracksQa(Int_t minHits, Double_t quota,
     fhNpAccPrim(new TH1F()),
     fhNpRecPrim(new TH1F()),
     fhNpEffPrim(new TH1F()),
+    fhNpAccSec(new TH1F()),
     fhNpRecSec(new TH1F()),
     fhNpEffSec(new TH1F()),
-    fhNpAccSec(new TH1F()),
     fhZAccSec(new TH1F()),
     fhZRecSec(new TH1F()),
     fhZEffSec(new TH1F()),
@@ -164,10 +167,7 @@ CbmStsFindTracksQa::CbmStsFindTracksQa(Int_t minHits, Double_t quota,
     fNEvents(0),
     fNEventsFailed(0),
     fTime(0.),
-    fTimer(),
-    fHitMap(),
-    fMatchMap(),
-    fQualiMap()
+    fTimer()
 {}
 // -------------------------------------------------------------------------
 

@@ -240,11 +240,11 @@ Int_t CbmEcalOShowerCalibrator::GetLocalNumber(Float_t x, Float_t y) const
 void CbmEcalOShowerCalibrator::GetMCParameters()
 {
   CbmEcalPoint* p;
-  CbmMCTrack* track;
+//  CbmMCTrack* track;
   TVector3 mom;
   Int_t n;
   Int_t count=0;
-  Float_t mass;
+  Float_t mass=-1111;
 
   n=fEcalPoints->GetEntriesFast();
   if (fVerbose>1)
@@ -253,9 +253,8 @@ void CbmEcalOShowerCalibrator::GetMCParameters()
   for(Int_t i=0;i<n;i++)
   {
     p=(CbmEcalPoint*)fEcalPoints->At(i);
-    track=(CbmMCTrack*)fMCTracks->At(p->GetTrackID());
-//    if (track->GetPdgCode()!=fPDGCode)
- //     continue;
+//    track=(CbmMCTrack*)fMCTracks->At(p->GetTrackID());
+//    if (track->GetPdgCode()!=fPDGCode) continue;
     p->Momentum(mom);
     if (mom.Mag()<fLowEnergy)
       continue;
@@ -267,7 +266,7 @@ void CbmEcalOShowerCalibrator::GetMCParameters()
     {
       cerr << "Can't find PDG particle " << fPDGCode << "!!!";
       cerr << endl;
-      Fatal("","");
+      Fatal("GetMCParameters","Can't find PDG particle %d", fPDGCode);
     }
     fOutMCE=TMath::Sqrt(mass*mass+mom.Mag2());
     fOutMCPx=mom.Px();

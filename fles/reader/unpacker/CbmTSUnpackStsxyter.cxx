@@ -15,7 +15,7 @@ CbmTSUnpackStsxyter::CbmTSUnpackStsxyter()
 : CbmTSUnpack(),
   fDtmNum( 0 ),
   fDtmNumInitialized( kFALSE ),
-  // fCurrEpoch(0),
+  fCurrEpoch(),
   fStsxyterRawHitMessage(new TClonesArray("CbmStsxyterRawHitMessage", 10))
 {
     fCurrEpoch.resize( fkgNumStsxytersDefault );
@@ -333,7 +333,7 @@ void CbmTSUnpackStsxyter::UnpackStsxyterMessage( const uint32_t & msg, const Int
 
 
 
-void CbmTSUnpackStsxyter::UnpackEpochMessage( const uint32_t & msg, const Int_t & sourceAddress, const uint16_t & equipmentId )
+void CbmTSUnpackStsxyter::UnpackEpochMessage( const uint32_t & msg, const Int_t & sourceAddress, const uint16_t & /*equipmentId*/ )
 {
     uint32_t link   = GetField( msg, kEpochLinkFirstBit, kEpochLinkNBits );
     uint32_t nchem  = GetField( msg, kEpochNChMarkersFirstBit, kEpochNChMarkersNBits );

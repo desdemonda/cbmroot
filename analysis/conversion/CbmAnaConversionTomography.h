@@ -40,10 +40,11 @@ public:
 	void InitHistos();
 	void Finish();
 
-	void DoTomography();
+	void Exec();
 
-	void TomographyMC(CbmMCTrack* mctrack);
+	void TomographyMC(int electronID);
 	void TomographyReco(CbmMCTrack* mctrack);
+	Bool_t GetNPoints(CbmMCTrack* mctrack);
 
 
 
@@ -61,6 +62,8 @@ private:
 	TH3D * fhTomography;
 	TH2D * fhTomography_XZ;
 	TH2D * fhTomography_YZ;
+	//TH2D * fhTomography_XZ_cut;
+	//TH2D * fhTomography_YZ_cut;
 	TH2D * fhTomography_uptoRICH;
 	TH2D * fhTomography_RICH_complete;
 	TH2D * fhTomography_RICH_beampipe;
@@ -79,7 +82,15 @@ private:
 	TH3D * fhTomography_reco;
 	TH2D * fhTomography_reco_XZ;
 	TH2D * fhTomography_reco_YZ;
+	TH1D * fhConversion_reco;
 
+	vector<int> electronIDs;
+	vector<int> electronMotherIDs;
+	Int_t conversionsInDetector[5];			// 0 = magnet, 1 = sts, 2 = rich, 3 = trd, 4 = tof
+	//Int_t conversionsInDetector_cut[5];		// 0 = magnet, 1 = sts, 2 = rich, 3 = trd, 4 = tof
+	TH1I * fhConversionsPerDetector;
+	TH2I * fhConversionsPerDetectorPE;
+	//TH2I * fhConversionsPerDetectorPE_cut;
 
 	// timer
 	TStopwatch timer;

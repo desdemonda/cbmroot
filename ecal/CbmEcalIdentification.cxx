@@ -254,10 +254,10 @@ CbmEcalMaximum* CbmEcalIdentification::FindMaximum(FairTrackParam* tr)
   list<CbmEcalCell*>::const_iterator p;
   list<CbmEcalCell*>::const_iterator op;
   CbmEcalCell* max=NULL;
-  Double_t x;
-  Double_t y;
-  Double_t dst;
-  Double_t t;
+ // Double_t x;
+ // Double_t y;
+ // Double_t dst;
+ // Double_t t;
  
  
 //  Info("FindMaximum", "E=%f", e);
@@ -276,14 +276,14 @@ CbmEcalMaximum* CbmEcalIdentification::FindMaximum(FairTrackParam* tr)
   /** Check cells near given for maximums **/
     for(p=cells.begin();p!=cells.end();++p)
     {
-      x=(*p)->GetCenterX()-tr->GetX();
-      y=(*p)->GetCenterY()-tr->GetY();
-      dst=TMath::Sqrt(x*x+y*y);
+ //     x=(*p)->GetCenterX()-tr->GetX();
+ //     y=(*p)->GetCenterY()-tr->GetY();
+ //     dst=TMath::Sqrt(x*x+y*y);
 //        if (dst>fInf->GetModuleSize()*TMath::Sqrt(2.0)+0.001) continue;
-      x=tr->GetX(); x*=x; y=tr->GetY(); y*=y;
-      t=TMath::Sqrt(x+y);
-      x=(*p)->GetCenterX()-cell->GetCenterX();
-      y=(*p)->GetCenterY()-cell->GetCenterY();
+ //     x=tr->GetX(); x*=x; y=tr->GetY(); y*=y;
+ //     t=TMath::Sqrt(x+y);
+ //     x=(*p)->GetCenterX()-cell->GetCenterX();
+ //     y=(*p)->GetCenterY()-cell->GetCenterY();
 //      if (x*tr->GetTx()/t+y*tr->GetTy()/t<TMath::Sqrt(2.0)*fInf->GetModuleSize()/cell->GetType()+0.001)
 //      if (x*tr->GetTx()/t+y*tr->GetTy()/t<-0.01&&dst>fInf->GetModuleSize()/cell->GetType()+0.001) continue;
       (*p)->GetNeighborsList(0, ocells);
@@ -298,7 +298,7 @@ CbmEcalMaximum* CbmEcalIdentification::FindMaximum(FairTrackParam* tr)
 
   Int_t i;
   Int_t nm=fMaximums->GetEntriesFast();
-  CbmEcalMaximum* mx;
+  CbmEcalMaximum* mx=NULL;
   for(i=0;i<nm;i++)
   {
     mx=(CbmEcalMaximum*)fMaximums->At(i);

@@ -29,18 +29,18 @@ using std::map;
 // -----   Default constructor   -------------------------------------------
 CbmStsMatchTracks::CbmStsMatchTracks()
   : FairTask("STSMatchTracks"), 
-  fTracks(NULL),
-  fPoints(NULL),
-  fHits(NULL),
-  fMatches(NULL),
-  fTime(0.),
-  fNTrackMatches(0.),
-  fNAllHits(0.),
-  fNTrueHits(0.),
-  fNEvents(0),
-  fNEventsFailed(0),
-  fTimer(),
-  fMatchMap()
+    fTracks(NULL),
+    fPoints(NULL),
+    fHits(NULL),
+    fMatches(NULL),
+    fTimer(),
+    fMatchMap(),
+    fNEvents(0),
+    fNEventsFailed(0),
+    fTime(0.),
+    fNTrackMatches(0.),
+    fNAllHits(0.),
+    fNTrueHits(0.)
 {}
 // -------------------------------------------------------------------------
 
@@ -49,18 +49,18 @@ CbmStsMatchTracks::CbmStsMatchTracks()
 // -----   Standard constructor  -------------------------------------------
 CbmStsMatchTracks::CbmStsMatchTracks(Int_t iVerbose)
   : FairTask("STSMatchTracks", iVerbose),
-  fTracks(NULL),
-  fPoints(NULL),
-  fHits(NULL),
-  fMatches(NULL),
-  fTime(0.),
-  fNTrackMatches(0.),
-  fNAllHits(0.),
-  fNTrueHits(0.),
-  fNEvents(0),
-  fNEventsFailed(0),
-  fTimer(),
-  fMatchMap()
+    fTracks(NULL),
+    fPoints(NULL),
+    fHits(NULL),
+    fMatches(NULL),
+    fTimer(),
+    fMatchMap(),
+    fNEvents(0),
+    fNEventsFailed(0),
+    fTime(0.),
+    fNTrackMatches(0.),
+    fNAllHits(0.),
+    fNTrueHits(0.)
 {}
 // -------------------------------------------------------------------------
 
@@ -69,18 +69,18 @@ CbmStsMatchTracks::CbmStsMatchTracks(Int_t iVerbose)
 // -----   Constructor with task name   ------------------------------------
 CbmStsMatchTracks::CbmStsMatchTracks(const char* name, Int_t iVerbose)
   : FairTask(name, iVerbose),
-  fTracks(NULL),
-  fPoints(NULL),
-  fHits(NULL),
-  fMatches(NULL),
-  fTime(0.),
-  fNTrackMatches(0.),
-  fNAllHits(0.),
-  fNTrueHits(0.),
-  fNEvents(0),
-  fNEventsFailed(0),
-  fTimer(),
-  fMatchMap()
+    fTracks(NULL),
+    fPoints(NULL),
+    fHits(NULL),
+    fMatches(NULL),
+    fTimer(),
+    fMatchMap(),
+    fNEvents(0),
+    fNEventsFailed(0),
+    fTime(0.),
+    fNTrackMatches(0.),
+    fNAllHits(0.),
+    fNTrueHits(0.)
 {}
 // -------------------------------------------------------------------------
 

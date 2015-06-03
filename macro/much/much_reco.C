@@ -35,19 +35,44 @@ void much_reco(
 	run->SetInputFile(mcFile);
 	run->SetOutputFile(globalRecoFile);
 
-	// --- STS Digitization -----------------------------------------------------
-   CbmStsDigitize_old* stsDigitize = new CbmStsDigitize_old();
-   run->AddTask(stsDigitize);
+  // ----- MC Data Manager   ------------------------------------------------
+  CbmMCDataManager* mcManager=new CbmMCDataManager("MCManager", 1);
+  mcManager->AddFile(mcFile);
+  run->AddTask(mcManager);
+  // ------------------------------------------------------------------------
 
-   FairTask* stsClusterFinder = new CbmStsClusterFinder_old();
-   run->AddTask(stsClusterFinder);
 
-   FairTask* stsFindHits = new CbmStsFindHits_old();
-   run->AddTask(stsFindHits);
 
-   FairTask* stsMatchHits = new CbmStsMatchHits();
-   run->AddTask(stsMatchHits);
-	// --------------------------------------------------------------------------
+  // -----   STS digitizer   -------------------------------------------------
+  // -----   The parameters of the STS digitizer are set such as to match
+  // -----   those in the old digitizer. Change them only if you know what you
+  // -----   are doing.
+  Double_t dynRange       =   40960.;  // Dynamic range [e]
+  Double_t threshold      =    4000.;  // Digitisation threshold [e]
+  Int_t nAdc              =    4096;   // Number of ADC channels (12 bit)
+  Double_t timeResolution =       5.;  // time resolution [ns]
+  Double_t deadTime       = 9999999.;  // infinite dead time (integrate entire event)
+  Double_t noise          =       0.;  // ENC [e]
+  Int_t digiModel         =       1;   // Model: 1 = uniform charge distribution along track
+
+  CbmStsDigitize* stsDigi = new CbmStsDigitize(digiModel);
+  stsDigi->SetParameters(dynRange, threshold, nAdc, timeResolution,
+  		                 deadTime, noise);
+  run->AddTask(stsDigi);
+  // -------------------------------------------------------------------------
+
+
+  // -----   STS Cluster Finder   --------------------------------------------
+  FairTask* stsClusterFinder = new CbmStsFindClusters();
+  run->AddTask(stsClusterFinder);
+  // -------------------------------------------------------------------------
+
+
+  // -----   STS hit finder   ------------------------------------------------
+  FairTask* stsFindHits = new CbmStsFindHits();
+  run->AddTask(stsFindHits);
+  // -------------------------------------------------------------------------
+
 
    // --- STS reconstruction ---------------------------------------------------
    FairTask* kalman = new CbmKF();
@@ -58,9 +83,6 @@ void much_reco(
    CbmStsTrackFinder* trackFinder = new CbmL1StsTrackFinder();
    FairTask* findTracks = new CbmStsFindTracks(iVerbose, trackFinder);
    run->AddTask(findTracks);
-
-   FairTask* stsMatchTracks = new CbmStsMatchTracks("STSMatchTracks", iVerbose);
-   run->AddTask(stsMatchTracks);
    // --------------------------------------------------------------------------
 
    // ----- MUCH hits----------   ----------------------------------------------

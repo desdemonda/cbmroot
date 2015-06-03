@@ -9,6 +9,9 @@
 
 #include "FairPrimaryGenerator.h"
 #include "FairLogger.h"
+#include "FairRunSim.h"
+#include "FairRuntimeDb.h"
+#include "FairBaseParSet.h"
 
 #include "TLorentzVector.h"
 #include "TMath.h"
@@ -150,7 +153,19 @@ Bool_t CbmUrqmdGenerator::ReadEvent(FairPrimaryGenerator* primGen) {
   fgets(read, 200, fInputFile);
   // Skip line 16
   fgets(read, 200, fInputFile);
-  
+
+  // TODO: Do this in a better way. Read the information once in the constructor of
+  //       the class, close the file and open it again 
+  static Bool_t firstCall = kTRUE;
+  if ( firstCall) {
+    // store the beam momentum in FairBaseParSet
+    FairRuntimeDb* rtdb = FairRunSim::Instance()->GetRuntimeDb();
+    if(rtdb) {
+      FairBaseParSet* par=dynamic_cast<FairBaseParSet*>(rtdb->getContainer("FairBaseParSet"));
+      if(par) { par->SetBeamMom(plab); }
+    }
+    firstCall = kFALSE;
+  } 
   // ---> Calculate gamma for Lorentztransformation
   Double_t gamma = TMath::Sqrt( 1. / ( 1. - beta*beta) );
 

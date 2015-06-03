@@ -28,10 +28,9 @@
 #include "CbmTrdHit.h"
 #include "CbmTrdModule.h"
 #include "CbmTrdDigiPar.h"
-#include "CbmTrdGeoHandler.h"
 #include "CbmTrdAddress.h"
 #include "CbmCluster.h"
-#include "CbmLitLWClusterManager.h"
+// #include "CbmLitLWClusterManager.h"
 // #include "CbmLitClusterDistance.h"
 
 using namespace std;
@@ -43,11 +42,10 @@ CbmLitFindLWClusters::CbmLitFindLWClusters():
 	 fUnmergedClusters(NULL),
 	 fHits(NULL),
 	 fModuleInfo(NULL),
+	 fModules(NULL),
 	 fDigiPar(NULL),
 	 fModuleDetails(NULL),
-	 fClusterManager(NULL),
-	 fSeenDigis(),
-	 fGeoHandler(NULL)
+	 fSeenDigis()
 {
 }
 
@@ -77,8 +75,6 @@ InitStatus CbmLitFindLWClusters::Init()
    // Get Base Container
    FairRunAna* ana = FairRunAna::Instance();
    FairRuntimeDb* rtdb = ana->GetRuntimeDb();
-
-   fClusterManager = new CbmLitLWClusterManager();
 
    fDigiPar = (CbmTrdDigiPar*)(rtdb->getContainer("CbmTrdDigiPar"));
 

@@ -8,8 +8,8 @@
 
 #include "TrbBridgeTrbNetHeaders.hpp"
 
-TrbBridgeTransaction::TrbBridgeTransaction(uint16_t* buffer) 
-  : _buffer(buffer)
+TrbBridgeTransaction::TrbBridgeTransaction(uint16_t* tmpbuffer) 
+  : _buffer(tmpbuffer)
   , _writeIdx(0)
   , _size(0)
   , _completed(false)

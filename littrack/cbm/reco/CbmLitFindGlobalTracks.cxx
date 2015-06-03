@@ -15,7 +15,7 @@
 #include "utils/CbmLitMemoryManagment.h"
 #include "propagation/CbmLitTGeoTrackPropagator.h"
 
-#include "CbmBaseHit.h"
+#include "CbmHit.h"
 #include "CbmPixelHit.h"
 #include "CbmStripHit.h"
 #include "CbmStsTrack.h"
@@ -94,9 +94,9 @@ InitStatus CbmLitFindGlobalTracks::Init()
 void CbmLitFindGlobalTracks::Exec(
    Option_t* opt)
 {
-   if (fTrdTracks != NULL) fTrdTracks->Clear();
-   if (fMuchTracks != NULL) fMuchTracks->Clear();
-   if (fTofTracks != NULL) fTofTracks->Clear();
+   if (fTrdTracks != NULL) fTrdTracks->Delete();
+   if (fMuchTracks != NULL) fMuchTracks->Delete();
+   if (fTofTracks != NULL) fTofTracks->Delete();
    fGlobalTracks->Clear();
 
    ConvertInputData();

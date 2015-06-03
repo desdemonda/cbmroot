@@ -168,7 +168,7 @@ InitStatus CbmTrdOnlineDisplay::ReInit()
 }
 
 // ---- Exec ----------------------------------------------------------
-void CbmTrdOnlineDisplay::Exec(Option_t* option)
+void CbmTrdOnlineDisplay::Exec(Option_t*)
 {
   Int_t maxTrigger = 0;
   fEventCounter++;
@@ -204,6 +204,8 @@ void CbmTrdOnlineDisplay::Finish()
   for (Int_t sys = 0; sys < 2; sys++){
     for (Int_t spa = 0; spa < 2; spa++){
       fSpadic1[spa][sys]->Update();
+      fSpadic1[spa][sys]->SaveAs(TString("pics/") + TString(fSpadic1[spa][sys]->GetTitle())+TString(".png"));
+      fSpadic1[spa][sys]->Write("",TObject::kOverwrite);
       for(Int_t iCh=0; iCh<32; iCh++){
 	fSpadic1a[spa][sys]->cd(iCh+1);
 	gPad->Modified();
@@ -212,6 +214,8 @@ void CbmTrdOnlineDisplay::Finish()
       fSpadic1a[spa][sys]->ResizeOpaque(0);
       //fSpadic1a[spa][sys]->Resize();
       fSpadic1a[spa][sys]->Update();
+      fSpadic1a[spa][sys]->SaveAs(TString("pics/") + TString(fSpadic1a[spa][sys]->GetTitle())+TString(".png"));
+      fSpadic1a[spa][sys]->Write("",TObject::kOverwrite);
     }
   }
 }

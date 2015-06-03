@@ -132,15 +132,19 @@ InitStatus CbmEcalHitProducer::Init()
   fListStack = (TClonesArray *)fManager->GetObject("MCTrack");
   fHitCollection = new TClonesArray("CbmEcalHit",100);
   if (fProduceHits)
+  {
     if (fProduceSummableHits)
       fManager->Register("EcalSumHit","ECAL",fHitCollection,kTRUE);
     else
       fManager->Register("EcalHit","ECAL",fHitCollection,kTRUE);
+  }
   else
+  {
     if (fProduceSummableHits)
       fManager->Register("EcalSumHit","ECAL",fHitCollection,kFALSE);
     else
       fManager->Register("EcalHit","ECAL",fHitCollection,kFALSE);
+  }
 
   if (fStandAlone)
   {
@@ -184,9 +188,11 @@ void CbmEcalHitProducer::LoopForMCPoints()
       pt = (CbmEcalPointLite*)fListECALpts->At(j);
       cell=fStr->GetCell(pt->GetDetectorID(), ten, isPS);
       if (ten==0)
+      {
         if (isPS) ; // cell->AddPSEnergy(pt->GetEnergyLoss());  Preshower removed
         else
           cell->AddEnergy(pt->GetEnergyLoss());
+      }
     }
   else
     for(UInt_t j=0; j<n; j++)
@@ -195,8 +201,10 @@ void CbmEcalHitProducer::LoopForMCPoints()
         pt = (CbmEcalPointLite*)fListECALpts->At(j);
         cellmc=(CbmEcalCellMC*)fStr->GetCell(pt->GetDetectorID(), ten, isPS);
         if (ten==0)
+	{
           if (isPS) ; // cell->AddTrackPSEnergy(pt->GetTrackID(),pt->GetEnergyLoss()); Preshower removed
             else cellmc->AddTrackEnergy(pt->GetTrackID(),pt->GetEnergyLoss());
+	}
       } 
 }
 

@@ -31,14 +31,14 @@ Int_t CbmFiberHodoMapping::GetFiberHodoStation(Int_t rocId) {
 }
 // ---------------------------------------------------------------------------
 
-Int_t CbmFiberHodoMapping::GetFiberHodoChannel(Int_t rocId, Int_t nxId, Int_t nxChannel) {
+Int_t CbmFiberHodoMapping::GetFiberHodoChannel(Int_t /*rocId*/, Int_t /*nxId*/, Int_t /*nxChannel*/) {
 	Int_t channel = -1;
 	return channel;
 }
 
 
 // -----   Mapping   ---------------------------------------------------------
-Bool_t CbmFiberHodoMapping::Map(Int_t eqId, Int_t febId, Int_t channel,
+Bool_t CbmFiberHodoMapping::Map(Int_t eqId, Int_t /*febId*/, Int_t channel,
 				Int_t& iStation, Int_t& iSector, 
 				Int_t& iSide, Int_t& iChannel) {
 

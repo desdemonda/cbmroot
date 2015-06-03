@@ -28,6 +28,7 @@ CbmMvdSensorDataSheet::CbmMvdSensorDataSheet()
     fShutterSign(1),
     fIntegrationTime(50e3),
     fEpiTh(14e-4),
+   fChargeThreshold(),
     fNoise(0),
     fLandauMPV(8.62131e+02),
     fLandauSigma(2.e+02),
@@ -39,13 +40,12 @@ CbmMvdSensorDataSheet::CbmMvdSensorDataSheet()
     fAdcOffset(0),
     fAdcBits(1),
     fAdcSteps(TMath::Power(2,fAdcBits)),
-  fStatesPerBank(0),
-  fStatesPerLine(0),
-  fStatesPerFrame(0),
-  fPixelsPerBank(0),
-  fAdcStepSize(fAdcDynamic/fAdcSteps),
-  fValidData(kFALSE),
-  fChargeThreshold()
+    fStatesPerBank(0),
+    fStatesPerLine(0),
+    fStatesPerFrame(0),
+    fPixelsPerBank(0),
+    fAdcStepSize(fAdcDynamic/fAdcSteps),
+    fValidData(kFALSE)
 {
 }
 

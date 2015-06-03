@@ -1,6 +1,10 @@
+# add subdirectories
+add_subdirectory (papa)
+
+
 Set(INCLUDE_DIRECTORIES
 ${CBMROOT_SOURCE_DIR}/analysis
-${CBMROOT_SOURCE_DIR}/analysis/hyperon
+#${CBMROOT_SOURCE_DIR}/analysis/hyperon
 
 ${CBMROOT_SOURCE_DIR}/cbmbase 
 ${CBMROOT_SOURCE_DIR}/cbmbase/draw
@@ -35,10 +39,10 @@ ${CBMROOT_SOURCE_DIR}/rich
 ${CBMROOT_SOURCE_DIR}/littrack
 
 ${CBMROOT_SOURCE_DIR}/cbmgenerators
-${CBMROOT_SOURCE_DIR}/analysis/flow
+#${CBMROOT_SOURCE_DIR}/analysis/flow
 
 #needed by rootcling
-${CBMROOT_SOURCE_DIR}/analysis/dielectron
+#${CBMROOT_SOURCE_DIR}/analysis/dielectron
 ${CBMROOT_SOURCE_DIR}/analysis/conversion
 )
 
@@ -112,11 +116,17 @@ dielectron/CbmAnaDielectronStudyReportAll.cxx
 dielectron/CbmAnaDielectronReports.cxx
 dielectron/CbmLmvmHadd.cxx
 
+jpsiana/CbmAnaJpsiTask.cxx
+jpsiana/CbmAnaJpsiReport.cxx
+jpsiana/CbmAnaJpsiHist.cxx
+
 conversion/CbmAnaConversion.cxx
 conversion/CbmAnaConversionTomography.cxx
 conversion/CbmAnaConversionRich.cxx
 #conversion/CbmAnaConversionKF.cxx
 conversion/CbmAnaConversionReco.cxx
+conversion/CbmAnaConversionPhotons.cxx
+conversion/CbmAnaConversionRecoFull.cxx
 
 #photon/CbmTrdPhotonAnalysis.cxx
 

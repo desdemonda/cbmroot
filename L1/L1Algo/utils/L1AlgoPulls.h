@@ -14,7 +14,7 @@ const int NStations = 0;
 #include "TF1.h"
 #include "TStyle.h"
 
-#include "L1Algo/CbmL1Def.h"
+#include "CbmL1Def.h"
 #include "L1Algo/L1TrackPar.h"
 #include "L1Algo/L1Algo.h"
 #include "L1Algo/L1StsHit.h"

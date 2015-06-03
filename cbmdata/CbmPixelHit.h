@@ -10,11 +10,11 @@
 #ifndef CBMPIXELHIT_H_
 #define CBMPIXELHIT_H_
 
-#include "CbmBaseHit.h"
+#include "CbmHit.h"
 
 #include "TVector3.h"
 
-class CbmPixelHit : public CbmBaseHit
+class CbmPixelHit : public CbmHit
 {
 public:
 	/**

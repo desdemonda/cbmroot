@@ -34,7 +34,7 @@ class CbmStsSensorConditions : public TObject {
 		 ** @param bZ            Magn. field Bz at sensor centre [T]
 		 **/
 		CbmStsSensorConditions(Double_t vFD = 0., Double_t vBias = 0.,
-		                       Double_t temperature = 0.,
+		                       Double_t temperature = 273.,
 		                       Double_t cCoupling = 0., Double_t cInterstrip = 0.,
 		                       Double_t bX = 0., Double_t bY = 0.,
 		                       Double_t bZ = 0.);
@@ -65,6 +65,13 @@ class CbmStsSensorConditions : public TObject {
 		Double_t GetCinterstrip() const { return fCinterstrip; }
 
 
+		/** Cross-talk coefficient
+		 ** Is derived from
+		 ** @return Cross-talk coefficient
+		 **/
+		Double_t GetCrossTalk() const { return fCrossTalk; }
+
+
 		/** Temperature
 		 ** @return Temperature [K]
 	   **/
@@ -81,8 +88,19 @@ class CbmStsSensorConditions : public TObject {
 		 ** @return Full depletion voltage [V]
 		 **/
 		Double_t GetVfd() const { return fVfd; }
+                
+		/** Mean shift due to magnetic field
+		 ** @param  Side: 0 - electrons, 1 - holes 
+		 ** @return Mean shift[cm] 
+		 **/
+		Double_t GetMeanLorentzShift(Int_t side) const { return fMeanLorentzShift[side]; }
 
+                /** Get parameters for Hall mobility calculation into array**/
+		void GetHallMobilityParametersInto(Double_t * hallMobilityParameters, Int_t chargeType) const;
 
+                /** Parameters for Hall mobility calculation **/
+		void SetHallMobilityParameters();
+		
 		/** Set the magnetic field
 		 ** @param bx,by,bz  Magnetic field components in sensor centre [T]
 		 **/
@@ -105,9 +123,13 @@ class CbmStsSensorConditions : public TObject {
 		Double_t fTemperature;   ///< Temperature [K]
 		Double_t fCcoupling;     ///< Coupling capacitance [pF]
 		Double_t fCinterstrip;   ///< Inter-strip capacitance [pF]
+		Double_t fCrossTalk;     ///< Cross-talk coefficient
 		Double_t fBx;            ///< Mag. field (x comp.) at sensor centre [T]
 		Double_t fBy;            ///< Mag. field (y comp.) at sensor centre [T]
 		Double_t fBz;            ///< Mag. field (z comp.) at sensor centre [T]
+		Double_t fHallMobilityParametersE[4]; ///< Array with parameters for electron Hall mobility calculation
+		Double_t fHallMobilityParametersH[4]; ///< Array with parameters for hole     Hall mobility calculation
+		Double_t fMeanLorentzShift[2];///< Lorenz shift averaged over the z-coordinate of the chage carrier creation
 
 		ClassDef(CbmStsSensorConditions, 1);
 };

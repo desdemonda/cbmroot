@@ -63,22 +63,19 @@ Bool_t CbmTrdSetTracksPidANN::ReadData()
 	string fileName = string(gSystem->Getenv("VMCWORKDIR"));
 	vector<string> weightsFilesANN;
 
-	if (fTRDGeometryType != "v10b" && fTRDGeometryType != "h++" ){
+	if (fTRDGeometryType != "h++" ){
 		cout << "-E- CbmTrdSetTracksPidANN::Init: " << fTRDGeometryType << " is wrong geometry type." << endl;
 		return kFALSE;
 	}
 	fileName += "/parameters/trd/elid/ann/" + string(fTRDGeometryType)+"/";
 
-	for (int i = 0; i < 12; i++){
+	for (int i = 0; i < 10; i++){
 	   stringstream ss;
 	   ss << fileName << "ann_weights_" << (i+1) << ".txt";
 	   weightsFilesANN.push_back(ss.str());
 	}
 
-	if (fTRDGeometryType == "v10b"){
-		fANNPar1 = 1.21;
-		fANNPar2 = 0.67;
-	}else if (fTRDGeometryType == "h++"){
+	if (fTRDGeometryType == "h++"){
 	   fANNPar1 = 1.06;
 	   fANNPar2 = 0.57;
 	}
@@ -93,7 +90,7 @@ Bool_t CbmTrdSetTracksPidANN::ReadData()
 		myfile.close();
 	}
 
-	Float_t inVector[12];
+	Float_t inVector[10];
 	Int_t xOut;//output value
 
 	//init TTree as input data to neural net
@@ -108,13 +105,11 @@ Bool_t CbmTrdSetTracksPidANN::ReadData()
 	simu->Branch("x8", &inVector[7], "x8/F");
 	simu->Branch("x9", &inVector[8], "x9/F");
 	simu->Branch("x10", &inVector[9], "x10/F");
-	simu->Branch("x11", &inVector[10], "x11/F");
-	simu->Branch("x12", &inVector[11], "x12/F");
 	simu->Branch("xOut", &xOut, "xOut/I");
 
 	fNN.clear();
 
-	for (int iH = 0; iH < 12; iH++){
+	for (int iH = 0; iH < 10; iH++){
 	   if (weightsFilesANN[iH] == ""){
 	      fNN.push_back(NULL);
 	      continue;
@@ -123,9 +118,6 @@ Bool_t CbmTrdSetTracksPidANN::ReadData()
 	   for (int iL = 0; iL <= iH; iL++){
 	      if (iL != iH) ss << "x" << (iL+1) << ",";
 	      int nofHidden = 2 * (iH+1);
-	      if (fTRDGeometryType == "v10b"){
-	         nofHidden = 12;
-         }
 	      if (iL == iH) ss << "x" << (iL+1) << ":" << nofHidden << ":xOut";
 	   }
 	   TMultiLayerPerceptron* ann = new TMultiLayerPerceptron(ss.str().c_str(), simu);

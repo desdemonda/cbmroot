@@ -5,6 +5,7 @@
 #pragma link off all functions;
 
 
+#pragma link C++ class CbmBuildEventsSimple;
 #pragma link C++ class CbmDaq;
 #pragma link C++ class CbmDaqQa;
 #pragma link C++ class CbmMCBuffer;

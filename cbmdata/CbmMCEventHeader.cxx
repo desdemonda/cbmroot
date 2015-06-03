@@ -40,6 +40,7 @@ CbmMCEventHeader::CbmMCEventHeader(UInt_t runId, Int_t iEvent,
   : FairMCEventHeader(iEvent, x, y, z, t, b, nPrim),
     fPhi(phi)
 {
+  SetRunID(runId);
 }
 // ------------------------------------------------------------------------
 

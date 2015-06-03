@@ -8,7 +8,7 @@ Set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra -Winit-self -Wun
 
 Set(INCLUDE_DIRECTORIES
 ${CBMROOT_SOURCE_DIR}/fles/spadic/message
-${CBMROOT_SOURCE_DIR}/fles/spadic/timeslice
+#${CBMROOT_SOURCE_DIR}/fles/spadic/timeslice
 ${CBMROOT_SOURCE_DIR}/fles/spadic/message/wrap/cpp
 ${CBMROOT_SOURCE_DIR}/fles/ipc
 ${CBMROOT_SOURCE_DIR}/fles/flib_dpb

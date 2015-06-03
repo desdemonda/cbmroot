@@ -87,9 +87,11 @@ void run_qa(Int_t nEvents = 1, const char* setup = "sis300_electron")
 
 
   // -----   STS track finder QA   ------------------------------------------
-  CbmStsFindTracksQa* stsTrackFindQa = new CbmStsFindTracksQa(4, 0.7,
+  // Is legacy; to be checked
+  /*CbmStsFindTracksQa* stsTrackFindQa = new CbmStsFindTracksQa(4, 0.7,
 							      iVerbose);
   fRun->AddTask(stsTrackFindQa);
+  */
   // ------------------------------------------------------------------------
     
     // -------- Performance of PID algorithm ------------

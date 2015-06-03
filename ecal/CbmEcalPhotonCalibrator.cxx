@@ -213,7 +213,7 @@ void CbmEcalPhotonCalibrator::Exec(Option_t* option)
   Float_t dz=inf->GetPSLead()+inf->GetPSScin()+inf->GetPSGap();
   Float_t x;
   Float_t y;
-  Float_t z;
+//  Float_t z;
 
   Float_t energy;
   Float_t psenergy;
@@ -318,7 +318,7 @@ void CbmEcalPhotonCalibrator::Exec(Option_t* option)
     return;
   }
 
-  z=fZ+dz;
+// z=fZ+dz;
   x=fX+fPx/fPz*dz;
   y=fY+fPy/fPz*dz;
 
@@ -363,7 +363,7 @@ void CbmEcalPhotonCalibrator::Exec(Option_t* option)
     Double_t mine;
     Double_t maxe;
     CbmEcalCell* min;
-    Int_t max;
+    Int_t max=-1111;
     Int_t j;
     Double_t e;
 

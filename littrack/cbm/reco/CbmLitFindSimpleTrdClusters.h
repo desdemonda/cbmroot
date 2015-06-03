@@ -13,7 +13,6 @@
 class TClonesArray;
 class CbmTrdModule;
 class CbmTrdDigiPar;
-class CbmTrdGeoHandler;
 
 class CbmLitFindSimpleTrdClusters : public FairTask
 {
@@ -50,7 +49,6 @@ private:
 
    CbmTrdModule *fModuleInfo;     // Information about the Trd Module
    CbmTrdDigiPar *fDigiPar;       // Parameters of Digis
-   CbmTrdGeoHandler* fGeoHandler; // GeoHandler
 
    /**
     * \brief Copy Constructor

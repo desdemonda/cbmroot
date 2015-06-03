@@ -43,12 +43,12 @@
  ****************************************************************/
 
 lutDefinition::lutDefinition() 
-  : dim2Min(0),
-    dim2Max(0),
-    dim2Step(0),
-    dim1Min(0),
+  : dim1Min(0),
     dim1Max(0),
-    dim1Step(0)
+    dim1Step(0),
+    dim2Min(0),
+    dim2Max(0),
+    dim2Step(0)
 {
   /*
 	dim2Min  = 0;
@@ -65,12 +65,12 @@ lutDefinition::lutDefinition()
  ****************************************************************/
 
 lutDefinition::lutDefinition(const lutDefinition& value) 
-  : dim2Min(value.dim2Min),
-    dim2Max(value.dim2Max),
-    dim2Step(value.dim2Step),
-    dim1Min(value.dim1Min),
+  : dim1Min(value.dim1Min),
     dim1Max(value.dim1Max),
-    dim1Step(value.dim1Step)
+    dim1Step(value.dim1Step),
+    dim2Min(value.dim2Min),
+    dim2Max(value.dim2Max),
+    dim2Step(value.dim2Step)
 {
 /*
 	this->dim2Min  = value.dim2Min;
@@ -82,12 +82,12 @@ lutDefinition::lutDefinition(const lutDefinition& value)
 */
 }
 lutDefinition::lutDefinition(double _dim2Min, double _dim2Max, int _dim2Step, double _dim1Min, double _dim1Max, int _dim1Step) 
-  : dim2Min(_dim2Min),
-    dim2Max(_dim2Max),
-    dim2Step(_dim2Step),
-    dim1Min(_dim1Min),
+  : dim1Min(_dim1Min),
     dim1Max(_dim1Max),
-    dim1Step(_dim1Step)
+    dim1Step(_dim1Step),
+    dim2Min(_dim2Min),
+    dim2Max(_dim2Max),
+    dim2Step(_dim2Step)
 {
   /*
 	this->dim2Min  = _dim2Min;

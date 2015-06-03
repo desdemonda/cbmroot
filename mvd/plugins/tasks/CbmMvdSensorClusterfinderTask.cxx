@@ -8,8 +8,6 @@
 #include "TObjArray.h"
 #include "FairLogger.h"
 
-
-
 // -----   Default constructor   -------------------------------------------
 CbmMvdSensorClusterfinderTask::CbmMvdSensorClusterfinderTask() 
   : CbmMvdSensorTask(),
@@ -48,6 +46,8 @@ CbmMvdSensorClusterfinderTask::CbmMvdSensorClusterfinderTask()
     fSeedThreshold(1.),
     fNeighThreshold(1.),
     fUseMCInfo(kFALSE),
+    inputSet(kFALSE),
+    ftempPixelMap(),
     fLayerRadius(0.),
     fLayerRadiusInner(0.),
     fLayerPosZ(0.),
@@ -58,9 +58,7 @@ CbmMvdSensorClusterfinderTask::CbmMvdSensorClusterfinderTask()
     fHitPosErrY(0.0005),
     fHitPosErrZ(0.0),
     fBranchName("MvdHit"),
-    fAddNoise(kFALSE),
-    inputSet(kFALSE),
-    ftempPixelMap()
+    fAddNoise(kFALSE)
 {
 }
 // -------------------------------------------------------------------------
@@ -111,6 +109,8 @@ CbmMvdSensorClusterfinderTask::CbmMvdSensorClusterfinderTask(const char* name, I
     fSeedThreshold(1.),
     fNeighThreshold(1.),
     fUseMCInfo(kFALSE),
+    inputSet(kFALSE),
+    ftempPixelMap(),
     fLayerRadius(0.),
     fLayerRadiusInner(0.),
     fLayerPosZ(0.),
@@ -121,9 +121,7 @@ CbmMvdSensorClusterfinderTask::CbmMvdSensorClusterfinderTask(const char* name, I
     fHitPosErrY(0.0005),
     fHitPosErrZ(0.0),
     fBranchName("MvdHit"),
-    fAddNoise(kFALSE),
-    inputSet(kFALSE),
-    ftempPixelMap()
+    fAddNoise(kFALSE)
 {   
 }
 // -------------------------------------------------------------------------

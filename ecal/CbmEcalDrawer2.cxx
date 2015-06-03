@@ -138,8 +138,8 @@ void CbmEcalDrawer2::Exec(Option_t* opt)
   fEvent++;
   TString nm="";
   Int_t i;
-  Int_t n;
-  Int_t imax;
+//  Int_t n;
+  Int_t imax=-1111;
   list<CbmEcalCell*> cells;
   list<CbmEcalCell*>::const_iterator p;
   Double_t e;
@@ -152,7 +152,7 @@ void CbmEcalDrawer2::Exec(Option_t* opt)
   Double_t e2;
   Double_t e3;
   CbmEcalPoint* pt;
-  CbmEcalCell* cl;
+  CbmEcalCell* cl=NULL;
   TMarker* mk;
   TMarker* mk2;
   TString cp;
@@ -245,7 +245,7 @@ void CbmEcalDrawer2::Exec(Option_t* opt)
   fOut->SetAxisRange(x-15, x+15, "X");
   fOut->SetAxisRange(y-15, y+15, "Y");
   fOut->Draw(fDrawOpt);
-  n=fMCPoints->GetEntriesFast();
+//  n=fMCPoints->GetEntriesFast();
 //  for(i=0;i<n;i++)
   { 
     pt=(CbmEcalPoint*)fMCPoints->At(0);
@@ -359,7 +359,7 @@ CbmEcalDrawer2::~CbmEcalDrawer2()
 void CbmEcalDrawer2::ConstructCluster(CbmEcalCell* max)
 {
   Int_t i;
-  Int_t j;
+  Int_t j=-1111;
   list<CbmEcalCell*> cells;
   list<CbmEcalCell*>::const_iterator p;
   CbmEcalCell* cell;
@@ -374,7 +374,7 @@ void CbmEcalDrawer2::ConstructCluster(CbmEcalCell* max)
   Double_t r;
   Double_t cx;
   Double_t cy;
-  Double_t me;
+  Double_t me=-1111;
 
   fCluster.clear();
 

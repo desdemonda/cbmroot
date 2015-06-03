@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 void run_sim_geotest(Int_t nEvents = 10000)
 {
    TTree::SetMaxTreeSize(90000000000);
@@ -6,15 +8,14 @@ void run_sim_geotest(Int_t nEvents = 10000)
    TString parDir = TString(gSystem->Getenv("VMCWORKDIR")) + TString("/parameters");
 
    TString outDir = "/Users/slebedev/Development/cbm/data/simulations/rich/geotest/";
-   TString parFile =  outDir + "test.param.0000.root";
-   TString outFile = outDir + "test.mc.0000.root";
+   TString parFile =  outDir + "param.0005.root";
+   TString outFile = outDir + "mc.0005.root";
    TString caveGeom = "cave.geo";
-   TString pipeGeom   = "pipe/pipe_standard.geo";
-   TString magnetGeom = "magnet/magnet_v12a.geo";
-   TString stsGeom = "sts/sts_v13d.geo.root";
-   TString richGeom= "rich/rich_v08a.geo";
+   TString pipeGeom   = "";//"pipe/pipe_standard.geo";
+   TString magnetGeom = "";//"magnet/magnet_v12a.geo";
+   TString stsGeom = "";//"sts/sts_v13d.geo.root";
+   TString richGeom= "rich/geotest/rich_geo_RotMir_p1_RotPMT_Xpos5point0_Ypos5point0.root";
    TString fieldMap = "field_v12a";
-   TString richDetectorType = "standard"; // "standard" or "prototype"
    Double_t fieldZ = 50.; // field center z position
    Double_t fieldScale =  1.0; // field scaling factor
 
@@ -27,9 +28,12 @@ void run_sim_geotest(Int_t nEvents = 10000)
       richGeom = TString(gSystem->Getenv("RICH_GEOM"));
       fieldMap = TString(gSystem->Getenv("FIELD_MAP"));
       magnetGeom = TString(gSystem->Getenv("MAGNET_GEOM"));
-      richDetectorType = TString(gSystem->Getenv("RICH_DETECTOR_TYPE"));
       fieldScale = TString(gSystem->Getenv("FIELD_MAP_SCALE")).Atof();
    }
+
+   // Remove MC file and par file before simulation started
+   remove(parFile.Data());
+   remove(outFile.Data());
 
    gDebug = 0;
    TStopwatch timer;
@@ -51,7 +55,7 @@ void run_sim_geotest(Int_t nEvents = 10000)
       fRun->AddModule(cave);
    }
 
-   if ( pipeGeom != "" && richDetectorType == "standard") {
+   if ( pipeGeom != "") {
       FairModule* pipe = new CbmPipe("PIPE");
       pipe->SetGeometryFileName(pipeGeom);
       fRun->AddModule(pipe);
@@ -60,13 +64,13 @@ void run_sim_geotest(Int_t nEvents = 10000)
 	CbmTarget* target = new CbmTarget("Gold", 0.025); // 250 mum
 	fRun->AddModule(target);
 
-   if ( magnetGeom != "" && richDetectorType == "standard") {
+   if ( magnetGeom != "") {
       FairModule* magnet = new CbmMagnet("MAGNET");
       magnet->SetGeometryFileName(magnetGeom);
       fRun->AddModule(magnet);
    }
 
-   if ( stsGeom != "" && richDetectorType == "standard") {
+   if ( stsGeom != "") {
       FairDetector* sts = new CbmStsMC(kTRUE);
       sts->SetGeometryFileName(stsGeom);
       fRun->AddModule(sts);
@@ -74,73 +78,59 @@ void run_sim_geotest(Int_t nEvents = 10000)
 
    if ( richGeom != "") {
       FairDetector* rich = NULL;
-      if (richDetectorType == "standard"){
-         rich = new CbmRich("RICH", kTRUE);
-      } else if (richDetectorType == "prototype"){
-         rich = new CbmRichProt("RICH", kTRUE);
-      }
+      rich = new CbmRich("RICH", kTRUE);
       rich->SetGeometryFileName(richGeom);
       fRun->AddModule(rich);
    }
 
    CbmFieldMap* magField = NULL;
-   if (richDetectorType == "standard"){
-      magField = new CbmFieldMapSym2(fieldMap);
-      magField->SetPosition(0., 0., fieldZ);
-      magField->SetScale(fieldScale);
-      fRun->SetField(magField);
-   }
+   magField = new CbmFieldMapSym2(fieldMap);
+   magField->SetPosition(0., 0., fieldZ);
+   magField->SetScale(fieldScale);
+   fRun->SetField(magField);
 
    FairPrimaryGenerator* primGen = new FairPrimaryGenerator();
+	// e+/-
+	FairBoxGenerator* boxGen1 = new FairBoxGenerator(11, 1);
+	boxGen1->SetPtRange(0.,3.);
+	boxGen1->SetPhiRange(0.,360.);
+	boxGen1->SetThetaRange(2.5,25.);
+	boxGen1->SetCosTheta();
+	boxGen1->Init();
+	primGen->AddGenerator(boxGen1);
 
-   if (richDetectorType == "prototype"){
-      FairAsciiGenerator* asciiGen = new FairAsciiGenerator("/d/cbm02/kresan/rich_prot/may11/epi.CERNPST9.dat");
-      primGen->AddGenerator(asciiGen);
-   } else if (richDetectorType == "standard"){
-      // e+/-
-      FairBoxGenerator* boxGen1 = new FairBoxGenerator(11, 1);
-      boxGen1->SetPtRange(0.,3.);
-      boxGen1->SetPhiRange(0.,360.);
-      boxGen1->SetThetaRange(2.5,25.);
-      boxGen1->SetCosTheta();
-      boxGen1->Init();
-      primGen->AddGenerator(boxGen1);
+	FairBoxGenerator* boxGen2 = new FairBoxGenerator(-11, 1);
+	boxGen2->SetPtRange(0.,3.);//4
+	boxGen2->SetPhiRange(0.,360.);
+	boxGen2->SetThetaRange(2.5,25.);//35
+	boxGen2->SetCosTheta();
+	boxGen2->Init();
+	primGen->AddGenerator(boxGen2);
 
-      FairBoxGenerator* boxGen2 = new FairBoxGenerator(-11, 1);
-      boxGen2->SetPtRange(0.,3.);
-      boxGen2->SetPhiRange(0.,360.);
-      boxGen2->SetThetaRange(2.5,25.);
-      boxGen2->SetCosTheta();
-      boxGen2->Init();
-      primGen->AddGenerator(boxGen2);
+	// pi+/-
+	/*     FairBoxGenerator* boxGen1 = new FairBoxGenerator(211, 1);
+	boxGen1->SetPtRange(0.,3.);
+	boxGen1->SetPhiRange(0.,360.);
+	boxGen1->SetThetaRange(2.5,25.);
+	boxGen1->SetCosTheta();
+	boxGen1->Init();
+	primGen->AddGenerator(boxGen1);
 
-      // pi+/-
- /*     FairBoxGenerator* boxGen1 = new FairBoxGenerator(211, 1);
-      boxGen1->SetPtRange(0.,3.);
-      boxGen1->SetPhiRange(0.,360.);
-      boxGen1->SetThetaRange(2.5,25.);
-      boxGen1->SetCosTheta();
-      boxGen1->Init();
-      primGen->AddGenerator(boxGen1);
-
-      FairBoxGenerator* boxGen2 = new FairBoxGenerator(-211, 1);
-      boxGen2->SetPtRange(0.,3.);
-      boxGen2->SetPhiRange(0.,360.);
-      boxGen2->SetThetaRange(2.5,25.);
-      boxGen2->SetCosTheta();
-      boxGen2->Init();
-      primGen->AddGenerator(boxGen2);*/
-   }
+	FairBoxGenerator* boxGen2 = new FairBoxGenerator(-211, 1);
+	boxGen2->SetPtRange(0.,3.);
+	boxGen2->SetPhiRange(0.,360.);
+	boxGen2->SetThetaRange(2.5,25.);
+	boxGen2->SetCosTheta();
+	boxGen2->Init();
+	primGen->AddGenerator(boxGen2);*/
 
    fRun->SetGenerator(primGen);
    fRun->Init();
 
-   if (richDetectorType == "standard"){
-      CbmFieldPar* fieldPar = (CbmFieldPar*) rtdb->getContainer("CbmFieldPar");
-      fieldPar->SetParameters(magField);
-      fieldPar->setChanged();
-      fieldPar->setInputVersion(fRun->GetRunId(),1);
-   }
+	CbmFieldPar* fieldPar = (CbmFieldPar*) rtdb->getContainer("CbmFieldPar");
+	fieldPar->SetParameters(magField);
+	fieldPar->setChanged();
+	fieldPar->setInputVersion(fRun->GetRunId(),1);
    Bool_t kParameterMerged = kTRUE;
    FairParRootFileIo* parOut = new FairParRootFileIo(kParameterMerged);
    parOut->open(parFile.Data());
