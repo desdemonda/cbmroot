@@ -62,7 +62,7 @@ void CbmReport::DeleteReportElement()
 void CbmReport::CreateReports()
 {
    Draw(); // User has to implement this function!
-   SaveCanvasesAsImages();
+//   SaveCanvasesAsImages();
 //   WriteCanvases();
 
    CreateReportElement(kHtmlReport);

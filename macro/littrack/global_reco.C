@@ -337,6 +337,8 @@ void global_reco(Int_t nEvents = 5, // number of events
 	rtdb->saveOutput();
 	// ------------------------------------------------------------------------
 
+	gStyle->SetPalette(51); // Set Drawing Color Palette
+
 	// -----   Initialize and run   --------------------------------------------
 	run->Init();
 	run->Run(0, nEvents);
