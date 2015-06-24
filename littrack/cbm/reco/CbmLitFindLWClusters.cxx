@@ -227,7 +227,7 @@ void CbmLitFindLWClusters::HitFinder()
     Int_t digiAddress2;
     LOG(INFO) << "Retrieving Hit Informations of " << nofDigis << " Digis ..." << FairLogger::endl;
 //    LOG(INFO) << "Processing Hit digiAddress (posHit.x, posHit.y, posHit.z, maxELoss, padSize)" << FairLogger::endl;
-    printf("digiAddress, dCol, dRow, posHit2.x(), posHit2.y(), posHit2.z(), ELoss2, padSize.x(), padSize.y(), padSize.z()\n");
+//    printf("digiAddress, dCol, dRow, posHit2.x(), posHit2.y(), posHit2.z(), ELoss2, padSize.x(), padSize.y(), padSize.z()\n");
     for(Int_t iDigi=0; iDigi < nofDigis; ++iDigi){
       CbmTrdDigi* digi = (CbmTrdDigi*) fDigis->At(cluster->GetDigi(iDigi));
       Int_t digiAddress = digi->GetAddress();
@@ -254,7 +254,7 @@ void CbmLitFindLWClusters::HitFinder()
 	  posHit = posHit2;
 	  digiAddress2 = digiAddress;
       }
-      printf("%d, %d, %d, %e, %e, %e, %e, %e, %e, %e\n", digiAddress, dCol, dRow, posHit2.x(), posHit2.y(), posHit2.z(), ELoss2, padSize.x(), padSize.y(), padSize.z());
+//      printf("%d, %d, %d, %e, %e, %e, %e, %e, %e, %e\n", digiAddress, dCol, dRow, posHit2.x(), posHit2.y(), posHit2.z(), ELoss2, padSize.x(), padSize.y(), padSize.z());
     }
 
     // Calculate the hit error from the pad sizes
@@ -264,9 +264,9 @@ void CbmLitFindLWClusters::HitFinder()
     padSize *= 1/TMath::Sqrt(12.);
 
     // Adding a new hit into fHits
-    LOG(INFO) << "Processing Hit digiAddress (posHit.x, posHit.y, posHit.z, ELoss, padSize.x, padSize.y, padSize.z)" << FairLogger::endl;
-    printf("Processing Hit %d (%e, %e, %e, %e, %e, %e, %e)\n", digiAddress2, posHit.x(), posHit.y(), posHit.z(), maxELoss, padSize.x(), padSize.y(), padSize.z());
-    printf("Hit Info Test: %d (%e, %e, %e, %e, %e, %e, %e)\n", digiAddress2, testPosHit.x(), testPosHit.y(), testPosHit.z(), ELoss, padSize.x(), padSize.y(), padSize.z());
+    LOG(INFO) << "Processing Hit hitNo (posHit.x, posHit.y, posHit.z, ELoss, padSize.x, padSize.y, padSize.z)" << FairLogger::endl;
+    printf("Processing Hit %d (%e, %e, %e, %e, %e, %e, %e)\n", hitNo, posHit.x(), posHit.y(), posHit.z(), maxELoss, padSize.x(), padSize.y(), padSize.z());
+//    printf("Hit Info Test: %d (%e, %e, %e, %e, %e, %e, %e)\n", digiAddress2, testPosHit.x(), testPosHit.y(), testPosHit.z(), ELoss, padSize.x(), padSize.y(), padSize.z());
     LOG(INFO) << "Creating Hit with " << nofDigis << " Digis ..." << FairLogger::endl;
     CbmTrdHit *hit = new((*fHits)[hitNo++]) CbmTrdHit(digiAddress2, posHit, padSize, 0., iCluster, 0., 0., maxELoss);
   }

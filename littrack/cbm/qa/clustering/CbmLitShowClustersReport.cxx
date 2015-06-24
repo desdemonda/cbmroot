@@ -16,6 +16,7 @@
 #include "TProfile.h"
 #include "TCanvas.h"
 #include "TList.h"
+#include "TH3.h"
 #include "TPaletteAxis.h"
 #include <boost/assign/list_of.hpp>
 #include <vector>
@@ -37,15 +38,7 @@ CbmLitShowClustersReport::CbmLitShowClustersReport():
 
 CbmLitShowClustersReport::~CbmLitShowClustersReport()
 {
-  vector<TCanvas*> cVector = this->GetCanvases();
-  Int_t nofCanvases = cVector.size();
-  for (Int_t i = 0; i < nofCanvases; i++) {
-    TCanvas* canvas = cVector[i];
-    stringstream cPng;
-    cPng << this->GetOutputDir() << "png/" << canvas->GetName() << ".png";
-    canvas->Print(cPng.str().c_str());
-  }
-
+  SaveCanvasesAsImages();
 }
 
 void CbmLitShowClustersReport::Create()
@@ -110,7 +103,7 @@ void CbmLitShowClustersReport::Draw()
      }
 
      // Creating Cluster Visualization (Charge and Time)
-     vector<string> flavour = list_of("Charge")("Time");
+/*     vector<string> flavour = list_of("Charge")("Time");
 
      for(Int_t flavourCounter = 0; flavourCounter < flavour.size(); flavourCounter++){
 	 stringstream canvasName, canvasTitle, histNames0;
@@ -120,37 +113,29 @@ void CbmLitShowClustersReport::Draw()
 	 histNames0 << "hhc_Layer1_Module" << i << "_Clustering_visualisation" << flavourCounter << "_col_H2_cluster.*";
 	 // e.g.: hhc_Layer1_Module0_Clustering_visualisation0_col_H2_cluster1
 	 vector<TH2*> hists0 = HM()->H2Vector(histNames0.str());
-	 cout << "creating cluster canvas (" << histNames0.str() << ", n=" << hists0.size() << ")" << endl;
-	 if(hists0.size() == 0) continue;
+	 Int_t nofHists = hists0.size();
+	 cout << "creating cluster canvas (" << histNames0.str() << ", n=" << nofHists << ")" << endl;
+	 if(nofHists == 0) continue;
 
 	 TCanvas *c1 = CreateCanvas(canvasName.str().c_str(), canvasTitle.str().c_str(), 1600, 900);
-	 vector<string> labels;
-	 for(const auto& h : hists0){
-	     labels.insert(labels.end(), h->GetTitle());
-	 }
-
 	 cout << "Filling " << canvasName.str().c_str() << " canvas with " << hists0.size() << " histograms." << endl;
 
 	 string drawOpt = "COLZ";
 	 Double_t max = std::numeric_limits<Double_t>::min();
-	 Int_t nofHistos = hists0.size();
-	 TH2* tempH = hists0[0];
-	 TLegend* legend = new TLegend( 0.65, 0.75, 0.95, 0.99 );
+	 TLegend* legend = new TLegend( 0.01, 0.35, 0.01, 0.4 );
+	 legend->SetNColumns(4);
 	 legend->SetFillColor(kWhite);
-	 for (UInt_t iHist = 0; iHist < nofHistos; iHist++) {
+	 for(UInt_t iHist = 0; iHist < nofHists; iHist++) {
 	    TH2* hist = hists0[iHist];
 	    string opt = (iHist == 0) ? drawOpt : ("SAME" + drawOpt);
 	    DrawH2(hist, kLinear, kLinear, kLinear, opt);
 	    max = std::max(max, hist->GetMaximum());
-	    legend->AddEntry(hist, labels[iHist].c_str(), "lp");
+	    legend->AddEntry(hist, hist->GetTitle(), "lp");
 	 }
 	 hists0[0]->SetMaximum(max * 1.17);
 	 legend->Draw();
-	 TPaletteAxis *p = (TPaletteAxis*)hists0[0]->GetListOfFunctions()->FindObject("palette");
-	 TGaxis *a = p->GetAxis();
-	 //a->SetGridLength(nofHistos/4.0);
 	 c1->Update();
-     }
+     }*/
   } // end for (i < nofModules1)
 
 }

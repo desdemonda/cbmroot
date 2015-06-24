@@ -58,13 +58,13 @@ void global_reco_qa_trd(Int_t nEvents = 5)
 		l1->SetMaterialBudgetFileName(stsMatBudgetFile);
 		run->AddTask(l1);*/
 
-//		CbmLitClusteringQaTrd* clusteringQa = new CbmLitClusteringQaTrd();
-//		clusteringQa->SetMuchDigiFileName(muchDigiFile.Data());
-//		clusteringQa->SetOutputDir(std::string(resultDir));
-//		run->AddTask(clusteringQa);
+		CbmLitClusteringQaTrd* clusteringQa = new CbmLitClusteringQaTrd();
+		clusteringQa->SetMuchDigiFileName(muchDigiFile.Data());
+		clusteringQa->SetOutputDir(std::string(resultDir));
+		run->AddTask(clusteringQa);
 
-		CbmLitShowClusters* trdQa = new CbmLitShowClusters();
-		run->AddTask(trdQa);
+//		CbmLitShowClusters* trdQa = new CbmLitShowClusters();
+//		run->AddTask(trdQa);
 
 		// -----  Parameter database   --------------------------------------------
 		FairRuntimeDb* rtdb = run->GetRuntimeDb();

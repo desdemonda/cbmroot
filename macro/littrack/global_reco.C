@@ -72,6 +72,7 @@ void global_reco(Int_t nEvents = 5, // number of events
 
 	gROOT->LoadMacro("$VMCWORKDIR/macro/littrack/loadlibs.C");
 	loadlibs();
+//	gSystem->Load('libGLEW');
 
 	FairRunAna *run = new FairRunAna();
 	if (opt == "all") {
