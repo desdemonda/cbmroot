@@ -405,8 +405,19 @@ Int_t CbmLitTrackingGeometryConstructor::GetNofMvdStations()
                         TString nodeName3 = node3->GetName();
                         nodeName3.ToLower();
                         if (nodeName3.Contains("mvd")) {
-                           fNofMvdStations = node3->GetNodes()->GetEntriesFast();
-                           break;
+                           //fNofMvdStations = node3->GetNodes()->GetEntriesFast();
+                           //break;
+                           // Fix for mvd_v14a.
+                           // Count number of daughter nodes which contain MVDDo
+                           TObjArray* nodes4 = node3->GetNodes();
+                           for (Int_t iiiiNode = 0; iiiiNode < nodes4->GetEntriesFast(); iiiiNode++) {
+                              TGeoNode* node4 = (TGeoNode*) nodes4->At(iiiiNode);
+                              TString nodeName4 = node4->GetName();
+                              nodeName4.ToLower();
+                              if (nodeName4.Contains("mvd")) {
+                                 fNofMvdStations++;
+                              }
+                           }
                         }
                      }
                      break;
@@ -418,6 +429,7 @@ Int_t CbmLitTrackingGeometryConstructor::GetNofMvdStations()
       }
       firstTime = false;
    }
+   cout << "Number of MVD station: " << fNofMvdStations << std::endl;
    return fNofMvdStations;
 }
 

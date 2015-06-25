@@ -68,32 +68,33 @@ void recoSignal(Int_t nEvents = 10000) {
   // =========================================================================
 
 
-  // -----   MVD Digitiser   -------------------------------------------------
-  CbmMvdDigitizeL* mvdDigi =
-  		new CbmMvdDigitizeL("MVD Digitiser", 0, iVerbose);
-  run->AddTask(mvdDigi);
-  // -------------------------------------------------------------------------
+//   // -----   MVD Digitiser   -------------------------------------------------
+//   CbmMvdDigitizer* mvdDigitise = new CbmMvdDigitizer("MVD Digitiser", 0, iVerbose);
+//   run->AddTask(mvdDigitise);
+//   // -------------------------------------------------------------------------
+// 
+//   // -----   MVD Clusterfinder   ---------------------------------------------
+//   CbmMvdClusterfinder* mvdCluster = new CbmMvdClusterfinder("MVD Clusterfinder", 0, iVerbose);
+//   run->AddTask(mvdCluster);
+//   // -------------------------------------------------------------------------
  
 
   // -----   STS digitizer   -------------------------------------------------
-  Double_t threshold  =  4;
-  Double_t noiseWidth =  0.01;
-  Int_t    nofBits    = 12;
-  Double_t electronsPerAdc    =  10;
-  Double_t StripDeadTime = 0.1;
-  CbmStsDigitize* stsDigitize = new CbmStsDigitize();
-  stsDigitize->SetRealisticResponse();
-  stsDigitize->SetFrontThreshold (threshold);
-  stsDigitize->SetBackThreshold  (threshold);
-  stsDigitize->SetFrontNoiseWidth(noiseWidth);
-  stsDigitize->SetBackNoiseWidth (noiseWidth);
-  stsDigitize->SetFrontNofBits   (nofBits);
-  stsDigitize->SetBackNofBits    (nofBits);
-  stsDigitize->SetFrontNofElPerAdc(electronsPerAdc);
-  stsDigitize->SetBackNofElPerAdc(electronsPerAdc);
-  stsDigitize->SetStripDeadTime  (StripDeadTime);
-  run->AddTask(stsDigitize);
-  // -------------------------------------------------------------------------
+  // -----   The parameters of the STS digitizer are set such as to match
+  // -----   those in the old digitizer. Change them only if you know what you
+  // -----   are doing.
+  Double_t dynRange       =   40960.;  // Dynamic range [e]
+  Double_t threshold      =    4000.;  // Digitisation threshold [e]
+  Int_t nAdc              =    4096;   // Number of ADC channels (12 bit)
+  Double_t timeResolution =       5.;  // time resolution [ns]
+  Double_t deadTime       = 9999999.;  // infinite dead time (integrate entire event)
+  Double_t noise          =       0.;  // ENC [e]
+  Int_t digiModel         =       1;   // Model: 1 = uniform charge distribution along track
+
+  CbmStsDigitize* stsDigi = new CbmStsDigitize(digiModel);
+  stsDigi->SetParameters(dynRange, threshold, nAdc, timeResolution,
+                       deadTime, noise);
+  run->AddTask(stsDigi);
 
 
   // =========================================================================
@@ -102,9 +103,9 @@ void recoSignal(Int_t nEvents = 10000) {
 
 
   // -----   MVD Hit Finder   ------------------------------------------------
-  CbmMvdFindHits* mvdHitFinder = new CbmMvdFindHits("MVD Hit Finder", 0,
-  		iVerbose);
-  run->AddTask(mvdHitFinder);
+  CbmMvdHitfinder* mvdHitfinder = new CbmMvdHitfinder("MVD Hit Finder", 0, iVerbose);
+  mvdHitfinder->UseClusterfinder(kTRUE);
+  run->AddTask(mvdHitfinder);
   // -------------------------------------------------------------------------
 
 
@@ -120,7 +121,7 @@ void recoSignal(Int_t nEvents = 10000) {
 
 
   // -----   STS Cluster Finder   --------------------------------------------
-  FairTask* stsClusterFinder = new CbmStsClusterFinder();
+  FairTask* stsClusterFinder = new CbmStsFindClusters();
   run->AddTask(stsClusterFinder);
   // -------------------------------------------------------------------------
 
@@ -131,12 +132,16 @@ void recoSignal(Int_t nEvents = 10000) {
   // -------------------------------------------------------------------------
 
 
-  // -----  STS hit matching   -----------------------------------------------
-  FairTask* stsMatchHits = new CbmStsMatchHits();
-  run->AddTask(stsMatchHits);
+//   // -----  STS hit matching   -----------------------------------------------
+//   FairTask* stsMatchHits = new CbmStsMatchHits();
+//   run->AddTask(stsMatchHits);
+//   // -------------------------------------------------------------------------
+
+  // ---   STS track matching   ----------------------------------------------
+   CbmMatchRecoToMC* matchTask = new CbmMatchRecoToMC();
+   run->AddTask(matchTask);
   // -------------------------------------------------------------------------
-
-
+   
   // ---  STS track finding   ------------------------------------------------
   CbmKF* kalman = new CbmKF();
   run->AddTask(kalman);
@@ -171,6 +176,17 @@ void recoSignal(Int_t nEvents = 10000) {
 
   // -----   Intialise and run   --------------------------------------------
   run->Init();
+  //add ions to the TDatabasePDG
+  KFPartEfficiencies eff;
+  for(int jParticle=85; jParticle<93; jParticle++)
+  {
+    TDatabasePDG* pdgDB = TDatabasePDG::Instance();
+
+    if(!pdgDB->GetParticle(eff.partPDG[jParticle])){
+        pdgDB->AddParticle(eff.partTitle[jParticle],eff.partTitle[jParticle], eff.partMass[jParticle], kTRUE,
+                           0, eff.partCharge[jParticle]*3,"Ion",eff.partPDG[jParticle]);
+    }
+  }
   cout << "Starting run" << endl;
   run->Run(0, nEvents);
   // ------------------------------------------------------------------------

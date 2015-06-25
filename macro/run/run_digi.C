@@ -14,7 +14,7 @@
 // --------------------------------------------------------------------------
 
 
-void run_digi(Int_t nEvents = 2, const char* setup = "sis300_electron")
+void run_digi(Int_t nEvents = 2, const char* setup = "sis100_electron")
 {
   // ========================================================================
   //          Adjust this part according to your requirements
@@ -35,7 +35,6 @@ void run_digi(Int_t nEvents = 2, const char* setup = "sis300_electron")
   
   // Specify log level (INFO, DEBUG, DEBUG1, ...)
   TString logLevel = "INFO";
-  FairLogger* log;  
 
   //  Digitisation files.
   // Add TObjectString containing the different file names to
@@ -55,17 +54,10 @@ void run_digi(Int_t nEvents = 2, const char* setup = "sis300_electron")
   gROOT->LoadMacro(setupFile);
   gInterpreter->ProcessLine(setupFunct);
 
- TObjString stsDigiFile = paramDir + stsDigi;
+  TObjString stsDigiFile = paramDir + stsDigi;
   parFileList->Add(&stsDigiFile);
-   cout << "macro/run/run_digi.C using: " << stsDigi << endl;
+  cout << "macro/run/run_digi.C using: " << stsDigi << endl;
 
-//  TObjString trdDigiFile = paramDir + trdDigi;
-//  parFileList->Add(&trdDigiFile);
-//  cout << "macro/run/run_digi.C using: " << trdDigi << endl;
-//
-//  TObjString tofDigiFile = paramDir + tofDigi;
-//  parFileList->Add(&tofDigiFile);
-//  cout << "macro/run/run_digi.C using: " << tofDigi << endl;
   
 
   // In general, the following parts need not be touched
@@ -95,7 +87,6 @@ void run_digi(Int_t nEvents = 2, const char* setup = "sis300_electron")
 
   
   // ---- MC Time simulation
-  Double_t rate = 1.e6;
   FairTask* timeSim = new CbmMCTimeSim(eventRate, beamProfile);
   run->AddTask(timeSim);
  

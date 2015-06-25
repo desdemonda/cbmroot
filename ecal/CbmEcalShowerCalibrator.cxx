@@ -196,7 +196,7 @@ void CbmEcalShowerCalibrator::Exec(Option_t* option)
   Int_t ix;
   Int_t iy;
   Int_t nb;
-  Int_t ne;
+//  Int_t ne;
   Int_t j;
   Int_t jj;
   static Int_t xsize=6*fLocalXSize+1;
@@ -213,7 +213,7 @@ void CbmEcalShowerCalibrator::Exec(Option_t* option)
     for(iy=0;iy<size;iy++)
     {
       nb=begin+(-ix-iidx)+(-iy-iidy)*xsize;
-      ne=begin+(-ix+idx)+(-iy+idy)*xsize;
+//      ne=begin+(-ix+idx)+(-iy+idy)*xsize;
       ClearOut();
       fOutDX=ix-halfsize;
       fOutDY=iy-halfsize;
@@ -360,7 +360,7 @@ void CbmEcalShowerCalibrator::GetMCParameters()
   TVector3 mom;
   Int_t n;
   Int_t count=0;
-  Float_t mass;
+  Float_t mass=-1111;
 
   n=fEcalPoints->GetEntriesFast();
   if (fVerbose>1)
@@ -383,7 +383,8 @@ void CbmEcalShowerCalibrator::GetMCParameters()
     {
       cerr << "Can't find PDG particle " << fPDGCode << "!!!";
       cerr << endl;
-      Fatal("","");
+      Fatal("GetMCParameters","Can't find PDG particle %d.", fPDGCode);
+      return;
     }
     fOutMCE=TMath::Sqrt(mass*mass+mom.Mag2());
     fOutMCPx=mom.Px();

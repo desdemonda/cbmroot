@@ -29,8 +29,9 @@ enum CbmLmvmAnalysisSteps {
   kMvd1Cut = 6,
   kMvd2Cut = 7,
   kStCut = 8,
-  kTtCut = 9,
-  kPtCut = 10
+  kRtCut = 9,
+  kTtCut = 10,
+  kPtCut = 11
 };
 
 /*
@@ -54,7 +55,7 @@ public:
    const static vector<string> fSourceTypesLatex;
    const static vector<int> fSourceTypesColor;
 
-   const static int fNofAnaSteps = 11;
+   const static int fNofAnaSteps = 12;
    const static vector<string> fAnaSteps;
    const static vector<string> fAnaStepsLatex;
    const static vector<int> fAnaStepsColor;

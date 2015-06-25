@@ -16,37 +16,16 @@ void qa_study_lmvm()
    std::vector<std::string> results, names;
    std::string outputDir;
 
- /*  std::string dir = "/Users/slebedev/Development/cbm/data/lmvm/8gev/1.0field/nomvd/";
+   std::string dir = "/Users/slebedev/Development/cbm/data/lmvm/";
+   results.push_back(dir + "mar15_rtcut/8gev/stsv13d/richv14a_1e/trd4/tofv13/1.0field/nomvd/lmvm_results_all/draw_all_hist.root");
+   results.push_back(dir + "mar15_trdclustering/8gev/stsv13d/richv14a_1e/trd4/tofv13/1.0field/nomvd/lmvm_results_all/draw_all_hist.root");
+   results.push_back(dir + "mar15_rtcut/8gev/stsv13d/richv14a_1e/notrd/tofv13/1.0field/nomvd/lmvm_results_all/draw_all_hist.root");
 
-   results.push_back(dir + "100field/nomvd/all/real_pid/");
-   results.push_back(dir + "100field/mvd/all/real_pid/");
-   results.push_back(dir + "70field/nomvd/all/real_pid/");
-   results.push_back(dir + "70field/mvd/all/real_pid/");
+   names.push_back("TRD smearing");
+   names.push_back("TRD clustering");
+   names.push_back("NO TRD");
 
-   names.push_back("100field/nomvd");
-   names.push_back("100field/mvd");
-   names.push_back("70field/nomvd");
-   names.push_back("70field/mvd");*/
-
-   std::string dir = "/Users/slebedev/Development/cbm/data/lmvm/8gev/1.0field/nomvd/results_all/";
-   results.push_back(dir + "real_pid/");
-   results.push_back(dir + "pimisid.0.01/");
-   results.push_back(dir + "pimisid.0.002/");
-   results.push_back(dir + "pimisid.0.001/");
-   results.push_back(dir + "pimisid.0.0002/");
-   results.push_back(dir + "pimisid.0.0001/");
-   results.push_back(dir + "pimisid.0.0/");
-
-   names.push_back("real pid");
-   names.push_back("0.01");
-   names.push_back("0.002");
-   names.push_back("0.001");
-   names.push_back("0.0002");
-   names.push_back("0.0001");
-   names.push_back("ideal pid");
-
-
-   outputDir = "/Users/slebedev/Development/cbm/data/lmvm/8gev/1.0field/nomvd/study_report_pimisid/";
+   outputDir = "/Users/slebedev/Development/cbm/data/lmvm/lmvm_study_report_8gev_trd/";
 
    CbmAnaDielectronReports reports;
    reports.CreateStudyReport("LMVM", results, names, outputDir);

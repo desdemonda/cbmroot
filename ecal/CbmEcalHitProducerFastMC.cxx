@@ -143,8 +143,7 @@ void CbmEcalHitProducerFastMC::Exec(Option_t* option)
     y = posPoint.Y();
     Int_t cellX = (Int_t)(TMath::Abs(x)/fCellSize);
     Int_t cellY = (Int_t)(TMath::Abs(y)/fCellSize);
-    if (cellX<=fRegionXm[0]/2 && cellY<=fRegionYm[0]/2 ||
-	cellX> fRegionXm[3]/2 || cellY> fRegionYm[3]/2 ) continue; // in the hole
+    if ((cellX<=fRegionXm[0]/2&&cellY<=fRegionYm[0]/2)||cellX>fRegionXm[3]/2||cellY>fRegionYm[3]/2) continue; // in the hole
 
     if (pdgCode == 22 || TMath::Abs(pdgCode) == 11) { // photon or e+-
       xResolution = 0.0;

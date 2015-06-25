@@ -80,8 +80,10 @@ class CbmStsDigitizeQa : public FairTask
     private:
 
 	CbmStsDigitize* fDigitizer;
+	const static Int_t fNPads = 7;
+	Int_t fNStations;
+
 	Int_t fNEvents;        /** Number of events with success **/
-	const static Int_t fNStations = 8;
 	Int_t fNTotDigis;            // total number of digis for all events
 	Int_t fNTotPoints;           // total number of MCpoints for all events
 	Int_t fNTotSignalsF;  
@@ -99,35 +101,34 @@ class CbmStsDigitizeQa : public FairTask
 	TStopwatch fTimer;
 	CbmStsSetup * fSetup;
 
+	/** Total real time used for good events **/
+	Double_t  fTime1;     
+
 	//histogramms
 	TH1D * fhMCpointsPDigi; 
 	TH1D * fhMCpointElossGeant; 
 	TH1D * fhDigisPMCpoint; 
 	TH1D * fhDigiCharge; 
 	TH1D * fhDigisPEvent; 
-	TH2D * fhDigisPChannelPModuleAtStation[fNStations];
+	vector<TH2D * > fhDigisPChannelPModuleAtStation;
 
 	/** List of histograms **/
 	TList* fHistoList;
 
-	/** Total real time used for good events **/
-	Double_t  fTime1;     
+	Bool_t fOnlineAnalysis;
+	TCanvas* digiCanvas;
+	TCanvas* occupCanvas;
+	TPad * digiPad[fNPads];
+	TLegend * leg[fNPads];
+
+	char fOutName[200];
+	Bool_t fPrint;
 
 	/** Intialisation **/
 	virtual InitStatus Init();
 
 	/** Reinitialisation **/
 	virtual InitStatus ReInit();
-
-	Bool_t fOnlineAnalysis;
-	TCanvas* digiCanvas;
-	TCanvas* occupCanvas;
-	const static Int_t fNPads = 7;
-	TPad * digiPad[fNPads];
-	TLegend * leg[fNPads];
-
-	char fOutName[200];
-	Bool_t fPrint;
 
 	CbmStsDigitizeQa(const CbmStsDigitizeQa&);
 	CbmStsDigitizeQa operator=(const CbmStsDigitizeQa&);

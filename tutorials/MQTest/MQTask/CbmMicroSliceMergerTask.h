@@ -103,6 +103,9 @@ private:
     friend class boost::serialization::access;
     fles::StorableTimeslice fFlesTimeSlices{1, 1};
     #endif
+
+    CbmMicroSliceMergerTask(const CbmMicroSliceMergerTask&);
+    CbmMicroSliceMergerTask& operator=(const CbmMicroSliceMergerTask&);
 };
 
 

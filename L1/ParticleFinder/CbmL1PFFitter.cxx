@@ -38,6 +38,7 @@
 
 using std::vector;
 
+
 namespace NS_L1TrackFitter{
   const fvec c_light = 0.000299792458, c_light_i = 1./c_light;
   const fvec ZERO = 0.;
@@ -185,7 +186,6 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
   {
     if(N_vTracks - itrack < static_cast<unsigned short>(fvecLen))
       nTracks_SIMD = N_vTracks - itrack;
-
     for(i=0; i<nTracks_SIMD; i++)
     {
       t[i] = & Tracks[itrack+i]; // current track
@@ -213,10 +213,10 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
       
       int pid = pidHypo[itrack+i];
       if(pid == -1) pid = 211;
-      mass[i] = TDatabasePDG::Instance()->GetParticle(pid)->Mass();
+//       mass[i] = TDatabasePDG::Instance()->GetParticle(pid)->Mass();
+      mass[i] = KFParticleDatabase::Instance()->GetMass(pid);
     }
     mass2 = mass*mass;
-
     // get hits of current track
     for(i=0; i<nHits; i++)
     {
@@ -242,7 +242,7 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
           posx = hit->GetX();
           posy = hit->GetY();
           posz = hit->GetZ();
-          ista = posz < 7.f ? 0 : 1;
+          ista = hit->GetStationNr();
         }
         else
         {
@@ -255,7 +255,6 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
           posz = hit->GetZ();
           ista = CbmStsAddress::GetElementId(hit->GetAddress(), kStsStation) + NMvdStations;//hit->GetStationNr() - 1 + NMvdStations;
         }
-
         w[ista][iVec] = 1.f;
 
         x[ista][iVec] = posx;
@@ -281,23 +280,18 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
         }
       }
     }
-
     // fit forward
-
     i = 0;
-    FilterFirst( T, x_first, y_first, sta[i] ); // TODO different station. won't work with MVD
+    FilterFirst( T, x_first, y_first, sta[i] );
     fvec qp0 = T.qp;
-
     fz1 = z[i];
     sta[i].fieldSlice.GetFieldValue( T.x, T.y, fB1 );
     fB1.Combine( fB[i], w[i] );
-
     fz2 = z[i+2];
     dz = fz2-fz1;
     sta[i].fieldSlice.GetFieldValue( T.x + T.tx*dz, T.y + T.ty*dz, fB2 );
     fB2.Combine( fB[i+2], w[i+2] );
     fld.Set( fB2, fz2, fB1, fz1, fB0, fz0 );
-
     for( ++i; i<nHits; i++ )
     {
       fz0 = z[i];
@@ -313,10 +307,10 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
       L1Extrapolate( T, z[i], qp0, fld,&w1 );
       if(i == NMvdStations) L1AddPipeMaterial( T, qp0, wIn );
   #ifdef USE_RL_TABLE
-      L1AddMaterial( T, CbmL1::Instance()->algo->fRadThick[i].GetRadThick(T.x, T.y), qp0, wIn );
+      L1AddMaterial( T, CbmL1::Instance()->algo->fRadThick[i].GetRadThick(T.x, T.y), qp0, wIn, mass2 );
       EnergyLossCorrection( T, mass2, CbmL1::Instance()->algo->fRadThick[i].GetRadThick(T.x, T.y), qp0, -1 );
   #else
-      L1AddMaterial( T, sta[i].materialInfo, qp0, wIn );
+      L1AddMaterial( T, sta[i].materialInfo, qp0, wIn, mass2 );
   #endif
       L1Filter( T, sta[i].frontInfo, u[i], w1 );
       L1Filter( T, sta[i].backInfo,  v[i], w1 );
@@ -357,7 +351,6 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
     }
     
   //fit backward
-
     qp0 = T.qp;
 
     i= nHits-1;
@@ -384,21 +377,21 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
       fvec initialised = fvec(z[i] < z_end) & fvec(z_start <= z[i]);
       fvec w1 = (w[i] & (initialised));
       fvec wIn = (ONE & (initialised));
-      
-      L1Extrapolate( T, z[i], qp0, fld, &w1 );        
+
+      L1Extrapolate( T, z[i], qp0, fld, &w1 );
       if(i == NMvdStations - 1) L1AddPipeMaterial( T, qp0, wIn );
   #ifdef USE_RL_TABLE
-      L1AddMaterial( T, CbmL1::Instance()->algo->fRadThick[i].GetRadThick(T.x, T.y), qp0, wIn );
+      L1AddMaterial( T, CbmL1::Instance()->algo->fRadThick[i].GetRadThick(T.x, T.y), qp0, wIn, mass2 );
       EnergyLossCorrection( T, mass2, CbmL1::Instance()->algo->fRadThick[i].GetRadThick(T.x, T.y), qp0, 1 );
   #else
-      L1AddMaterial( T, sta[i].materialInfo, qp0, wIn );
+      L1AddMaterial( T, sta[i].materialInfo, qp0, wIn, mass2 );
   #endif
       L1Filter( T, sta[i].frontInfo, u[i], w1 );
       L1Filter( T, sta[i].backInfo,  v[i], w1 );
-      
-      fB2 = fB1; 
+
+      fB2 = fB1;
       fz2 = fz1;
-      fB1 = fB0; 
+      fB1 = fB0;
       fz1 = fz0;
     }
 
@@ -431,7 +424,7 @@ void CbmL1PFFitter::Fit(vector<CbmStsTrack> &Tracks, vector<int>& pidHypo)
 
       t[iVec]->SetChiSq(T.chi2[iVec]);
       t[iVec]->SetNDF(static_cast<int>(T.NDF[iVec]));
-    }      
+    }
   }
 
   delete[] x;

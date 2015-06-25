@@ -15,6 +15,7 @@
 #include "TGraph2D.h"
 #include "TMath.h"
 #include "TGaxis.h"
+#include "TLegend.h"
 
 #include <string>
 #include <limits>
@@ -239,4 +240,19 @@ void DrawGraph2D(
    gPad->SetTicks(1, 1);
    graph->Draw(drawOpt.c_str());
    gPad->SetGrid(true, true);
+}
+
+void DrawTextOnPad(
+      const string& text,
+      Double_t x1,
+      Double_t y1,
+      Double_t x2,
+      Double_t y2)
+{
+   TLegend* leg = new TLegend(x1, y1, x2, y2);
+   leg->AddEntry(new TH2D(), text.c_str(), "");
+   leg->SetFillColor(kWhite);
+   leg->SetFillStyle(0);
+   leg->SetBorderSize(0);
+   leg->Draw();
 }

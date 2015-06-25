@@ -254,7 +254,7 @@ void CbmTSUnpackNxyter::ProcessMessage_sync(const uint8_t* msContent_shifted, ui
 
 // Pileup flag, edge type, timestamp, channel, ROC id, messageType=4
 // [--------][--------][---PETTT][TTTTTTTT][TTTCCCCC][CCRRR100]
-void CbmTSUnpackNxyter::ProcessMessage_aux(const uint8_t* msContent_shifted, uint16_t EqID, uint16_t RocID)
+void CbmTSUnpackNxyter::ProcessMessage_aux(const uint8_t* msContent_shifted, uint16_t /*EqID*/, uint16_t /*RocID*/)
 {
    Int_t messageType, rocID, channel, timestamp;
    Bool_t edgeType, pileUp;
@@ -281,7 +281,7 @@ void CbmTSUnpackNxyter::ProcessMessage_aux(const uint8_t* msContent_shifted, uin
 
 // First four bytes are yet not unpacked, system message type, NX id, ROC id, messageType=7
 // [--------][--------][--------][--------][TTTTTTTT][NNRRR111]
-void CbmTSUnpackNxyter::ProcessMessage_sys(const uint8_t* msContent_shifted, uint16_t EqID, uint16_t RocID)
+void CbmTSUnpackNxyter::ProcessMessage_sys(const uint8_t* msContent_shifted, uint16_t /*EqID*/, uint16_t /*RocID*/)
 {
    Int_t messageType, rocID, nxID, sysMessType;
 

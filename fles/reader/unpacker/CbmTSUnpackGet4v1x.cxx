@@ -77,6 +77,7 @@ CbmTSUnpackGet4v1x::CbmTSUnpackGet4v1x()
   fhSysMessTypePerRoc(NULL),
   fhGet4EpochFlags(NULL),
   fhGet4EpochSyncDist(NULL),
+  fhGet4EpochJumps(NULL),
   fhGet4ChanDataCount(NULL),
   fhGet4ChanDllStatus(NULL),
   fhGet4ChanTotMap(NULL),

@@ -42,18 +42,19 @@ std::map<TString, TGeoMedium*> CbmRich::fFixedMedia;
 CbmRich::CbmRich() :
    FairDetector("RICH", kTRUE, kRICH),
    fPosIndex(0),
-
-   fRichPoints(NULL),
-   fRichRefPlanePoints(NULL),
-   fRichMirrorPoints(NULL),
-   fRotation(),
-   fPositionRotation(),
-   fRegisterPhotonsOnSensitivePlane(false)
+   fRegisterPhotonsOnSensitivePlane(false),
+   fRichPoints(new TClonesArray("CbmRichPoint")),
+   fRichRefPlanePoints(new TClonesArray("CbmRichPoint")),
+   fRichMirrorPoints(new TClonesArray("CbmRichPoint")),
+   fRotation(NULL),
+   fPositionRotation(NULL)
 {
-   fRichPoints = new TClonesArray("CbmRichPoint");
-   fRichRefPlanePoints = new TClonesArray("CbmRichPoint");
-   fRichMirrorPoints = new TClonesArray("CbmRichPoint");
+  /*
+   fRichPoints = ;
+   fRichRefPlanePoints = ;
+   fRichMirrorPoints = ;
    fPosIndex = 0;
+  */
 
    fVerboseLevel = 1;
 }
@@ -69,13 +70,12 @@ CbmRich::CbmRich(
       Double_t rz):
    FairDetector(name, active, kRICH),
    fPosIndex(0),
+   fRegisterPhotonsOnSensitivePlane(false),
    fRichPoints(new TClonesArray("CbmRichPoint")),
    fRichRefPlanePoints(new TClonesArray("CbmRichPoint")),
    fRichMirrorPoints(new TClonesArray("CbmRichPoint")),
-
    fRotation(new TGeoRotation("", rx, ry, rz)),
-   fPositionRotation(new TGeoCombiTrans(px, py, pz, fRotation)),
-   fRegisterPhotonsOnSensitivePlane(false)
+   fPositionRotation(new TGeoCombiTrans(px, py, pz, fRotation))
 {
    fVerboseLevel = 1;
 }

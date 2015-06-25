@@ -1,4 +1,4 @@
-void run_reco(Int_t nEvents = 5)
+void run_reco(Int_t nEvents = 2)
 {
    TTree::SetMaxTreeSize(90000000000);
 
@@ -10,15 +10,20 @@ void run_reco(Int_t nEvents = 5)
 
 	gRandom->SetSeed(10);
 
-	TString mcFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/mc.0001.root";
-	TString parFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/param.0001.root";
-	TString recoFile ="/Users/slebedev/Development/cbm/data/simulations/rich/richreco/reco.0001.root";
+	TString mcFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/mc.00090.root";
+	TString parFile = "/Users/slebedev/Development/cbm/data/simulations/rich/richreco/param.00090.root";
+	TString recoFile ="/Users/slebedev/Development/cbm/data/simulations/rich/richreco/reco.00090.root";
 	std::string resultDir = "recqa_0001/";
 	TString trdHitProducerType = "smearing";
 	int nofNoiseHitsInRich = 220;
 	double collectionEff = 1.0;
 	double sigmaErrorRich = 0.06;
 	double crosstalkRich = 0.02;
+	TObjString stsDigiFile = parDir + "/sts/sts_v13d_std.digi.par"; // STS digi file
+    TObjString trdDigiFile = parDir + "/trd/trd_v14a_3e.digi.par"; // TRD digi file
+    TObjString tofDigiFile = parDir + "/tof/tof_v13b.digi.par"; // TOF digi file
+    Double_t trdAnnCut = 0.85;
+    Int_t minNofPointsTrd = 6;
 	if (script == "yes") {
 		mcFile = TString(gSystem->Getenv("MC_FILE"));
 		recoFile = TString(gSystem->Getenv("RECO_FILE"));
@@ -29,17 +34,19 @@ void run_reco(Int_t nEvents = 5)
         sigmaErrorRich = TString(gSystem->Getenv("SIGMA_ERROR_RICH")).Atof();
         crosstalkRich = TString(gSystem->Getenv("CROSSTALK_RICH")).Atof();
         trdHitProducerType = TString(gSystem->Getenv("TRD_HIT_PRODUCER_TYPE"));
+		stsDigiFile = TString(gSystem->Getenv("STS_DIGI"));
+		trdDigiFile = TString(gSystem->Getenv("TRD_DIGI"));
+		tofDigiFile = TString(gSystem->Getenv("TOF_DIGI"));
+		stsMatBudgetFileName = TString(gSystem->Getenv("STS_MATERIAL_BUDGET_FILE"));
+		trdAnnCut = TString(gSystem->Getenv("TRD_ANN_CUT")).Atof();
+		minNofPointsTrd = TString(gSystem->Getenv("MIN_NOF_POINTS_TRD")).Atof();
 	}
 
    TString parDir = TString(gSystem->Getenv("VMCWORKDIR")) + TString("/parameters");
    TList *parFileList = new TList();
-   TObjString stsDigiFile = parDir + "/sts/sts_v13d_std.digi.par"; // STS digi file
-   TObjString trdDigiFile = parDir + "/trd/trd_v14a_3e.digi.par"; // TRD digi file
-   TObjString tofDigiFile = parDir + "/tof/tof_v13b.digi.par"; // TOF digi file
-
-   parFileList->Add(&stsDigiFile);
-   parFileList->Add(&trdDigiFile);
-   parFileList->Add(&tofDigiFile);
+   if (stsDigiFile.GetString() != "") parFileList->Add(&stsDigiFile);
+   if (trdDigiFile.GetString() != "") parFileList->Add(&trdDigiFile);
+   if (tofDigiFile.GetString() != "") parFileList->Add(&tofDigiFile);
    gDebug = 0;
 
     TStopwatch timer;
@@ -132,6 +139,78 @@ void run_reco(Int_t nEvents = 5)
 
 			CbmTrdHitProducerCluster* trdHit = new CbmTrdHitProducerCluster();
 			run->AddTask(trdHit);
+		} else if (trdHitProducerType == "clustering_1_1_1") {
+			Bool_t triangularPads = false;// Bucharest triangular pad-plane layout
+			Double_t triggerThreshold = 1.0e-6;//SIS300
+			CbmTrdDigitizerPRF* trdDigiPrf = new CbmTrdDigitizerPRF(radiator);
+			trdDigiPrf->SetTriangularPads(triangularPads);
+			trdDigiPrf->SetNCluster(1); // limits the number of iterations per MC-point to one
+			trdDigiPrf->SetPadPlaneScanArea(1,1); // limits the number of channels participating to the charge sharing (col,row)
+			run->AddTask(trdDigiPrf);
+			CbmTrdClusterFinderFast* trdCluster = new CbmTrdClusterFinderFast();
+			trdCluster->SetNeighbourTrigger(true);
+			trdCluster->SetTriggerThreshold(triggerThreshold);
+			trdCluster->SetNeighbourRowTrigger(false);
+			trdCluster->SetPrimaryClusterRowMerger(true);
+			trdCluster->SetTriangularPads(triangularPads);
+			run->AddTask(trdCluster);
+			CbmTrdHitProducerCluster* trdHit = new CbmTrdHitProducerCluster();
+			trdHit->SetTriangularPads(triangularPads);
+			run->AddTask(trdHit);
+		}else if (trdHitProducerType == "clustering_1_3_3") {
+			Bool_t triangularPads = false;// Bucharest triangular pad-plane layout
+			Double_t triggerThreshold = 1.0e-6;//SIS300
+			CbmTrdDigitizerPRF* trdDigiPrf = new CbmTrdDigitizerPRF(radiator);
+			trdDigiPrf->SetTriangularPads(triangularPads);
+			trdDigiPrf->SetNCluster(1); // limits the number of iterations per MC-point to one
+			trdDigiPrf->SetPadPlaneScanArea(3,3); // limits the number of channels participating to the charge sharing (col,row)
+			run->AddTask(trdDigiPrf);
+			CbmTrdClusterFinderFast* trdCluster = new CbmTrdClusterFinderFast();
+			trdCluster->SetNeighbourTrigger(true);
+			trdCluster->SetTriggerThreshold(triggerThreshold);
+			trdCluster->SetNeighbourRowTrigger(false);
+			trdCluster->SetPrimaryClusterRowMerger(true);
+			trdCluster->SetTriangularPads(triangularPads);
+			run->AddTask(trdCluster);
+			CbmTrdHitProducerCluster* trdHit = new CbmTrdHitProducerCluster();
+			trdHit->SetTriangularPads(triangularPads);
+			run->AddTask(trdHit);
+		}else if (trdHitProducerType == "clustering_free_1_1") {
+			Bool_t triangularPads = false;// Bucharest triangular pad-plane layout
+			Double_t triggerThreshold = 1.0e-6;//SIS300
+			CbmTrdDigitizerPRF* trdDigiPrf = new CbmTrdDigitizerPRF(radiator);
+			trdDigiPrf->SetTriangularPads(triangularPads);
+			//trdDigiPrf->SetNCluster(1); // limits the number of iterations per MC-point to one
+			trdDigiPrf->SetPadPlaneScanArea(1,1); // limits the number of channels participating to the charge sharing (col,row)
+			run->AddTask(trdDigiPrf);
+			CbmTrdClusterFinderFast* trdCluster = new CbmTrdClusterFinderFast();
+			trdCluster->SetNeighbourTrigger(true);
+			trdCluster->SetTriggerThreshold(triggerThreshold);
+			trdCluster->SetNeighbourRowTrigger(false);
+			trdCluster->SetPrimaryClusterRowMerger(true);
+			trdCluster->SetTriangularPads(triangularPads);
+			run->AddTask(trdCluster);
+			CbmTrdHitProducerCluster* trdHit = new CbmTrdHitProducerCluster();
+			trdHit->SetTriangularPads(triangularPads);
+			run->AddTask(trdHit);
+		}else if (trdHitProducerType == "clustering_free_3_3") {
+			Bool_t triangularPads = false;// Bucharest triangular pad-plane layout
+			Double_t triggerThreshold = 1.0e-6;//SIS300
+			CbmTrdDigitizerPRF* trdDigiPrf = new CbmTrdDigitizerPRF(radiator);
+			trdDigiPrf->SetTriangularPads(triangularPads);
+			//trdDigiPrf->SetNCluster(1); // limits the number of iterations per MC-point to one
+			trdDigiPrf->SetPadPlaneScanArea(3,3); // limits the number of channels participating to the charge sharing (col,row)
+			run->AddTask(trdDigiPrf);
+			CbmTrdClusterFinderFast* trdCluster = new CbmTrdClusterFinderFast();
+			trdCluster->SetNeighbourTrigger(true);
+			trdCluster->SetTriggerThreshold(triggerThreshold);
+			trdCluster->SetNeighbourRowTrigger(false);
+			trdCluster->SetPrimaryClusterRowMerger(true);
+			trdCluster->SetTriangularPads(triangularPads);
+			run->AddTask(trdCluster);
+			CbmTrdHitProducerCluster* trdHit = new CbmTrdHitProducerCluster();
+			trdHit->SetTriangularPads(triangularPads);
+			run->AddTask(trdHit);
 		}
 	}// isTRD
 
@@ -197,18 +276,18 @@ void run_reco(Int_t nEvents = 5)
    CbmLitTrackingQa* trackingQa = new CbmLitTrackingQa();
    trackingQa->SetMinNofPointsSts(4);
    trackingQa->SetUseConsecutivePointsInSts(true);
-   trackingQa->SetMinNofPointsTrd(8);
+   trackingQa->SetMinNofPointsTrd(minNofPointsTrd);
    trackingQa->SetMinNofPointsMuch(10);
    trackingQa->SetMinNofPointsTof(1);
    trackingQa->SetQuota(0.7);
-   trackingQa->SetMinNofHitsTrd(8);
+   trackingQa->SetMinNofHitsTrd(minNofPointsTrd);
    trackingQa->SetMinNofHitsMuch(10);
    trackingQa->SetVerbose(0);
    trackingQa->SetMinNofHitsRich(7);
    trackingQa->SetQuotaRich(0.6);
    trackingQa->SetOutputDir(resultDir);
    trackingQa->SetPRange(20, 0., 10.);
-
+   trackingQa->SetTrdAnnCut(trdAnnCut);
    std::vector<std::string> trackCat, richCat;
    trackCat.push_back("All");
    trackCat.push_back("Electron");
@@ -222,14 +301,13 @@ void run_reco(Int_t nEvents = 5)
    fitQa->SetMvdMinNofHits(0);
    fitQa->SetStsMinNofHits(4);
    fitQa->SetMuchMinNofHits(10);
-   fitQa->SetTrdMinNofHits(6);
+   fitQa->SetTrdMinNofHits(minNofPointsTrd);
    fitQa->SetOutputDir(resultDir);
   // run->AddTask(fitQa);
 
    CbmLitClusteringQa* clusteringQa = new CbmLitClusteringQa();
    clusteringQa->SetOutputDir(resultDir);
-  // run->AddTask(clusteringQa);
-
+   run->AddTask(clusteringQa);
 
     // =========================================================================
     // ===                        ECAL reconstruction                        ===

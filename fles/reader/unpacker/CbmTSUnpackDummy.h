@@ -24,7 +24,7 @@ class CbmTSUnpackDummy : public CbmTSUnpack
     
   virtual Bool_t Init() { return kTRUE; }
 #ifndef __CINT__
-  virtual Bool_t DoUnpack(const fles::Timeslice& ts, size_t component) 
+  virtual Bool_t DoUnpack(const fles::Timeslice& /*ts*/, size_t /*component*/) 
   { return kTRUE; }
 #endif
   virtual void Reset() { return; }

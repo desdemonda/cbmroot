@@ -23,7 +23,7 @@
 #include "CbmMvdPoint.h"
 #include "CbmTrdPoint.h"
 #include "CbmMuchPoint.h"
-#include "CbmBaseHit.h"
+#include "CbmHit.h"
 #include "fitter/CbmRichRingFitterEllipseTau.h"
 #include "CbmRichHitProducer.h"
 
@@ -148,7 +148,7 @@ void CbmLitMCTrackCreator::AddRichHits()
    map<Int_t, Int_t> nofHitsInRing;
    Int_t nofRichHits = fRichHits->GetEntriesFast();
    for (Int_t iHit = 0; iHit < nofRichHits; iHit++) {
-      const CbmBaseHit* hit = static_cast<const CbmBaseHit*>(fRichHits->At(iHit));
+      const CbmHit* hit = static_cast<const CbmHit*>(fRichHits->At(iHit));
       Int_t pointIndex = hit->GetRefId();
       if (pointIndex < 0) continue;
       const FairMCPoint* point = static_cast<const FairMCPoint*>(fRichPoints->At(pointIndex));

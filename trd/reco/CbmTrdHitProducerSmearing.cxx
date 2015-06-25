@@ -46,9 +46,9 @@ CbmTrdHitProducerSmearing::CbmTrdHitProducerSmearing(
       fSigmaX(),
       fSigmaY(),
       fEfficency(1.),
+      fHitMergingDistance(0.),
       fGhostRate(0.),
       fGhostDistance(0.),
-      fHitMergingDistance(0.),
       fUseDigiPar(true)
 {
    // Default resolution for each TRD layer

@@ -67,6 +67,7 @@
 #include "CbmLmvmUtils.h"
 
 #include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -198,14 +199,15 @@ CbmAnaDielectronTask::CbmAnaDielectronTask()
     fWeight(0.),
     fPionMisidLevel(-1.),
     fRandom3(new TRandom3(0)),
+    fCuts(),
     fElIdAnn(NULL),
     fHistoList(),
     fNofHitsInRingMap(),
     fh_mc_mother_pdg(NULL),
     fh_acc_mother_pdg(NULL),
-	fh_signal_pmtXY(NULL),
-	fh_pi0_pmtXY(NULL),
-	fh_gamma_pmtXY(NULL),
+    fh_signal_pmtXY(NULL),
+    fh_pi0_pmtXY(NULL),
+    fh_gamma_pmtXY(NULL),
     fh_vertex_el_gamma_xz(),
     fh_vertex_el_gamma_yz(),
     fh_vertex_el_gamma_xy(),
@@ -260,9 +262,9 @@ CbmAnaDielectronTask::CbmAnaDielectronTask()
     fh_event_number(NULL),
     fh_nof_bg_tracks(NULL),
     fh_nof_el_tracks(NULL),
+    fh_source_tracks(NULL),
     fh_nof_topology_pairs_gamma(NULL),
     fh_nof_topology_pairs_pi0(NULL),
-    fh_source_tracks(NULL),
     fh_nof_rec_pairs_gamma(NULL),
     fh_nof_rec_pairs_pi0(NULL),
     fh_nof_rec_gamma(NULL),
@@ -288,8 +290,8 @@ CbmAnaDielectronTask::CbmAnaDielectronTask()
     fh_piprim_mom_rec_only_sts(NULL),
     fh_piprim_mom_rec_sts_rich_trd(NULL),
     fh_piprim_mom_rec_sts_rich_trd_tof(NULL),
-    fh_piprim_minus_rapidity_mc(NULL),
     fh_piprim_plus_rapidity_mc(NULL),
+    fh_piprim_minus_rapidity_mc(NULL),
     fh_pi0prim_rapidity_mc(NULL),
     fh_etaprim_rapidity_mc(NULL)
 {
@@ -1382,6 +1384,7 @@ void CbmAnaDielectronTask::SignalAndBgReco()
       Bool_t isMvd1Cut = fCandidates[i].fIsMvd1CutElectron;
       Bool_t isMvd2Cut = fCandidates[i].fIsMvd2CutElectron;
       Bool_t isStCut = (fCandidates[i].fIsStCutElectron);
+      Bool_t isRtCut = (fCandidates[i].fIsRtCutElectron);
       Bool_t isTtCut = (fCandidates[i].fIsTtCutElectron);
       Bool_t isPtCut = (fCandidates[i].fMomentum.Perp() > fCuts.fPtCut);
       if (!fUseMvd) isMvd1Cut = true;
@@ -1391,11 +1394,12 @@ void CbmAnaDielectronTask::SignalAndBgReco()
 		if (isChi2Prim) TrackSource(&fCandidates[i], kChi2Prim, pdg);
 		if (isChi2Prim && isEl) TrackSource(&fCandidates[i], kElId, pdg);
 		if (isChi2Prim && isEl && isGammaCut) TrackSource(&fCandidates[i], kGammaCut, pdg);
-      if (isChi2Prim && isEl && isGammaCut && isMvd1Cut) TrackSource(&fCandidates[i], kMvd1Cut, pdg);
-      if (isChi2Prim && isEl && isGammaCut && isMvd1Cut && isMvd2Cut)TrackSource(&fCandidates[i], kMvd2Cut, pdg);
+        if (isChi2Prim && isEl && isGammaCut && isMvd1Cut) TrackSource(&fCandidates[i], kMvd1Cut, pdg);
+        if (isChi2Prim && isEl && isGammaCut && isMvd1Cut && isMvd2Cut)TrackSource(&fCandidates[i], kMvd2Cut, pdg);
 		if (isChi2Prim && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut) TrackSource(&fCandidates[i], kStCut, pdg);
-		if (isChi2Prim && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isTtCut) TrackSource(&fCandidates[i], kTtCut, pdg);
-		if (isChi2Prim && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isTtCut && isPtCut) TrackSource(&fCandidates[i], kPtCut, pdg);
+		if (isChi2Prim && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isRtCut) TrackSource(&fCandidates[i], kRtCut, pdg);
+		if (isChi2Prim && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isRtCut && isTtCut) TrackSource(&fCandidates[i], kTtCut, pdg);
+		if (isChi2Prim && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isRtCut && isTtCut && isPtCut) TrackSource(&fCandidates[i], kPtCut, pdg);
     }
 
     for (Int_t iP = 0; iP < ncand; iP++){
@@ -1417,6 +1421,7 @@ void CbmAnaDielectronTask::SignalAndBgReco()
             Bool_t isEl = (fCandidates[iP].fIsElectron && fCandidates[iM].fIsElectron);
             Bool_t isGammaCut = (!fCandidates[iP].fIsGamma && !fCandidates[iM].fIsGamma);
             Bool_t isStCut = (fCandidates[iP].fIsStCutElectron && fCandidates[iM].fIsStCutElectron);
+            Bool_t isRtCut = (fCandidates[iP].fIsRtCutElectron && fCandidates[iM].fIsRtCutElectron);
             Bool_t isTtCut = (fCandidates[iP].fIsTtCutElectron && fCandidates[iM].fIsTtCutElectron);
             Bool_t isPtCut = (fCandidates[iP].fMomentum.Perp() > fCuts.fPtCut && fCandidates[iM].fMomentum.Perp() > fCuts.fPtCut);
             Bool_t isAngleCut = (pRec.fAngle > fCuts.fAngleCut);
@@ -1444,10 +1449,13 @@ void CbmAnaDielectronTask::SignalAndBgReco()
             if (isChiPrimary && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut){
                FillPairHists(&fCandidates[iP], &fCandidates[iM], &pMC, &pRec, kStCut);
             }
-            if (isChiPrimary && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isTtCut){
+            if (isChiPrimary && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isRtCut){
+               FillPairHists(&fCandidates[iP], &fCandidates[iM], &pMC, &pRec, kRtCut);
+            }
+            if (isChiPrimary && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isRtCut && isTtCut){
                FillPairHists(&fCandidates[iP], &fCandidates[iM], &pMC, &pRec, kTtCut);
             }
-            if (isChiPrimary && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isTtCut && isPtCut){
+            if (isChiPrimary && isEl && isGammaCut && isMvd1Cut && isMvd2Cut && isStCut && isRtCut && isTtCut && isPtCut){
                FillPairHists(&fCandidates[iP], &fCandidates[iM], &pMC, &pRec, kPtCut);
             }
         } // iM

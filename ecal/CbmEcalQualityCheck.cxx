@@ -47,8 +47,8 @@ void CbmEcalQualityCheck::Exec(Option_t* option)
   CbmEcalPoint* po;
   CbmMCTrack* tr;
   CbmMCTrack* tq;
-  CbmEcalRecParticle* r;
-  CbmEcalRecParticle* rm;
+  CbmEcalRecParticle* r=NULL;
+  CbmEcalRecParticle* rm=NULL;
   Double_t rmin;
   Double_t rad;
   Double_t dx;
@@ -282,7 +282,7 @@ void CbmEcalQualityCheck::DrawLine(Double_t x, Double_t y, const char* color, In
   if (track==-1111) return;
   Int_t i=0;
   Int_t n=fPoints->GetEntriesFast();
-  CbmEcalPoint* pt;
+  CbmEcalPoint* pt=NULL;
 
   for(i=0;i<n;i++)
   {
@@ -496,7 +496,7 @@ void CbmEcalQualityCheck::DrawCells()
       if (tr->GetMotherId()>=0)
       {
 	tq=(CbmMCTrack*)fMCTracks->At(tr->GetMotherId());
-	if (tr->GetMotherId()==22)
+	if (tq->GetPdgCode()==22)
 	  (*p)->fR+=p1->second;
       }
     }

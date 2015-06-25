@@ -12,6 +12,8 @@
 
 #include "FairRuntimeDb.h"
 
+#include <iostream>
+
 ClassImp(CbmBeamTimeContFact)
 
 static CbmBeamTimeContFact gCbmBeamTimeContFact;

@@ -35,8 +35,8 @@ CbmTrdModule::CbmTrdModule()
     fPadSizeX(0),
     fPadSizeY(0),
     fTriangularPads(false),
-    fNofAsics(0),
-    fAsicMap()
+    fAsicMap(),
+    fNofAsics(0)
 {
 }
 CbmTrdModule::CbmTrdModule(
@@ -70,8 +70,8 @@ CbmTrdModule::CbmTrdModule(
     fPadSizeX(padSizeX),
     fPadSizeY(padSizeY) ,
     fTriangularPads(padGeoTriangular),
-    fNofAsics(0),
-    fAsicMap()  
+    fAsicMap(),
+    fNofAsics(0)
 {
   CbmTrdModule(address, orientation, x, y, z,
 	       sizex, sizey, sizez, nofSectors,
@@ -110,8 +110,8 @@ CbmTrdModule::CbmTrdModule(
     fPadSizeX(padSizeX),
     fPadSizeY(padSizeY) ,
     fTriangularPads(false),
-    fNofAsics(0),
-    fAsicMap()  
+    fAsicMap(),
+    fNofAsics(0)
 {
   // Calculate the coordinates of the begin and the end of each sector
   // as well as the coordinates of the center of the sector

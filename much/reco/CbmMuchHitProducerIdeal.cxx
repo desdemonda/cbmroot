@@ -21,13 +21,13 @@ using std::fabs;
 
 CbmMuchHitProducerIdeal::CbmMuchHitProducerIdeal(const char* digiFileName)
 : FairTask("CbmMuchHitProducerIdeal"),
-  fDigiFile(digiFileName),
-  fGeoScheme(NULL),
   fMuchPoints(NULL),
   fMuchPixelHits(NULL),
   fSigmaX(0.01),
   fSigmaY(0.01),
-  fSigmaZ(0.)
+  fSigmaZ(0.),
+  fDigiFile(digiFileName),
+  fGeoScheme(NULL)
 {
 }
 

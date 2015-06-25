@@ -271,7 +271,7 @@ CbmEcalDetailed::CbmEcalDetailed(const char* name, Bool_t active, const char* fi
   /** Counting modules **/
   for(i=0;i<fInf->GetXSize();i++)
   for(j=0;j<fInf->GetYSize();j++)
-    fModulesWithType[fInf->GetType(i,j)]++;
+    fModulesWithType[(Int_t)fInf->GetType(i,j)]++;
 
   for(i=1;i<cMaxModuleType;i++)
   {
@@ -393,6 +393,7 @@ Bool_t  CbmEcalDetailed::ProcessHits(FairVolume* vol)
   fLength  = gMC->TrackLength();
 
   if (vol->getVolumeId()==fStructureId)
+  {
     if (gMC->IsTrackEntering())
     {
       FillWallPoint();
@@ -404,7 +405,7 @@ Bool_t  CbmEcalDetailed::ProcessHits(FairVolume* vol)
     }
     else
       return kFALSE;
-
+  }
   if (fELoss<=0) return kFALSE;
 
   if (fELoss>0)
@@ -579,12 +580,15 @@ Bool_t CbmEcalDetailed::FillLitePoint(Int_t volnum)
   CbmEcalPointLite* newHit;
   
   if ((oldHit=FindHit(fVolumeID,fTrackID))!=NULL)
+  {
     ChangeHit(oldHit);
+    return kTRUE;
+  }
   else
     // Create CbmEcalPoint for scintillator volumes
     newHit = AddLiteHit(fTrackID, fVolumeID, fTime, fELoss);
-      
-
+  
+  if (newHit==NULL) return kFALSE;
   return kTRUE;
 }
 
@@ -726,8 +730,10 @@ void CbmEcalDetailed::ConstructGeometry()
   par[2]=moduleth/2.0+0.1;
 */
   bbox=new TGeoBBox("ecal_bbox",par[0], par[1], par[2]);
+  if (bbox==NULL) Error("ConstructGeometry", "Can't create BBox for ECAL");
   // 48 cm for beam pipe
   tube=new TGeoTube("ecal_hole", 0, 48, par[2]);
+  if (tube==NULL) Error("ConstructGeometry", "Can't create hole for beam pipe in ECAL");
   top=new TGeoCompositeShape("ecal_top", "ecal_bbox-ecal_hole");
 //  volume=gGeoManager->Volume("Ecal", "BOX",  gGeoManager->GetMedium("SensVacuum")->GetId(), par, 3);
   volume=new TGeoVolume("Ecal", top, gGeoManager->GetMedium("SensVacuum"));
@@ -739,10 +745,12 @@ void CbmEcalDetailed::ConstructGeometry()
 
   for(i=1;i<cMaxModuleType;i++)
     if (fModulesWithType[i]>0)
+    {
       if (fSimpleGeo==0)
 	ConstructModule(i);
       else
 	ConstructModuleSimple(i);
+    }
  
   TGeoVolume* vol=new TGeoVolumeAssembly("EcalStructure");
   for(i=0;i<fYSize;i++)
@@ -1033,14 +1041,14 @@ void CbmEcalDetailed::ConstructTile(Int_t type, Int_t material)
     case 2: if (fTvTiles[type]!=NULL) return; break;
     default: Error("ConstructTile", "Can't construct a tile of type %d.", material);
   }
-  Double_t thickness;
+  Double_t thickness=-1111;
   TGeoVolume* hole;
   TGeoVolume* fiber;
   TGeoTranslation** tr;
   TGeoTranslation* tm;
   Int_t nh=fNH[type];
   Int_t i;
-  Int_t j;
+  Int_t j=0;
   TString nm;
   TString nm1;
   TString nm2;
@@ -1072,6 +1080,7 @@ void CbmEcalDetailed::ConstructTile(Int_t type, Int_t material)
       fHoleVol[material]=new TGeoVolume(nm1.Data(), holetube,  gGeoManager->GetMedium("ECALAir"));
     }
     hole=fHoleVol[material];
+    if (hole==NULL) Error("ConstructTile", "Can't create hole volume");
     // Fibers in holes 
     if (fFiberRad>0)
     {
@@ -1082,6 +1091,7 @@ void CbmEcalDetailed::ConstructTile(Int_t type, Int_t material)
         gGeoManager->Node(nm2.Data(), 1, nm1.Data(), 0.0, 0.0, 0.0, 0, kTRUE, buf, 0);
       }
       fiber=fFiberVol[material];
+      if (fiber==NULL) Error("ConstructTile", "Can't create fiber volume");
       // TODO: Cerenkoff !!!
       //AddSensitiveVolume(fiber);
     }
@@ -1155,8 +1165,8 @@ void CbmEcalDetailed::ConstructTile(Int_t type, Int_t material)
      
     edgingv=new TGeoVolume(nm+"_edging", edging, gGeoManager->GetMedium("ECALTileEdging"));
     edgingv->AddNode(tilev, 1);
-    fScTiles[cMaxModuleType]=tilev;
-    fTileEdging[cMaxModuleType]=edgingv;
+    fScTiles[type]=tilev;
+    fTileEdging[type]=edgingv;
   }
   else
   {
@@ -1179,7 +1189,7 @@ void CbmEcalDetailed::ConstructTileSimple(Int_t type, Int_t material)
     case 2: if (fTvTiles[type]!=NULL) return; break;
     default: Error("ConstructTileSimple", "Can't construct a tile of type %d.", material);
   }
-  Double_t thickness;
+  Double_t thickness=-1111;
   TGeoVolume* hole;
   TGeoVolume* fiber;
   TGeoTranslation** tr;
@@ -1223,8 +1233,8 @@ void CbmEcalDetailed::ConstructTileSimple(Int_t type, Int_t material)
   if (material==0)
   {
     AddSensitiveVolume(tilev);
-    fScTiles[cMaxModuleType]=tilev;
-    fTileEdging[cMaxModuleType]=tilev;
+    fScTiles[type]=tilev;
+    fTileEdging[type]=tilev;
   }
   else
   {

@@ -10,6 +10,7 @@
 
 #include "FairTask.h"
 class TClonesArray;
+class CbmMCDataArray;
 
 class CbmMatchRecoToMC : public FairTask
 {
@@ -40,6 +41,8 @@ public:
      */
     virtual void Finish();
 
+    void SetIncludeMvdHitsInStsTrack(Bool_t includeMvdHitsInStsTrack);
+
 private:
     /**
      * \brief Read and create data branches.
@@ -47,6 +50,11 @@ private:
     void ReadAndCreateDataBranches();
 
     void MatchClusters(
+          const TClonesArray* digiMatches,
+          const TClonesArray* clusters,
+          TClonesArray* clusterMatches);
+
+    void MatchStsClusters(
           const TClonesArray* digiMatches,
           const TClonesArray* clusters,
           TClonesArray* clusterMatches);
@@ -77,11 +85,23 @@ private:
           const TClonesArray* tracks,
           TClonesArray* trackMatches);
 
+    //Special case for STS: now evbased compatible
+    void MatchStsTracks(
+    	  const TClonesArray* mvdHitMatches,
+          const TClonesArray* stsHitMatches,
+    	  const TClonesArray* mvdPoints,
+          CbmMCDataArray* stsPoints,
+          const TClonesArray* tracks,
+          TClonesArray* trackMatches);
+
+    // If MVD hits has to be included in STS track
+    Bool_t fIncludeMvdHitsInStsTrack;
+
     // Pointers to data arrays
-    TClonesArray* fMCTracks;
+    CbmMCDataArray* fMCTracks;  // Monte-Carlo tracks
 
     // STS
-    TClonesArray* fStsPoints; // CbmStsPoint array
+    CbmMCDataArray* fStsPoints; // CbmStsPoint array
     TClonesArray* fStsDigis; // CbmStsDigi array
     TClonesArray* fStsClusters; // CbmStsCluster array
     TClonesArray* fStsHits; // CbmStsHit array
@@ -118,7 +138,7 @@ private:
     TClonesArray* fMuchTrackMatches; // Output CbmMatch array
 
     // MVD
-
+    TClonesArray* fMvdPoints; // CbmMvdPoint array
     TClonesArray* fMvdHits; 		// CbmMvdHit array
     TClonesArray* fMvdDigiMatches;	// CbmMatch array
     TClonesArray* fMvdHitMatches; 	// Output CbmMatch array

@@ -22,6 +22,7 @@ class CbmGlobalTrack;
 class CbmStsTrack;
 class CbmTrdTrack;
 class CbmRichRing;
+class CbmTofHit;
 class CbmMCTrack;
 class CbmTrackMatchNew;
 
@@ -34,23 +35,24 @@ public:
 
   PairAnalysisTrack();
   PairAnalysisTrack(const char* name, const char* title);
-  PairAnalysisTrack(CbmGlobalTrack *gtrk, CbmStsTrack *ststrk, CbmTrdTrack *trdtrk, CbmRichRing *richring,
+  PairAnalysisTrack(CbmGlobalTrack *gtrk, CbmStsTrack *ststrk, CbmTrdTrack *trdtrk, CbmRichRing *richring, CbmTofHit *tofhit,
 		  CbmMCTrack *mctrk,
 		  CbmTrackMatchNew *stsmatch, CbmTrackMatchNew *trdMatch, CbmTrackMatchNew *richMatch);
 
-  PairAnalysisTrack(const PairAnalysisTrack& track);
   virtual ~PairAnalysisTrack();
 
   // setter
   void SetPdgCode(Int_t pdg)              { fPdgCode=pdg; }
   void SetLabel(Int_t lbl)                { fLabel=lbl; }
   void SetWeight(Double_t wght)            { fWeight=wght; }
+  void SetMassHypo(Int_t pdg1, Int_t pdg2);
 
   // track getters
   CbmGlobalTrack *GetGlobalTrack()  const { return fGlblTrack; }
   CbmStsTrack    *GetStsTrack()     const { return fStsTrack;  }
   CbmTrdTrack    *GetTrdTrack()     const { return fTrdTrack;  }
   CbmRichRing    *GetRichRing()     const { return fRichRing;  }
+  CbmTofHit      *GetTofHit()       const { return fTofHit;    }
   CbmTrack       *GetTrack(DetectorId det) const;
   // mc track
   CbmMCTrack     *GetMCTrack()      const { return fMCTrack;   }
@@ -87,6 +89,8 @@ private:
   CbmStsTrack      *fStsTrack;        // sts track
   CbmTrdTrack      *fTrdTrack;        // trd track
   CbmRichRing      *fRichRing;        // rich ring
+  CbmTofHit        *fTofHit;          // tof hit
+
   CbmMCTrack       *fMCTrack;         // matched mc track
   CbmTrackMatchNew *fStsTrackMatch;   // sts track match
   CbmTrackMatchNew *fTrdTrackMatch;   // trd track match
@@ -98,7 +102,10 @@ private:
   Int_t          fPdgCode;            // pdg code
   Int_t          fLabel;              // MC label
   Double_t       fWeight;             // weighting
-  Int_t          fMultiMatch;         // MC label for n-times matched tracks 
+  Int_t          fMultiMatch;         // MC label for n-times matched tracks
+
+  PairAnalysisTrack(const PairAnalysisTrack& track);
+  PairAnalysisTrack &operator=(const PairAnalysisTrack &c);
 
   ClassDef(PairAnalysisTrack,1)         // PairAnalysis Track
 };

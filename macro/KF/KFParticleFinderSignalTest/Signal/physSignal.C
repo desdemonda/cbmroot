@@ -98,6 +98,17 @@ void physSignal(int nEventsToRun = 10000;) {
   // -----   Intialise and run   --------------------------------------------
 //  run->LoadGeometry();
   run->Init();
+  
+  KFPartEfficiencies eff;
+  for(int jParticle=0; jParticle<93; jParticle++)
+  {
+    TDatabasePDG* pdgDB = TDatabasePDG::Instance();
+
+    if(!pdgDB->GetParticle(eff.partPDG[jParticle])){
+        pdgDB->AddParticle(eff.partTitle[jParticle],eff.partTitle[jParticle], eff.partMass[jParticle], kTRUE,
+                           0, eff.partCharge[jParticle]*3,"Ion",eff.partPDG[jParticle]);
+    }
+  }
   cout << "Starting run" << endl;
   run->Run(firstEventToRun,lastEventToRun+1);
   // ------------------------------------------------------------------------

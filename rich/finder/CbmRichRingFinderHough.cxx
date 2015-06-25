@@ -21,8 +21,8 @@ using std::endl;
 using std::vector;
 
 CbmRichRingFinderHough::CbmRichRingFinderHough():
-    fRingCount(0),
     fNEvent(0),
+    fRingCount(0),
     fHTImpl(NULL)
 {
 #ifdef HOUGH_SERIAL

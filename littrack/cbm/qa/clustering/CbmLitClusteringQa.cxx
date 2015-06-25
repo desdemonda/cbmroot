@@ -9,7 +9,6 @@
 #include "CbmLitClusteringQaReport.h"
 #include "CbmHistManager.h"
 #include "CbmHit.h"
-#include "CbmBaseHit.h"
 #include "FairRootManager.h"
 #include "CbmMuchDigi.h"
 #include "CbmMuchDigiMatch.h"
@@ -494,7 +493,6 @@ void CbmLitClusteringQa::CreateClusterParametersHistograms(
    nameH2 = "hpa_" + detName + "Hit_NofPointsInHit_H2";
    fHM->Create2<TH2F>(nameH2, nameH2 + ";Station;Number of points;Yield", nofBinsStation, minStation, max, nofBins, min, max);
    nameH1 = "hpa_" + detName + "Hit_SigmaX_H1";
-	int Create1;
    fHM->Create1<TH1F>(nameH1, nameH1 + ";#sigma_{X} [cm];Yield", nofBinsSigma, minSigma, maxSigma);
    nameH2 = "hpa_" + detName + "Hit_SigmaX_H2";
    fHM->Create2<TH2F>(nameH2, nameH2 + ";Station;#sigma_{X} [cm];Yield", nofBinsStation, minStation, maxStation, nofBinsSigma, minSigma, maxSigma);

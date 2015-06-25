@@ -70,7 +70,7 @@ void sis100_electron_setup()
   // -----  Geometries  -----------------------------------------------------
   caveGeom     = "cave.geo";
   pipeGeom     = "pipe/pipe_v14l.root";
-  magnetGeom   = "magnet/magnet_v12b.geo.root";
+  magnetGeom   = "magnet/magnet_v15a.geo.root";
   mvdGeom      = "mvd/mvd_v15a.geo.root";
   stsGeom      = "sts/sts_" + stsTag + ".geo.root";
   richGeom     = "rich/rich_v14a_1e.root";

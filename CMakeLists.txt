@@ -175,11 +175,18 @@ SET(CBMROOT_MAJOR_VERSION 0)
 SET(CBMROOT_MINOR_VERSION 0)
 SET(CBMROOT_PATCH_VERSION 0)
 SET(CBMROOT_VERSION "${CBMROOT_MAJOR_VERSION}.${CBMROOT_MINOR_VERSION}.${CBMROOT_PATCH_VERSION}")
-SET(FAIRROOT_LIBRARY_PROPERTIES ${FAIRROOT_LIBRARY_PROPERTIES}
-    VERSION "${CBMROOT_VERSION}"
-    SOVERSION "${CBMROOT_MAJOR_VERSION}"
-    SUFFIX ".so"
-)
+If(NOT ROOT_FOUND_VERSION OR ROOT_FOUND_VERSION LESS 59999)
+  SET(FAIRROOT_LIBRARY_PROPERTIES ${FAIRROOT_LIBRARY_PROPERTIES}
+      VERSION "${CBMROOT_VERSION}"
+      SOVERSION "${CBMROOT_MAJOR_VERSION}"
+      SUFFIX ".so"
+  )
+Else()
+  SET(FAIRROOT_LIBRARY_PROPERTIES ${FAIRROOT_LIBRARY_PROPERTIES}
+      VERSION "${CBMROOT_VERSION}"
+      SOVERSION "${CBMROOT_MAJOR_VERSION}"
+  )
+EndIf()
 
 SET(CBMLIBDIR ${CMAKE_BINARY_DIR}/lib)  
 SET(LD_LIBRARY_PATH  ${CBMLIBDIR} ${Boost_LIBRARY_DIRS} ${LD_LIBRARY_PATH})
@@ -230,23 +237,29 @@ If(NOT ${ROOT_HAS_VC})
   Install(FILES $${CMAKE_BINARY_DIR}/lib/libVc.a DESTINATION lib)
 EndIf()
 
-# Test is we use the new FairSource. The difference is the signature.
-# Compile test code. If the code compiles we use the new FairSource.
-Message(STATUS "Checking for FairSource version")
-Execute_process(COMMAND ${CMAKE_CXX_COMPILER} -c 
-                        ${CMAKE_SOURCE_DIR}/test/testcode/CbmTestSource.cxx
-                        -I${ROOT_INCLUDE_DIR} -I${FAIRROOTPATH}/include
-                        -I${CMAKE_SOURCE_DIR}/base/source
-                WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-                RESULT_VARIABLE OldFairSource
-                ERROR_QUIET
-               )
+If(ROOT_VERSION_MAJOR VERSION_LESS 6 )
+  # Test is we use the new FairSource. The difference is the signature.
+  # Compile test code. If the code compiles we use the new FairSource.
+  Message(STATUS "Checking for FairSource version")
+  Execute_process(COMMAND ${CMAKE_CXX_COMPILER} -c 
+                          ${CMAKE_SOURCE_DIR}/test/testcode/CbmTestSource.cxx
+                          -I${ROOT_INCLUDE_DIR} -I${FAIRROOTPATH}/include
+                          -I${CMAKE_SOURCE_DIR}/base/source
+                  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+                  RESULT_VARIABLE OldFairSource
+                  ERROR_QUIET
+                 )
+Else()
+  Set(ROOT6 TRUE)
+  Set(OldFairSource FALSE)
+EndIf()
 
 If(OldFairSource)
   Message(STATUS "Found old FairSource")
 Else()
   Message(STATUS "Found new FairSource")
 EndIf()
+
 
 add_subdirectory (cbmbase)
 add_subdirectory (cbmdata)
@@ -269,7 +282,7 @@ add_subdirectory (L1)
 add_subdirectory (macro)
 add_subdirectory (dilept)
 #add_subdirectory (stt)
-add_subdirectory (trdcatrack)
+#####add_subdirectory (trdcatrack)
 #add_subdirectory (tutorials/Tutorial1/src)
 #add_subdirectory (tutorials/Tutorial2/src)
 add_subdirectory (cbmgenerators)
@@ -333,6 +346,7 @@ EndIf(${EveIsBuild} STREQUAL yes)
 
 #set(BUILD_BEAMTIME FALSE CACHE BOOL "Build everything needed (DABC, RocLib ...) to read testbeam data.")
 If(BUILD_BEAMTIME)
+#  add_subdirectory (roclight)
   add_subdirectory (roc)
   add_subdirectory (beamtime)
 EndIf(BUILD_BEAMTIME)

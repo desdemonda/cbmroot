@@ -334,7 +334,7 @@ public:
     * \brief Operator << for convenient output to ostream.
     * \return Insertion stream in order to be able to call a succession of insertion operations.
     */
-   friend ostream& operator<<(ostream& strm, const CbmLitMCTrack& track) {
+   friend std::ostream& operator<<(std::ostream& strm, const CbmLitMCTrack& track) {
       strm << track.ToString();
       return strm;
    }

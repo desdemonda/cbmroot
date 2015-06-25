@@ -5,8 +5,7 @@
 #pragma link off all functions;
 
 #pragma link C++ class CbmDigi+;
-#pragma link C++ class CbmBaseHit+;
-#pragma link C++ class CbmHit+;
+#pragma link C++ class CbmHit;
 #pragma link C++ class CbmMCTrack+;
 #pragma link C++ class CbmPixelHit+;
 #pragma link C++ class CbmStack+;
@@ -83,11 +82,6 @@
 #pragma link C++ class CbmPsdHit;
 #pragma link C++ class CbmPsdPoint;
 #pragma link C++ class CbmPsdEventData;
-
-#pragma link C++ class CbmSttPoint+;
-#pragma link C++ class CbmSttHit+;
-#pragma link C++ class CbmSttTrack+;
-#pragma link C++ class CbmSttTrackMatch+;
 
 #pragma link C++ class CbmGlobalTrack+;
 #pragma link C++ class CbmTofTrack;

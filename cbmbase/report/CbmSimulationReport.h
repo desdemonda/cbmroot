@@ -9,12 +9,11 @@
 
 #include "CbmReport.h"
 #include "draw/CbmDrawHist.h"
+#include "CbmHistManager.h"
 #include <string>
 
 using std::ostream;
 using std::string;
-
-class CbmHistManager;
 
 /**
  * \class CbmSimulationReport
@@ -61,6 +60,36 @@ public:
    void Create(
 		   const string& fileName,
 		   const string& outputDir);
+
+   /**
+    * \brief Return pointer to TH1 histogram.
+    * \param[in] name Name of histogram.
+    * \return pointer to TH1 histogram.
+    */
+   TH1* H1(
+         const string& name) const {
+	   return HM()->H1(name);
+   }
+
+   /**
+    * \brief Return pointer to TH2 histogram.
+    * \param[in] name Name of histogram.
+    * \return pointer to TH2 histogram.
+    */
+   TH2* H2(
+         const string& name) const {
+      return HM()->H2(name);
+   }
+
+   /**
+    * \brief Return pointer to TH3 histogram.
+    * \param[in] name Name of histogram.
+    * \return pointer to TH3 histogram.
+    */
+   TH3* H3(
+         const string& name) const {
+      return HM()->H3(name);
+   }
 
    /**
     * \brief Return pointer to Histogram manager.

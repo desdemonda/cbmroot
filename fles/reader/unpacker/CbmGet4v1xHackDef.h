@@ -103,6 +103,8 @@ namespace get4v1x {
 
          Message(const Message& src) : data(src.data) {}
 
+         virtual ~Message() {};
+
          void assign(const Message& src) { data = src.data; }
 
          Message& operator=(const Message& src) { assign(src); return *this; }

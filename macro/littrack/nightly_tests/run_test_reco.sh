@@ -38,7 +38,7 @@ fi
 
 set_simulation_parameters ${pars} 
 
-export LIT_STS_HITPRODUCER_TYPE=real
+export LIT_STS_HITPRODUCER_TYPE=new
 export LIT_TRD_HITPRODUCER_TYPE=smearing
 export LIT_MUCH_HITPRODUCER_TYPE=advanced
 

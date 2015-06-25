@@ -470,6 +470,7 @@ void L1Algo::L1KFTrackFitter( bool extrapolateToTheEndOfSTS )
 #endif
         L1Filter( T, sta[i].frontInfo, u[i], w1 );
         L1Filter( T, sta[i].backInfo,  v[i], w1 );
+
         fB2 = fB1; 
         fz2 = fz1;
         fB1 = fB0; 
@@ -510,7 +511,7 @@ void L1Algo::L1KFTrackFitter( bool extrapolateToTheEndOfSTS )
         // fit forward
 
       i = 0;
-      FilterFirst( T, x_first, y_first, sta[i] ); // TODO different station. won't work with MVD
+      FilterFirst( T, x_first, y_first, sta[i] );
       // L1AddMaterial( T, sta[i].materialInfo, qp0 );
       qp0 = T.qp;
 
@@ -661,9 +662,9 @@ void L1Algo::GuessVec( L1TrackPar &t, fvec *xV, fvec *yV, fvec *zV, fvec *Sy, fv
     wS = w*S;
     A0+=w;
     A1+=wz;  A2+=wz*z;
-    A3+=wS;  A4+=wS*z; A5+=wS*S;
-    a0+=w*x; a1+=wz*x; a2+=wS*x;
-    b0+=w*y; b1+=wz*y; b2+=wS*y;
+    A3+=w;  A4+=w*z; A5+=wS;
+    a0+=w*x; a1+=wz*x; a2+=w*x;
+    b0+=w*y; b1+=wz*y; b2+=w*y;
   }
 
   fvec A3A3 = A3*A3;
@@ -687,13 +688,16 @@ void L1Algo::GuessVec( L1TrackPar &t, fvec *xV, fvec *yV, fvec *zV, fvec *Sy, fv
   L    = (Ai3*a0 + Ai4*a1 + Ai5*a2)*det *rcp(txtx1);
   L1 = L*t.tx;
   A1 = A1 + A3*L1;
-  A2 = A2 + ( A4 + A4 + A5*L1 )*L1;
+  A2 = A2 + ( A4 + A4 + /*A5*/A3*L1 )*L1;
   b1+= b2 * L1;
   det = rcp(-A1*A1+A0*A2);
 
   t.y = (  A2*b0 - A1*b1 )*det;
   t.ty = ( -A1*b0 + A0*b1 )*det;
-  t.qp = -L*c_light_i*rsqrt(txtx1 +t.ty*t.ty);
+
+  fvec zeroS = !fvec(fabs(A5) < fvec(1.e-8f));
+  t.qp = -L*c_light_i*rsqrt(txtx1 + t.ty*t.ty)/A5;
+  t.qp = t.qp & zeroS;
   t.z = z0;
 }
 

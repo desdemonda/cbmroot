@@ -155,6 +155,15 @@ private:
     		UInt_t tdcId);
 
     /*
+     * Decode EPICS data.
+     * \param data Array of TDC data words.
+     * \param size Number of words.
+     */
+    void DecodeEpicsData(
+    		UInt_t* data,
+			UInt_t size);
+
+    /*
      * Create CbmTrbOutputHits from Raw hits
      */
     void CreateOutputHits();

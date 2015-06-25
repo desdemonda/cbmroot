@@ -37,7 +37,10 @@ struct LxPoint
 #endif//REMEMBER_CLUSTERED_RAYS_IN_POINTS
 
   LxPoint(Double_t X, Double_t Y, Double_t Z, Double_t Dx, Double_t Dy, Double_t Dz, LxLayer* lay, int hId, bool isArtificial = false) :
-      x(X), y(Y), z(Z), dx(Dx), dy(Dy), dz(Dz), layer(lay), used(false), valid(true), track(0), hitId(hId), artificial(isArtificial)
+      x(X), y(Y), z(Z), dx(Dx), dy(Dy), dz(Dz), used(false), valid(true), artificial(isArtificial) , track(NULL), rays(), layer(lay), hitId(hId)
+#ifdef MAKE_EFF_CALC
+      , mcPoints()
+#endif//MAKE_EFF_CALC
 #ifdef REMEMBER_CLUSTERED_RAYS_IN_POINTS
       , leftClusteredRay(0), rightClusteredRay(0)
 #endif//REMEMBER_CLUSTERED_RAYS_IN_POINTS

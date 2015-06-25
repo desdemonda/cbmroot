@@ -53,118 +53,6 @@ void CbmAnaJpsiReport::Draw()
 	  // Draw RICH hits distribution
 	   Draw2DCut("fhRichPmtXY");
 
-	  //e+/- MC
-	  {
-		  TCanvas* c = CreateCanvas("jpsi_McEpmRapidityPt","jpsi_McEpmRapidityPt",600,600);
-		  DrawH2(H2("fhMcEpmRapidityPt"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_McEpmMinv","jpsi_McEpmMinv",600,600);
-	  	  H1("fhMcEpmMinv")->Scale(1. / H1("fhMcEpmMinv")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhMcEpmMinv"));
-	  }
-
-	  //e+/- Accepted
-	  {
-		  TCanvas* c = CreateCanvas("jpsi_AccEpmRapidityPt","jpsi_AccEpmRapidityPt",600,600);
-		  DrawH2(H2("fhAccEpmRapidityPt"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_AccEpmMinv","jpsi_AccEpmMinv",600,600);
-	  	  H1("fhAccEpmMinv")->Scale(1. / H1("fhAccEpmMinv")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhAccEpmMinv"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_AccEpmMomentum","jpsi_AccEpmMomentum",600,600);
-	  	  H1("fhAccEpmMomentum")->Scale(1. / H1("fhAccEpmMomentum")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhAccEpmMomentum"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_AccEpmRapidity","jpsi_AccEpmRapidity",600,600);
-	  	  H1("fhAccEpmRapidity")->Scale(1. / H1("fhAccEpmRapidity")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhAccEpmRapidity"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_AccEpmPt","jpsi_AccEpmPt",600,600);
-	  	  H1("fhAccEpmPt")->Scale(1. / H1("fhAccEpmPt")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhAccEpmPt"));
-	  }
-
-	  //e+/- Candidate reconstructed, using Mc to identify y and P_t
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_CandMcEpmPtY","jpsi_CandMcEpmPtY",600,600);
-	  	  DrawH2(H2("fhCandMcEpmPtY"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_CandEpmMinv","jpsi_CandEpmMinv",600,600);
-	  	  H1("fhCandEpmMinv")->Scale(1. / H1("fhCandEpmMinv")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhCandEpmMinv"));
-	  }
-	  //e+/- Candidate reconstructed, using Mc to identify y and P_t AND Chi2PrimCut
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_CandMcEpmPtYChi2PrimCut","jpsi_CandMcEpmPtYChi2PrimCut",600,600);
-	  	  DrawH2(H2("fhCandMcEpmPtYChi2PrimCut"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_CandEpmMinvChi2PrimCut","jpsi_CandEpmMinvChi2PrimCut",600,600);
-	  	  H1("fhCandEpmMinvChi2PrimCut")->Scale(1. / H1("fhCandEpmMinvChi2PrimCut")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhCandEpmMinvChi2PrimCut"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_CandEpmMomentumChi2PrimCut","jpsi_CandEpmMomentumChi2PrimCut",600,600);
-	  	  H1("fhCandEpmMomentumChi2PrimCut")->Scale(1. / H1("fhCandEpmMomentumChi2PrimCut")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhCandEpmMomentumChi2PrimCut"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_CandMcEpmRapidityChi2PrimCut","jpsi_CandMcEpmRapidityChi2PrimCut",600,600);
-	  	  H1("fhCandMcEpmRapidityChi2PrimCut")->Scale(1. / H1("fhCandMcEpmRapidityChi2PrimCut")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhCandMcEpmRapidityChi2PrimCut"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_CandMcEpmPtChi2PrimCut","jpsi_CandMcEpmPtChi2PrimCut",600,600);
-	  	  H1("fhCandMcEpmPtChi2PrimCut")->Scale(1. / H1("fhCandMcEpmPtChi2PrimCut")->Integral());//Scale Yield
-	  	  DrawH1(H1("fhCandMcEpmPtChi2PrimCut"));
-	  }
-
-	  //e+/- reconstructed, using IsElectron -> CUTS
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_RecoCandEpmPtYChi2PrimCut","jpsi_RecoCandEpmPtYChi2PrimCut",600,600);
-	  	  DrawH2(H2("fhRecoCandEpmPtYChi2PrimCut"));
-	  }
-
-	  {
-	  	  TCanvas* c = CreateCanvas("jpsi_RecoCandEpmMinvChi2PrimCut","jpsi_RecoCandEpmMinvChi2PrimCut",600,600);
-	  	  H1("fhRecoCandEpmMinvChi2PrimCut")->Scale(1. / H1("fhRecoCandEpmMinvChi2PrimCut")->Integral());//Scale Yield
-	      DrawH1(H1("fhRecoCandEpmMinvChi2PrimCut"));
-	  }
-
-	  {
-	   	  TCanvas* c = CreateCanvas("jpsi_RecoCandEpmMomentumChi2PrimCut","jpsi_RecoCandEpmMomentumChi2PrimCut",600,600);
-	   	  H1("fhRecoCandEpmMomentumChi2PrimCut")->Scale(1. / H1("fhRecoCandEpmMomentumChi2PrimCut")->Integral());//Scale Yield
-	   	  DrawH1(H1("fhRecoCandEpmMomentumChi2PrimCut"));
-	  }
-
-	  {
-	   	  TCanvas* c = CreateCanvas("jpsi_RecoCandMcEpmRapidityChi2PrimCut","jpsi_RecoCandMcEpmRapidityChi2PrimCut",600,600);
-	   	  H1("fhRecoCandMcEpmRapidityChi2PrimCut")->Scale(1. / H1("fhRecoCandMcEpmRapidityChi2PrimCut")->Integral());//Scale Yield
-	   	  DrawH1(H1("fhRecoCandMcEpmRapidityChi2PrimCut"));
- 	  }
-
-	  {
-	   	  TCanvas* c = CreateCanvas("jpsi_RecoCandMcEpmPtChi2PrimCut","jpsi_RecoCandMcEpmPtChi2PrimCut",600,600);
-	   	  H1("fhRecoCandMcEpmPtChi2PrimCut")->Scale(1. / H1("fhRecoCandMcEpmPtChi2PrimCut")->Integral());//Scale Yield
-	   	  DrawH1(H1("fhRecoCandMcEpmPtChi2PrimCut"));
-	  }
 
 	  //Number of Candidates after several cuts
 	  {
@@ -172,19 +60,6 @@ void CbmAnaJpsiReport::Draw()
 	      DrawH2(H2("fhNofCandidatesAfterCuts"));
 	  }
 
-	  //inv. Mass of Gamma Conversion pairs
-	  {
-	   	  TCanvas* c = CreateCanvas("jpsi_RecoGammaConvEpmMinv","jpsi_RecoGammaConvEpmMinv",600,600);
-	   	  H1("fhRecoGammaConvEpmMinv")->Scale(1. / H1("fhRecoGammaConvEpmMinv")->Integral());//Scale Yield
-	      DrawH1(H1("fhRecoGammaConvEpmMinv"));
-	  }
-
-	  //inv. Mass of e+- pairs from Pi0
-	  {
-	   	  TCanvas* c = CreateCanvas("jpsi_RecoPi0EpmMinv","jpsi_RecoPi0EpmMinv",600,600);
-	   	  H1("fhRecoPi0EpmMinv")->Scale(1. / H1("fhRecoPi0EpmMinv")->Integral());//Scale Yield
-	      DrawH1(H1("fhRecoPi0EpmMinv"));
-	  }
 
 	  //inv. Mass of e+- pairs from Pi0
 	  {
@@ -194,8 +69,110 @@ void CbmAnaJpsiReport::Draw()
 	  }
 
 	  DrawCutDistributions();
+
+	  DrawDistributions();
+
+	   // Number of BG and signal tracks after each cut
+	  {
+	   	  TCanvas* c = CreateCanvas("jpsi_nof_bg_tracks","jpsi_nof_bg_tracks",600,600);
+	   	  H1("fh_nof_bg_tracks")->Scale(1. / H1("fh_nof_bg_tracks")->Integral());//Scale Yield
+	      DrawH1(H1("fh_nof_bg_tracks"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_nof_el_tracks","jpsi_nof_el_tracks",600,600);
+	  	  H1("fh_nof_el_tracks")->Scale(1. / H1("fh_nof_el_tracks")->Integral());//Scale Yield
+	  	  DrawH1(H1("fh_nof_el_tracks"));
+	  }
+
+	  {
+	   	  TCanvas* c = CreateCanvas("jpsi_fh_nof_el_tracks","jpsi_fh_nof_el_tracks",600,600);
+	  	  DrawH2(H2("fh_source_tracks"));
+	  }
+
+	  //mismatches
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_nof_mismatches","jpsi_nof_mismatches",600,600);
+	  	  H1("fh_nof_mismatches")->Scale(1. / H1("fh_nof_mismatches")->Integral());//Scale Yield
+	  	  DrawH1(H1("fh_nof_mismatches"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_nof_mismatches_rich","jpsi_nof_mismatches_rich",600,600);
+	  	  H1("fh_nof_mismatches_rich")->Scale(1. / H1("fh_nof_mismatches_rich")->Integral());//Scale Yield
+	  	  DrawH1(H1("fh_nof_mismatches_rich"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_nof_mismatches_trd","jpsi_nof_mismatches_trd",600,600);
+	  	  H1("fh_nof_mismatches_trd")->Scale(1. / H1("fh_nof_mismatches_trd")->Integral());//Scale Yield
+	  	  DrawH1(H1("fh_nof_mismatches_trd"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_nof_mismatches_tof","jpsi_nof_mismatches_tof",600,600);
+	  	  H1("fh_nof_mismatches_tof")->Scale(1. / H1("fh_nof_mismatches_tof")->Integral());//Scale Yield
+	  	  DrawH1(H1("fh_nof_mismatches_tof"));
+	  }
+
+	  {
+	  	  TCanvas* c = CreateCanvas("jpsi_nof_ghosts","jpsi_nof_ghosts",600,600);
+	  	  //H1("fh_nof_ghosts")->Scale(1. / H1("fh_nof_ghosts")->Integral());//Scale Yield
+	  	  DrawH1(H1("fh_nof_ghosts"));
+	  }
 }
 
+void CbmAnaJpsiReport::DrawAnalysisStepsSourceTypesH1(
+	      const string& hName,
+	      bool doScale)
+{
+	for (int i=0; i<CbmAnaJpsiHist::fNofSourceTypes;i++)
+	{
+
+		{
+		TCanvas *c = CreateCanvas( ("jpsi_" + hName + "_" + CbmAnaJpsiHist::fSourceTypes[i]).c_str(), ("jpsi_" + hName + "_" + CbmAnaJpsiHist::fSourceTypes[i]).c_str(), 600, 600);
+		vector<TH1*> h;
+		vector<string> hLegend;
+		string hNameNew = "";
+		hNameNew = hName + "_" + CbmAnaJpsiHist::fSourceTypes[i];
+		DrawAnalysisStepsH1( hNameNew ,doScale);
+		}
+	}
+
+}
+
+
+
+void CbmAnaJpsiReport::DrawAnalysisStepsH2(
+      const string& hName)
+{
+   for (int i = 0;i< CbmAnaJpsiHist::fNofAnaSteps; i++)
+   {
+	   {
+		  string h = hName+"_"+CbmAnaJpsiHist::fAnaSteps[i];
+		  TCanvas* c = CreateCanvas(("jpsi_"+h).c_str(),("jpsi_"+h).c_str(),600,600);
+	   	  H1(h)->Scale(1. / H1(h)->Integral());//Scale Yield
+	   	  DrawH2(H2(h));
+	   }
+   }
+}
+
+void CbmAnaJpsiReport::DrawAnalysisStepsH1(
+      const string& hName,
+      bool doScale)
+{	TCanvas* c = CreateCanvas( ("jpsi_" + hName).c_str(), ("jpsi_" + hName).c_str(), 600, 600);
+   vector<TH1*> h;
+   vector<string> hLegend;
+   for (int i = 0; i < CbmAnaJpsiHist::fNofAnaSteps; i++){
+      string fullName = hName+"_"+CbmAnaJpsiHist::fAnaSteps[i];
+      h.push_back( H1(fullName) );
+      h[i]->SetLineWidth(2);
+      h[i]->SetLineColor(CbmAnaJpsiHist::fAnaStepsColor[i]);
+      if (doScale) h[i]->Scale(1. / h[i]->Integral());
+      hLegend.push_back( CbmAnaJpsiHist::fAnaStepsLatex[i] );
+   }
+   DrawH1(h, hLegend, kLinear, kLog, true, 0.90, 0.7, 0.99, 0.99);
+}
 
 void CbmAnaJpsiReport::DrawSourceTypesH1(
       const string& hName,
@@ -249,8 +226,32 @@ void CbmAnaJpsiReport::DrawCutDistributions()
    DrawCutH1("fhRichAnn", 2.0);
    DrawCutH1("fhTrdAnn", 2.0);
    Draw2DCut("fhTofM2");
+
 }
 
+void CbmAnaJpsiReport::DrawDistributions()
+{
+	   DrawAnalysisStepsH2("fh_vertex_el_gamma_xz");
+	   DrawAnalysisStepsH2("fh_vertex_el_gamma_yz");
+	   DrawAnalysisStepsH2("fh_vertex_el_gamma_xy");
+	   DrawAnalysisStepsH2("fh_vertex_el_gamma_rz");
+	   DrawAnalysisStepsH1("fh_bg_minv",false);
+	   DrawAnalysisStepsH1("fh_pi0_minv",true);
+	   DrawAnalysisStepsH2("fh_pi0_minv_pt");
+	   DrawAnalysisStepsH1("fh_gamma_minv",true);
+	   DrawAnalysisStepsH1("fh_bg_truematch_minv",false);
+	   DrawAnalysisStepsH1("fh_bg_truematch_el_minv",false);
+	   DrawAnalysisStepsH1("fh_bg_truematch_notel_minv",false);
+	   DrawAnalysisStepsH1("fh_bg_mismatch_minv",false);
+	   DrawAnalysisStepsH2("fh_signal_minv_pt");
+	   DrawAnalysisStepsH1("fh_signal_mom",true);
+	   DrawAnalysisStepsH1("fh_signal_minv",true);
+	   DrawAnalysisStepsH2("fh_signal_pty");
+	   DrawAnalysisStepsH1("fh_signal_pt",true);
+	   DrawAnalysisStepsH1("fh_signal_rapidity",true);
+	   DrawAnalysisStepsSourceTypesH1("fh_source_mom",true);
+	   DrawAnalysisStepsSourceTypesH1("fh_source_pt",false);
+}
 
 ClassImp(CbmAnaJpsiReport)
 

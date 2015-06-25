@@ -23,13 +23,13 @@ using std::fixed;
 // -----   Default constructor   -------------------------------------------
 CbmStsFitTracks::CbmStsFitTracks() 
   : FairTask("STSFitTracks"),
-  fFitter(NULL),
-  fTracks(NULL),
-  fNTracks(0),
-  fTime(0.),
-  fNEvents(0),
-  fNFailed(0),
-  fTimer()
+    fFitter(NULL),
+    fTracks(NULL),
+    fTimer(),
+    fNEvents(0),
+    fNFailed(0),
+    fTime(0.),
+    fNTracks(0)
 {}
 // -------------------------------------------------------------------------
 
@@ -38,13 +38,13 @@ CbmStsFitTracks::CbmStsFitTracks()
 // -----   Standard constructor   ------------------------------------------
 CbmStsFitTracks::CbmStsFitTracks(CbmStsTrackFitter* fitter, Int_t iVerbose) 
   : FairTask("STSFitTracks"),
-  fFitter(fitter),
-  fTracks(NULL),
-  fNTracks(0),
-  fTime(0.),
-  fNEvents(0),
-  fNFailed(0),
-  fTimer()
+    fFitter(fitter),
+    fTracks(NULL),
+    fTimer(),
+    fNEvents(0),
+    fNFailed(0),
+    fTime(0.),
+    fNTracks(0)
 {}
 // -------------------------------------------------------------------------
 
@@ -53,13 +53,13 @@ CbmStsFitTracks::CbmStsFitTracks(CbmStsTrackFitter* fitter, Int_t iVerbose)
 // -----   Constructor with name   -----------------------------------------
 CbmStsFitTracks::CbmStsFitTracks(const char* name, CbmStsTrackFitter* fitter, Int_t iVerbose) 
   : FairTask(name, iVerbose),
-  fFitter(fitter),
-  fTracks(NULL),
-  fNTracks(0),
-  fTime(0.),
-  fNEvents(0),
-  fNFailed(0),
-  fTimer()
+    fFitter(fitter),
+    fTracks(NULL),
+    fTimer(),
+    fNEvents(0),
+    fNFailed(0),
+    fTime(0.),
+    fNTracks(0)
 {}
 // -------------------------------------------------------------------------
 

@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <fstream>
 #include <cstring>
-//#include <vector>
+#include <time.h>
 
 #include "TMath.h"
 #include "TRandom3.h"
@@ -35,24 +35,18 @@ using std::vector;
 // --- Energy for creation of an electron-hole pair in silicon [GeV]  ------
 const double kPairEnergy = 3.57142e-9;
 
-// --- Flags to switch on/off different physical processes in sensor -------
-static Bool_t fDiffusion = 1;
-static Bool_t fNonUniformity = 1;
-static Bool_t fCrossTalk = 1;
-static Bool_t fField = 1;
-
 // -----   Constructor   ---------------------------------------------------
-    CbmStsSensorTypeDssdReal::CbmStsSensorTypeDssdReal()
+CbmStsSensorTypeDssdReal::CbmStsSensorTypeDssdReal()
 : CbmStsSensorTypeDssd(), 
-    fVdepletion (), fVbias (), fkTq (), fTemperature (),
-    fCcoup (), fCinter (), fCTcoef (), fPhysics(CbmStsPhysics::Instance())
+    fPhysics(CbmStsPhysics::Instance()),
+	    fNonUniformity(1),
+	    fDiffusion(1),
+	    fCrossTalk(1),
+	    fLorentzShift(1)
 {
 }
 // -------------------------------------------------------------------------
 
-/*
-// -----   Print parameters   ----------------------------------------------
-void CbmStsSensorTypeDssdReal::Print(Option_t* opt) const {
 
 // -----   Cross-talk   -----------------------------------------------
 void CbmStsSensorTypeDssdReal::CrossTalk(Double_t * stripCharge, Double_t * stripChargeCT, 
@@ -163,6 +157,7 @@ void CbmStsSensorTypeDssdReal::DiffusionAndLorentzShift (Double_t delta, Double_
 Int_t CbmStsSensorTypeDssdReal::ProcessPoint(CbmStsSensorPoint* point,
 	const CbmStsSensor* sensor) const {
 
+
     // --- Catch if parameters are not set
     if ( ! fIsSet ) {
 	LOG(FATAL) << fName << ": parameters are not set!"
@@ -204,9 +199,6 @@ Int_t CbmStsSensorTypeDssdReal::ProcessPoint(CbmStsSensorPoint* point,
 
 
 // -----   Produce charge on the strips   ----------------------------------
-//Int_t CbmStsSensorTypeDssdReal::ProduceCharge(CbmStsSensorPoint* point,
-//	Int_t side,
-//	const CbmStsSensor* sensor, Double_t * ELossLayerArray)
 Int_t CbmStsSensorTypeDssdReal::ProduceCharge(CbmStsSensorPoint* point,
 	Int_t side,
 	const CbmStsSensor* sensor, vector<Double_t> &ELossLayerArray)
@@ -258,7 +250,8 @@ const {
     // Calculate the length of trajectiry inside sensor 
     // (without taking into account the band in magnetic field)
     Double_t trajLength = sqrt ((locX2 - locX1) * (locX2 - locX1) + 
-	    fDz * fDz + (locY2 - locY1) * (locY2 - locY1));
+	    (locZ2 - locZ1) * (locZ2 - locZ1) + 
+	    (locY2 - locY1) * (locY2 - locY1));
 
     // Project point coordinates (in / out) along strips to readout (top) edge
     // Keep in mind that the SensorPoint gives coordinates with
@@ -386,9 +379,10 @@ const {
 	    << iStrip << " = " << stripCharge[iStrip] << FairLogger::endl;
     }
     if (fCrossTalk) {
+	Double_t CTcoef =  sensor -> GetConditions().GetCrossTalk();
 	stripChargeCT = new Double_t[nStrips];
 	memset(stripChargeCT, 0, nStrips * sizeof(Double_t) );
-	CrossTalk (stripCharge, stripChargeCT, nStrips, tanphi);
+	CrossTalk (stripCharge, stripChargeCT, nStrips, tanphi, CTcoef);
     }
     else stripChargeCT = stripCharge;
 
@@ -402,7 +396,7 @@ const {
 	    LOG(DEBUG4) << GetName() << ": charge at strip#" << iStrip << " = " << stripChargeCT[iStrip] 
 		<< ", after norm (*qtot/totalProducedCharge) = " << chargeNorm << FairLogger::endl;
 	    // --- Register charge to module
-	    RegisterCharge(sensor, side, iStrip, chargeNorm,
+	    RegisterCharge(sensor, side, iStrip, chargeNorm, 
 		    (point -> GetTime()));
 	    nSignals++;
 	}
@@ -415,88 +409,6 @@ const {
     return nSignals;
 }
 // -------------------------------------------------------------------------
-
-
-// -----   Stopping power   -----------------------------------------------
-Double_t CbmStsSensorTypeDssdReal::StoppingPower(Bool_t fElectron, 
-	Double_t mx, Double_t Ex, Int_t zx) const {
-
-    Double_t mp = 0.938, E, dEdx;//[GeV]
-    ifstream inFile;
-    TString dataDir = gSystem -> Getenv("VMCWORKDIR");
-    dataDir += "/sts/digitize";
-
-    //calculate dEdx
-    if (fElectron){ 
-    	E = Ex;
-	if (E <= 10){//read from electron table, we have table only till E = 10 GeV
-	    LOG(DEBUG2) << "it is ELECTRON" << FairLogger::endl;
-	    inFile.open(dataDir + "/dEdx_Si_e.txt");
-	    if(inFile.is_open()){
-		LOG(DEBUG2) << "opened file" << FairLogger::endl;
-		Double_t Etemp = 0., dEdxtemp = 0.;
-		while (Etemp <= E){
-		    inFile >> Etemp;//E, Mev
-		    inFile >> dEdxtemp;//dEdx, MeV/...
-		    Etemp *= 1e-3;
-		}
-		LOG(DEBUG4) << "dE/dx =  " << dEdxtemp << " MeV/..." <<  Etemp << FairLogger::endl;
-		dEdx = dEdxtemp * 1e-3 * 2.33;
-		inFile.close();
-	    }else{
-		LOG(ERROR) << "File with dE/dx for electrons WAS NOT opened." << FairLogger::endl;}
-
-	} else {
-	    dEdx = 100e-3 * 2.33;// convert to MeV/cm, rho(Si) = 2.33 g/cm^2 
-	}
-    } else {//read from proton table
-	E = Ex * mp / mx;
-	if (E >= 10) {//for energy >= 10 GeV assume dEdx to be const
-	    dEdx = zx * zx * 2e-3 * 2.33;// convert to MeV/cm, rho(Si) = 2.33 g/cm^2 
-	} else {
-	    inFile.open(dataDir + "/dEdx_Si_p.txt");
-	    if(inFile.is_open()){
-		Double_t Etemp = 0., dEdxtemp = 0.;
-		//int counter = 0;
-		while (Etemp <= E){
-		    inFile >> Etemp;//E, Mev
-		    inFile >> dEdxtemp;//dEdx, MeV/...
-		    Etemp *= 1e-3;
-		    //	counter++;
-		}
-		LOG(DEBUG4) << "dE/dx =  " << dEdxtemp << " MeV/..." <<  Etemp << "  " << E << FairLogger::endl;
-		dEdx = dEdxtemp * 1e-3 * zx * zx * 2.33; // convert to MeV/cm, rho(Si) = 2.33 g/cm^2
-		inFile.close();
-	    }else{
-		LOG(ERROR) << "File with dE/dx for protons WAS NOT opened." << FairLogger::endl;
-	    }
-	}
-    }
-    return dEdx;
-}
-// -------------------------------------------------------------------------
-
-
-// -----   Set the parameters   --------------------------------------------
-void CbmStsSensorTypeDssdReal::SetParameters(Double_t dx, Double_t dy,
-	Double_t dz, Int_t nStripsF,
-	Int_t nStripsB, Double_t stereoF,
-	Double_t stereoB,
-	Double_t Vdep, Double_t Vbias, Double_t temperature,
-	Double_t Ccoup, Double_t Cinter) {
-
-    // --- Set members
-    fVdepletion   = Vdep;
-    fVbias        = Vbias;
-    fTemperature  = temperature;
-    fCcoup        = Ccoup;
-    fCinter       = Cinter;
-    fkTq = sqrt (2. * temperature * 1.38e-4 / 1.6);
-    fCTcoef = Cinter / (Cinter + Ccoup);
-    CbmStsSensorTypeDssd::SetParameters(dx, dy, dz, nStripsF, nStripsB, stereoF, stereoB);   
-}
-// -------------------------------------------------------------------------
-
 
 
 ClassImp(CbmStsSensorTypeDssdReal)

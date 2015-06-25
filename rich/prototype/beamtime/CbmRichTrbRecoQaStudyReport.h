@@ -38,8 +38,7 @@ protected:
 
 
 	void FitGausAndDrawH1(
-			const string& histName,
-			const string& canvasName);
+			const string& histName);
 
 	void DrawEfficiency();
 

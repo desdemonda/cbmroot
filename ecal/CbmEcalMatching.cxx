@@ -169,7 +169,7 @@ void CbmEcalMatching::FormEpred(CbmEcalRecParticle* p)
   Int_t k=0;
   Int_t type;
   static Double_t module=fStr->GetEcalInf()->GetModuleSize();
-  Double_t cellsize;
+//  Double_t cellsize;
   CbmEcalCell* cell;
   Double_t x;
   Double_t y;
@@ -185,7 +185,7 @@ void CbmEcalMatching::FormEpred(CbmEcalRecParticle* p)
   {
     cell=fStr->GetHitCell(cluster->CellNum(k));
     type=cell->GetType();
-    cellsize=module/type;
+//    cellsize=module/type;
     cx=cell->GetCenterX(); x=cx;
     cy=cell->GetCenterY(); y=cy;
     r=TMath::Sqrt(x*x+y*y);
@@ -408,6 +408,7 @@ void  CbmEcalMatching::MatchP2(CbmEcalRecParticle* p)
 	  if ((*i).first==tr->GetMotherId())
 	    break;
         if (i!=fP.end())
+	{
 	  if ((*i).second>fMotherThr*(*j).second)
 	  {
 	    remove.push_back(*j);
@@ -415,6 +416,7 @@ void  CbmEcalMatching::MatchP2(CbmEcalRecParticle* p)
 	  }
           else
 	    remove.push_back(*i);
+	}
 	if (tr->GetMotherId()>=0)
 	  tr=(CbmMCTrack*)fMCTracks->At(tr->GetMotherId());
 	else

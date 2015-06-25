@@ -138,7 +138,7 @@ void CbmHistManager::ReadFromFile(
    }
 }
 
-void CbmHistManager::Clear()
+void CbmHistManager::Clear(Option_t*)
 {
    map<string, TNamed*>::iterator it;
    for (it = fMap.begin(); it != fMap.end(); it++) {

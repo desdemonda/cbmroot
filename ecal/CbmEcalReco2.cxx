@@ -66,7 +66,7 @@ Double_t FCNEcalCluster2::DoEval(const Double_t* par) const
   Double_t y;
   Double_t theta;
   Double_t phi;
-  Double_t cellsize;
+ // Double_t cellsize;
   Double_t cx;
   Double_t cy;
   Double_t r;
@@ -111,7 +111,7 @@ Double_t FCNEcalCluster2::DoEval(const Double_t* par) const
     cell=fStr->GetHitCell(fCluster->CellNum(k));
     max=fCluster->Maximum(k);
     type=cell->GetType();
-    cellsize=module/type;
+  //  cellsize=module/type;
     cellerr=0; celle=0;
     for(i=0;i<fN;i++)
     {
@@ -208,7 +208,7 @@ void CbmEcalReco2::WriteClusterInfo(CbmEcalCluster* clstr)
   Int_t j;
   Int_t k;
   Double_t celle;
-  Double_t cellsize;
+//  Double_t cellsize;
   Double_t e[3];
   Double_t x;
   Double_t y;
@@ -221,12 +221,12 @@ void CbmEcalReco2::WriteClusterInfo(CbmEcalCluster* clstr)
   Double_t de;
   Double_t epred;
   Double_t emeas;
-  Double_t clenergy;
+ // Double_t clenergy;
   Double_t cellerr;
   static Double_t module=fInf->GetModuleSize();
 
   fECluster=fCal->GetEnergy(clstr->Energy(), max->TanTheta(), max->Region());
-  clenergy=fECluster;
+ // clenergy=fECluster;
   for(k=0;k<clstr->Size();k++)
   {
     cell=fStr->GetHitCell(clstr->CellNum(k));
@@ -244,7 +244,7 @@ void CbmEcalReco2::WriteClusterInfo(CbmEcalCluster* clstr)
     cell=fStr->GetHitCell(clstr->CellNum(k));
     max=clstr->Maximum(k);
     fTypes[i]=cell->GetType();
-    cellsize=module/fTypes[i];
+ //   cellsize=module/fTypes[i];
     celle=0;
     for(j=fNOld;j<fN;j++)
     {
@@ -448,7 +448,7 @@ void CbmEcalReco2::TimeReco(CbmEcalRecParticle* p, CbmEcalCluster* cluster)
   Int_t k;
   CbmEcalCell* cell;
   Int_t type;
-  Double_t cellsize;
+ // Double_t cellsize;
   Double_t celle;
   Double_t celltime;
   Double_t x;
@@ -475,7 +475,7 @@ void CbmEcalReco2::TimeReco(CbmEcalRecParticle* p, CbmEcalCluster* cluster)
     if (celltime==-1111) continue;
     /** No time information for the cell **/
     type=cell->GetType();
-    cellsize=module/type;
+ //   cellsize=module/type;
     x=cell->GetCenterX(); x-=p->X(); // x-=cx; 
     y=cell->GetCenterY(); y-=p->Y(); // y-=cy; 
 
@@ -506,7 +506,7 @@ Double_t CbmEcalReco2::CalculateChi2(CbmEcalCluster* cluster)
   Double_t y;
   Double_t theta;
   Double_t phi;
-  Double_t cellsize;
+ // Double_t cellsize;
   Double_t cx;
   Double_t cy;
   Double_t r;
@@ -542,7 +542,7 @@ Double_t CbmEcalReco2::CalculateChi2(CbmEcalCluster* cluster)
     cell=fStr->GetHitCell(cluster->CellNum(k));
     max=cluster->Maximum(k);
     type=cell->GetType();
-    cellsize=module/type;
+ //   cellsize=module/type;
     cellerr=0; celle=0;
     for(p=fNOld;p<fN;p++)
     {
@@ -616,7 +616,7 @@ void CbmEcalReco2::Reco(CbmEcalMaximum* max, CbmEcalCluster* clstr)
   Double_t y;
   Double_t amp;
   Double_t en;
-  Double_t maxe;
+ // Double_t maxe;
   Double_t px;
   Double_t py;
   Double_t pz;
@@ -664,7 +664,7 @@ void CbmEcalReco2::Reco(CbmEcalMaximum* max, CbmEcalCluster* clstr)
     fAY/=fE3x3;
   }
 
-  maxe=0;
+ // maxe=0;
   cell->GetNeighborsList(max->I(),cells);
   en=cell->GetEnergy();
   for(p=cells.begin();p!=cells.end();++p) 

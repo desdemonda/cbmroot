@@ -60,7 +60,7 @@ private:
     static Bool_t    IsHitMessage( const uint32_t & msg );
 
     static uint32_t  GetUint32( const uint8_t * const & val ) { return * ( reinterpret_cast< const uint32_t * const >( val ) ); }
-    static uint32_t  GetField(const uint32_t dword, const uint8_t shift, const uint8_t len) { return (dword >> shift) & ((((uint32_t)1) << len) - 1); }
+    static uint32_t  GetField(const uint32_t dword, const uint8_t shift, const uint8_t len) { return (dword >> shift) & (((static_cast<uint32_t>(1)) << len) - 1); }
     static uint32_t  GetBit(const uint32_t dword, const uint8_t shift) { return ( dword >> shift ) & 1; }
 
     static void      InitializeParityTable();
@@ -134,6 +134,8 @@ private:
 
 #undef __SWAPWORDS
 
+    CbmTSUnpackStsxyter(const CbmTSUnpackStsxyter&);    
+    CbmTSUnpackStsxyter& operator=(const CbmTSUnpackStsxyter&);    
 
     ClassDef(CbmTSUnpackStsxyter, 1);
 };

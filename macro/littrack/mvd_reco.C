@@ -9,12 +9,12 @@
 using std::cout;
 using std::endl;
 
-void mvd_reco(Int_t nEvents = 100)
+void mvd_reco(Int_t nEvents = 10)
 {
    TString script = TString(gSystem->Getenv("LIT_SCRIPT"));
    TString parDir = TString(gSystem->Getenv("VMCWORKDIR")) + TString("/parameters");
 
-   TString dir = "events/mvd/"; // Output directory
+   TString dir = "events/mvd_v14a/"; // Output directory
    TString mcFile = dir + "mc.0000.root"; // MC transport file
    TString parFile = dir + "param.0000.root"; // Parameters file
    TString mvdDeltaFile = dir + "mc.delta.0000.root"; // Delta files for MVD
@@ -56,19 +56,32 @@ void mvd_reco(Int_t nEvents = 100)
 
    if (IsMvd(parFile)) {
       // ----- MVD reconstruction    --------------------------------------------
-      CbmMvdDigitizeL* mvdDigi = new CbmMvdDigitizeL("MVD Digitiser", 0, iVerbose);
-  	  if (nofMvdDeltaEvents > 0) {
-  		  mvdDigi->SetDeltaName(mvdDeltaFile);
-  		  mvdDigi->SetDeltaEvents(nofMvdDeltaEvents);
-  	  }
-      run->AddTask(mvdDigi);
+//      CbmMvdDigitizeL* mvdDigi = new CbmMvdDigitizeL("MVD Digitiser", 0, iVerbose);
+//  	  if (nofMvdDeltaEvents > 0) {
+//  		  mvdDigi->SetDeltaName(mvdDeltaFile);
+//  		  mvdDigi->SetDeltaEvents(nofMvdDeltaEvents);
+//  	  }
+//      run->AddTask(mvdDigi);
+//
+//      CbmMvdFindHits* mvdHitFinder = new CbmMvdFindHits("MVD Hit Finder", 0, iVerbose);
+//      run->AddTask(mvdHitFinder);
 
-      CbmMvdFindHits* mvdHitFinder = new CbmMvdFindHits("MVD Hit Finder", 0, iVerbose);
-      run->AddTask(mvdHitFinder);
+       CbmMvdDigitizer* mvdDigi = new CbmMvdDigitizer("MVD Digitiser", 0, iVerbose);
+       mvdDigi->SetPileUp(0);
+       run->AddTask(mvdDigi);
+
+      // CbmMvdHitfinder* mvdHitFinder = new CbmMvdHitfinder("MVD Hit Finder", 0, iVerbose);
+      // run->AddTask(mvdHitFinder);
+
+       // ----------------------------------------------------------------------
+
+       // -----   MVD Hit Finder   ---------------------------------------------
+    //   CbmMvdHitfinder* mvdHitfinder = new CbmMvdHitfinder("MVD Hit Finder", 0, iVerbose);
+    //   run->AddTask(mvdHitfinder);
       // -------------------------------------------------------------------------
    }
 
-   if (stsHitProducerType == "real") {
+/*   if (stsHitProducerType == "real") {
    // ----- STS REAL reconstruction -----------------------------------------------
       CbmStsDigitize_old* stsDigitize = new CbmStsDigitize_old();
       run->AddTask(stsDigitize);
@@ -78,9 +91,6 @@ void mvd_reco(Int_t nEvents = 100)
 
       FairTask* stsFindHits = new CbmStsFindHits_old();
       run->AddTask(stsFindHits);
-
-   //   FairTask* stsMatchHits = new CbmStsMatchHits();
-   //   run->AddTask(stsMatchHits);
 
    } else if (stsHitProducerType == "ideal") {
       // ----- STS IDEAL reconstruction   ---------------------------------------------
@@ -92,9 +102,6 @@ void mvd_reco(Int_t nEvents = 100)
 
       FairTask* stsFindHits = new CbmStsIdealFindHits();
       run->AddTask(stsFindHits);
-
-   //   FairTask* stsMatchHits = new CbmStsIdealMatchHits("STSMatchHits", iVerbose);
-   //   run->AddTask(stsMatchHits);
    }
 
 	FairTask* kalman = new CbmKF();
@@ -102,18 +109,14 @@ void mvd_reco(Int_t nEvents = 100)
 	FairTask* l1 = new CbmL1();
 	run->AddTask(l1);
 	CbmStsTrackFinder* trackFinder = new CbmL1StsTrackFinder();
-	//	CbmStsTrackFinder* trackFinder    = new CbmStsTrackFinderIdeal();
 	FairTask* findTracks = new CbmStsFindTracks(iVerbose, trackFinder, false);
 	run->AddTask(findTracks);
 
-//	FairTask* stsMatchTracks = new CbmStsMatchTracks("STSMatchTracks", iVerbose);
-//	run->AddTask(stsMatchTracks);
+	//CbmLitFindMvdTracks* mvdFinder = new CbmLitFindMvdTracks();
+	//run->AddTask(mvdFinder);
 
-	CbmLitFindMvdTracks* mvdFinder = new CbmLitFindMvdTracks();
-	run->AddTask(mvdFinder);
-
-	CbmLitFindGlobalTracks* globalFinder = new CbmLitFindGlobalTracks();
-	run->AddTask(globalFinder);
+	//CbmLitFindGlobalTracks* globalFinder = new CbmLitFindGlobalTracks();
+	//run->AddTask(globalFinder);
 
    // -----   Primary vertex finding   ---------------------------------------
    CbmPrimaryVertexFinder* pvFinder = new CbmPVFinderKF();
@@ -123,22 +126,7 @@ void mvd_reco(Int_t nEvents = 100)
 
    CbmMatchRecoToMC* matchTask = new CbmMatchRecoToMC();
    run->AddTask(matchTask);
-
-	// -----   Reconstruction QA tasks   ------------------------------------
-	CbmLitTrackingQa* trackingQa = new CbmLitTrackingQa();
-	trackingQa->SetMinNofPointsSts(normStsPoints);
-	trackingQa->SetQuota(0.7);
-	trackingQa->SetVerbose(1);
-	trackingQa->SetOutputDir(std::string(resultDir));
-	run->AddTask(trackingQa);
-
-	CbmLitFitQa* fitQa = new CbmLitFitQa();
-   fitQa->SetMvdMinNofHits(1);
-   fitQa->SetStsMinNofHits(normStsPoints);
-	fitQa->SetOutputDir(std::string(resultDir));
-   run->AddTask(fitQa);
-   // ------------------------------------------------------------------------
-
+*/
 	// -----  Parameter database   --------------------------------------------
 	FairRuntimeDb* rtdb = run->GetRuntimeDb();
 	FairParRootFileIo* parIo1 = new FairParRootFileIo();

@@ -42,7 +42,7 @@ class CbmRichPoint : public FairMCPoint
 
 
   /** Copy constructor **/
-  CbmRichPoint(const CbmRichPoint& point) { *this = point; };
+  CbmRichPoint(const CbmRichPoint& point) : FairMCPoint(point) {};
 
 
   /** Destructor **/

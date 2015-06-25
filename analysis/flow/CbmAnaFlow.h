@@ -346,6 +346,9 @@ class CbmAnaFlow : public FairTask
       const char *fin;
       const char *finside;
 
+      CbmAnaFlow(const CbmAnaFlow&);
+      CbmAnaFlow& operator=(const CbmAnaFlow&);
+
       ClassDef(CbmAnaFlow,1);
 };
 

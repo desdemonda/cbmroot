@@ -10,15 +10,15 @@ void draw_analysis_all() {
     gSystem->Load("libAnalysis");
 
     Bool_t useMvd = false;
-    std::string dir = "/Users/slebedev/Development/cbm/data/lmvm/feb15/8gev/stsv13d/richv14a_1e/trd4/tofv13/1.0field/nomvd/";
-    std::string fileName = "analysis.auau.8gev.centr.all.root";
+    std::string dir = "/Users/slebedev/Development/cbm/data/lmvm/mar15/25gev/stsv13d/richv14a_3e/trd10/tofv13/1.0field/nomvd/";
+    std::string fileName = "analysis.auau.25gev.centr.all.root";
     //std::string fileName = "analysis.pimisid.0.0.auau.8gev.centr.all.root";
 
 
-    std::string script = std::string(gSystem->Getenv("SCRIPT"));
+    std::string script = std::string(TString(gSystem->Getenv("SCRIPT")).Data());
     if (script == "yes"){
-       dir = std::string(gSystem->Getenv("LMVM_MAIN_DIR"));
-       fileName = std::string(gSystem->Getenv("LMVM_ANA_FILE_NAME"));
+       dir = std::string(TString(gSystem->Getenv("LMVM_MAIN_DIR")).Data());
+       fileName = std::string(TString(gSystem->Getenv("LMVM_ANA_FILE_NAME")).Data());
     }
 
     std::string outputDir = dir + "lmvm_results_all/";

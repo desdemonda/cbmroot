@@ -24,6 +24,7 @@ const char* PairAnalysisVarManager::fgkParticleNames[PairAnalysisVarManager::kNM
   {"ElossTR",                "TRD TR",                                             "(a.u.)"},
   {"NPhotons",               "N_{photons}^{RICH}",                                 "(a.u.)"},
   {"PmtId",                  "ID_{Pmt}^{RICH}",                                    "(a.u.)"},
+  {"Beta",                   "#beta^{TOF}",                                        ""},
 // Particle specific variables
   {"Px",                     "#it{p}_{x}",                                         "(GeV/#it{c})"},
   {"Py",                     "#it{p}_{y}",                                         "(GeV/#it{c})"},
@@ -89,6 +90,8 @@ const char* PairAnalysisVarManager::fgkParticleNames[PairAnalysisVarManager::kNM
   {"RICHHits",               "N_{hit}^{RICH}",                                     ""},
   {"RICHChi2NDF",            "#chi^{2}/^{}N_{df}^{RICH}",                          ""},
   {"RICHRadius",             "r_{}^{RICH}",                                        "(cm)"},
+  //TOF track specific information
+  {"TOFHits",                "N_{hit}^{TOF}",                                     ""},
 
 // Pair specific variables
   {"Chi2NDF",                "#chi^{2}/^{}ndf",                                    ""},
@@ -208,6 +211,7 @@ const char* PairAnalysisVarManager::fgkParticleNames[PairAnalysisVarManager::kNM
   {"MVDisMC",                  "MC status MVD",                                    ""},
   {"STSisMC",                  "MC status STS",                                    ""},
   {"RICHisMC",                 "MC status RICH",                                    ""},
+  {"TOFisMC",                  "MC status TOF",                                    ""},
 
 // Pair specific MC variables
 

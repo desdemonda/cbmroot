@@ -141,7 +141,15 @@ void CbmKFParticleFinderQA::Exec(Option_t* opt)
     Double_t q=1;
     if ( pdg < 9999999 && ( (TParticlePDG *)TDatabasePDG::Instance()->GetParticle(pdg) ))
       q = TDatabasePDG::Instance()->GetParticle(pdg)->Charge()/3.0;
-    else    q = 0;    
+    else if(pdg ==  1000010020) q =  1;
+    else if(pdg == -1000010020) q = -1;
+    else if(pdg ==  1000010030) q =  1;
+    else if(pdg == -1000010030) q = -1;
+    else if(pdg ==  1000020030) q =  2;
+    else if(pdg == -1000020030) q = -2;
+    else if(pdg ==  1000020040) q =  2;
+    else if(pdg == -1000020040) q = -2;
+    else q = 0;
     Double_t p = cbmMCTrack->GetP();
     
     mcTracks[iMC].SetMotherId(cbmMCTrack->GetMotherId());
@@ -176,7 +184,9 @@ void CbmKFParticleFinderQA::Exec(Option_t* opt)
       continue;
     }
     
-    if(TMath::Abs(mcTracks[mcTrackId].PDG()) > 2500)
+    if(TMath::Abs(mcTracks[mcTrackId].PDG()) > 2500 && 
+       !(TMath::Abs(mcTracks[mcTrackId].PDG()) == 1000010020 || TMath::Abs(mcTracks[mcTrackId].PDG()) == 1000010030 ||
+         TMath::Abs(mcTracks[mcTrackId].PDG()) == 1000020030 || TMath::Abs(mcTracks[mcTrackId].PDG()) == 1000020040 ) )
       continue;
     mcTracks[mcTrackId].SetReconstructed();
     trackMatch[iTr] = mcTrackId;

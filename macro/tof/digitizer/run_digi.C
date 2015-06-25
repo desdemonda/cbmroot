@@ -80,6 +80,7 @@ void run_digi(Int_t nEvents = 2) {
 
   // -----   TOF digitizer   -------------------------------------------------
   CbmTofDigitizerBDF* tofDigitizerBdf = new CbmTofDigitizerBDF("TOF Digitizer BDF",iVerbose, kFALSE);
+  tofDigitizerBdf->SetInputFileName( paramDir + "tof/test_bdf_input.root"); // Required as input file name not read anymore by param class
   run->AddTask(tofDigitizerBdf);
 
 

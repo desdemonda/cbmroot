@@ -32,14 +32,14 @@ CbmMvdDetector::CbmMvdDetector()
     foutputDigiMatchs(NULL),
     foutputHitMatchs(NULL),
     fcurrentEvent(NULL),
+    fepsilon(),
     fDigiPlugin(-1),
     fHitPlugin(-1),
     fClusterPlugin(-1),
     fSensorArrayFilled(kFALSE),
     initialized(kFALSE),
-    fepsilon(),
-    fParameter(),
-    fFinished(kFALSE)
+    fFinished(kFALSE),
+    fParameter()
 {
 
   Fatal (GetName(), " - Do not use standard constructor");
@@ -62,14 +62,14 @@ CbmMvdDetector::CbmMvdDetector(const char* name)
     foutputDigiMatchs(NULL),
     foutputHitMatchs(NULL),
     fcurrentEvent(NULL),
+    fepsilon(),
     fDigiPlugin(-1),
     fHitPlugin(-1),
     fClusterPlugin(-1),
     fSensorArrayFilled(kFALSE),
     initialized(kFALSE),
-    fepsilon(),
-    fParameter(),
-    fFinished(kFALSE)
+    fFinished(kFALSE),
+    fParameter()
 {
  
   if(fInstance) {Fatal(GetName(), " - Error, singleton does already exist.");}

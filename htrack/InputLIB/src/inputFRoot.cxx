@@ -36,7 +36,7 @@
 	#include "FairGeoVector.h"
 	#include "FairGeoNode.h"
 	#include "CbmGeoStsPar.h"
-	#include "CbmStsStation.h"
+	#include "CbmStsStation_old.h"
 	#include "CbmMvdGeoPar.h"
 //	#include "CbmMvdStation.h"
 #endif
@@ -188,7 +188,7 @@ bool inputFRoot::readStsDetectorByInterface(CbmStsDigiScheme* scheme) {
 
 #if (ARCHITECTURE == CBMROOT)
 
-	CbmStsStation*          station;
+	CbmStsStation_old*          station;
 	trackfinderInputStation actualStation;
 
 #endif

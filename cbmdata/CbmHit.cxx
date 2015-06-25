@@ -1,52 +1,53 @@
-// -------------------------------------------------------------------------
-// -----                         CbmHit source file                    -----
-// -----                   Created 16/11/07  by V. Friese              -----
-// -------------------------------------------------------------------------
-
-
+/**
+ * \file CbmHit.cxx
+ * \author Andrey Lebedev <andrey.lebedev@gsi.de>
+ * \date 2009
+ *
+ * Former name CbmBaseHit. Renamed 11 May 2015.
+ **/
 #include "CbmHit.h"
 
-#include <iostream>
-using namespace std;
-
-
-// -----   Default constructor   -------------------------------------------
-CbmHit::CbmHit() 
-  : FairHit(),
-    fCovXY(0.)
+CbmHit::CbmHit():
+    TObject(),
+	fType(kHIT),
+	fZ(0.),
+	fDz(0.),
+	fRefId(-1),
+	fAddress(-1),
+	fMatch(NULL)
 {
 }
-// -------------------------------------------------------------------------
 
-
-
-// -----   Standard constructor   ------------------------------------------
-CbmHit::CbmHit(Int_t detId, TVector3& pos, TVector3& dpos, 
-		     Double_t covXY, Int_t index) 
-  : FairHit(detId, pos, dpos, index), 
-    fCovXY(covXY)
+// Only shallow copy needed
+CbmHit::CbmHit(const CbmHit& rhs)
+ : TObject(rhs),
+   fType(rhs.fType),
+   fZ(rhs.fZ),
+   fDz(rhs.fDz),
+   fRefId(rhs.fRefId),
+   fAddress(rhs.fAddress),
+   fMatch(NULL)
 {
 }
-// -------------------------------------------------------------------------
 
+// Only shallow copy needed
+CbmHit& CbmHit::operator=(const CbmHit& rhs)
+{
 
-
-// -----   Destructor   ----------------------------------------------------
-CbmHit::~CbmHit() { }
-// -------------------------------------------------------------------------
-
-
-
-
-// -----   Public method Print   -------------------------------------------
-void CbmHit::Print(const Option_t* opt) const {
-  cout.precision(5);
-  cout << "Hit at (" << fX << ", " << fY << ", " << fZ << ") cm, "
-       << "Detector " << fDetectorID << ", Station " << GetStationNr() 
-       << endl;
+  if (this != &rhs) {
+    TObject::operator=(rhs);
+    fType = rhs.fType;
+    fZ = rhs.fZ;
+    fDz = rhs.fDz;
+    fRefId = rhs.fRefId;
+    fAddress = rhs.fAddress;
+    fMatch = rhs.fMatch;
+  }
+  return *this;
 }
-// -------------------------------------------------------------------------
 
+CbmHit::~CbmHit()
+{
+}
 
-
-ClassImp(CbmHit)
+ClassImp(CbmHit);

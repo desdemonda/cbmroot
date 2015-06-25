@@ -92,228 +92,440 @@ ClassImp(CbmAnaFlow)
 
 
     // -----   Default constructor   -------------------------------------------
-    CbmAnaFlow::CbmAnaFlow() : FairTask("AnaFlow",1), fHeader(NULL), flistRECOtrack(NULL), flisttrackMATCH(NULL), flistPV(NULL), fRecParticles(NULL), fMCParticles(NULL),
-    fMatchParticles(NULL), flistMCtrack(NULL), fTree_gen(NULL), fEvent_gen(NULL), fMcEvent(NULL),fPsdEvent(NULL), fStsEvent(NULL)//, fAnaPart(NULL)//, ftree_pointer(NULL)
+CbmAnaFlow::CbmAnaFlow() 
+  : FairTask("AnaFlow",1),
+  fPi(TMath::Pi()),
+  fmass_proton(0.938271998),
+  fEn(0.),
+  fy_proj_cm(0.),
+  fy_cm(0.),
+  fmode(1),
+  outTree(NULL),
+  fB_MC(0.),
+  fphi_to_RP(0.),
+  fphi_to_EP_PSD(0.),
+  fphi_to_EP_PSD1(0.),
+  fphi_to_EP_PSD2(0.),
+  fphi_to_EP_PSD3(0.),
+  fphi_to_EP_STS_harmo1(0.),
+  fphi_to_EP_STS_harmo2(0.),
+  fY(0.),
+  fpt(0.),
+  fmass(0.),
+  fpdg(0),
+  fmotherID(0),
+  fQ(0),
+  fsignal(kTRUE),
+  fmult(0),
+  hmult(new TH1F("hmult","hmult", 1000, 0., 1000.)),
+  fsel_perc_min(0.),
+  fsel_perc_max(0.),
+  fsel_Bmin(0.),
+  fsel_Bmax(0.),
+  ssel_Bmin(""),
+  ssel_Bmax(""),
+  Bcut(""),
+  fpart_mc_reco(1),
+  fdoPionRotation(kFALSE),
+  fdoBackYRotation(kFALSE),
+  fileName_gen(""),
+  fileName_tree(""),
+  fileName_tree_gen(""),
+  fileName_out(""),
+  fileName_ascii_out_y(""),
+  fileName_ascii_out_pt(""),
+  fHeader(NULL), 
+  fTree_gen(NULL), 
+  fEvent_gen(NULL), 
+  fBetaCM(0.),
+  fGammaCM(1.),
+  fevt_inc(0),
+  flistRECOtrack(NULL), 
+  flisttrackMATCH(NULL), 
+  flistPV(NULL), 
+  fMcEvent(NULL),
+  fPsdEvent(NULL), 
+  fStsEvent(NULL),
+  fRecParticles(NULL), 
+  fMCParticles(NULL),
+  fMatchParticles(NULL), 
+  flistMCtrack(NULL),
+  fParteff(),
+  fsel_factor("1"),
+  fuseTrackatGen(kFALSE),
+  fcoef_meth("cosnphi"),
+  fdoInt_diffvn(0),
+  fdoPrim(kFALSE),
+  fdoEff(kFALSE),
+  fsel_PTNbin(3),
+  fsel_PTmin(0.),
+  fsel_PTmax(3.),
+  ssel_PTmin(""),
+  ssel_PTmax(""),
+  fsel_PTcut_min(0.),
+  fsel_PTcut_max(0.),
+  PTcut(""),
+  fsel_YNbin(10),
+  fsel_Ymin(-2.),
+  fsel_Ymax(2.),
+  ssel_Ymin(""),
+  ssel_Ymax(""),
+  fsel_Ycut_min(0.),
+  fsel_Ycut_max(0.),
+  Ycut(""),
+  fsel_pdg(0),
+  spdg(""),
+  PDGcut(""),
+  fsel_Q(""),
+  Qcut(""),
+  PRIMcut(""),
+  fsel_signal(""),
+  Scut(""),
+  fileName_EPcorrFactor(""),
+  fEP_meth("RP"),
+  fdoEPCorr(kFALSE),
+  fuseSubevent(kFALSE),
+  gr0(NULL),
+  gr1(NULL),             
+  hRap_vs_y_pt(new TH2F("y_2D","<Y> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hpt_vs_y_pt(new TH2F("pt_2D","<pt> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hvn_vs_y_pt(new TH2F("vn_2D","vn vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hN_vs_y_pt(new TH2F("N_2D","N vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hEff_vs_y_pt(new TH2F("eff_2D","Efficiency vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hRapidity(new TH1F("hrapidity","hrapidity", 600, -3., 3.)),
+  hpt(new TH1F("hpt","hpt", 100, 0., 10.)),
+  hphi(new TH1F("hphi","hphi", 360, -fPi, fPi)),
+  hcosnphi(new TH1F("hcosnphi","hcosnphi", 360, -1., 1.)),
+  fdirname(""),
+  fex(""),
+  fin(""),
+  finside("")
 {      
-    fPi = TMath::Pi();
-    fmass_proton = 0.938271998;
+  //    fPi = TMath::Pi();
+  //    fmass_proton = 0.938271998;
 
-    fEn = 0.;
-    fBetaCM = 0.;
-    fGammaCM = 1.;
-    fy_proj_cm = 0.;
-    fy_cm = 0.;
+  //    fEn = 0.;
+  //    fBetaCM = 0.;
+  //    fGammaCM = 1.;
+    //    fy_proj_cm = 0.;
+    //    fy_cm = 0.;
 
-    fmode = 1;
+    //    fmode = 1;
 
-    fpart_mc_reco = 1;
-    fileName_tree = "";
-    fileName_tree_gen = "";
-    fileName_gen = "";
+  //    fpart_mc_reco = 1;
+    //    fileName_tree = "";
+//    fileName_tree_gen = "";
+//    fileName_gen = "";
 
-    fileName_ascii_out_y = "";
-    fileName_ascii_out_pt = "";
+//    fileName_ascii_out_y = "";
+//    fileName_ascii_out_pt = "";
 
-    fevt_inc = 0;  // to loop over generated events
+//    fevt_inc = 0;  // to loop over generated events
 
-    fY = 0.;
-    fpt = 0.;
-    fmass = 0.;
-    fpdg = 0;
-    fmotherID = 0;
-    fB_MC = 0.;
-    fQ = 0;
-    fsignal = kTRUE;
-    fphi_to_RP = 0.;
-    fphi_to_EP_PSD = 0.;
-    fphi_to_EP_PSD1 = 0.;
-    fphi_to_EP_PSD2 = 0.;
-    fphi_to_EP_PSD3 = 0.;
-    fphi_to_EP_STS_harmo1 = 0.;
-    fphi_to_EP_STS_harmo2 = 0.;
-    fmult = 0;
+//    fY = 0.;
+//    fpt = 0.;
+//    fmass = 0.;
+//    fpdg = 0;
+//    fmotherID = 0;
+//    //    fB_MC = 0.;
+//    fQ = 0;
+//    fsignal = kTRUE;
+    //    fphi_to_RP = 0.;
+    //    fphi_to_EP_PSD = 0.;
+    //    fphi_to_EP_PSD1 = 0.;
+    //    fphi_to_EP_PSD2 = 0.;
+   // fphi_to_EP_PSD3 = 0.;
+   // fphi_to_EP_STS_harmo1 = 0.;
+   // fphi_to_EP_STS_harmo2 = 0.;
+    //    fmult = 0;
 
-    fdoPionRotation = kFALSE;
-    fdoBackYRotation = kFALSE;
+    //    fdoPionRotation = kFALSE;
+    //    fdoBackYRotation = kFALSE;
 
-    hRap_vs_y_pt = new TH2F("y_2D","<Y> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-    hpt_vs_y_pt = new TH2F("pt_2D","<pt> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-    hvn_vs_y_pt = new TH2F("vn_2D","vn vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-    hN_vs_y_pt = new TH2F("N_2D","N vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-    hEff_vs_y_pt = new TH2F("eff_2D","Efficiency vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hRap_vs_y_pt = new TH2F("y_2D","<Y> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hpt_vs_y_pt = new TH2F("pt_2D","<pt> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hvn_vs_y_pt = new TH2F("vn_2D","vn vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hN_vs_y_pt = new TH2F("N_2D","N vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hEff_vs_y_pt = new TH2F("eff_2D","Efficiency vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//
+//    hRapidity = new TH1F("hrapidity","hrapidity", 600, -3., 3.);
+//    hpt = new TH1F("hpt","hpt", 100, 0., 10.);
+//    hphi = new TH1F("hphi","hphi", 360, -fPi, fPi);
+//    hcosnphi = new TH1F("hcosnphi","hcosnphi", 360, -1., 1.);
 
-    hRapidity = new TH1F("hrapidity","hrapidity", 600, -3., 3.);
-    hpt = new TH1F("hpt","hpt", 100, 0., 10.);
-    hphi = new TH1F("hphi","hphi", 360, -fPi, fPi);
-    hcosnphi = new TH1F("hcosnphi","hcosnphi", 360, -1., 1.);
+    //    hmult = new TH1F("hmult","hmult", 1000, 0., 1000.);
 
-    hmult = new TH1F("hmult","hmult", 1000, 0., 1000.);
+//    fuseTrackatGen = kFALSE;
+//    fcoef_meth = "cosnphi";
+//    fdoInt_diffvn = 0;
 
-    fuseTrackatGen = kFALSE;
-    fcoef_meth = "cosnphi";
-    fdoInt_diffvn = 0;
+//    fdoPrim = kFALSE;
+//    fdoEff = kFALSE;
 
-    fdoPrim = kFALSE;
-    fdoEff = kFALSE;
+//    fileName_EPcorrFactor = "";
+//    fEP_meth = "RP";
+//    fdoEPCorr = kFALSE;
+//    fuseSubevent = kFALSE;
 
-    fileName_EPcorrFactor = "";
-    fEP_meth = "RP";
-    fdoEPCorr = kFALSE;
-    fuseSubevent = kFALSE;
+    //    fsel_factor = "1";
 
-    fsel_factor = "1";
+//    fsel_perc_min = 0.;
+//    fsel_perc_max = 0.;
+//    fsel_Bmin = 0.;
+//    fsel_Bmax = 0.;
+//    ssel_Bmin = "";
+//    ssel_Bmax = "";
+//    Bcut = "";
 
-    fsel_perc_min = 0.;
-    fsel_perc_max = 0.;
-    fsel_Bmin = 0.;
-    fsel_Bmax = 0.;
-    ssel_Bmin = "";
-    ssel_Bmax = "";
-    Bcut = "";
+//    fsel_PTmin = 0.;
+//    fsel_PTmax = 3.;
+//    fsel_PTNbin = 3;
+//    ssel_PTmin = "";
+//    ssel_PTmax = "";
+//    PTcut = "";
+//    fsel_PTcut_min = 0.;
+//    fsel_PTcut_max = 0.;
 
-    fsel_PTmin = 0.;
-    fsel_PTmax = 3.;
-    fsel_PTNbin = 3;
-    ssel_PTmin = "";
-    ssel_PTmax = "";
-    PTcut = "";
-    fsel_PTcut_min = 0.;
-    fsel_PTcut_max = 0.;
+//    fsel_Ymin = -2.;
+//    fsel_Ymax = 2.;
+//    fsel_YNbin = 10;
+//    ssel_Ymin = "";
+//    ssel_Ymax = "";
+//    Ycut = "";
+//    fsel_Ycut_min = 0.;
+//    fsel_Ycut_max = 0.;
+//
+//    fsel_pdg = 0;
+//    spdg = "";
+//    PDGcut = "";
+//
+//    PRIMcut = "";
+//
+//    fsel_Q = "";
+//    Qcut = "";
 
-    fsel_Ymin = -2.;
-    fsel_Ymax = 2.;
-    fsel_YNbin = 10;
-    ssel_Ymin = "";
-    ssel_Ymax = "";
-    Ycut = "";
-    fsel_Ycut_min = 0.;
-    fsel_Ycut_max = 0.;
+//    fsel_signal = "";
+//    Scut = "";
 
-    fsel_pdg = 0;
-    spdg = "";
-    PDGcut = "";
-
-    PRIMcut = "";
-
-    fsel_Q = "";
-    Qcut = "";
-
-    fsel_signal = "";
-    Scut = "";
-
-    fdirname = "";
+//    fdirname = "";
 }
 
-CbmAnaFlow::CbmAnaFlow(const char* name, Int_t verbose, Double_t En) : FairTask(name, verbose), fHeader(NULL), flistRECOtrack(NULL), flisttrackMATCH(NULL), flistPV(NULL), fRecParticles(NULL), fMCParticles(NULL),
-fMatchParticles(NULL), flistMCtrack(NULL), fTree_gen(NULL), fEvent_gen(NULL), fMcEvent(NULL),fPsdEvent(NULL), fStsEvent(NULL)//, fAnaPart(NULL)//, ftree_pointer(NULL)
+CbmAnaFlow::CbmAnaFlow(const char* name, Int_t verbose, Double_t En) 
+  : FairTask(name, verbose),
+  fPi(TMath::Pi()),
+  fmass_proton(0.938271998),
+  fEn(En),
+  fy_proj_cm(0.),
+  fy_cm(0.),
+  fmode(1),
+  outTree(NULL),
+  fB_MC(0.),
+  fphi_to_RP(0.),
+  fphi_to_EP_PSD(0.),
+  fphi_to_EP_PSD1(0.),
+  fphi_to_EP_PSD2(0.),
+  fphi_to_EP_PSD3(0.),
+  fphi_to_EP_STS_harmo1(0.),
+  fphi_to_EP_STS_harmo2(0.),
+  fY(0.),
+  fpt(0.),
+  fmass(0.),
+  fpdg(0),
+  fmotherID(0),
+  fQ(0),
+  fsignal(kTRUE),
+  fmult(0),
+  hmult(new TH1F("hmult","hmult", 1000, 0., 1000.)),
+  fsel_perc_min(0.),
+  fsel_perc_max(0.),
+  fsel_Bmin(0.),
+  fsel_Bmax(0.),
+  ssel_Bmin(""),
+  ssel_Bmax(""),
+  Bcut(""),
+  fpart_mc_reco(1),
+  fdoPionRotation(kFALSE),
+  fdoBackYRotation(kFALSE),
+  fileName_gen(""),
+  fileName_tree(""),
+  fileName_tree_gen(""),
+  fileName_out(""),
+  fileName_ascii_out_y(""),
+  fileName_ascii_out_pt(""),
+  fHeader(NULL), 
+  fTree_gen(NULL), 
+  fEvent_gen(NULL), 
+  fBetaCM(0.),
+  fGammaCM(1.),
+  fevt_inc(0),
+  flistRECOtrack(NULL), 
+  flisttrackMATCH(NULL), 
+  flistPV(NULL), 
+  fMcEvent(NULL),
+  fPsdEvent(NULL), 
+  fStsEvent(NULL),
+  fRecParticles(NULL), 
+  fMCParticles(NULL),
+  fMatchParticles(NULL), 
+  flistMCtrack(NULL),
+  fParteff(),
+  fsel_factor("1"),
+  fuseTrackatGen(kFALSE),
+  fcoef_meth("cosnphi"),
+  fdoInt_diffvn(0),
+  fdoPrim(kFALSE),
+  fdoEff(kFALSE),
+  fsel_PTNbin(3),
+  fsel_PTmin(0.),
+  fsel_PTmax(3.),
+  ssel_PTmin(""),
+  ssel_PTmax(""),
+  fsel_PTcut_min(0.),
+  fsel_PTcut_max(0.),
+  PTcut(""),
+  fsel_YNbin(10),
+  fsel_Ymin(-2.),
+  fsel_Ymax(2.),
+  ssel_Ymin(""),
+  ssel_Ymax(""),
+  fsel_Ycut_min(0.),
+  fsel_Ycut_max(0.),
+  Ycut(""),
+  fsel_pdg(0),
+  spdg(""),
+  PDGcut(""),
+  fsel_Q(""),
+  Qcut(""),
+  PRIMcut(""),
+  fsel_signal(""),
+  Scut(""),
+  fileName_EPcorrFactor(""),
+  fEP_meth("RP"),
+  fdoEPCorr(kFALSE),
+  fuseSubevent(kFALSE),
+  gr0(NULL),
+  gr1(NULL),             
+  hRap_vs_y_pt(new TH2F("y_2D","<Y> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hpt_vs_y_pt(new TH2F("pt_2D","<pt> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hvn_vs_y_pt(new TH2F("vn_2D","vn vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hN_vs_y_pt(new TH2F("N_2D","N vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hEff_vs_y_pt(new TH2F("eff_2D","Efficiency vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt)),
+  hRapidity(new TH1F("hrapidity","hrapidity", 600, -3., 3.)),
+  hpt(new TH1F("hpt","hpt", 100, 0., 10.)),
+  hphi(new TH1F("hphi","hphi", 360, -fPi, fPi)),
+  hcosnphi(new TH1F("hcosnphi","hcosnphi", 360, -1., 1.)),
+  fdirname(""),
+  fex(""),
+  fin(""),
+  finside("")
 {     
-    fPi = TMath::Pi();
-    fmass_proton = 0.938271998;
-
-    fEn = En;
-    fy_proj_cm = 0.;
-    fy_cm = 0.;
-    fBetaCM = 0.;
-    fGammaCM = 1.;
-
-    fmode = 1;
-
-    fpart_mc_reco = 1;
-    fileName_tree = "";
-    fileName_tree_gen = "";
-    fileName_gen = "";
-
-    fileName_ascii_out_y = "";
-    fileName_ascii_out_pt = "";
-
-    fevt_inc = 0;  // to loop over generated events
-
-    fY = 0.;
-    fpt = 0.;
-    fmass = 0.;
-    fpdg = 0;
-    fmotherID = 0;
-    fB_MC = 0.;
-    fQ = 0;
-    fsignal = kTRUE;
-    fphi_to_RP = 0.;
-    fphi_to_EP_PSD = 0.;
-    fphi_to_EP_PSD1 = 0.;
-    fphi_to_EP_PSD2 = 0.;
-    fphi_to_EP_PSD3 = 0.;
-    fphi_to_EP_STS_harmo1 = 0.;
-    fphi_to_EP_STS_harmo2 = 0.;
-    fmult = 0;
-
-    fdoPionRotation = kFALSE;
-    fdoBackYRotation = kFALSE;
-
-    hRap_vs_y_pt = new TH2F("y_2D","<Y> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-    hpt_vs_y_pt = new TH2F("pt_2D","<pt> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-    hvn_vs_y_pt = new TH2F("vn_2D","vn vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-    hN_vs_y_pt = new TH2F("N_2D","N vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-    hEff_vs_y_pt = new TH2F("eff_2D","Efficiency vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
-
-    hRapidity = new TH1F("hrapidity","hrapidity", 600, -3., 3.);
-    hpt = new TH1F("hpt","hpt", 100, 0., 10.);
-    hphi = new TH1F("hphi","hphi", 360, -fPi, fPi);
-    hcosnphi = new TH1F("hcosnphi","hcosnphi", 360, -1., 1.);
-
-    hmult = new TH1F("hmult","hmult", 1000, 0., 1000.);
-
-    fuseTrackatGen = kFALSE;                
-    fcoef_meth = "cosnphi";
-    fdoInt_diffvn = 0;
-
-    fdoPrim = kFALSE;
-    fdoEff = kFALSE;
-
-    fileName_EPcorrFactor = "";
-    fEP_meth = "RP";
-    fdoEPCorr = kFALSE;
-    fuseSubevent = kFALSE;
-
-    fsel_factor = "1";
-
-    fsel_perc_min = 0.;
-    fsel_perc_max = 0.;
-    fsel_Bmin = 0.;
-    fsel_Bmax = 0.;
-    ssel_Bmin = "";
-    ssel_Bmax = "";
-    Bcut = "";
-
-    fsel_PTmin = 0.;
-    fsel_PTmax = 3.;
-    fsel_PTNbin = 3;
-    ssel_PTmin = "";
-    ssel_PTmax = "";
-    PTcut = "";
-    fsel_PTcut_min = 0.;
-    fsel_PTcut_max = 0.;
-
-    fsel_Ymin = -2.;
-    fsel_Ymax = 2.;
-    fsel_YNbin = 10;
-    ssel_Ymin = "";
-    ssel_Ymax = "";
-    Ycut = "";
-    fsel_Ycut_min = 0.;
-    fsel_Ycut_max = 0.;
-
-    fsel_pdg = 0;
-    spdg = "";
-    PDGcut = "";
-
-    PRIMcut = "";
-
-    fsel_Q = "";
-    Qcut = "";
-
-    fsel_signal = "";
-    Scut = "";
-
-    fdirname = "";
+  //    fPi = TMath::Pi();
+//    fmass_proton = 0.938271998;
+//
+//    fEn = En;
+//    fy_proj_cm = 0.;
+//    fy_cm = 0.;
+//    fBetaCM = 0.;
+//    fGammaCM = 1.;
+//
+//    fmode = 1;
+//
+//    fpart_mc_reco = 1;
+//    fileName_tree = "";
+//    fileName_tree_gen = "";
+//    fileName_gen = "";
+//
+//    fileName_ascii_out_y = "";
+//    fileName_ascii_out_pt = "";
+//
+//    fevt_inc = 0;  // to loop over generated events
+//
+//    fY = 0.;
+//    fpt = 0.;
+//    fmass = 0.;
+//    fpdg = 0;
+//    fmotherID = 0;
+//    fB_MC = 0.;
+//    fQ = 0;
+//    fsignal = kTRUE;
+//    fphi_to_RP = 0.;
+//    fphi_to_EP_PSD = 0.;
+//    fphi_to_EP_PSD1 = 0.;
+//    fphi_to_EP_PSD2 = 0.;
+//    fphi_to_EP_PSD3 = 0.;
+//    fphi_to_EP_STS_harmo1 = 0.;
+//    fphi_to_EP_STS_harmo2 = 0.;
+//    fmult = 0;
+//
+//    fdoPionRotation = kFALSE;
+//    fdoBackYRotation = kFALSE;
+//
+//    hRap_vs_y_pt = new TH2F("y_2D","<Y> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hpt_vs_y_pt = new TH2F("pt_2D","<pt> vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hvn_vs_y_pt = new TH2F("vn_2D","vn vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hN_vs_y_pt = new TH2F("N_2D","N vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//    hEff_vs_y_pt = new TH2F("eff_2D","Efficiency vs y vs pt", NyBin, minBin_y, maxBin_y, NptBin, minBin_pt, maxBin_pt);
+//
+//    hRapidity = new TH1F("hrapidity","hrapidity", 600, -3., 3.);
+//    hpt = new TH1F("hpt","hpt", 100, 0., 10.);
+//    hphi = new TH1F("hphi","hphi", 360, -fPi, fPi);
+//    hcosnphi = new TH1F("hcosnphi","hcosnphi", 360, -1., 1.);
+//
+//    hmult = new TH1F("hmult","hmult", 1000, 0., 1000.);
+//
+//    fuseTrackatGen = kFALSE;                
+//    fcoef_meth = "cosnphi";
+//    fdoInt_diffvn = 0;
+//
+//    fdoPrim = kFALSE;
+//    fdoEff = kFALSE;
+//
+//    fileName_EPcorrFactor = "";
+//    fEP_meth = "RP";
+//    fdoEPCorr = kFALSE;
+//    fuseSubevent = kFALSE;
+//
+//    fsel_factor = "1";
+//
+//    fsel_perc_min = 0.;
+//    fsel_perc_max = 0.;
+//    fsel_Bmin = 0.;
+//    fsel_Bmax = 0.;
+//    ssel_Bmin = "";
+//    ssel_Bmax = "";
+//    Bcut = "";
+//
+//    fsel_PTmin = 0.;
+//    fsel_PTmax = 3.;
+//    fsel_PTNbin = 3;
+//    ssel_PTmin = "";
+//    ssel_PTmax = "";
+//    PTcut = "";
+//    fsel_PTcut_min = 0.;
+//    fsel_PTcut_max = 0.;
+//
+//    fsel_Ymin = -2.;
+//    fsel_Ymax = 2.;
+//    fsel_YNbin = 10;
+//    ssel_Ymin = "";
+//    ssel_Ymax = "";
+//    Ycut = "";
+//    fsel_Ycut_min = 0.;
+//    fsel_Ycut_max = 0.;
+//
+//    fsel_pdg = 0;
+//    spdg = "";
+//    PDGcut = "";
+//
+//    PRIMcut = "";
+//
+//    fsel_Q = "";
+//    Qcut = "";
+//
+//    fsel_signal = "";
+//    Scut = "";
+//
+//    fdirname = "";
 }
 
 CbmAnaFlow::~CbmAnaFlow()

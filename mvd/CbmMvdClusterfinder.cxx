@@ -25,14 +25,14 @@
 CbmMvdClusterfinder::CbmMvdClusterfinder() 
   : FairTask("MVDClusterfinder"),
     fMode(0),
+    fShowDebugHistos(kFALSE),
     fDetector(NULL),
     fInputDigis(NULL),
     fCluster(NULL),
     fClusterPluginNr(),
     fBranchName(""),
     fTimer(),
-    fRandGen(),
-    fShowDebugHistos(kFALSE)
+    fRandGen()
 {
 }
 // -------------------------------------------------------------------------
@@ -41,14 +41,14 @@ CbmMvdClusterfinder::CbmMvdClusterfinder()
 CbmMvdClusterfinder::CbmMvdClusterfinder(const char* name, Int_t iMode, Int_t iVerbose) 
   : FairTask(name, iVerbose),
     fMode(iMode),
+    fShowDebugHistos(kFALSE),
     fDetector(NULL),
     fInputDigis(NULL),
     fCluster(NULL),
     fClusterPluginNr(0),
     fBranchName("MvdDigi"),
     fTimer(),
-    fRandGen(),
-    fShowDebugHistos(kFALSE)
+    fRandGen()
 {
 }
 // -------------------------------------------------------------------------

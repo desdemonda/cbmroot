@@ -188,8 +188,6 @@ void CbmEcalUrqmdCalibrator::ProcessHit(CbmEcalPoint* point)
 
   Float_t calo_x;
   Float_t calo_y;
-  Float_t ps_x;
-  Float_t ps_y;
 
   static Float_t sPSDeltaZ=fInf->GetPSLead()+fInf->GetPSScin()/2.0;
   static Float_t sDeltaZ=fInf->GetPSLead()+fInf->GetPSScin()+fInf->GetPSGap();
@@ -205,8 +203,6 @@ void CbmEcalUrqmdCalibrator::ProcessHit(CbmEcalPoint* point)
   cout << pos.X() << " " << pos.Y() << " " << pos.Z() << endl;
   point->Position(pos);
 */
-  ps_x=pos.X()+pos.X()/pos.Z()*sPSDeltaZ;
-  ps_y=pos.Y()+pos.Y()/pos.Z()*sPSDeltaZ;
 
   if (TMath::Abs(calo_x*2.0)>fInf->GetEcalSize(0))
     return;

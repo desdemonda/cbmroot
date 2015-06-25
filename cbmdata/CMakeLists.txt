@@ -33,9 +33,8 @@ link_directories( ${LINK_DIRECTORIES})
 set(SRCS
 CbmDetectorList.cxx
 
-CbmBaseHit.cxx
-CbmDigi.cxx
 CbmHit.cxx
+CbmDigi.cxx
 CbmPixelHit.cxx
 CbmStack.cxx
 CbmStripHit.cxx
@@ -115,11 +114,6 @@ psd/CbmPsdDigi.cxx
 psd/CbmPsdHit.cxx
 psd/CbmPsdPoint.cxx
 psd/CbmPsdEventData.cxx
-
-stt/CbmSttPoint.cxx
-stt/CbmSttHit.cxx
-stt/CbmSttTrack.cxx
-stt/CbmSttTrackMatch.cxx
 
 global/CbmGlobalTrack.cxx
 global/CbmVertex.cxx

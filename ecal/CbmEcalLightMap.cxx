@@ -86,7 +86,7 @@ void CbmEcalLightMap::Init(const char* filename)
     n=GetNum(x ,y);
     if (n>=fSize)
     {
-      Info("Init","Data is not selfconsistent (%f, %f), %d", x, y, fSize);
+      Info("Init","Data is not selfconsistent %f (%f, %f, %f), %d", l, x, y, z, fSize);
     }
     fData[n]=v;
   }

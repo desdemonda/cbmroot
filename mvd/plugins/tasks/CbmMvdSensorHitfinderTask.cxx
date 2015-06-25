@@ -93,7 +93,9 @@ CbmMvdSensorHitfinderTask::CbmMvdSensorHitfinderTask()
     fSigmaNoise(15.),
     fSeedThreshold(1.),
     fNeighThreshold(1.),
+    fShowDebugHistos(kFALSE),
     fUseMCInfo(kFALSE),
+    inputSet(kFALSE),
     fLayerRadius(0.),
     fLayerRadiusInner(0.),
     fLayerPosZ(0.),
@@ -105,8 +107,7 @@ CbmMvdSensorHitfinderTask::CbmMvdSensorHitfinderTask()
     fHitPosErrZ(0.0),
     fBranchName("MvdHit"),
     fDigisInCluster(0),
-    fAddNoise(kFALSE),
-    inputSet(kFALSE)
+    fAddNoise(kFALSE)
 {
 }
 // -------------------------------------------------------------------------
@@ -150,7 +151,9 @@ CbmMvdSensorHitfinderTask::CbmMvdSensorHitfinderTask(const char* name, Int_t iMo
     fSigmaNoise(15.),
     fSeedThreshold(1.),
     fNeighThreshold(1.),
+    fShowDebugHistos(kFALSE),
     fUseMCInfo(kFALSE),
+    inputSet(kFALSE),
     fLayerRadius(0.),
     fLayerRadiusInner(0.),
     fLayerPosZ(0.),
@@ -162,8 +165,7 @@ CbmMvdSensorHitfinderTask::CbmMvdSensorHitfinderTask(const char* name, Int_t iMo
     fHitPosErrZ(0.0),
     fBranchName("MvdHit"),
     fDigisInCluster(0),
-    fAddNoise(kFALSE),
-    inputSet(kFALSE)
+    fAddNoise(kFALSE)
 {    
 }
 // -------------------------------------------------------------------------

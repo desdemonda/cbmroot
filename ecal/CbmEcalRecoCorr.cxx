@@ -199,10 +199,10 @@ void CbmEcalRecoCorr::WriteClusterInfo(CbmEcalCluster* clstr)
   Int_t j;
   Int_t k;
   Double_t celle;
-  Double_t cellsize;
+//  Double_t cellsize;
   Double_t e[3];
-  Double_t x;
-  Double_t y;
+  Double_t x=-1111;
+  Double_t y=-1111;
   Double_t r;
   Double_t theta;
   Double_t phi;
@@ -210,14 +210,14 @@ void CbmEcalRecoCorr::WriteClusterInfo(CbmEcalCluster* clstr)
   Double_t cx;
   Double_t cy;
   Double_t de;
-  Double_t epred;
-  Double_t emeas;
-  Double_t clenergy;
-  Double_t cellerr;
+//  Double_t epred;
+//  Double_t emeas;
+//  Double_t clenergy;
+  Double_t cellerr=-1111;
   static Double_t module=fInf->GetModuleSize();
 
   fECluster=fCal->GetEnergy(clstr->Energy(), fStr->GetHitCell(clstr->PeakNum(0)));
-  clenergy=fECluster;
+//  clenergy=fECluster;
   for(k=0;k<clstr->Size();k++)
   {
     cell=fStr->GetHitCell(clstr->CellNum(k));
@@ -234,7 +234,7 @@ void CbmEcalRecoCorr::WriteClusterInfo(CbmEcalCluster* clstr)
   {
     cell=fStr->GetHitCell(clstr->CellNum(k));
     fTypes[i]=cell->GetType();
-    cellsize=module/fTypes[i];
+ //   cellsize=module/fTypes[i];
     celle=0;
     for(j=fNOld;j<fN;j++)
     {
@@ -258,8 +258,8 @@ void CbmEcalRecoCorr::WriteClusterInfo(CbmEcalCluster* clstr)
     r=TMath::Sqrt(cx*cx+cy*cy);
     theta=TMath::ATan(r/fInf->GetZPos());
 
-    epred=fCal->GetEnergy(celle, cell);
-    emeas=fCal->GetEnergy(cell->GetTotalEnergy(), cell);
+//    epred=fCal->GetEnergy(celle, cell);
+//    emeas=fCal->GetEnergy(cell->GetTotalEnergy(), cell);
     de*=de; fChi2Fit[i]=de/cellerr;
 
     cx=cell->GetCenterX(); cy=cell->GetCenterY();
@@ -552,7 +552,7 @@ void CbmEcalRecoCorr::Reco(CbmEcalCell* cell, CbmEcalCluster* clstr)
   Int_t type;
   list<CbmEcalCell*> cells;
   list<CbmEcalCell*>::const_iterator p;
-  Int_t cnum;
+  Int_t cnum=0;
 
   cells.clear();
 
@@ -659,9 +659,9 @@ void CbmEcalRecoCorr::Reco2(CbmEcalCell* cell, CbmEcalCluster* clstr)
   Double_t py;
   Double_t pz;
   Double_t amp;
-  Double_t x;
-  Double_t y;
-  Double_t z;
+  Double_t x=-1111;
+  Double_t y=-1111;
+  Double_t z=-1111;
   Double_t t;
 
   t=TMath::Sqrt(x*x+y*y);

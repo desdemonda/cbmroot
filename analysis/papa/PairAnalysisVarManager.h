@@ -25,6 +25,7 @@
 #include <FairRootManager.h>
 #include <CbmRichElectronIdAnn.h>
 #include <CbmPixelHit.h>
+#include <CbmTofHit.h>
 #include <CbmRichHit.h>
 #include <CbmTrdHit.h>
 #include <CbmStsHit.h>
@@ -70,6 +71,7 @@ public:
     kElossTR,                // TRD energy loss TR only
     kNPhotons,               // RICH number of photons in this hit
     kPmtId,                  // RICH photomultiplier number
+    kBeta,                   // TOF beta
     kHitMax,
 // Particle specific variables
     kPx = kHitMax,           // px
@@ -96,7 +98,7 @@ public:
     kParticleMax,
 // Track specific variables
     // global track
-    kTrackLength=kParticleMax, // Track length
+    kTrackLength=kParticleMax, // Track length (cm)
     kTrackChi2NDF,           // chi2/ndf
     kPin,                    // first point momentum (GeV/c)
     kPtin,                   // first point transverse momentum (GeV/c)
@@ -137,6 +139,8 @@ public:
     kRICHHits,               // number of RICH hits
     kRICHChi2NDF,            // chi2/ndf RICH
     kRICHRadius,             // RICH ring radius
+    // tof track information
+    kTOFHits,                // number of TOF hits
     kTrackMax,
 
 // Pair specific variables
@@ -265,6 +269,7 @@ public:
     kMVDisMC,                  // status bit for matching btw. glbl. and local MC track
     kSTSisMC,                  // status bit for matching btw. glbl. and local MC track
     kRICHisMC,                 // status bit for matching btw. glbl. and local MC track
+    kTOFisMC,                  // status bit for matching btw. glbl. and local MC track
     kTrackMaxMC,
 
     // Pair specific MC variables
@@ -344,6 +349,7 @@ private:
   static void FillVarStsHit(            const CbmStsHit *hit,            Double_t * const values);
   static void FillVarTrdHit(            const CbmTrdHit *hit,            Double_t * const values);
   static void FillVarRichHit(           const CbmRichHit *hit,           Double_t * const values);
+  static void FillVarTofHit(            const CbmTofHit *hit,            Double_t * const values);
   static void FillVarPixelHit(          const CbmPixelHit *hit,          Double_t * const values);
   static void FillVarMCPoint(           const FairMCPoint *hit,          Double_t * const values);
 
@@ -382,6 +388,7 @@ inline void PairAnalysisVarManager::Fill(const TObject* object, Double_t * const
   else if (object->IsA() == CbmStsHit::Class())       FillVarStsHit(         static_cast<const CbmStsHit*>(object),    values);
   else if (object->IsA() == CbmTrdHit::Class())       FillVarTrdHit(         static_cast<const CbmTrdHit*>(object),    values);
   else if (object->IsA() == CbmRichHit::Class())      FillVarRichHit(        static_cast<const CbmRichHit*>(object),   values);
+  else if (object->IsA() == CbmTofHit::Class())       FillVarTofHit(         static_cast<const CbmTofHit*>(object),    values);
   else if (object->InheritsFrom(FairMCPoint::Class()))     FillVarMCPoint(   static_cast<const FairMCPoint*>(object),  values);
   else printf(Form("PairAnalysisVarManager::Fill: Type %s is not supported by PairAnalysisVarManager! \n", object->ClassName()));
 }
@@ -503,6 +510,7 @@ inline void PairAnalysisVarManager::FillVarPairAnalysisTrack(const PairAnalysisT
   values[kTRDisMC]   = track->TestBit( BIT(14+kTRD) );
   values[kRICHisMC]  = track->TestBit( BIT(14+kRICH));
   values[kMVDisMC]   = track->TestBit( BIT(14+kMVD) );
+  values[kTOFisMC]   = track->TestBit( BIT(14+kTOF) );
   values[kWeight]    = track->GetWeight();
 
   // Reset
@@ -531,7 +539,11 @@ inline void PairAnalysisVarManager::FillVarPairAnalysisTrack(const PairAnalysisT
   values[kCharge]    = track->Charge();
   values[kPdgCode]   = track->PdgCode();
 
+  // special
   values[kInclAngle] = TMath::ASin(track->Pt()/track->P());
+  Fill(track->GetTofHit(),      values);
+  values[kTOFHits]   = (track->GetTofHit() ? 1. : 0.);
+  values[kTrackLength] = track->GetGlobalTrack()->GetLength(); //cm
 
 }
 
@@ -546,7 +558,7 @@ inline void PairAnalysisVarManager::FillVarGlobalTrack(const CbmGlobalTrack *tra
 
   // Set
   values[kTrackChi2NDF]= (track->GetNDF()>0. ? track->GetChi2()/track->GetNDF() : -999.);
-  values[kTrackLength] = track->GetLength();
+  values[kTrackLength] = track->GetLength(); // cm
   // accessors via first FairTrackParam
   TVector3 mom;
   track->GetParamFirst()->Momentum(mom);
@@ -757,7 +769,7 @@ inline void PairAnalysisVarManager::FillVarMCTrack(const CbmMCTrack *particle, D
   CbmMCTrack* mother=0x0;
   Int_t mLabel1 = particle->GetMotherId();
   mother = mc->GetMCTrackFromMCEvent(mLabel1);
-  
+
   values[kPdgCode]            = particle->GetPdgCode();
   values[kPdgCodeMother]      = (mother ? mother->GetPdgCode() : -99999. );
   CbmMCTrack* granni = 0x0;
@@ -966,6 +978,27 @@ inline void PairAnalysisVarManager::FillVarTrdHit(const CbmTrdHit *hit, Double_t
   values[kEloss]   = hit->GetELoss(); // dEdx + TR
   values[kElossTR] = hit->GetELossTR(); // TR
   //  Printf("eloss trd: %.3e (%.3e TR)",hit->GetELoss(),hit->GetELossTR());
+}
+
+inline void PairAnalysisVarManager::FillVarTofHit(const CbmTofHit *hit, Double_t * const values)
+{
+  //
+  // Fill hit information for the tof hit into array
+  //
+
+  // Protect
+  if(!hit) return;
+
+  // Reset array
+  ResetArrayData(  kHitMax,   values);
+
+  // accessors via CbmPixelHit & CbmHit
+  FillVarPixelHit(hit, values);
+
+  // Set
+  values[kBeta]    = values[kTrackLength]/100 / (hit->GetTime()*1e-9) / TMath::C();
+  //  Printf("track length: %f beta: %f",values[kTrackLength],values[kBeta]);
+  //  Double_t mass2 = TMath::Power(momentum, 2.) * (TMath::Power(time/ trackLength, 2) - 1);
 }
 
 inline void PairAnalysisVarManager::FillVarMCPoint(const FairMCPoint *hit, Double_t * const values)

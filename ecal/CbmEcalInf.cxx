@@ -90,20 +90,22 @@ CbmEcalInf* CbmEcalInf::GetInstance(const char* filename)
 	newname+="/geometry/";
 	newname+=filename;
 	if (fInf!=NULL)
-		if (fInf->fFileName==newname)
-		{
-			fRefCount++;
-			return fInf;
-		}
-		else
-		{
-		  cerr << "CbmEcalInf: Trying create ";
-		  cerr << "instance of CbmEcalInf with";
-		  cerr << " name " << filename;
-		  cerr << ", which is different from ";
-		  cerr << fInf->fFileName << "." << endl;
-		  return NULL;
-		}
+	{
+	  if (fInf->fFileName==newname)
+	  {
+	    fRefCount++;
+	    return fInf;
+	  }
+	  else
+	  {
+	    cerr << "CbmEcalInf: Trying create ";
+	    cerr << "instance of CbmEcalInf with";
+	    cerr << " name " << filename;
+	    cerr << ", which is different from ";
+	    cerr << fInf->fFileName << "." << endl;
+	    return NULL;
+	  }
+	}
 	fInf=new CbmEcalInf(newname);
 	//Is something wrong?
 	if (fInf->fSuccess==0)
@@ -134,7 +136,7 @@ Double_t CbmEcalInf::GetVariableStrict(const char* key)
   {
     cerr << "Can't find variable named \"" << key << "\"";
     cerr << ". Exiting..." << endl;
-    Fatal("","");
+    Fatal("GetVariableStrict", "Can't find variable.");
   }
   Double_t val;
   char* err=NULL;
@@ -145,7 +147,7 @@ Double_t CbmEcalInf::GetVariableStrict(const char* key)
     cerr << "\" to floating point. Value is \"";
     cerr << value->GetString() << "\"." << endl;
     cerr << "Exiting..." << endl;
-    Fatal("","");
+    Fatal("GetVariableStrict", "Can't find variable.");
   }
   return val;
 }
@@ -339,15 +341,20 @@ void CbmEcalInf::CheckVariables()
       TObjString* first=(TObjString*)parVariables->GetValue(key->String());
       TObjString* second=(TObjString*)fVariables->GetValue(key->String());
       if (ExcludeParameter(key->String())==kFALSE)
-      if (second==NULL)
       {
-	Info("CheckVariables", "Parameter %s not found in .geo file, but found in parameter file.", key->String().Data());
-      } else
-      if (first->String()!=second->String())
-      {
-	Info("CheckVariables", "Parameter %s differs in .geo file and parameter file!", key->String().Data());
-	Info("CheckVariables", "%s=%s in parameter file.", key->String().Data(), first->String().Data());
-	Info("CheckVariables", "%s=%s in .geo file.", key->String().Data(), second->String().Data());
+        if (second==NULL)
+        {
+	  Info("CheckVariables", "Parameter %s not found in .geo file, but found in parameter file.", key->String().Data());
+        }
+	else
+        {
+          if (first->String()!=second->String())
+          {
+	    Info("CheckVariables", "Parameter %s differs in .geo file and parameter file!", key->String().Data());
+	    Info("CheckVariables", "%s=%s in parameter file.", key->String().Data(), first->String().Data());
+	    Info("CheckVariables", "%s=%s in .geo file.", key->String().Data(), second->String().Data());
+          }
+        }
       }
       if (ExcludeParameter(key->String())==kTRUE)
 	AddVariable(key->String().Data(), first->String().Data());
@@ -538,7 +545,6 @@ void CbmEcalInf::FillGeoPar(CbmGeoEcalPar* par,Int_t write_str) const
    par->SetEcalStr(parEcalStr);
    while((key=(TObjString*)iter->Next())!=NULL)
      parEcalStr->Add(key);
-
  }
 }
  

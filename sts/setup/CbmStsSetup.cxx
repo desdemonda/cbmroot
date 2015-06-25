@@ -18,7 +18,7 @@
 
 // Includes from STS
 #include "setup/CbmStsModule.h"
-#include "setup/CbmStsStation_new.h"
+#include "setup/CbmStsStation.h"
 #include "digitize/CbmStsSensorTypeDssd.h"
 
 
@@ -55,9 +55,9 @@ CbmStsSetup::CbmStsSetup() : CbmStsElement("STS", "system", kStsSystem),
 Int_t CbmStsSetup::DefineSensorTypes() {
 
 	// Common parameters for all sensor types
-  Double_t lz      = 0.;   // active thickness
-	Double_t stereoF = 0.;   // stereo angle front side
-	Double_t stereoB = 7.5;  // stereo angle back side
+  Double_t lz      = 0.03; // active thickness [cm]
+	Double_t stereoF = 0.;   // stereo angle front side [degrees]
+	Double_t stereoB = 7.5;  // stereo angle back side [degrees]
 
 	// Parameters varying from type to type
 	Double_t lx      = 0.;   // active size in x
@@ -260,8 +260,8 @@ Bool_t CbmStsSetup::Init(TGeoManager* geo) {
 
   // --- Init the stations (get station-wide parameters like z, xmax etc.)
   for (Int_t iStat = 0; iStat < GetNofDaughters(); iStat++) {
-  	CbmStsStation_new* station =
-  			dynamic_cast<CbmStsStation_new*>(GetDaughter(iStat));
+  	CbmStsStation* station =
+  			dynamic_cast<CbmStsStation*>(GetDaughter(iStat));
   	station->Init();
   	LOG(DEBUG) << station->ToString() << FairLogger::endl;
   }

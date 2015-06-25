@@ -671,6 +671,7 @@ Bool_t CbmEcal::FillLitePoint(Int_t volnum)
   // Create CbmEcalPoint for any ECAL volumes
   newHit = AddLiteHit(fTrackID, fVolumeID, fTime, fELoss);
 
+  if (newHit==NULL) return kFALSE;
   return kTRUE;
 }
 
@@ -711,7 +712,7 @@ void CbmEcal::Reset()
 void CbmEcal::Print() const 
 {
   Int_t nHits = fEcalCollection->GetEntriesFast();
-  Int_t nLiteHits;
+  Int_t nLiteHits=0;
   Int_t i;
 
   cout << "-I- CbmEcal: " << nHits << " points registered in this event.";

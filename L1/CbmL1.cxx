@@ -23,7 +23,7 @@
 #include "FairRunAna.h"
 #include "FairRuntimeDb.h"
 #include "CbmGeoStsPar.h"
-#include "CbmStsStation.h"
+#include "CbmStsStation_old.h"
 #include "CbmStsSector.h"
 #include "legacy/CbmStsSensor_old.h" // for field approx.
 #include "CbmStsDigiPar.h" // for dynamic_cast
@@ -51,6 +51,7 @@ using std::ios;
 using std::vector;
 
 ClassImp(CbmL1)
+
 
 
 static L1Algo algo_static _fvecalignment;
@@ -85,6 +86,7 @@ listStsClusterMatch(0),
 
 listMvdPts(0),
 listMvdHits(0),
+listMvdDigiMatches(0),
 listMvdHitMatches(0),
 vStsHits(),
 vMCPoints(),
@@ -126,6 +128,7 @@ listStsClusterMatch(0),
 
 listMvdPts(0),
 listMvdHits(0),
+listMvdDigiMatches(0),
 listMvdHitMatches(0),
 vStsHits(),
 vMCPoints(),
@@ -351,7 +354,7 @@ InitStatus CbmL1::Init()
       CbmMvdStationPar* mvdStationPar = mvdDetector->GetParameterFile();  
         
         
-        
+
       CbmKFTube &t = CbmKF::Instance()->vMvdMaterial[ist];
       geo[ind++] = t.z;
       geo[ind++] = t.dz;
@@ -367,7 +370,7 @@ InitStatus CbmL1::Init()
       z = t.z;
       Xmax = Ymax = t.R;
     }else{
-      CbmStsStation *st = StsDigi.GetStation(ist - NMvdStations);
+      CbmStsStation_old *st = StsDigi.GetStation(ist - NMvdStations);
   
       geo[ind++] = st->GetZ();
       geo[ind++] = st->GetD();
@@ -412,7 +415,6 @@ InitStatus CbmL1::Init()
           if(y>Ymax) Ymax = y;
         }
       }
-//      cout << "Station  "<<  ist << ",  Xmax  " << Xmax<<",  Ymax" << Ymax<<endl;
     }
 
     double dx = 1.; // step for the field approximation
@@ -490,17 +492,16 @@ InitStatus CbmL1::Init()
 
   
   algo->fRadThick.resize(algo->NStations);
-
     // Read STS Radiation Thickness table
   if (fMatBudgetFileName != "") {
     TFile* oldfile = gFile;
     TFile *rlFile = new TFile(fMatBudgetFileName);
-
+  //MATERIAL BUDGET MVD - iSta = 0
     cout << "STS Material budget file is " << fMatBudgetFileName << "." << endl;
     for( int j = 0, iSta = 0; iSta < algo->NStations; iSta++, j++ ) {
       TString name = "Radiation Thickness [%]";
       name += ", Station";
-      name += j+1; 
+      name += j+1;
     
       TProfile2D* hStaRadLen = (TProfile2D*) rlFile->Get(name);
       if ( !hStaRadLen ) {
@@ -511,12 +512,13 @@ InitStatus CbmL1::Init()
       const float RMax = hStaRadLen->GetXaxis()->GetXmax(); // should be same as min
       algo->fRadThick[iSta].SetBins(NBins,RMax); // TODO
       algo->fRadThick[iSta].table.resize(NBins);
+
       for( int iB = 0; iB < NBins; iB++ ) {
         algo->fRadThick[iSta].table[iB].resize(NBins);
         for( int iB2 = 0; iB2 < NBins; iB2++ ) {
-          algo->fRadThick[iSta].table[iB][iB2] = 0.01 * hStaRadLen->GetBinContent(iB,iB2); //0.0034;//0.003209;//
-//          if ( algo->fRadThick[iSta].table[iB][iB2] < algo->vStations[iSta].materialInfo.RadThick[0] && iSta >=4){
-//            algo->fRadThick[iSta].table[iB][iB2] = algo->vStations[iSta].materialInfo.RadThick[0];}
+          algo->fRadThick[iSta].table[iB][iB2] = 0.01 * hStaRadLen->GetBinContent(iB,iB2);
+          if(algo->fRadThick[iSta].table[iB][iB2] < algo->vStations[iSta].materialInfo.RadThick[0]){
+        	  algo->fRadThick[iSta].table[iB][iB2] = algo->vStations[iSta].materialInfo.RadThick[0];}
         }
       }
     }
@@ -616,7 +618,7 @@ void CbmL1::Reconstruct()
 
   if( fVerbose>1 ) cout<<"L1 Track finder..."<<endl;
   algo->CATrackFinder();
-//  IdealTrackFinder();
+  //IdealTrackFinder();
   if( fVerbose>1 ) cout<<"L1 Track finder ok"<<endl;
   algo->L1KFTrackFitter( fExtrapolateToTheEndOfSTS );
 //  algo->KFTrackFitter_simple();
@@ -731,9 +733,14 @@ void CbmL1::IdealTrackFinder()
       algoTr.NHits++;
     }
     algoTr.Momentum = MC.p;
+    algoTr.TFirst[0] = MC.x;
+    algoTr.TFirst[1] = MC.y;
+    algoTr.TFirst[2] = MC.px/MC.pz;
+    algoTr.TFirst[3] = MC.py/MC.pz;
+    algoTr.TFirst[4] = MC.q/MC.p;
+    algoTr.TFirst[5] = MC.z;
           
     algo->vTracks.push_back(algoTr);
-
   }
   
 }; // void CbmL1::IdealTrackFinder()
@@ -1320,7 +1327,7 @@ void CbmL1::WriteSIMDKFData()
         z = t.z;
         Xmax = Ymax = t.R;
       }else{
-        CbmStsStation *st = StsDigi.GetStation(ist - NMvdStations);
+        CbmStsStation_old *st = StsDigi.GetStation(ist - NMvdStations);
         CbmStsSector* sector = st->GetSector(0);
         f_phi = sector->GetRotation();
         b_phi = sector->GetRotation();
@@ -1427,7 +1434,7 @@ void CbmL1::WriteSIMDKFData()
       }
       else if(ist<(NStsStations+NMvdStations))
       {
-        CbmStsStation *st = StsDigi.GetStation(ist - NMvdStations);
+        CbmStsStation_old *st = StsDigi.GetStation(ist - NMvdStations);
         FileGeo<<st->GetZ()<<" ";
         FileGeo<<st->GetD()<<" ";
         FileGeo<<st->GetRadLength()<<" ";

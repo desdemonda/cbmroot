@@ -4,7 +4,7 @@
 // CBM setup with MVD only
 //
 // V. Friese   06/02/2007
-//
+// 
 // --------------------------------------------------------------------------
 void mvd_sim()
 {
@@ -13,16 +13,16 @@ void mvd_sim()
 
   // Input file
   TString inDir   = gSystem->Getenv("VMCWORKDIR");
-  TString inFile = inDir + "/input/urqmd.ftn14";
+  TString inFile = inDir + "/input/urqmd.nini.17gev.minbias.10000.f14";
 
   // Number of events
-  Int_t   nEvents = 5;
+  Int_t   nEvents = 10;
 
   // Output file name
-  TString outFile = "data/mvd.mc.root";
+  TString outFile = "data/mvd.mc.nini.17gev.minbias.10000.root";
 
   // Parameter file name
-  TString parFile = "data/params.root";
+  TString parFile = "data/params.nini.17gev.minbias.10000.root";
 
   // Cave geometry
   TString caveGeom = "cave.geo";
@@ -39,7 +39,10 @@ void mvd_sim()
 
   // MVD geometry
 
-  TString mvdGeom = "mvd/mvd_v14a.geo.root";
+  TString mvdGeom = "mvd/mvd_v15a.geo.root";
+
+ // StS geometry
+  TString stsGeom = "sts/sts_v13d.geo.root";
 
   // In general, the following parts need not be touched
   // ========================================================================
@@ -109,6 +112,10 @@ void mvd_sim()
   mvd->SetGeometryFileName(mvdGeom); 
   mvd->SetMotherVolume("pipevac1");
   fRun->AddModule(mvd);
+
+  FairDetector* sts = new CbmStsMC(kTRUE);
+  sts->SetGeometryFileName(stsGeom);
+  fRun->AddModule(sts);
   // ------------------------------------------------------------------------
 
 

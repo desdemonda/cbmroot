@@ -22,11 +22,12 @@ void cbmrootlibs()
    gSystem->Load("libTrkBase");
    gSystem->Load("libGeane");
 
+   gSystem->Load("libKF");
+
    gSystem->Load("libSts");
    gSystem->Load("libTrd");
    gSystem->Load("libEcal");
 
-   gSystem->Load("libKF");
    gSystem->Load("libL1");
    gSystem->Load("libMvd");
 

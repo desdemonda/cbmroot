@@ -35,7 +35,7 @@ void CbmEcalAnalysisJPsi::Exec(Option_t* option)
   TVector3 p;
   CbmMCTrack* mctr;
   CbmMCTrack* mmctr;
-  CbmEcalIdParticle* ecalid;
+  CbmEcalIdParticle* ecalid=NULL;
   Int_t idn=fEcalId->GetEntriesFast();
   Int_t mid;
 

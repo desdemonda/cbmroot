@@ -10,7 +10,6 @@
 using std::cout;
 using std::endl;
 
-
 // -----   Default constructor   -------------------------------------------
 CbmMvdPixelCharge::CbmMvdPixelCharge()
   : TObject(),
@@ -27,11 +26,11 @@ CbmMvdPixelCharge::CbmMvdPixelCharge()
     fDominatorPointId(-1.),
     fTrackId(),
     fPointId(),
+    fPointWeight(),
     fPointX(),
     fPointY(),
     fDominatorIndex(0),
-    fPixelTime(-1.),
-    fPointWeight()
+    fPixelTime(-1.)
 {
     for(Int_t i=0;i<5;i++){
       fTrackId[i]=-1;
@@ -70,11 +69,11 @@ CbmMvdPixelCharge::CbmMvdPixelCharge(Float_t charge, Int_t channelNrX, Int_t cha
     fDominatorPointId(-1.),
     fTrackId(),
     fPointId(),
+    fPointWeight(),
     fPointX(),
     fPointY(),
     fDominatorIndex(0),
-    fPixelTime(time),
-    fPointWeight()
+    fPixelTime(time)
 {
     for(Int_t i=0;i<5;i++){
       fTrackId[i]=-1;

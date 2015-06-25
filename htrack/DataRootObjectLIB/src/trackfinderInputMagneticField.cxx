@@ -97,11 +97,11 @@ trackfinderInputMagneticField::trackfinderInputMagneticField()
   : TObject(), 
     magneticField(NULL),
     isLocalField(false),
-    fileName(),
-    isRootFile(false),
-    mapName(),
     magneticFieldIntegrationStepwidthPerStation(1),
     magneticFieldIntegrationFactor(1),
+    fileName(),
+    mapName(),
+    isRootFile(false),
     numberOfMagnetfieldFactors(0),
     magnetfieldFactors(NULL)
 {
@@ -126,11 +126,11 @@ trackfinderInputMagneticField::trackfinderInputMagneticField(const trackfinderIn
   : TObject(value),
     magneticField(NULL),
     isLocalField(value.isLocalField),
-    fileName(value.fileName),
-    isRootFile(value.isRootFile),
-    mapName(value.mapName),
     magneticFieldIntegrationStepwidthPerStation(value.magneticFieldIntegrationStepwidthPerStation),
     magneticFieldIntegrationFactor(value.magneticFieldIntegrationFactor),
+    fileName(value.fileName),
+    mapName(value.mapName),
+    isRootFile(value.isRootFile),
     numberOfMagnetfieldFactors(value.numberOfMagnetfieldFactors),
     magnetfieldFactors(value.magnetfieldFactors)
 {
@@ -154,11 +154,11 @@ trackfinderInputMagneticField::trackfinderInputMagneticField(const char* _fileNa
   : TObject(), 
     magneticField(NULL),
     isLocalField(false),
-    fileName(_fileName),
-    isRootFile(_isRootFile),
-    mapName(_mapName),
     magneticFieldIntegrationStepwidthPerStation(1),
     magneticFieldIntegrationFactor(_magneticFieldIntegrationFactor),
+    fileName(_fileName),
+    mapName(_mapName),
+    isRootFile(_isRootFile),
     numberOfMagnetfieldFactors(0),
     magnetfieldFactors(NULL)
 {
@@ -184,11 +184,11 @@ trackfinderInputMagneticField::trackfinderInputMagneticField(std::string _fileNa
   : TObject(),
     magneticField(NULL),
     isLocalField(false),
-    fileName(_fileName),
-    isRootFile(_isRootFile),
-    mapName(_mapName.c_str()),
     magneticFieldIntegrationStepwidthPerStation(1),
     magneticFieldIntegrationFactor(_magneticFieldIntegrationFactor),
+    fileName(_fileName),
+    mapName(_mapName.c_str()),
+    isRootFile(_isRootFile),
     numberOfMagnetfieldFactors(0),
     magnetfieldFactors(NULL)
 {
@@ -214,11 +214,11 @@ trackfinderInputMagneticField::trackfinderInputMagneticField(unsigned short _num
   : TObject(),
     magneticField(NULL),
     isLocalField(false),
-    fileName(),
-    isRootFile(false),
-    mapName(),
     magneticFieldIntegrationStepwidthPerStation(1),
     magneticFieldIntegrationFactor(1),
+    fileName(),
+    mapName(),
+    isRootFile(false),
     numberOfMagnetfieldFactors(0),
     magnetfieldFactors(NULL)
 {
@@ -240,11 +240,11 @@ trackfinderInputMagneticField::trackfinderInputMagneticField(FairField* field, u
   : TObject(),
     magneticField(field),
     isLocalField(false),
-    fileName(),
-    isRootFile(false),
-    mapName(),
     magneticFieldIntegrationStepwidthPerStation(1),
     magneticFieldIntegrationFactor(_magneticFieldIntegrationFactor),
+    fileName(),
+    mapName(),
+    isRootFile(false),
     numberOfMagnetfieldFactors(0),
     magnetfieldFactors(NULL)
 {

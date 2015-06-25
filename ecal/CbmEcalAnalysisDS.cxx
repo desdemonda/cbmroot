@@ -286,7 +286,7 @@ void CbmEcalAnalysisDS::FillEnergies(CbmEcalCell* cell)
 void CbmEcalAnalysisDS::FindND()
 {
   CbmEcalPoint* pt;
-  CbmEcalPoint* mp;
+  CbmEcalPoint* mp=NULL;
   CbmMCTrack* track;
   TVector3 mom;
   Float_t dx;

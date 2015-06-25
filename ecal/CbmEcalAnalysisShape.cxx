@@ -46,7 +46,7 @@ void CbmEcalAnalysisShape::Exec(Option_t* option)
   Int_t n;
   Int_t m;
   CbmEcalPointLite* p;
-  Bool_t isPS;
+//  Bool_t isPS;
   Int_t ten;
   Float_t x;
   Float_t y;
@@ -59,7 +59,8 @@ void CbmEcalAnalysisShape::Exec(Option_t* option)
   {
     p=(CbmEcalPointLite*)fP->At(i);
     if (!p) continue;
-    isPS=CbmEcal::GetCellCoord(p->GetDetectorID(), x, y, ten);
+    CbmEcal::GetCellCoord(p->GetDetectorID(), x, y, ten);
+//    isPS=CbmEcal::GetCellCoord(p->GetDetectorID(), x, y, ten);
     if (ten!=0) continue;
     m=GetNum(x-fStartX, y-fStartY);
     if (m<0)

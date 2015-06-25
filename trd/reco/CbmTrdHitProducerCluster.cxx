@@ -22,12 +22,12 @@ using std::endl;
 
 CbmTrdHitProducerCluster::CbmTrdHitProducerCluster()
   :FairTask("CbmTrdHitProducerCluster",1),
-   fRecoTriangular(0),
    fDigis(NULL),
    fClusters(NULL),
    fHits(NULL),
    fDigiPar(NULL),
-   fTrianglePads(false)
+   fTrianglePads(false),
+   fRecoTriangular(0)
 {
 }
 

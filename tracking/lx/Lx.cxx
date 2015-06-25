@@ -63,15 +63,16 @@ LxFinder* LxFinder::Instance()
 
 LxFinder::LxFinder() : muchPixelHits(0), listMCTracks(0), listMuchPts(0), listMuchClusters(0),
     listMuchPixelDigiMatches(0), listStsTracks(0), listStsMatches(0), listStsPts(0), listRecoTracks(0),
-    effCounter(*this), fPrimVtx(0), generateInvMass(false), generateBackground(false), generateChi2(false),
-    eventNumber(0), linkWithSts(true), useMCPInsteadOfHits(false), calcMiddlePoints(true), cutCoeff(4.0)
+    effCounter(*this), fPrimVtx(0), generateInvMass(false), generateBackground(false), generateChi2(false), linkWithSts(true), 
+    useMCPInsteadOfHits(false), calcMiddlePoints(true), cutCoeff(4.0)
+#ifdef MAKE_EFF_CALC
+    , falseJPsiTriggerings(0)
+#endif//MAKE_EFF_CALC
+    , eventNumber(0) 
 #ifdef CALC_MUCH_DETECTORS_EFF
     , mcPointsCount(0), mcPointsTriggered(0)
 #endif//CALC_MUCH_DETECTORS_EFF
-#ifdef MAKE_EFF_CALC
-    , falseJPsiTriggerings(0), saveOnlyTriggeringTracks(true)
-#endif//MAKE_EFF_CALC
-{
+    , saveOnlyTriggeringTracks(true){
   fInstance = this;
 }
 

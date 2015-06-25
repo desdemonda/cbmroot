@@ -3,13 +3,13 @@ void draw_litqa()
    gROOT->LoadMacro("$VMCWORKDIR/macro/littrack/loadlibs.C");
    loadlibs();
 
-   std::string dir = "/Users/slebedev/Development/cbm/data/lmvm/feb15/8gev/stsv13d/richv14a_1e/trd4/tofv13/1.0field/nomvd/rho0/";
-   std::string fileName = dir + "litqa.auau.8gev.centr.all.root";
+   std::string dir = "/Users/slebedev/Development/cbm/data/lmvm/feb15/25gev/stsv13d/richv14a_3e/trd10/tofv13/1.0field/nomvd/phi/";
+   std::string fileName = dir + "litqa.auau.25gev.centr.all.root";
 
-   std::string script = std::string(gSystem->Getenv("SCRIPT"));
-   if (script == "yes"){
-      dir = std::string(gSystem->Getenv("LMVM_MAIN_DIR"));
-      fileName = dir + std::string(gSystem->Getenv("LMVM_LITQA_FILE_NAME"));
+   std::string script = std::string(TString(gSystem->Getenv("SCRIPT")).Data());
+    if (script == "yes"){
+      dir = std::string(TString(gSystem->Getenv("LMVM_MAIN_DIR")).Data());
+      fileName = dir + std::string(TString(gSystem->Getenv("LMVM_LITQA_FILE_NAME")).Data());
    }
 
    std::string outputDirTracking = dir + "results_litqa_tracking/";

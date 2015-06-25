@@ -132,6 +132,7 @@ void CbmLitFitQa::ProcessStsTrack(
    if (NULL == fStsTracks || NULL == fStsTrackMatches || trackId < 0) return;
 
    CbmTrackMatchNew* match = static_cast<CbmTrackMatchNew*>(fStsTrackMatches->At(trackId));
+   if (match->GetNofLinks() < 1) return;
    Int_t mcId = match->GetMatchedLink().GetIndex();
    if (mcId < 0) return; // Ghost or fake track
 
@@ -204,7 +205,7 @@ void CbmLitFitQa::ProcessTrdTrack(
    FillTrackParamHistogramm("htp_Trd_LastParam", lastParam);
 
    // Fill histograms for first track parameters
-   const CbmBaseHit* firstHit = static_cast<const CbmBaseHit*>(fTrdHits->At(track->GetHitIndex(0)));
+   const CbmHit* firstHit = static_cast<const CbmHit*>(fTrdHits->At(track->GetHitIndex(0)));
    //Int_t firstStation = 10 * CbmTrdAddress::GetStationNr(firstHit->GetAddress()) + CbmTrdAddress::GetLayerNr(firstHit->GetAddress());
    Int_t firstStation = CbmTrdAddress::GetLayerId(firstHit->GetAddress());
    if (mcTrack.GetNofPointsAtStation(kTRD, firstStation) > 0) {
@@ -213,7 +214,7 @@ void CbmLitFitQa::ProcessTrdTrack(
    }
 
    // Fill histograms for last track parameters
-   const CbmBaseHit* lastHit = static_cast<const CbmBaseHit*>(fTrdHits->At(track->GetHitIndex(nofHits - 1)));
+   const CbmHit* lastHit = static_cast<const CbmHit*>(fTrdHits->At(track->GetHitIndex(nofHits - 1)));
    //Int_t lastStation = 10 * CbmTrdAddress::GetStationNr(lastHit->GetAddress()) + CbmTrdAddress::GetLayerNr(lastHit->GetAddress());
    Int_t lastStation = CbmTrdAddress::GetLayerId(lastHit->GetAddress());
    if (mcTrack.GetNofPointsAtStation(kTRD, lastStation) > 0) {
@@ -248,7 +249,7 @@ void CbmLitFitQa::ProcessMuchTrack(
    FillTrackParamHistogramm("htp_Much_LastParam", lastParam);
 
    // Fill histograms for first track parameters
-   const CbmBaseHit* firstHit = static_cast<const CbmBaseHit*>(fMuchPixelHits->At(track->GetHitIndex(0)));
+   const CbmHit* firstHit = static_cast<const CbmHit*>(fMuchPixelHits->At(track->GetHitIndex(0)));
 //   Int_t firstStation = firstHit->GetPlaneId();
    Int_t firstStation = 100 * CbmMuchGeoScheme::GetStationIndex(firstHit->GetAddress())
             + 10 * CbmMuchGeoScheme::GetLayerIndex(firstHit->GetAddress())
@@ -259,7 +260,7 @@ void CbmLitFitQa::ProcessMuchTrack(
    }
 
    // Fill histograms for last track parameters
-   const CbmBaseHit* lastHit = static_cast<const CbmBaseHit*>(fMuchPixelHits->At(track->GetHitIndex(nofHits - 1)));
+   const CbmHit* lastHit = static_cast<const CbmHit*>(fMuchPixelHits->At(track->GetHitIndex(nofHits - 1)));
 //   Int_t lastStation = lastHit->GetPlaneId();
    Int_t lastStation = 100 * CbmMuchGeoScheme::GetStationIndex(lastHit->GetAddress())
               + 10 * CbmMuchGeoScheme::GetLayerIndex(lastHit->GetAddress())
@@ -351,15 +352,16 @@ void CbmLitFitQa::ProcessTrackParamsAtVertex()
       CbmStsTrack* track = static_cast<CbmStsTrack*>(fStsTracks->At(iTrack));
 
       CbmTrackMatchNew* match = static_cast<CbmTrackMatchNew*>(fStsTrackMatches->At(iTrack));
+      if (match->GetNofLinks() < 1) continue;
       Int_t mcId = match->GetMatchedLink().GetIndex();
-      if (mcId < 0) return; // Ghost or fake track
+      if (mcId < 0) continue; // Ghost or fake track
 
       const CbmMCTrack* mcTrack = static_cast<const CbmMCTrack*>(fMCTracks->At(mcId));
       if (mcTrack->GetMotherId() != -1) continue; // only for primaries
       //if (mcTrack->GetP() < 1.) continue; // only for momentum large 1 GeV/c
 
       // Check correctness of reconstructed track
-      if (match->GetTrueOverAllHitsRatio() < fQuota) return;
+      if (match->GetTrueOverAllHitsRatio() < fQuota) continue;
 
       fKFFitter.DoFit(track, 211);
       Double_t chiPrimary = fKFFitter.GetChiToVertex(track, fPrimVertex);

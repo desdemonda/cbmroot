@@ -26,6 +26,7 @@ using std::vector;
 CbmStsSector::CbmStsSector() 
   : TNamed(),
     fDetectorId(0),
+    fSensors(new TObjArray(100)),
     fType(-666),
     fRotation(-666.),
     fDx(-666.),
@@ -37,7 +38,6 @@ CbmStsSector::CbmStsSector()
     fSigmaXY(0.),
     fNChannelsFront(0),
     fNChannelsBack(0),
-    fSensors(new TObjArray(100)),
     fFrontActive(),
     fBackActive(),
     fSensorMap(),
@@ -52,6 +52,7 @@ CbmStsSector::CbmStsSector()
 CbmStsSector::CbmStsSector(TString tempName, Int_t detId)
   : TNamed(tempName.Data(),""),
     fDetectorId(detId),
+    fSensors(new TObjArray(100)),
     fType(-1),
     fRotation(-666.),
     fDx(-666.),
@@ -63,7 +64,6 @@ CbmStsSector::CbmStsSector(TString tempName, Int_t detId)
     fSigmaXY(0.),
     fNChannelsFront(0),
     fNChannelsBack(0),
-    fSensors(new TObjArray(100)),
     fFrontActive(),
     fBackActive(),
     fSensorMap(),

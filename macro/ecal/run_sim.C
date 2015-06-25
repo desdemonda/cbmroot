@@ -7,6 +7,40 @@
 //
 // --------------------------------------------------------------------------
 
+
+#ifdef __CLING__
+static TString caveGeom;
+static TString pipeGeom;
+static TString magnetGeom;
+static TString mvdGeom;
+static TString stsGeom;
+static TString richGeom;
+static TString muchGeom;
+static TString shieldGeom;  
+static TString trdGeom;
+static TString tofGeom;
+static TString ecalGeom;
+static TString platformGeom;
+static TString psdGeom;
+static Double_t psdZpos;
+static Double_t psdXpos;
+
+static TString stsTag;  
+static TString trdTag;
+static TString tofTag;
+
+static TString stsDigi;  
+static TString trdDigi;
+static TString tofDigi;
+
+static TString  fieldMap;
+static Double_t fieldZ;
+static Double_t fieldScale;
+static Int_t    fieldSymType;
+
+static TString defaultInputFile;
+#endif
+
 void run_sim(Int_t nEvents = 5)
 {
 
@@ -16,31 +50,24 @@ void run_sim(Int_t nEvents = 5)
   // ----- Paths and file names  --------------------------------------------
   TString inDir   = gSystem->Getenv("VMCWORKDIR");
   TString inFile  = inDir + "/input/urqmd.ftn14";
-  TString outDir  = "data";
+  TString outDir  = "data/";
   TString outFile = outDir + "/test.mc.root";
+  TString parFile = outDir + "/test.params.root";
   
-  // -----  Geometries  -----------------------------------------------------
-  TString caveGeom   = "cave.geo";
-  TString targetGeom = "target_au_250mu.geo";
-  TString pipeGeom   = "pipe_standard.geo";
-  TString magnetGeom = "passive/magnet_v09e.geo";
-  TString mvdGeom    = "mvd/mvd_v07a.geo";
-  TString stsGeom    = "sts/sts_v11a.geo";
-  TString richGeom   = "rich/rich_v08a.geo";
-  TString trdGeom    = "trd/trd_v11c.geo";
-  TString tofGeom    = "tof/tof_v07a.geo";
+//  TString setupFile = inDir + "/macro/run/" + setup + "_setup.C";
+  TString setupFile = inDir + "/geometry/setup/sis300_electron_setup.C";
+  TString setupFunct = "sis300_electron";
+  setupFunct += "_setup()";
+
+  gROOT->LoadMacro(setupFile);
+  gInterpreter->ProcessLine(setupFunct);
+
+//  TString inFile  = inDir + defaultInputFile;
+
+  CbmTarget* target = new CbmTarget("Gold", 0.025);
+
   TString ecalGeom   = "ecal/ecal_v12a.geo";
   
-  // -----   Magnetic field   -----------------------------------------------
-  TString fieldMap    = "field_v10e";   // name of field map
-  Double_t fieldZ     = 50.;             // field centre z position
-  Double_t fieldScale =  1.;             // field scaling factor
-  
-  // In general, the following parts need not be touched
-  // ========================================================================
-
-
-
 
   // ----    Debug option   -------------------------------------------------
   gDebug = 0;
@@ -54,30 +81,6 @@ void run_sim(Int_t nEvents = 5)
   // ------------------------------------------------------------------------
 
 
-  // ----  Load libraries   -------------------------------------------------
-  gROOT->LoadMacro("$VMCWORKDIR/gconfig/basiclibs.C");
-  basiclibs();
-  gSystem->Load("libGeoBase");
-  gSystem->Load("libParBase");
-  gSystem->Load("libBase");
-  gSystem->Load("libCbmBase");
-  gSystem->Load("libCbmData");
-  gSystem->Load("libCbmGenerators");
-  gSystem->Load("libField");
-  gSystem->Load("libGen");
-  gSystem->Load("libPassive");
-  gSystem->Load("libEcal");
-  gSystem->Load("libKF");
-  gSystem->Load("libMvd");
-  gSystem->Load("libSts");
-  gSystem->Load("libLittrack");
-  gSystem->Load("libRich");
-  gSystem->Load("libTrd");
-  gSystem->Load("libTof");
-  // -----------------------------------------------------------------------
-
- 
- 
   // -----   Create simulation run   ----------------------------------------
   FairRunSim* fRun = new FairRunSim();
   fRun->SetName("TGeant3");              // Transport engine
@@ -104,11 +107,7 @@ void run_sim(Int_t nEvents = 5)
     fRun->AddModule(pipe);
   }
   
-  if ( targetGeom != "" ) {
-    FairModule* target = new CbmTarget("Target");
-    target->SetGeometryFileName(targetGeom);
-    fRun->AddModule(target);
-  }
+  if ( target ) fRun->AddModule(target);
 
   if ( magnetGeom != "" ) {
     FairModule* magnet = new CbmMagnet("MAGNET");
@@ -119,11 +118,12 @@ void run_sim(Int_t nEvents = 5)
   if ( mvdGeom != "" ) {
     FairDetector* mvd = new CbmMvd("MVD", kTRUE);
     mvd->SetGeometryFileName(mvdGeom);
+    mvd->SetMotherVolume("pipevac1");
     fRun->AddModule(mvd);
   }
 
   if ( stsGeom != "" ) {
-    FairDetector* sts = new CbmSts("STS", kTRUE);
+    FairDetector* sts = new CbmStsMC(kTRUE);
     sts->SetGeometryFileName(stsGeom);
     fRun->AddModule(sts);
   }
@@ -158,10 +158,17 @@ void run_sim(Int_t nEvents = 5)
 
 
   // -----   Create magnetic field   ----------------------------------------
-  CbmFieldMap* magField = new CbmFieldMapSym2(fieldMap);
+  cout <<"Field: " << fieldSymType <<endl;
+  CbmFieldMap* magField = NULL;
+  if ( 2 == fieldSymType ) {
+    magField = new CbmFieldMapSym2(fieldMap);
+  }  else if ( 3 == fieldSymType ) {
+    magField = new CbmFieldMapSym3(fieldMap);
+  }
   magField->SetPosition(0., 0., fieldZ);
   magField->SetScale(fieldScale);
   fRun->SetField(magField);
+
   // ------------------------------------------------------------------------
 
   // Use theexperiment specific MC Event header instead of the default one
@@ -204,19 +211,18 @@ void run_sim(Int_t nEvents = 5)
   // trajFilter->SetStorePrimaries(kTRUE);
   // trajFilter->SetStoreSecondaries(kTRUE);
 
-  // -----   Runtime database   ---------------------------------------------
+  // ------------------------------------------------------------------------
+
   CbmFieldPar* fieldPar = (CbmFieldPar*) rtdb->getContainer("CbmFieldPar");
   fieldPar->SetParameters(magField);
   fieldPar->setChanged();
   fieldPar->setInputVersion(fRun->GetRunId(),1);
   Bool_t kParameterMerged = kTRUE;
   FairParRootFileIo* parOut = new FairParRootFileIo(kParameterMerged);
-  parOut->open(gFile);
+  parOut->open(parFile.Data());
   rtdb->setOutput(parOut);
-  rtdb->saveOutput();
+  rtdb->saveOutput();   
   rtdb->print();
-  // ------------------------------------------------------------------------
-
  
   // -----   Start run   ----------------------------------------------------
   fRun->Run(nEvents);

@@ -68,14 +68,14 @@ CbmMvdCluster& operator=(const CbmMvdCluster&){return *this;};
  protected:
      static const Short_t fMaxDigisInObject=8;
      Int_t fDigiArray[fMaxDigisInObject];
-    map <pair<Int_t, Int_t>, Int_t > fPixelMap;
+     map <pair<Int_t, Int_t>, Int_t > fPixelMap;
      Int_t fNeighbourDown;
      Int_t fNeighbourUp;
      Short_t fDigisInThisObject;
      Short_t fTotalDigisInCluster;
      Int_t fStation;
      Int_t fRefId;
-  Int_t fDetectorId;
+     Int_t fDetectorId;
      Float_t fClusterCharge;
 
   ClassDef(CbmMvdCluster,2);

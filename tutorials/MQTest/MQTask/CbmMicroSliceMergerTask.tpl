@@ -19,7 +19,8 @@ CbmMicroSliceMergerTask<TPayloadIn, TPayloadOut>::CbmMicroSliceMergerTask() :
         findex_sts(0),
         findex_much(0),
         fMSCounter_sts(0),
-        fMSCounter_much(0)
+        fMSCounter_much(0),
+        fDigiVector()
 {
     
 }

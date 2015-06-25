@@ -15,7 +15,7 @@
 #include "CbmGlobalTrack.h"
 #include "CbmRichRing.h"
 #include "CbmMCTrack.h"
-#include "CbmBaseHit.h"
+#include "CbmHit.h"
 #include "FairMCPoint.h"
 #include "CbmStsTrack.h"
 #include "CbmMvdHitMatch.h"
@@ -560,7 +560,7 @@ void CbmLitTrackingQa::CreateHistograms()
       CreateH1Efficiency("hte_Rich_Rich", "RingNh", "Number of hits", nofBinsPoints, minNofPoints, maxNofPoints, "ring");
       CreateH1Efficiency("hte_Rich_Rich", "BoA", "B/A", 50, 0.0, 1.0, "ring");
      // CreateH1Efficiency("hte_Rich_Rich", "RadPos", "Radial position [cm]", 50, 0., 150., "ring");
-      CreateH2Efficiency("hte_Rich_Rich", "RingXcYc", "X [cm]", "Y [cm]", 28, -110., 110, 40, -200, 200, "ring");
+      CreateH2Efficiency("hte_Rich_Rich", "RingXcYc", "X [cm]", "Y [cm]", 14, -110., 110, 60, -300, 300, "ring");
       CreateH2Efficiency("hte_Rich_Rich", "YPt", "Rapidity", "P_{t} [GeV/c]", fYRangeBins, fYRangeMin, fYRangeMax, fPtRangeBins, fPtRangeMin, fPtRangeMax, "ring");
    }
 
@@ -691,10 +691,10 @@ void CbmLitTrackingQa::ProcessGlobalTracks()
       const CbmTrackMatchNew* stsTrackMatch;
       if (isStsOk) {
          stsTrackMatch = static_cast<const CbmTrackMatchNew*>(fStsMatches->At(stsId));
-         isStsOk = stsTrackMatch->GetTrueOverAllHitsRatio() >= fQuota;//CheckTrackQuality(stsTrackMatch, kSTS);
+         isStsOk = stsTrackMatch->GetTrueOverAllHitsRatio() >= fQuota;
          FillTrackQualityHistograms(stsTrackMatch, kSTS);
          if (!isStsOk) { // ghost track
-            Int_t nofHits = stsTrackMatch->GetNofHits();//stsTrackMatch->GetNofTrueHits() + stsTrackMatch->GetNofWrongHits() + stsTrackMatch->GetNofFakeHits();
+            Int_t nofHits = stsTrackMatch->GetNofHits();
             fHM->H1("hng_NofGhosts_Sts_Nh")->Fill(nofHits);
 
             // calculate number of ghost after RICH matching
@@ -771,7 +771,7 @@ void CbmLitTrackingQa::ProcessGlobalTracks()
       if (isTrdOk) { trdMCId = trdTrackMatch->GetMatchedLink().GetIndex(); }
       if (isMuchOk) { muchMCId = muchTrackMatch->GetMatchedLink().GetIndex(); }
       if (isTofOk) {
-         const CbmBaseHit* tofHit = static_cast<const CbmBaseHit*>(fTofHits->At(tofId));
+         const CbmHit* tofHit = static_cast<const CbmHit*>(fTofHits->At(tofId));
          const FairMCPoint* tofPoint = static_cast<const FairMCPoint*>(fTofPoints->At(tofHit->GetRefId()));
          if (tofPoint != NULL) tofMCId = tofPoint->GetTrackID();
       }

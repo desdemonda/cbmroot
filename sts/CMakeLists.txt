@@ -18,7 +18,7 @@ setup/CbmStsSensorConditions.cxx
 setup/CbmStsSensorPoint.cxx
 setup/CbmStsSensorType.cxx
 setup/CbmStsSetup.cxx
-setup/CbmStsStation_new.cxx
+setup/CbmStsStation.cxx
 )
 # --- Sources in mc
 set(SRCS_MC
@@ -46,6 +46,7 @@ legacy/CbmStsClusterFinder_old.cxx
 legacy/CbmStsDigitize_old.cxx 
 legacy/CbmStsFindHits_old.cxx 
 legacy/CbmStsSensor_old.cxx
+legacy/CbmStsStation_old.cxx
 # --- Legacy, not compiled any longer
 # legacy/CbmStsIdealDigitize.cxx 
 # legacy/CbmStsIdealFindHits.cxx 
@@ -79,7 +80,6 @@ CbmStsRadTool.cxx
 CbmStsSensorDigiPar.cxx 
 CbmStsSector.cxx 
 CbmStsSectorDigiPar.cxx 
-CbmStsStation.cxx 
 CbmStsStationDigiPar.cxx 
 CbmStsTrackFinderIdeal.cxx 
 CbmStsTrackFitterIdeal.cxx 
@@ -98,6 +98,7 @@ ${CBMROOT_SOURCE_DIR}/sts
 ${CBMROOT_SOURCE_DIR}/sts/setup
 ${CBMROOT_SOURCE_DIR}/sts/mc
 ${CBMROOT_SOURCE_DIR}/sts/digitize
+${CBMROOT_SOURCE_DIR}/sts/legacy
 
 # needed by MatchHits???
 ${CBMROOT_SOURCE_DIR}/passive 

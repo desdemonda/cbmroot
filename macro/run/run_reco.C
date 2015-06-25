@@ -85,8 +85,12 @@ void run_reco(Int_t nEvents = 2, const char* setup = "sis100_electron")
   run->SetOutputFile(outFile);
   // ------------------------------------------------------------------------
 
-
-
+  // ----- MC Data Manager   ------------------------------------------------
+  CbmMCDataManager* mcManager=new CbmMCDataManager("MCManager", 1);
+  mcManager->AddFile(inFile);
+  run->AddTask(mcManager);
+  // ------------------------------------------------------------------------
+	
 
   // =========================================================================
   // ===             Detector Response Simulation (Digitiser)              ===
@@ -342,7 +346,16 @@ void run_reco(Int_t nEvents = 2, const char* setup = "sis100_electron")
 
   // ===                      End of ECAL reconstruction                   ===
   // =========================================================================
+
 */
+
+  // =========================================================================
+  // ===                    Matching to Monte-carlo                        ===
+  // =========================================================================
+  CbmMatchRecoToMC* matchTask = new CbmMatchRecoToMC();
+  run->AddTask(matchTask);
+  // ===                  End of matching to Monte-Carlo                   ===
+  // =========================================================================
 
   // -----  Parameter database   --------------------------------------------
   FairRuntimeDb* rtdb = run->GetRuntimeDb();

@@ -21,7 +21,6 @@ public:
    virtual void Exec(Option_t * option);
    void SetTriangularPads(Bool_t triangles);
 private:
-   Bool_t fTrianglePads;
    Double_t CalcDisplacement(Double_t Q_left, Double_t Q_center, Double_t Q_right, Double_t padWidth);
    Double_t CalcY(Double_t padWidth, Double_t padHeight, Double_t rect_Dis, Double_t para_Dis, Int_t digiRow);
    void TriangularPadReconstruction(Int_t clusterId);
@@ -33,6 +32,8 @@ private:
    TClonesArray* fHits; /** Output array of CbmTrdHit **/
 
    CbmTrdDigiPar* fDigiPar;
+
+   Bool_t fTrianglePads;
 
    Int_t fRecoTriangular;
 

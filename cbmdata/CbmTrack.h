@@ -17,7 +17,7 @@
 #define CBMTRACK_H_ 1
 
 #include "FairTrackParam.h"
-#include "CbmBaseHit.h"
+#include "CbmHit.h"
 
 #include "TObject.h"
 

@@ -18,8 +18,8 @@ void CbmEcalAnalysisEres::Exec(Option_t* option)
 {
   fEv++;
   if (fTree==NULL) InitTree();
-  CbmEcalMaximum* max;
-  CbmEcalCell* cell;
+  CbmEcalMaximum* max=NULL;
+  CbmEcalCell* cell=NULL;
   CbmEcalCell* min;
   list<CbmEcalCell*> cells;
   list<CbmEcalCell*> cells2;

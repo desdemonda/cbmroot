@@ -9,7 +9,10 @@
 #include "FairField.h"
 #include "FairRunAna.h"
 
-#include "TFitterMinuit.h"
+//#include "TFitterMinuit.h"
+#include "Minuit2/Minuit2Minimizer.h"
+#include "Math/IFunction.h"
+
 #include "TMatrixD.h"
 #include "TVectorD.h"
 
@@ -762,8 +765,7 @@ public:
  * \author Andrey Lebedev <andrey.lebedev@gsi.de>
  * \date 2009
  */
-class FCNPolynom : public ROOT::Minuit2::FCNBase
-{
+class FCNPolynom : public ROOT::Math::IBaseFunctionMultiDim {
 public:
    /**
     * \brief Constructor.
@@ -791,9 +793,13 @@ public:
    /**
     * \brief Inherited from FCNBase.
     */
-   virtual double operator()(
-      const std::vector<double>& par) const {
-      double* p = const_cast<double*>(&par[0]);
+
+  //   virtual double operator()(
+  //    const std::vector<double>& par) const 
+  Double_t DoEval(const Double_t* x) const
+  {
+    //       double* p = const_cast<double*>(&par[0]);
+    double* p = const_cast<double*>(x);
       double r = 0.;
       for(unsigned int i = 0; i < fX.size(); i++) {
          // calculate weight
@@ -807,6 +813,16 @@ public:
          r +=   ri * ri;
       }
       return r;
+   }
+
+   unsigned int NDim() const
+   {
+      return fPolynom->GetNofCoefficients();
+   }
+ 
+   ROOT::Math::IBaseFunctionMultiDim* Clone() const
+   {
+     return new    FCNPolynom(fX, fY, fZ, fPolynom);
    }
 
    /**
@@ -965,21 +981,26 @@ void CbmLitFieldFitter::FitSlice(
 {
    FCNPolynom* theFCN = new FCNPolynom(x, y, z, fPolynom);
 
-   TFitterMinuit theMinuit;
+   //   TFitterMinuit theMinuit;
+   ROOT::Minuit2::Minuit2Minimizer theMinuit;
+
    theMinuit.SetPrintLevel(-1);
-   theMinuit.SetMinuitFCN(theFCN);
+   theMinuit.SetFunction(*theFCN);
    int nofParams = theFCN->GetPolynom()->GetNofCoefficients();
 
    for (int i = 0; i < nofParams; i++) {
       std::string ss = "c" + Cbm::ToString<int>(i);
-      theMinuit.SetParameter(i, ss.c_str(), 0., 0.1, 1., -1.);
+      theMinuit.SetVariable(i, ss.c_str(), 0., 0.1);
+      theMinuit.SetVariableLimits(i, 1., -1.);
    }
-   theMinuit.CreateMinimizer();
+   //   theMinuit.CreateMinimizer();
    theMinuit.Minimize();
+
+   const double *fitResults = theMinuit.X();
 
    par.clear();
    for(int i = 0; i < nofParams; i++) {
-      par.push_back(theMinuit.GetParameter(i));
+      par.push_back(fitResults[i]);
    }
 // delete theFCN;
 }

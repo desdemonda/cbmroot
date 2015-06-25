@@ -48,8 +48,10 @@
 
 #include "CbmAnaConversionTomography.h"
 #include "CbmAnaConversionRich.h"
-//#include "CbmAnaConversionKF.h"
+#include "CbmAnaConversionKF.h"
 #include "CbmAnaConversionReco.h"
+#include "CbmAnaConversionPhotons.h"
+#include "CbmAnaConversionRecoFull.h"
 
 
 #define M2E 2.6112004954086e-7
@@ -63,6 +65,8 @@ CbmAnaConversion::CbmAnaConversion()
     DoRichAnalysis(0),
     DoKFAnalysis(0),
     DoReconstruction(0),
+    DoPhotons(0),
+    DoRecoFull(0),
     fhNofElPrim(NULL),
     fhNofElSec(NULL),
     fhNofElAll(NULL),
@@ -122,6 +126,7 @@ CbmAnaConversion::CbmAnaConversion()
     fMCTracklist_all(),
     fRecoTracklist(),
     fRecoTracklistEPEM(),
+    fRecoTracklistEPEM_id(),
     fRecoMomentum(),
     fRecoRefittedMomentum(),
     timer_all(),
@@ -133,8 +138,9 @@ CbmAnaConversion::CbmAnaConversion()
     fAnaTomography(NULL),
     fAnaRich(NULL),
     fAnaKF(NULL),
-    fAnaReco(NULL)
-    
+    fAnaReco(NULL),
+    fAnaPhotons(NULL),
+    fAnaRecoFull(NULL)  
 {
 }
 
@@ -189,6 +195,8 @@ InitStatus CbmAnaConversion::Init()
 	DoRichAnalysis = 1;
 	DoKFAnalysis = 1;
 	DoReconstruction = 1;
+	DoPhotons = 1;
+	DoRecoFull = 1;
 	
 	if(DoTomography) {
 		fAnaTomography = new CbmAnaConversionTomography();
@@ -199,13 +207,21 @@ InitStatus CbmAnaConversion::Init()
 		fAnaRich->Init();
 	}
 	if(DoKFAnalysis) {
-	//	fAnaKF = new CbmAnaConversionKF();
-	//	fAnaKF->SetKF(fKFparticle, fKFparticleFinderQA);
-	//	fAnaKF->Init();
+		fAnaKF = new CbmAnaConversionKF();
+		fAnaKF->SetKF(fKFparticle, fKFparticleFinderQA);
+		fAnaKF->Init();
 	}
 	if(DoReconstruction) {
 		fAnaReco = new CbmAnaConversionReco();
 		fAnaReco->Init();
+	}
+	if(DoPhotons) {
+		fAnaPhotons = new CbmAnaConversionPhotons();
+		fAnaPhotons->Init();
+	}
+	if(DoRecoFull) {
+		fAnaRecoFull = new CbmAnaConversionRecoFull();
+		fAnaRecoFull->Init();
 	}
 
 
@@ -221,11 +237,11 @@ void CbmAnaConversion::InitHistograms()
 	fhNofElPrim				= new TH1D("fhNofElPrim", "fhNofElPrim;Nof prim El;Entries", 10., -0.5, 9.5);
 	fhNofElSec				= new TH1D("fhNofElSec", "fhNofElSec;Nof Sec El;Entries", 20., -0.5, 19.5);
 	fhNofElAll				= new TH1D("fhNofElAll", "fhNofElAll;Nof All El;Entries", 30., -0.5, 29.5);
-	fhNofPi0_perEvent		= new TH1D("fhNofPi0_perEvent", "fhNofPi0_perEvent;Nof pi0;Entries", 400., -0.5, 799.5);
-	fhNofPi0_perEvent_cut	= new TH1D("fhNofPi0_perEvent_cut", "fhNofPi0_perEvent_cut;Nof pi0;Entries", 400., -0.5, 799.5);
+	fhNofPi0_perEvent		= new TH1D("fhNofPi0_perEvent", "fhNofPi0_perEvent;Nof pi0;Entries", 1000., -0.5, 999.5);
+	fhNofPi0_perEvent_cut	= new TH1D("fhNofPi0_perEvent_cut", "fhNofPi0_perEvent_cut (Z<10cm);Nof pi0;Entries", 800., -0.5, 799.5);
 	fhPi0_z					= new TH1D("fhPi0_z", "fhPi0_z;z [cm];Entries", 600., -0.5, 599.5);
 	fhPi0_z_cut				= new TH1D("fhPi0_z_cut", "fhPi0_z_cut;z [cm];Entries", 600., -0.5, 599.5);
-	fhElectronSources		= new TH1D("fhElectronSources", "fhElectronSources;Source;Entries", 5., 0., 5.);
+	fhElectronSources		= new TH1D("fhElectronSources", "fhElectronSources;Source;Entries", 6., 0., 6.);
 	fhElectronsFromPi0_z	= new TH1D("fhElectronsFromPi0_z", "fhElectronsFromPi0_z (= pos. of gamma conversion);z [cm];Entries", 600., -0.5, 599.5);
 	fHistoList.push_back(fhNofPi0_perEvent);
 	fHistoList.push_back(fhNofPi0_perEvent_cut);
@@ -237,8 +253,9 @@ void CbmAnaConversion::InitHistograms()
 	fhElectronSources->GetXaxis()->SetBinLabel(1, "gamma");
 	fhElectronSources->GetXaxis()->SetBinLabel(2, "pi0");
 	fhElectronSources->GetXaxis()->SetBinLabel(3, "eta");
-	fhElectronSources->GetXaxis()->SetBinLabel(4, "gamma from pi0");
-	fhElectronSources->GetXaxis()->SetBinLabel(5, "gamma from eta");
+	fhElectronSources->GetXaxis()->SetBinLabel(4, "else");
+	fhElectronSources->GetXaxis()->SetBinLabel(5, "gamma from pi0");
+	fhElectronSources->GetXaxis()->SetBinLabel(6, "gamma from eta");
 	
 
 	
@@ -307,6 +324,7 @@ void CbmAnaConversion::Exec(Option_t* option)
 	fMCTracklist_all.clear();
 	fRecoTracklist.clear();
 	fRecoTracklistEPEM.clear();
+	fRecoTracklistEPEM_id.clear();
 	fRecoMomentum.clear();
 	fRecoRefittedMomentum.clear();
 
@@ -328,13 +346,25 @@ void CbmAnaConversion::Exec(Option_t* option)
 	}
 
 	if(DoKFAnalysis) {
-		//fAnaKF->SetSignalIds(fKFparticleFinderQA->GetSignalIds());
-		//fAnaKF->SetGhostIds(fKFparticleFinderQA->GetGhostIds());
-		//fAnaKF->KFParticle_Analysis();
+	//	fAnaKF->SetSignalIds(fKFparticleFinderQA->GetSignalIds());
+	//	fAnaKF->SetGhostIds(fKFparticleFinderQA->GetGhostIds());
+		fAnaKF->Exec();
 	}
 
 	if(DoRichAnalysis) {
 		fAnaRich->AnalyseRICHdata();
+	}
+
+	if(DoPhotons) {
+		fAnaPhotons->Exec();
+	}
+
+	if(DoRecoFull) {
+		fAnaRecoFull->Exec();
+	}
+
+	if(DoTomography) {
+		fAnaTomography->Exec();		// analyse gamma-conversions with MC data
 	}
 
 	// ========================================================================================
@@ -345,11 +375,8 @@ void CbmAnaConversion::Exec(Option_t* option)
 		CbmMCTrack* mctrack = (CbmMCTrack*)fMcTracks->At(i);
 		if (mctrack == NULL) continue;   
    
-		FillMCTracklists(mctrack);	// fill tracklists for further analyses
+		FillMCTracklists(mctrack, i);	// fill tracklists for further analyses
 
-		if(DoTomography) {
-			fAnaTomography->TomographyMC(mctrack);		// analyse gamma-conversions with MC data
-		}
 
 
 		if (mctrack->GetMotherId() == -1) { countPrimPart++; }   
@@ -435,6 +462,17 @@ void CbmAnaConversion::Exec(Option_t* option)
 		int motherId = mcTrack1->GetMotherId();
 		double momentum = mcTrack1->GetP();
 		stsMatch->GetTrueOverAllHitsRatio();
+
+/*		if (richInd < 0) continue;
+		CbmTrackMatchNew* richMatch  = (CbmTrackMatchNew*)fRichRingMatches->At(richInd);
+		if (richMatch == NULL) continue;
+		int richMcTrackId = richMatch->GetMatchedLink().GetIndex();
+		if (richMcTrackId < 0) continue;
+		CbmMCTrack* mcTrack2 = (CbmMCTrack*) fMcTracks->At(richMcTrackId);
+		if (mcTrack2 == NULL) continue;
+*/
+		//if(stsMcTrackId != richMcTrackId) continue;
+
        
 		if(DoTomography) {
 			fAnaTomography->TomographyReco(mcTrack1);
@@ -472,7 +510,7 @@ void CbmAnaConversion::Exec(Option_t* option)
 		vtxTrack->Momentum(refittedMomentum);
        
 		// Fill tracklists containing momenta from mc-true, measured in sts, refitted at primary
-		FillRecoTracklistEPEM(mcTrack1, stsMomentumVec, refittedMomentum);
+		FillRecoTracklistEPEM(mcTrack1, stsMomentumVec, refittedMomentum, stsMcTrackId);
 	}
 	timer_rec.Stop();
 	fTime_rec += timer_rec.RealTime();
@@ -480,8 +518,9 @@ void CbmAnaConversion::Exec(Option_t* option)
 //	InvariantMassTestReco();
 
 	if(DoReconstruction) {
-		fAnaReco->SetTracklistReco(fRecoTracklistEPEM, fRecoMomentum, fRecoRefittedMomentum);
+		fAnaReco->SetTracklistReco(fRecoTracklistEPEM, fRecoMomentum, fRecoRefittedMomentum, fRecoTracklistEPEM_id);
 		fAnaReco->InvariantMassTest_4epem();
+		fAnaReco->CalculateInvMassWithFullRecoCuts();
 	}
 
 	// END - analyse reconstructed tracks
@@ -500,13 +539,8 @@ void CbmAnaConversion::Exec(Option_t* option)
 
 void CbmAnaConversion::Finish()
 {
-	cout << "\n\n ############### FINISHING ############" << endl;
-/*	
-	TCanvas* c = new TCanvas();
-	c->SetWindowSize(800, 1600);
-	DrawH1(fTest);
-	//fhGammaZ->Write();
-*/
+	cout << "\n\n############### CALLING FINISH ROUTINES... ############" << endl;
+
 	
 	// Write histograms to a file
 	gDirectory->mkdir("analysis-conversion");
@@ -525,6 +559,8 @@ void CbmAnaConversion::Finish()
 	if(DoRichAnalysis)		{ fAnaRich->Finish(); }
 	if(DoKFAnalysis)		{ fAnaKF->Finish(); }
 	if(DoReconstruction)	{ fAnaReco->Finish(); }
+	if(DoRecoFull)			{ fAnaRecoFull->Finish(); }
+	if(DoPhotons)			{ fAnaPhotons->Finish(); }
 
 	for (Int_t i = 0; i < fHistoList.size(); i++){
 		fHistoList[i]->Write();
@@ -534,7 +570,7 @@ void CbmAnaConversion::Finish()
 	
 	
 	cout << endl;
-	cout << "############### FINISH ##############" << endl;
+	cout << "############### FINISHED MAIN TASK ##############" << endl;
 	cout << "Particlecounter: " << particlecounter << endl;
 	cout << "Particlecounter (2 daughters): " << particlecounter_2daughters << endl;
 	cout << "Particlecounter (3 daughters): " << particlecounter_3daughters << endl;
@@ -573,8 +609,8 @@ void CbmAnaConversion::AnalyseElectrons(CbmMCTrack* mctrack)
 		CbmMCTrack* grandmother = (CbmMCTrack*) fMcTracks->At(grandmotherId);
 		int mcGrandmotherPdg  = -1;
 		if (NULL != grandmother) mcGrandmotherPdg = grandmother->GetPdgCode();
-		if(mcGrandmotherPdg == 111) fhElectronSources->Fill(3);
-		if(mcGrandmotherPdg == 221) fhElectronSources->Fill(4);
+		if(mcGrandmotherPdg == 111) fhElectronSources->Fill(4);
+		if(mcGrandmotherPdg == 221) fhElectronSources->Fill(5);
 
 		if(mcGrandmotherPdg == 111) {
 			TVector3 v;
@@ -585,6 +621,7 @@ void CbmAnaConversion::AnalyseElectrons(CbmMCTrack* mctrack)
 	}
 	if(mcMotherPdg == 111) fhElectronSources->Fill(1);
 	if(mcMotherPdg == 221) fhElectronSources->Fill(2);
+	if(mcMotherPdg != 22 && mcMotherPdg != 111 && mcMotherPdg != 221) fhElectronSources->Fill(3);
 
 	if (mcMotherPdg == 22) {
 		TVector3 v;
@@ -738,7 +775,7 @@ Double_t CbmAnaConversion::Invmass_4particles(const CbmMCTrack* mctrack1, const 
 
 
 
-void CbmAnaConversion::FillMCTracklists(CbmMCTrack* mctrack)
+void CbmAnaConversion::FillMCTracklists(CbmMCTrack* mctrack, int i)
 // fill all relevant tracklists containing MC tracks
 {
 	Bool_t electrons = true;
@@ -807,12 +844,13 @@ void CbmAnaConversion::FillRecoTracklist(CbmMCTrack* mctrack)
 
 
 
-void CbmAnaConversion::FillRecoTracklistEPEM(CbmMCTrack* mctrack, TVector3 stsMomentum, TVector3 refittedMom) 
+void CbmAnaConversion::FillRecoTracklistEPEM(CbmMCTrack* mctrack, TVector3 stsMomentum, TVector3 refittedMom, int i) 
 {
 	if (TMath::Abs( mctrack->GetPdgCode())  == 11) { 
 		int motherId = mctrack->GetMotherId();
 		if (motherId != -1) {
 			fRecoTracklistEPEM.push_back(mctrack);
+			fRecoTracklistEPEM_id.push_back(i);
 			fRecoMomentum.push_back(stsMomentum);
 			fRecoRefittedMomentum.push_back(refittedMom);
 		}

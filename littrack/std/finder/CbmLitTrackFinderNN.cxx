@@ -63,9 +63,9 @@ LitStatus CbmLitTrackFinderNN::DoFind(
    fHitData.SetNofStations(fNofStations);
 
    for (fIteration = 0; fIteration < fNofIterations; fIteration++) {
-//      std::cout << "CbmLitTrackFinderNN::DoFind: iteration=" << fIteration << std::endl;
+     // std::cout << "CbmLitTrackFinderNN::DoFind: iteration=" << fIteration << std::endl;
       ArrangeHits(hits.begin(), hits.end());
-//      std::cout << fHitData.ToString();
+     // std::cout << fHitData.ToString();
 
       InitTrackSeeds(trackSeeds.begin(), trackSeeds.end());
       FollowTracks(fTracks.begin(), fTracks.end());
@@ -79,10 +79,10 @@ LitStatus CbmLitTrackFinderNN::DoFind(
       fHitData.Clear();
    }
 
-//   std::cout << "tracks.size()=" << tracks.size() << std::endl;
-//   for (Int_t i = 0; i < tracks.size(); i++) {
-//	   std::cout << i << " " << tracks[i]->ToString();
-//   }
+   //std::cout << "tracks.size()=" << tracks.size() << std::endl;
+   //for (Int_t i = 0; i < tracks.size(); i++) {
+	//   std::cout << i << " " << tracks[i]->ToString();
+   //}
 
    static Int_t eventNo = 0;
    std::cout << "CbmLitTrackFinderNN::DoFind: " << eventNo++ << " events processed" << std::endl;

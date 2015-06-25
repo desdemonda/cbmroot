@@ -10,6 +10,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include "TRandom.h"
 #include "CbmStsCluster.h"
 #include "CbmStsDigi.h"
 #include "digitize/CbmStsSignal.h"
@@ -181,10 +182,22 @@ class CbmStsModule : public CbmStsElement
      Int_t ProcessAnalogBuffer(Double_t readoutTime);
 
 
+     /** Create list of inactive channels
+      ** @param percentOfDeadChannels  Percentage of dead channels
+      ** @value Number of dead channels in the sensor
+      **
+      ** The specified fraction of randomly chosen channels are set inactive.
+      **/
+     Int_t SetDeadChannels(Double_t percentOfDeadCh);
+
+
      /** Set the digitisation parameters
-      ** @param dynRagne   Dynamic range [e]
-      ** @param threshold  Threshold [e]
-      ** @param nAdc       Number of ADC channels
+      ** @param dynRagne        Dynamic range [e]
+      ** @param threshold       Threshold [e]
+      ** @param nAdc            Number of ADC channels
+      ** @param timeResolution  Time resolution [ns]
+      ** @param deadTime        Single-channel dead time [ns]
+      ** @param noise           Equivalent noise charge [e]
       **/
      void SetParameters(Int_t nChannels, Double_t dynRange,
     		                Double_t threshold, Int_t nAdc,
@@ -207,14 +220,15 @@ class CbmStsModule : public CbmStsElement
 
   private:
 
-    Double_t fNofChannels;     ///< Number of electronic channels
-    Double_t fDynRange;        ///< dynamic range [e]
-    Double_t fThreshold;       ///< threshold [e]
-    Int_t    fNofAdcChannels;  ///< Number of ADC channels
-    Double_t fTimeResolution;  ///< Time resolution (sigma) [ns]
-    Double_t fDeadTime;        ///< Channel dead time [ns]
-    Double_t fNoise;           ///< Equivalent noise charge (sigma) [e]
-    Bool_t   fIsSet;           ///< Flag whether parameters are set
+    Double_t fNofChannels;       ///< Number of electronic channels
+    Double_t fDynRange;          ///< dynamic range [e]
+    Double_t fThreshold;         ///< threshold [e]
+    Int_t    fNofAdcChannels;    ///< Number of ADC channels
+    Double_t fTimeResolution;    ///< Time resolution (sigma) [ns]
+    Double_t fDeadTime;          ///< Channel dead time [ns]
+    Double_t fNoise;             ///< Equivalent noise charge (sigma) [e]
+    Bool_t   fIsSet;             ///< Flag whether parameters are set
+    set<Int_t> fDeadChannels;    ///< List of inactive channels
 
     /** Buffer for analog signals, key is channel number.
      ** Because signals do not, in general, arrive time-sorted,

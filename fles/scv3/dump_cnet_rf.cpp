@@ -3,7 +3,7 @@
 #include "scv3_rf.cpp"
 
 
-int main(int argc, const char* argv[])
+int main(int /*argc*/, const char** /*argv[]*/)
 {
 
   std::stringstream path;

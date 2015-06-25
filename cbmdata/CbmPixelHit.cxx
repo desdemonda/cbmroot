@@ -10,7 +10,7 @@ using std::stringstream;
 using std::endl;
 
 CbmPixelHit::CbmPixelHit():
-	CbmBaseHit(),
+	CbmHit(),
 	fX(0.),
 	fY(0.),
 	fDx(0.),
@@ -30,7 +30,7 @@ CbmPixelHit::CbmPixelHit(
 		Double_t dz,
 		Double_t dxy,
 		Int_t refId):
-	CbmBaseHit(),
+	CbmHit(),
 	fX(x),
 	fY(y),
 	fDx(dx),
@@ -50,7 +50,7 @@ CbmPixelHit::CbmPixelHit(
 		const TVector3& err,
 		Double_t dxy,
 		Int_t refId):
-	CbmBaseHit(),
+	CbmHit(),
 	fX(pos.X()),
 	fY(pos.Y()),
 	fDx(err.X()),

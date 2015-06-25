@@ -91,7 +91,7 @@ void CbmStack::PushTrack(Int_t toBeDone, Int_t parentId, Int_t pdgCode,
   TClonesArray& partArray = *fParticles;
 
   // change parentId (was forces as a dummyparent of -1)
-  if(parentId==-1) parentId = secondparentID;
+  if(parentId==-1 && secondparentID<fNParticles) parentId = secondparentID;
 
   // --> Create new TParticle and add it to the TParticle array
   Int_t trackId = fNParticles;

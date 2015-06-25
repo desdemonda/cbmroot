@@ -31,17 +31,16 @@
 core_dump*
 *.par
 
-# Root files
-*.root
-
 # Subversion files
 .svn
 */.svn/*
 
 # event output
-macro/littrack/events
+macro/littrack/events*
 macro/littrack/test*
 macro/littrack/*.csv
+macro/littrack/all_*
+macro/littrack/core_dump_*
 
 # Eclipse settings
 .DS_Store

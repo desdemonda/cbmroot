@@ -263,8 +263,11 @@ void CbmLitTrackingQaReport::DrawEfficiencyHistos()
 		string re = (variant == "Sts") ? "hte_Sts_Sts_(All|Muon|Electron)_(Acc|Rec)_Np" : "hte_" + variant + "_.*_(All|Muon|Electron)_(Acc|Rec)_Np";
 		DrawAccAndRec("tracking_qa_local_acc_and_rec_" + variant + "_Np", re);
 
-		re = (variant == "Sts") ? "hte_Sts_Sts_(All|Muon|Electron)_(Acc|Rec)_p" : "hte_" + variant + "_.*_(All|Muon|Electron)_(Acc|Rec)_p";
-		DrawAccAndRec("tracking_qa_local_acc_and_rec_" + variant + "_p", re);
+		re = (variant == "Sts") ? "hte_Sts_Sts_(All)_(Acc|Rec)_p" : "hte_" + variant + "_.*_(All)_(Acc|Rec)_p";
+		DrawAccAndRec("tracking_qa_local_acc_and_rec_" + variant + "_All_p", re);
+
+		re = (variant == "Sts") ? "hte_Sts_Sts_(Muon|Electron)_(Acc|Rec)_p" : "hte_" + variant + "_.*_(Muon|Electron)_(Acc|Rec)_p";
+		DrawAccAndRec("tracking_qa_local_acc_and_rec_" + variant + "_ElectronMuon_p", re);
 	}
 
 	//
@@ -303,7 +306,7 @@ void CbmLitTrackingQaReport::DrawEfficiency(
 		labels[iHist] = labelFormatter(name, efficiencies[iHist]);
 	}
 
-	DrawH1(histos, labels, kLinear, kLinear, true, 0.3, 0.3, 0.85, 0.6, "PE1");
+	DrawH1(histos, labels, kLinear, kLinear, true, 0.50, 0.78, 0.99, 0.99, "PE1");
 	DrawMeanEfficiencyLines(histos, efficiencies);
 }
 
@@ -328,7 +331,7 @@ void CbmLitTrackingQaReport::DrawPionSuppression(
       labels[iHist] = labelFormatter(name, ps[iHist]);
    }
 
-   DrawH1(histos, labels, kLinear, kLog, true, 0.3, 0.3, 0.85, 0.6, "PE1");
+   DrawH1(histos, labels, kLinear, kLog, true, 0.50, 0.78, 0.99, 0.99, "PE1");
    DrawMeanEfficiencyLines(histos, ps);
 }
 
@@ -368,10 +371,10 @@ void CbmLitTrackingQaReport::DrawAccAndRec(
 		hist->Scale(1./nofEvents);
 		string name = hist->GetName();
 		vector<string> split = Split(name, '_');
-		labels[iHist] = split[4] + ":" + split[3] + "(" + NumberToString<Double_t>(hist->GetEntries() / nofEvents, 1) + ")";
+		labels[iHist] = split[4] + ":" + split[3] + "(" + NumberToString<Double_t>(hist->GetEntries() / nofEvents, 2) + ")";
 	}
 
-	DrawH1(histos, labels, kLinear, kLinear, true, 0.2, 0.75, 0.5, 0.99);
+	DrawH1(histos, labels, kLinear, kLinear, true, 0.50, 0.78, 0.99, 0.99);
 }
 
 void CbmLitTrackingQaReport::DrawYPtHistos()
@@ -452,7 +455,7 @@ void CbmLitTrackingQaReport::DrawHitsHistos(
       list_of("all: " + NumberToString<Double_t>(hAll->GetMean(), 1))
              ("true: " + NumberToString<Double_t>(hTrue->GetMean(), 1))
              ("fake: " + NumberToString<Double_t>(hFake->GetMean(), 1)),
-              kLinear, kLog, true, 0.25, 0.99, 0.55, 0.75);
+              kLinear, kLog, true, 0.50, 0.78, 0.99, 0.99);
 
    canvas->cd(2);
    TH1* hTrueOverAll = HM()->H1(hist + "_TrueOverAll");
@@ -460,7 +463,7 @@ void CbmLitTrackingQaReport::DrawHitsHistos(
    DrawH1(list_of(hTrueOverAll)(hFakeOverAll),
       list_of("true/all: " + NumberToString<Double_t>(hTrueOverAll->GetMean()))
              ("fake/all: " + NumberToString<Double_t>(hFakeOverAll->GetMean())),
-             kLinear, kLog, true, 0.25, 0.99, 0.55, 0.75);
+             kLinear, kLog, true, 0.50, 0.78, 0.99, 0.99);
 }
 
 Double_t CbmLitTrackingQaReport::CalcEfficiency(

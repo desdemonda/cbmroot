@@ -34,7 +34,7 @@ public:
     : ROOT::Math::IBaseFunctionMultiDim (), fCal(cal), fShLib(shlib), fInf(inf), fStr(NULL),
     fCluster(NULL), fEStep(1e-4), fCStep(1e-4), fErrorDef(1.0), 
     fClusterEnergy(0.), fClusterResp(0.), fN(0), fCells(), fClsCells(),
-    fFixClusterEnergy(0), fNDF(0) 
+    fFixClusterEnergy(0), fNDF(0), fParam(0)
     {};
   
   CbmEcalCluster* GetCluster() const {return fCluster;}

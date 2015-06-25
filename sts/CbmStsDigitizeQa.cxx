@@ -38,26 +38,40 @@
 
 using std::vector;
 
-// -----   Default constructor   ---=---------------------------------------
+// -----   Default constructor   ------------------------------------------
 CbmStsDigitizeQa::CbmStsDigitizeQa(CbmStsDigitize * digitizer) 
     : FairTask("STSDigitizeQa"),
+    fDigitizer(digitizer),
+    fNStations(0),
     fNEvents(0),
     fNTotDigis(0),
+    fNTotPoints(0),
     fNTotSignalsF(0),
     fNTotSignalsB(0),
-    fNTotPoints(0),
-    fTimer(),
-    fTime1(0.),
-    fSetup(),
+    fMeanDigisPMCpoint(0.),
+    fMeanDigisPoints(0.),
+    fMeanMCpointsPDigi(0.),
+    fNAdc(0),
     fStsPoints(NULL),         // StsPoints
     fStsDigis(NULL),          // StsDigis
     fStsDigiMatches(NULL),    // StsDigiMatches
-    fDigitizer(digitizer),
-    fPrint(0),
-
+    fTimer(),
+    fSetup(),
+    fTime1(0.),
+    fhMCpointsPDigi(NULL), 
+    fhMCpointElossGeant(NULL), 
+    fhDigisPMCpoint(NULL), 
+    fhDigiCharge(NULL), 
+    fhDigisPEvent(NULL), 
+    fhDigisPChannelPModuleAtStation(),
+    fHistoList(NULL),
     fOnlineAnalysis(kFALSE),
     digiCanvas(),
-    occupCanvas()
+    occupCanvas(),
+    digiPad(),
+    leg(),
+    fOutName(),
+    fPrint(0)
 {  
 }
 // -------------------------------------------------------------------------
@@ -66,24 +80,37 @@ CbmStsDigitizeQa::CbmStsDigitizeQa(CbmStsDigitize * digitizer)
 // -----   Standard constructor   ------------------------------------------
 CbmStsDigitizeQa::CbmStsDigitizeQa(CbmStsDigitize * digitizer, Bool_t visualizeBool)
     : FairTask("STSDigitizeQa"), 
+    fDigitizer(digitizer),
+    fNStations(0),
     fNEvents(0),
     fNTotDigis(0),
+    fNTotPoints(0),
     fNTotSignalsF(0),
     fNTotSignalsB(0),
-    fNTotPoints(0),
-    fTimer(),
-    fTime1(0.),
-    fSetup(),
+    fMeanDigisPMCpoint(0.),
+    fMeanDigisPoints(0.),
+    fMeanMCpointsPDigi(0.),
+    fNAdc(0),
     fStsPoints(NULL),         // StsPoints
     fStsDigis(NULL),          // StsDigis
     fStsDigiMatches(NULL),    // StsDigiMatches
-    fDigitizer(digitizer),
-    fPrint(0),
-
+    fTimer(),
+    fSetup(),
+    fTime1(0.),
+    fhMCpointsPDigi(NULL), 
+    fhMCpointElossGeant(NULL), 
+    fhDigisPMCpoint(NULL), 
+    fhDigiCharge(NULL), 
+    fhDigisPEvent(NULL), 
+    fhDigisPChannelPModuleAtStation(),
+    fHistoList(NULL),
     fOnlineAnalysis(visualizeBool),
     digiCanvas(),
-    occupCanvas()
-
+    occupCanvas(),
+    digiPad(),
+    leg(),
+    fOutName(),
+    fPrint(0)
 { 
 }
 // -------------------------------------------------------------------------
@@ -270,6 +297,7 @@ InitStatus CbmStsDigitizeQa::Init() {
     // Get STS setup interface
     fSetup = CbmStsSetup::Instance();
     fSetup -> InitDaughters();
+    fNStations = fSetup -> GetNofDaughters();
 
     fMeanDigisPMCpoint  = 0.;
     fMeanDigisPoints    = 0.;
@@ -279,6 +307,7 @@ InitStatus CbmStsDigitizeQa::Init() {
     deadChannelFraction = fDigitizer -> GetDeadChannelFraction();
     fDigitizer -> GetParameters(dynRange, threshold, fNAdc, timeResolution, deadTime, noise);
 
+    fhDigisPChannelPModuleAtStation.resize(fNStations);
     CreateHistos();
     Reset();
 

@@ -9,7 +9,7 @@ Number of stations          :   6
 Number of regions           :   1       1       1       1       1       1       
 
 # Station 1
-Region radii [cm]           :   80
+Region radii [cm]           :  120
 Pad angle [deg]             :  1.5
 
 # Station 2

@@ -71,7 +71,7 @@ class CbmPlutoGenerator : public FairGenerator
     CbmPlutoGenerator(const CbmPlutoGenerator&);
     CbmPlutoGenerator& operator=(const CbmPlutoGenerator&);
 
-    ClassDef(CbmPlutoGenerator,1);
+    ClassDef(CbmPlutoGenerator,2);
 
 };
 

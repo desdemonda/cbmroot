@@ -169,9 +169,9 @@ CbmTofSimpClusterizer::CbmTofSimpClusterizer(const char *name, Int_t verbose, Bo
    fTofPointsColl(NULL),
    fMcTracksColl(NULL),
    fTofDigisColl(NULL),
-   fTofDigiMatchColl(NULL),
    fbWriteHitsInOut(writeDataInOut),
    fTofHitsColl(NULL),
+   fTofDigiMatchColl(NULL),
    fiNbHits(0),
    fVerbose(verbose),
    fStorDigi(),
@@ -297,7 +297,7 @@ void CbmTofSimpClusterizer::SetParContainers()
    fDigiPar = (CbmTofDigiPar*)
               (rtdb->getContainer("CbmTofDigiPar"));
 
-   LOG(INFO)<<"  CbmTofTestBeamClusterizer::SetParContainers found " 
+   LOG(INFO)<<"  CbmTofSimpClusterizer::SetParContainers found " 
             << fDigiPar->GetNrOfModules() << " cells " <<FairLogger::endl;
    fDigiBdfPar = (CbmTofDigiBdfPar*)
               (rtdb->getContainer("CbmTofDigiBdfPar"));
@@ -535,7 +535,7 @@ Bool_t   CbmTofSimpClusterizer::InitCalibParameter()
 			    <<Form(" SmT%01d_sm%03d_rpc%03d_Ch%03d",iSmType, iSm, iRpc, iCh)
 			    <<FairLogger::endl;
                   if(htempWalk0->GetNbinsX() != nbClWalkBinX) 
-		    LOG(ERROR)<<"CbmTofTestBeamClusterizer::InitCalibParameter: Inconsistent Walk histograms"
+		    LOG(ERROR)<<"CbmTofSimpClusterizer::InitCalibParameter: Inconsistent Walk histograms"
 			      <<FairLogger::endl;
                    for( Int_t iBin = 0; iBin < nbClWalkBinX; iBin++ )
 		   {

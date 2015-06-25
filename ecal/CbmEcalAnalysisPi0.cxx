@@ -146,20 +146,23 @@ void CbmEcalAnalysisPi0::GetInfo()
     rp=(CbmEcalRecParticle*)fReco->At(i);
 
     if (rp->MCTrack()==fN1&&fN1>=0)
+    {
       if (p1==NULL) p1=rp;
       else
       {
 	Info("Exec", "Two reconstructed partiles belong to the same MC track %d.", p1->MCTrack());
 	continue;
       }
-
+    }
     if (rp->MCTrack()==fN2&&fN2>=0)
+    {
       if (p2==NULL) p2=rp;
       else
       {
 	Info("Exec", "Two reconstructed partiles belong to the same MC track %d.", p2->MCTrack());
 	continue;
       }
+    }
   }
   if (p1!=NULL)
   {

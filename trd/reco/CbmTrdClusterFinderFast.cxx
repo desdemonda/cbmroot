@@ -35,14 +35,14 @@ CbmTrdClusterFinderFast::CbmTrdClusterFinderFast()
    fDigiPar(NULL),
    fModuleInfo(NULL),
    fGeoHandler(NULL),
-   ClusterSum(-1),
    fRowMergerCounter(0),
+   ClusterSum(-1),
    fMinimumChargeTH(1.0e-06),//1.0e-08),
-   fTrianglePads(false),
-   fMultiHit(false),
-   fRowClusterMerger(true),
+   fNeighbourReadout(true),
    fNeighbourRowTrigger(true),
-   fNeighbourReadout(true)
+   fRowClusterMerger(true),
+   fMultiHit(false),
+   fTrianglePads(false)
 {
 }
 
@@ -53,14 +53,14 @@ CbmTrdClusterFinderFast::CbmTrdClusterFinderFast(Bool_t MultiHit, Bool_t Neighbo
    fDigiPar(NULL),
    fModuleInfo(NULL),
    fGeoHandler(NULL),
-   ClusterSum(-1),
    fRowMergerCounter(0),
+   ClusterSum(-1),
    fMinimumChargeTH(MinimumChargeTH),
-   fTrianglePads(false),
-   fMultiHit(MultiHit),
-   fRowClusterMerger(RowClusterMerger),
+   fNeighbourReadout(NeighbourReadout),
    fNeighbourRowTrigger(true),
-   fNeighbourReadout(NeighbourReadout)
+   fRowClusterMerger(RowClusterMerger),
+   fMultiHit(MultiHit),
+   fTrianglePads(false)
 {
 }
 

@@ -19,7 +19,7 @@ void run_analysis()
    loadlibs();
 
    TString hldFileDir = "";//"/mnt/data/WLS/WLS_off/nonstretched/ringH2/offset00250/";
-   TString hldFileName = "/Users/slebedev/Development/cbm/data/cern_beamtime_2014/te14328171010.hld";
+   TString hldFileName = "/Users/slebedev/Development/cbm/data/cern_beamtime_2014/te14325234809.hld";
    TString hldFullFileName;
    hldFullFileName = hldFileDir + hldFileName;
 
@@ -83,7 +83,7 @@ void run_analysis()
 	   run->AddTask(richReco);
 
 	   CbmRichTrbRecoQa* qaReco = new CbmRichTrbRecoQa();
-	   qaReco->SetMaxNofEventsToDraw(0);
+	   qaReco->SetMaxNofEventsToDraw(30);
 	   qaReco->SetOutputDir(outputDir);
 	   qaReco->SetRunTitle(runTitle);
 	   qaReco->SetDrawHist(true);

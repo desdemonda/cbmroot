@@ -36,6 +36,8 @@
 #pragma link C++ class CbmMCObject+;
 #pragma link C++ class CbmMCStage+;
 #pragma link C++ class CbmMCResult+;
+#pragma link C++ class CbmMCDataArray;
+#pragma link C++ class CbmMCDataManager;
 
 #pragma link C++ class CbmMCTestHitCompare+;
 #pragma link C++ class CbmMCEntry+;

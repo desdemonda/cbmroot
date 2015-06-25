@@ -10,11 +10,11 @@
 #ifndef CBMSTRIPHIT_H_
 #define CBMSTRIPHIT_H_
 
-#include "CbmBaseHit.h"
+#include "CbmHit.h"
 
 class TVector3;
 
-class CbmStripHit :public CbmBaseHit
+class CbmStripHit :public CbmHit
 {
 public:
 	/**

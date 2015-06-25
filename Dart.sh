@@ -11,11 +11,13 @@ echo "# LINUX_FLAVOUR should be set to the distribution you are using  #"
 echo "# eg Debian, SuSe etc.                                           #"
 echo "# For example                                                    #"
 echo "#!/bin/bash                                                      #"
-echo "#export LINUX_FLAVOUR=Etch32                                     #"
-echo "#export FAIRSOFT_VERSION=mar08                                   #"
+echo "#export LINUX_FLAVOUR=Wheezy64                                   #"
+echo "#export FAIRSOFT_VERSION=mar15                                   #"
 echo "#export SIMPATH=<path_to_installation_of_external_packages>      #"
-echo "#export BUILDDIR=/tmp/fairroot/build_cbm_\${FAIRSOFT_VERSION}     #"
-echo "#export SOURCEDIR=/misc/uhlig/SVN/ctest/cbmroot                  #"
+echo "#export FAIRROOT_VERSION=v15-03                                  #"
+echo "#export FAIRROOTPATH=<path_to_installation_of_external_packages> #"
+echo "#export BUILDDIR=/tmp/fairroot/build_cbm_\${FAIRSOFT_VERSION}    #"
+echo "#export SOURCEDIR=/home/uhlig/SVN/ctest/cbmroot                  #"
 echo "##################################################################"
 }
 
@@ -41,11 +43,11 @@ if [ "$#" -lt "2" ]; then
 fi
 
 # test if a ctest model is either Experimental or Nightly
-if [ "$1" == "Experimental" -o "$1" == "Nightly" -o "$1" == "Continuous" ]; then
+if [ "$1" == "Experimental" -o "$1" == "Nightly" -o "$1" == "Continuous" -o "$1" == "Profile" ]; then
   echo ""
 else
   echo "-- Error -- This ctest model is not supported."
-  echo "-- Error -- Possible arguments are Nightly, Experimental or Continuous."
+  echo "-- Error -- Possible arguments are Nightly, Experimental, Continuous or Profile."
   exit 1
 fi 
 
@@ -86,6 +88,9 @@ then
   export number_of_processors=$(cat /proc/cpuinfo | grep processor | wc -l)
   if [ -z $SITE ]; then
     export SITE=$(hostname -f)
+    if [ -z $SITE ]; then
+      export SITE=$(uname -n)
+    fi  
   fi
 elif [ "$arch" = "darwin" ];
 then

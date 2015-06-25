@@ -14,12 +14,15 @@
 #include <TH2.h>
 #include <TH3.h>
 #include <TClonesArray.h>
+#include <TStopwatch.h>
 
 // included from CbmRoot
 #include "CbmMCTrack.h"
 #include "CbmVertex.h"
 #include "CbmKFParticleFinder.h"
 #include "CbmKFParticleFinderQA.h"
+#include "CbmKFParticle.h"
+#include "KFParticle.h"
 
 
 
@@ -37,20 +40,30 @@ public:
 	void Init();
 	void InitHistos();
 	void Finish();
+	void Exec();
 
-	void KFParticle_Analysis();
+	//void KFParticle_Analysis();
 
 	void SetKF(CbmKFParticleFinder* kfparticle, CbmKFParticleFinderQA* kfparticleQA);
 	void SetSignalIds(std::vector<int> *signalids);
 	void SetGhostIds(std::vector<int> *ghostids);
 
 
+	void test();
+	Double_t Invmass_4particles(const CbmMCTrack* mctrack1, const CbmMCTrack* mctrack2, const CbmMCTrack* mctrack3, const CbmMCTrack* mctrack4);
 
+	void test2();
+	void Reconstruct();
+	Double_t Invmass_4particlesRECO(KFParticle part1, KFParticle part2, KFParticle part3, KFParticle part4);
 
 
 
 
 private:
+	TClonesArray* fKFMcParticles;
+	TClonesArray* fMcTracks;
+	TClonesArray* fStsTracks;
+	TClonesArray* fStsTrackMatches;
 
 	CbmKFParticleFinder* fKFparticle;
 	CbmKFParticleFinderQA* fKFparticleFinderQA;
@@ -78,6 +91,16 @@ private:
 
 
 	vector<TH1*> fHistoList_kfparticle;	// list of all histograms containing results from KFParticle package
+	
+
+	vector<KFParticle> particlevector;
+	vector<int> electronIDs;
+	TH1D * fhInvMassPi0WithFullReco;
+
+
+	// timer
+	TStopwatch timer;
+	Double_t fTime;
 
 	CbmAnaConversionKF(const CbmAnaConversionKF&);
 	CbmAnaConversionKF operator=(const CbmAnaConversionKF&);

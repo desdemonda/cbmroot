@@ -157,6 +157,7 @@ CbmRichRecGeoPar CbmRichHitProducer::InitGeometry()
 	if (sensNodes->GetEntriesFast() > 0 && passNodes->GetEntriesFast() > 0 ) {
 		return InitAsciiGeometry();
 	} else {
+
 		return InitRootGeometry();
 	}
 }
@@ -331,6 +332,7 @@ CbmRichRecGeoPar CbmRichHitProducer::InitRootGeometry()
    return gp;
 }
 
+
 void CbmRichHitProducer::Exec(
       Option_t* option)
 {
@@ -397,20 +399,23 @@ void CbmRichHitProducer::Exec(
       if (xHit != 0.0 && yHit != 0.0) {
          if (fDetType == 1) {
             if (fVerbose)
-               if (TMath::Sqrt((detPoint.X()-xHit)*(detPoint.X()-xHit)+(detPoint.Y()-yHit)*(detPoint.Y()-yHit)) > (fPhotomulRadius+fPhotomulDist)*1.5)
-                  cout << "-E- RichHitProducer: wrongly assigned Hits (distance point-hit too large)!" << endl;
+               if (TMath::Sqrt((detPoint.X()-xHit)*(detPoint.X()-xHit)+(detPoint.Y()-yHit)*(detPoint.Y()-yHit)) > (fPhotomulRadius+fPhotomulDist)*1.5) {
+                 // cout << "-E- RichHitProducer: wrongly assigned Hits (distance point-hit too large)!" << endl;
+               }
          }
          if (fDetType == 0 || fDetType == 2 || fDetType == 3 || fDetType == 4 || fDetType == 6 || fDetType == 12 || fDetType == 13 || fDetType == 14 || fDetType == 15 || fDetType == 16 || fDetType == 17 || fDetType == 18) {
             if (fVerbose)
-               if (TMath::Abs(detPoint.X()-xHit) > fPhotomulRadius || TMath::Abs(detPoint.Y()-yHit) > fPhotomulRadius*1.5)
-                  cout << "-E- RichHitProducer: wrongly assigned Hits (distance point-hit too large)! " <<
-                  detPoint.X() << " " << xHit << " " << detPoint.Y() << " " << yHit << endl;
+               if (TMath::Abs(detPoint.X()-xHit) > fPhotomulRadius || TMath::Abs(detPoint.Y()-yHit) > fPhotomulRadius*1.5){
+                 // cout << "-E- RichHitProducer: wrongly assigned Hits (distance point-hit too large)! " <<
+                 // detPoint.X() << " " << xHit << " " << detPoint.Y() << " " << yHit << endl;
+               }
          }
          if (fDetType == 5 || fDetType == 10 || fDetType == 11 || fDetType == 14 || fDetType == 16 || fDetType == 18) { // fDetType 5: additional smearing with RMS=3mm due to WLS film
             if (fVerbose)
-               if (TMath::Abs(detPoint.X()-xHit) > fPhotomulRadius+1.5 || TMath::Abs(detPoint.Y()-yHit) > fPhotomulRadius*1.5)
-                  cout << "-E- RichHitProducer: wrongly assigned Hits ? (distance point-hit too large)! " <<
-                  detPoint.X() << " " << xHit << " " << detPoint.Y() << " " << yHit << endl;
+               if (TMath::Abs(detPoint.X()-xHit) > fPhotomulRadius+1.5 || TMath::Abs(detPoint.Y()-yHit) > fPhotomulRadius*1.5){
+                 // cout << "-E- RichHitProducer: wrongly assigned Hits ? (distance point-hit too large)! " <<
+                 // detPoint.X() << " " << xHit << " " << detPoint.Y() << " " << yHit << endl;
+               }
          }
 
          if (gcode == 50000050) {

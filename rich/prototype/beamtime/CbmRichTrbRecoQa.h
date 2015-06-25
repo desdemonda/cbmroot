@@ -12,6 +12,7 @@ class TClonesArray;
 class TH1D;
 class TH2D;
 class TCanvas;
+class CbmRichRing;
 
 class CbmRichRingFitterCOP;
 class CbmRichRingFitterEllipseTau;
@@ -74,6 +75,11 @@ public:
      */
     void FillHistEllipse(
           CbmRichRingLight* ring);
+
+    /*
+     *
+     */
+    void FillNofHitsPmt();
 
     /*
      * Fit histogramm with Gauss fit and put results to the title.

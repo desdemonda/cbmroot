@@ -9,12 +9,14 @@
 
 #include "CbmMCTrack.h"
 #include "FairRootManager.h"
-#include "CbmTrackMatchNew.h"
 #include "CbmRichPoint.h"
 #include "CbmGlobalTrack.h"
 #include "CbmStsTrack.h"
 #include "CbmRichRing.h"
 #include "CbmTrackMatchNew.h"
+
+#include <algorithm>
+#include <map>
 
 
 
@@ -39,9 +41,9 @@ CbmAnaConversionRich::CbmAnaConversionRich()
     fRichRings_electronspE(NULL),
     fRichRings_sourcePI0(NULL),
     fRichRings_test(NULL),
-    fRichRings_Aaxis(NULL),
     fRichRings_detectedParticles(NULL),
     fRichRings_detParticlesMother(NULL),
+    fRichRings_Aaxis(NULL),
     fRichRings_Aaxis_part1(NULL),
     fRichRings_Aaxis_part2(NULL),
     fRichRings_Aaxis_part3(NULL),
@@ -63,6 +65,7 @@ CbmAnaConversionRich::CbmAnaConversionRich()
     fhRichRings_pos(NULL),
     fhRichRings_protons(NULL),
     fhRichRings_protons2(NULL),
+    fhRichRings_start(NULL),
     timer(),
     fTime(0.)
 {
@@ -119,8 +122,8 @@ void CbmAnaConversionRich::InitHistos()
 	fRichRings_nofRings		= new TH1D("fRichRings_nofRings", "fRichRings_nofRings;nof rings per Event;#", 101, -0.5, 100.5);
 	fRichRings_motherpdg	= new TH1D("fRichRings_motherpdg", "fRichRings_motherpdg;pdg code;#", 5002, -1.5, 5000.5);
 	fRichRings_richpdg		= new TH1D("fRichRings_richpdg", "fRichRings_richpdg;pdg code;#", 5001, -0.5, 5000.5);
-	fRichRings_electronspE	= new TH1D("fRichRings_electronspE", "fRichRings_electronspE;nof electrons per event;#", 20, -0.5, 19.5);
-	fRichRings_sourcePI0	= new TH1D("fRichRings_sourcePI0", "fRichRings_sourcePI0;nof electrons from pi0;#", 20, -0.5, 19.5);
+	fRichRings_electronspE	= new TH1D("fRichRings_electronspE", "fRichRings_electronspE;nof electrons per event;#", 60, -0.5, 59.5);
+	fRichRings_sourcePI0	= new TH1D("fRichRings_sourcePI0", "fRichRings_sourcePI0;nof electrons from pi0;#", 60, -0.5, 59.5);
 	fRichRings_test			= new TH1D("fRichRings_test", "fRichRings_test;nof electrons from pi0;#", 20, -0.5, 19.5);
 	fHistoList_richrings.push_back(fRichRings_nofRings);
 	fHistoList_richrings.push_back(fRichRings_motherpdg);
@@ -129,7 +132,7 @@ void CbmAnaConversionRich::InitHistos()
 	fHistoList_richrings.push_back(fRichRings_sourcePI0);
 	fHistoList_richrings.push_back(fRichRings_test);
 	
-	fRichRings_detectedParticles	= new TH1D("fRichRings_detectedParticles", "fRichRings_detectedParticles;particle;#", 9, 0., 9.);
+	fRichRings_detectedParticles	= new TH1D("fRichRings_detectedParticles", "fRichRings_detectedParticles;;#", 9, 0., 9.);
 	fRichRings_detectedParticles->SetLabelSize(0.06);
 	fHistoList_richrings.push_back(fRichRings_detectedParticles);
 	fRichRings_detectedParticles->GetXaxis()->SetBinLabel(1, "e^{+}/e^{-}");		// pdg code 11
@@ -142,7 +145,7 @@ void CbmAnaConversionRich::InitHistos()
 	fRichRings_detectedParticles->GetXaxis()->SetBinLabel(8, "\\Xi^-");				// pdg code 3312
 	fRichRings_detectedParticles->GetXaxis()->SetBinLabel(9, "else");				// everything else
 	
-	fRichRings_detParticlesMother	= new TH1D("fRichRings_detParticlesMother", "fRichRings_detParticlesMother;mother particle;#", 22, 0., 22.);
+	fRichRings_detParticlesMother	= new TH1D("fRichRings_detParticlesMother", "fRichRings_detParticlesMother;;#", 22, 0., 22.);
 	fRichRings_detParticlesMother->SetLabelSize(0.04);
 	fHistoList_richrings.push_back(fRichRings_detParticlesMother);
 	fRichRings_detParticlesMother->GetXaxis()->SetBinLabel(1, "e^{+}/e^{-}");		// pdg code 11
@@ -220,6 +223,10 @@ void CbmAnaConversionRich::InitHistos()
 	fhRichRings_protons2	= new TH1D("fhRichRings_protons2", "fhRichRings_protons2;nof hits;#", 40, -0.5, 39.5);
 	fHistoList_richrings.push_back(fhRichRings_protons2);
 
+
+
+	fhRichRings_start	= new TH1D("fhRichRings_start", "fhRichRings_start;z;#", 1000, 0, 1000);
+	fHistoList_richrings.push_back(fhRichRings_start);
 }
 
 
@@ -239,7 +246,7 @@ void CbmAnaConversionRich::Finish()
 	gDirectory->cd("..");
 	
 	cout << "CbmAnaConversionRich: Realtime - " << fTime << endl;
-	timer.Print();
+	//timer.Print();
 }
 
 
@@ -248,6 +255,9 @@ void CbmAnaConversionRich::Finish()
 void CbmAnaConversionRich::AnalyseRICHdata()
 {
 	timer.Start();
+	
+	Int_t nofMC = fMcTracks->GetEntriesFast();
+	cout << "CbmAnaConversionRich: nof mc tracks " << nofMC << endl;
 
 	// analyse RICH points
 	Int_t nofPoints = fRichPoints->GetEntriesFast();
@@ -280,90 +290,173 @@ void CbmAnaConversionRich::AnalyseRICHdata()
 			fRichRings_Baxis->Fill(richRing->GetBaxis());
 			fRichRings_distance->Fill(richRing->GetDistance());
 			fRichRings_radius->Fill(richRing->GetRadius());
-			
-			if(testbool) {
-				Int_t index = richRing->GetTrackID();
-				if (index < 0) continue;
-				CbmGlobalTrack* gTrack = (CbmGlobalTrack*) fGlobalTracks->At(index);
-				if(NULL == gTrack) continue;
-				int stsInd = gTrack->GetStsTrackIndex();
-				int richInd = gTrack->GetRichRingIndex();
-				int trdInd = gTrack->GetTrdTrackIndex();
-				int tofInd = gTrack->GetTofHitIndex();
-
-				if (stsInd < 0) continue;
-				CbmStsTrack* stsTrack = (CbmStsTrack*) fStsTracks->At(stsInd);
-				if (stsTrack == NULL) continue;
-				CbmTrackMatchNew* stsMatch  = (CbmTrackMatchNew*) fStsTrackMatches->At(stsInd);
-				if (stsMatch == NULL) continue;
-				int stsMcTrackId = stsMatch->GetMatchedLink().GetIndex();
-				if (stsMcTrackId < 0) continue;
-				CbmMCTrack* mcTrack1 = (CbmMCTrack*) fMcTracks->At(stsMcTrackId);
-				if (mcTrack1 == NULL) continue;
-				int pdg = TMath::Abs(mcTrack1->GetPdgCode());
-				int motherId = mcTrack1->GetMotherId();
-				int motherpdg = 0;
-				CbmMCTrack* mothermcTrack1;
-				
-				if(motherId != -1) {
-					mothermcTrack1 = (CbmMCTrack*) fMcTracks->At(motherId);
-					motherpdg = TMath::Abs(mothermcTrack1->GetPdgCode());
-				}
-				if(motherId == -1) {
-					motherpdg = -1;
-					if(pdg == 11) primEl++;
-					if(pdg == 13) primMu++;
-					if(pdg == 211) primPi++;
-					if(pdg == 321) primK++;
-				}
-				
-				if(pdg == 2212) {
-					Protons(mcTrack1);
-					fhRichRings_protons2->Fill(richRing->GetNofHits());
-				}
-				
-				fRichRings_motherpdg->Fill(motherpdg);
-				fRichRings_richpdg->Fill(pdg);
-				
-				if(pdg == 11) {
-					nofElectrons++;
-					int grandmotherpdg = 0;
-					int grandmotherId = 0;
-					if(motherpdg == 22) {
-						grandmotherId = mothermcTrack1->GetMotherId();
-						if(grandmotherId != -1) {
-							CbmMCTrack* grandmothermcTrack1 = (CbmMCTrack*) fMcTracks->At(grandmotherId);
-							grandmotherpdg = TMath::Abs(grandmothermcTrack1->GetPdgCode());
-						}
-						if(grandmotherId == -1) {
-							grandmotherpdg = -1;
-						}
-					}
-					if(motherpdg == 111 || grandmotherpdg == 111) {
-						sourcePI0++;
-						if(motherpdg == 111) {
-							pi0ids.push_back(motherId);
-						}
-						if(grandmotherpdg == 111) {
-							pi0ids.push_back(grandmotherId);
-						}
-					}
-				}
-				FillAdditionalPDGhisto(pdg, motherpdg);
-			}
 		}
+
+		Int_t nofGlobalTracks = fGlobalTracks->GetEntriesFast();
+		cout << "CbmAnaConversionRich: nof global tracks " << nofGlobalTracks << endl;
+		for (int iG = 0; iG < nofGlobalTracks; iG++){
+			CbmGlobalTrack* gTrack = (CbmGlobalTrack*) fGlobalTracks->At(iG);
+			if(NULL == gTrack) continue;
+			int stsInd = gTrack->GetStsTrackIndex();
+			int richInd = gTrack->GetRichRingIndex();
+			if (richInd < 0) continue; // no RICH segment -> no ring
+
+			//int trdInd = gTrack->GetTrdTrackIndex();
+			//int tofInd = gTrack->GetTofHitIndex();
+
+			if (stsInd < 0) continue;
+			CbmStsTrack* stsTrack = (CbmStsTrack*) fStsTracks->At(stsInd);
+			if (stsTrack == NULL) continue;
+			
+			CbmTrackMatchNew* stsMatch  = (CbmTrackMatchNew*)fStsTrackMatches->At(stsInd);
+			if (stsMatch == NULL) continue;
+			int stsMcTrackId = stsMatch->GetMatchedLink().GetIndex();
+			if (stsMcTrackId < 0) continue;
+			CbmMCTrack* mcTrack1 = (CbmMCTrack*) fMcTracks->At(stsMcTrackId);
+			if (mcTrack1 == NULL) continue;
+			
+			CbmTrackMatchNew* richMatch  = (CbmTrackMatchNew*)fRichRingMatches->At(richInd);
+			if (richMatch == NULL) continue;
+			int richMcTrackId = richMatch->GetMatchedLink().GetIndex();
+			if (richMcTrackId < 0) continue;
+			CbmMCTrack* mcTrack2 = (CbmMCTrack*) fMcTracks->At(richMcTrackId);
+			if (mcTrack2 == NULL) continue;
+
+			// stsMcTrackId == richMcTrackId -> track was reconstructed in STS and made a ring in RICH, track matching was correct
+			// in case they are not equal, the ring comes either from a secondary particle or STS track was not reconstructed
+			if(stsMcTrackId != richMcTrackId) continue;
+
+			int pdg = TMath::Abs(mcTrack2->GetPdgCode());	// extract pdg code of particle directly from rich ring
+
+			// get start vertex of track
+			TVector3 start;
+			mcTrack2->GetStartVertex(start);
+			fhRichRings_start->Fill(start.Z());
+
+
+/*			Int_t index = richRing->GetTrackID();
+			if (index < 0) continue;
+			CbmGlobalTrack* gTrack = (CbmGlobalTrack*) fGlobalTracks->At(index);
+			if(NULL == gTrack) continue;
+			int stsInd = gTrack->GetStsTrackIndex();
+			int richInd = gTrack->GetRichRingIndex();
+			int trdInd = gTrack->GetTrdTrackIndex();
+			int tofInd = gTrack->GetTofHitIndex();
+
+			if (stsInd < 0) continue;
+			CbmStsTrack* stsTrack = (CbmStsTrack*) fStsTracks->At(stsInd);
+			if (stsTrack == NULL) continue;
+			CbmTrackMatchNew* stsMatch  = (CbmTrackMatchNew*) fStsTrackMatches->At(stsInd);
+			if (stsMatch == NULL) continue;
+			int stsMcTrackId = stsMatch->GetMatchedLink().GetIndex();
+			if (stsMcTrackId < 0) continue;
+			CbmMCTrack* mcTrack1 = (CbmMCTrack*) fMcTracks->At(stsMcTrackId);
+			if (mcTrack1 == NULL) continue;
+			int pdg = TMath::Abs(mcTrack1->GetPdgCode());
+*/
+			int motherId = mcTrack2->GetMotherId();
+			int motherpdg = 0;
+			CbmMCTrack* mothermcTrack1;
+
+			if(motherId != -1) {
+				mothermcTrack1 = (CbmMCTrack*) fMcTracks->At(motherId);
+				motherpdg = TMath::Abs(mothermcTrack1->GetPdgCode());
+			}
+			if(motherId == -1) {
+				motherpdg = -1;
+				if(pdg == 11) primEl++;
+				if(pdg == 13) primMu++;
+				if(pdg == 211) primPi++;
+				if(pdg == 321) primK++;
+			}
+
+			if(pdg == 2212) {
+				Protons(mcTrack1);
+				//fhRichRings_protons2->Fill(richRing->GetNofHits());
+			}
+
+			fRichRings_motherpdg->Fill(motherpdg);
+			fRichRings_richpdg->Fill(pdg);
+
+			if(pdg == 11) { // && stsMcTrackId == richMcTrackId) {
+				nofElectrons++;
+				int grandmotherpdg = 0;
+				int grandmotherId = 0;
+				if(motherpdg == 22) {
+					grandmotherId = mothermcTrack1->GetMotherId();
+					if(grandmotherId != -1) {
+						CbmMCTrack* grandmothermcTrack1 = (CbmMCTrack*) fMcTracks->At(grandmotherId);
+						grandmotherpdg = TMath::Abs(grandmothermcTrack1->GetPdgCode());
+					}
+					if(grandmotherId == -1) {
+						grandmotherpdg = -1;
+					}
+				}
+				if(motherpdg == 111 || grandmotherpdg == 111) {
+					sourcePI0++;
+					if(motherpdg == 111) {
+						pi0ids.push_back(motherId);
+					}
+					else if(grandmotherpdg == 111) {
+						pi0ids.push_back(grandmotherId);
+					}
+				}
+			}
+			FillAdditionalPDGhisto(pdg, motherpdg);
+		}
+
 		fRichRings_electronspE->Fill(nofElectrons);
 		fRichRings_sourcePI0->Fill(sourcePI0);
-		
+
 		TH1I* zwischenhisto = new TH1I("zwischenhisto", "zwischenhisto", 1000000, 0, 1000000);
 		for(int i=0; i<pi0ids.size(); i++) {
 			zwischenhisto->Fill(pi0ids[i]);
 		}
 		fRichRings_test->Fill(zwischenhisto->GetMaximum());
 		if(zwischenhisto->GetMaximum() >= 4) {
-			cout << "MAXIMUM BIN: " << zwischenhisto->GetMaximum() << endl;
+			CbmMCTrack* mcTrack2 = (CbmMCTrack*) fMcTracks->At(zwischenhisto->GetMaximumBin()-1);
+			int pdg = mcTrack2->GetPdgCode();
+			cout << "CbmAnaConversionRich: MAXIMUM BIN: " << zwischenhisto->GetMaximum() << "\t" << "bin id: " << zwischenhisto->GetMaximumBin()-1 << endl;
+			cout << "CbmAnaConversionRich: pdg code: " << pdg << endl;
+			cout << "CbmAnaConversionRich: \t";
+			
+			std::sort(pi0ids.begin(), pi0ids.end());
+			for(int i=0; i<pi0ids.size(); i++) {
+				cout << pi0ids[i] << "\t";
+			}
+			
+			cout << endl;
+			cout << "CbmAnaConversionRich: number of electrons: " << nofElectrons << "\t e from pi0: " << sourcePI0 << "\t pi0ids size: " << pi0ids.size() << endl;
 		}
 		zwischenhisto->Delete();
+		
+		
+		int photoncounter = 0;
+		std::multimap<int,int> electronMap;
+		for(int i=0; i<pi0ids.size(); i++) {
+			electronMap.insert ( std::pair<int,int>(pi0ids[i], i) );
+		}
+	
+		int check = 0;
+		for(std::map<int,int>::iterator it=electronMap.begin(); it!=electronMap.end(); ++it) {
+			if(it == electronMap.begin()) check = 1;
+			if(it != electronMap.begin()) {
+				std::map<int,int>::iterator zwischen = it;
+				zwischen--;
+				int id = it->first;
+				int id_old = zwischen->first;
+				if(id == id_old) {
+					check++;
+					if(check > 3) {
+						cout << "CbmAnaConversionRich: richmap - photon found " << id << endl;
+						photoncounter++;
+					}
+				}
+				else check=1;
+			}
+		}
+
+
 	}
 
 
@@ -418,6 +511,8 @@ void CbmAnaConversionRich::AnalyseRICHdata()
 			fRichRings_Baxis_part3->Fill(axisB);
 		}
 	}
+
+	CheckMC();
 
 	timer.Stop();
 	fTime += timer.RealTime();
@@ -476,6 +571,130 @@ void CbmAnaConversionRich::Protons(CbmMCTrack* mcTrack)
 
 }
 
+
+void CbmAnaConversionRich::CheckMC() 
+{
+	vector<int> ids;
+	vector<int> electronids;
+	ids.clear();
+	electronids.clear();
+
+	Int_t nofGlobalTracks = fGlobalTracks->GetEntriesFast();
+	for (int iG = 0; iG < nofGlobalTracks; iG++){
+		CbmGlobalTrack* gTrack = (CbmGlobalTrack*) fGlobalTracks->At(iG);
+		if(NULL == gTrack) continue;
+		int stsInd = gTrack->GetStsTrackIndex();
+		int richInd = gTrack->GetRichRingIndex();
+	//	if (richInd < 0) continue; // no RICH segment -> no ring
+		if (stsInd < 0) continue;
+
+		CbmStsTrack* stsTrack = (CbmStsTrack*) fStsTracks->At(stsInd);
+		if (stsTrack == NULL) continue;
+		CbmTrackMatchNew* stsMatch  = (CbmTrackMatchNew*)fStsTrackMatches->At(stsInd);
+		if (stsMatch == NULL) continue;
+		int stsMcTrackId = stsMatch->GetMatchedLink().GetIndex();
+		if (stsMcTrackId < 0) continue;
+		CbmMCTrack* mcTrack1 = (CbmMCTrack*) fMcTracks->At(stsMcTrackId);
+		if (mcTrack1 == NULL) continue;
+		
+	/*	CbmTrackMatchNew* richMatch  = (CbmTrackMatchNew*)fRichRingMatches->At(richInd);
+		if (richMatch == NULL) continue;
+		int richMcTrackId = richMatch->GetMatchedLink().GetIndex();
+		if (richMcTrackId < 0) continue;
+		CbmMCTrack* mcTrack2 = (CbmMCTrack*) fMcTracks->At(richMcTrackId);
+		if (mcTrack2 == NULL) continue;
+			// stsMcTrackId == richMcTrackId -> track was reconstructed in STS and made a ring in RICH, track matching was correct
+			// in case they are not equal, the ring comes either from a secondary particle or STS track was not reconstructed
+	//	if(stsMcTrackId != richMcTrackId) continue;
+*/
+		int pdg = TMath::Abs(mcTrack1->GetPdgCode());	// extract pdg code of particle directly from rich ring
+	//	int pdg2 = TMath::Abs(mcTrack2->GetPdgCode());
+
+	//	if(pdg != pdg2) {
+	//		cout << "PDGs not matching!" << endl;
+	//	}
+
+		int motherId = mcTrack1->GetMotherId();
+	//	int motherId2 = mcTrack2->GetMotherId();
+		
+	//	if(motherId != motherId2) {
+	//		cout << "MotherIDs not matching!" << endl;
+	//	}
+
+		int motherpdg = 0;
+		int grandmotherpdg = 0;
+		CbmMCTrack* mothermcTrack1;
+		CbmMCTrack* grandmothermcTrack1;
+		int grandmotherId = 0;
+
+		if(motherId != -1) {
+			mothermcTrack1 = (CbmMCTrack*) fMcTracks->At(motherId);
+			motherpdg = TMath::Abs(mothermcTrack1->GetPdgCode());
+		}
+		else if(motherId == -1) {
+			motherpdg = -1;
+		}
+
+		if(pdg == 11) {
+			if(motherpdg == 22) {
+				grandmotherId = mothermcTrack1->GetMotherId();
+				if(grandmotherId != -1) {
+					grandmothermcTrack1 = (CbmMCTrack*) fMcTracks->At(grandmotherId);
+					grandmotherpdg = TMath::Abs(grandmothermcTrack1->GetPdgCode());
+				}
+				if(grandmotherId == -1) {
+					grandmotherpdg = -1;
+				}
+			}
+		
+			if(motherpdg == 111) {
+				ids.push_back(motherId);
+				electronids.push_back(stsMcTrackId);
+			}
+			if(motherpdg == 22 && grandmotherpdg == 111) {
+				ids.push_back(grandmotherId);
+				electronids.push_back(stsMcTrackId);
+			}
+		}
+	}
+
+	cout << "CbmAnaConversionRich: vector ids contains " << ids.size() << " entries." << endl;
+	cout << "CbmAnaConversionRich: ids entries: ";
+	for(int i=0; i<ids.size(); i++) {
+		cout << ids[i] << " / ";
+	}
+	cout << endl;	
+	cout << "CbmAnaConversionRich: electronids entries: ";
+	for(int i=0; i<electronids.size(); i++) {
+		cout << electronids[i] << " / ";
+	}
+	cout << endl;
+
+	int photoncounter = 0;
+	std::multimap<int,int> electronMap;
+	for(int i=0; i<ids.size(); i++) {
+		electronMap.insert ( std::pair<int,int>(ids[i], i) );
+	}
+	
+	int check = 0;
+	for(std::map<int,int>::iterator it=electronMap.begin(); it!=electronMap.end(); ++it) {
+		if(it == electronMap.begin()) check = 1;
+		if(it != electronMap.begin()) {
+			std::map<int,int>::iterator zwischen = it;
+			zwischen--;
+			int id = it->first;
+			int id_old = zwischen->first;
+			if(id == id_old) {
+				check++;
+				if(check > 3) {
+					cout << "CbmAnaConversionRich: richmap - photon found " << id << endl;
+					photoncounter++;
+				}
+			}
+			else check=1;
+		}
+	}
+}
 
 
 

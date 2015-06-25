@@ -25,19 +25,19 @@ void qa_study_report()
       }
       outputDir = std::string(gSystem->Getenv("LIT_STUDY_OUTPUT_DIR"));
    } else {
-      fileNames.push_back("scripts/events_trd_v13p_3e/qa.smearing.nn.0000.root");
-      fileNames.push_back("scripts/events_trd_v13p_3e/qa.smearing.branch.0000.root");
-      fileNames.push_back("scripts/events_trd_v13p_3e/qa.digi.nn.0000.root");
-      fileNames.push_back("scripts/events_trd_v13p_3e/qa.digi.branch.0000.root");
-      fileNames.push_back("scripts/events_trd_v13p_3e/qa.clustering.nn.0000.root");
-      fileNames.push_back("scripts/events_trd_v13p_3e/qa.clustering.branch.0000.root");
+      fileNames.push_back("scripts/events_sts_v13d_real/qa.00001.root");
+      fileNames.push_back("scripts/events_sts_v13d_new/qa.00001.root");
+      //fileNames.push_back("scripts/events_trd_v13p_3e/qa.digi.nn.0000.root");
+      //fileNames.push_back("scripts/events_trd_v13p_3e/qa.digi.branch.0000.root");
+      //fileNames.push_back("scripts/events_trd_v13p_3e/qa.clustering.nn.0000.root");
+      //fileNames.push_back("scripts/events_trd_v13p_3e/qa.clustering.branch.0000.root");
 
-      studyNames.push_back("smearing nn");
-      studyNames.push_back("smearing branch");
-      studyNames.push_back("digi nn");
-      studyNames.push_back("digi branch");
-      studyNames.push_back("clustering nn");
-      studyNames.push_back("clustering branch");
+      studyNames.push_back("old");
+      studyNames.push_back("new");
+      //studyNames.push_back("digi nn");
+     // studyNames.push_back("digi branch");
+     // studyNames.push_back("clustering nn");
+     // studyNames.push_back("clustering branch");
 
    //   fileNames.push_back("scripts/events_trd_v13d/qa.smearing.branch.0000.root");
     //  fileNames.push_back("scripts/events_trd_v13e/qa.smearing.branch.0000.root");

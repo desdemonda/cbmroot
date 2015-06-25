@@ -34,7 +34,7 @@
 #include "CbmStsPoint.h"
 #include "legacy/CbmStsSensor_old.h"
 #include "CbmStsSector.h"
-#include "CbmStsStation.h"
+#include "CbmStsStation_old.h"
 
 #include "CbmMatch.h"
 #include "CbmLink.h"
@@ -50,16 +50,18 @@ CbmStsDigitize_old::CbmStsDigitize_old()
     : FairTask("CbmStsDigitize")
     , fGeoPar(NULL)
     , fDigiPar(NULL)
+    , fDigiScheme(NULL)
     , fPoints(NULL)
     , fDigis(NULL)
     , fDigiMatches(NULL)
-    , fRealistic(kFALSE)
-    , fDigiScheme(NULL)
     , fNEvents(0)
     , fNPoints(0)
     , fNDigisFront(0)
     , fNDigisBack(0)
+    , fTime(0.)
     , fStep(0.001)
+    , fTimer()
+    , fRealistic(kFALSE)
     , fEnergyLossToSignal(280000000.)
     , fFThreshold(4.0)
     , fBThreshold(4.0)
@@ -74,11 +76,10 @@ CbmStsDigitize_old::CbmStsDigitize_old()
     , fBNofSteps(0)
     , fStripSignalF(NULL)
     , fStripSignalB(NULL)
-    , fTime(0.)
-    , fTimer()
     , fFChannelPointsMap()
     , fBChannelPointsMap()
     , fPointMap()
+    , occupancy()
 {
 }
 // -------------------------------------------------------------------------
@@ -153,7 +154,7 @@ void CbmStsDigitize_old::Exec(Option_t* opt)
 
     for (Int_t iStation = fDigiScheme->GetNStations(); iStation > 0;)
     {
-        CbmStsStation* station = fDigiScheme->GetStation(--iStation);
+        CbmStsStation_old* station = fDigiScheme->GetStation(--iStation);
         for (Int_t iSector = station->GetNSectors(); iSector > 0;)
         {
             CbmStsSector* sector = station->GetSector(--iSector);
@@ -214,7 +215,7 @@ void CbmStsDigitize_old::Exec(Option_t* opt)
                                       */
                 UInt_t address = CbmStsAddress::GetAddress(stationNr, 0, 0, 0, 0, 0, ifstr);
                 Int_t size = fDigis->GetEntriesFast();
-                new ((*fDigis)[size]) CbmStsDigi(address, 0, digiFSignal, sectorNr);
+                CbmStsDigi* digi=new ((*fDigis)[size]) CbmStsDigi(address, 0, digiFSignal, sectorNr);
                 LOG(DEBUG3) << GetName() << ": New digi at address " << address
                 		        << ", sector " << sectorNr << " front side, channel "
                 		        << ifstr << ", ADC " << digiFSignal << FairLogger::endl;
@@ -222,7 +223,9 @@ void CbmStsDigitize_old::Exec(Option_t* opt)
                 set<Int_t> chPnt = fFChannelPointsMap[ifstr];
                 if (chPnt.size() == 0)
                 {
-                    new ((*fDigiMatches)[size]) CbmMatch();
+                    CbmMatch* match = NULL;
+                    match=new ((*fDigiMatches)[size]) CbmMatch();
+		    digi->SetMatch(match);
                 }
                 else
                 {
@@ -235,6 +238,7 @@ void CbmStsDigitize_old::Exec(Option_t* opt)
                         if (it1 == chPnt.begin())
                             match = new ((*fDigiMatches)[size]) CbmMatch();
                          match->AddLink(CbmLink(point->GetEnergyLoss(), pnt));
+			 digi->SetMatch(match);
                     }
                 }
                 nDigisF++;
@@ -263,7 +267,7 @@ void CbmStsDigitize_old::Exec(Option_t* opt)
                 // Use here the backward-compatibel constructor of CbmStsDigi.
                 UInt_t address = CbmStsAddress::GetAddress(stationNr, 0, 0, 0, 0, 1, ibstr);
                 Int_t size = fDigis->GetEntriesFast();
-                new ((*fDigis)[size]) CbmStsDigi(address, 0, digiBSignal, sectorNr);
+                CbmStsDigi* digi=new ((*fDigis)[size]) CbmStsDigi(address, 0, digiBSignal, sectorNr);
                 LOG(DEBUG3) << GetName() << ": New digi at address " << address
                 		        << ", sector " << sectorNr << " back side, channel "
                 		        << ibstr << ", ADC " << digiBSignal << FairLogger::endl;
@@ -271,7 +275,9 @@ void CbmStsDigitize_old::Exec(Option_t* opt)
                 set<Int_t> chPnt = fBChannelPointsMap[ibstr];
                 if (chPnt.size() == 0)
                 {
-                    new ((*fDigiMatches)[size]) CbmMatch();
+                    CbmMatch* match = NULL;
+                    match=new ((*fDigiMatches)[size]) CbmMatch();
+		    digi->SetMatch(match);
                 }
                 else
                 {
@@ -284,6 +290,7 @@ void CbmStsDigitize_old::Exec(Option_t* opt)
                         if (it1 == chPnt.begin())
                             match = new ((*fDigiMatches)[size]) CbmMatch();
                          match->AddLink(CbmLink(point->GetEnergyLoss(), pnt));
+			 digi->SetMatch(match);
                     }
                 }
                 nDigisB++;
@@ -463,7 +470,7 @@ void CbmStsDigitize_old::MakeSets()
 
     for (Int_t iStation = 0; iStation < nStations; iStation++)
     {
-        CbmStsStation* station = fDigiScheme->GetStation(iStation);
+        CbmStsStation_old* station = fDigiScheme->GetStation(iStation);
         Int_t nSectors = station->GetNSectors();
         for (Int_t iSector = 0; iSector < nSectors; iSector++)
         {
@@ -527,7 +534,7 @@ void CbmStsDigitize_old::MakeSets1()
 
     for (Int_t iStation = 0; iStation < nStations; iStation++)
     {
-        CbmStsStation* station = fDigiScheme->GetStation(iStation);
+        CbmStsStation_old* station = fDigiScheme->GetStation(iStation);
         Int_t nSectors = station->GetNSectors();
 
         for (Int_t iSector = 0; iSector < nSectors; iSector++)

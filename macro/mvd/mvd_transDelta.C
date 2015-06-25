@@ -14,11 +14,10 @@ void mvd_transDelta()
 
 
   // Number of events
-  Int_t   nEvents = 10000;
+  Int_t   nEvents = 5000;
 
 
-  // Output path
-  TString outDir="./data/";   
+  // Output path  
   TString outpath ="./data/";
 
   //output file
@@ -37,7 +36,7 @@ void mvd_transDelta()
   CbmTarget* target = new CbmTarget("Gold", 0.025);
 
   // Beam pipe geometry
-  TString pipeGeom = "pipe/pipe_v13a.geo.root";
+  TString pipeGeom = "pipe/pipe_v14e_new_mvd.root";
 
   // Magnet geometry and field map
   TString magnetGeom  = "magnet/magnet_v12b.geo.root";
@@ -46,8 +45,8 @@ void mvd_transDelta()
   Double_t fieldScale = 1.;      // field scaling factor
 
   // MVD geometry
-     TString mvdGeom = "mvd/mvd_v14a.geo.root";
-//     TString stsGeom = "sts_Standard_s3055AAFK5.SecD.geo";
+     TString mvdGeom = "mvd/mvd_v14b.geo.root";
+
 
   // In general, the following parts need not be touched
   // ========================================================================
@@ -55,8 +54,6 @@ void mvd_transDelta()
   // ----    Debug option   -------------------------------------------------
   gDebug = 0;
   // ------------------------------------------------------------------------
-
-
 
   // -----   Timer   --------------------------------------------------------
   TStopwatch timer;

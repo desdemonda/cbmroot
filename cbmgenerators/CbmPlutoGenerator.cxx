@@ -24,6 +24,8 @@
 // -----   Default constructor   ------------------------------------------
 CbmPlutoGenerator::CbmPlutoGenerator()
   :FairGenerator(),
+   fdata(makeStaticData()),
+   fbase(makeDataBase()),
    iEvent(0),
    fFileName(NULL),
    fInputFile(NULL),
@@ -31,9 +33,8 @@ CbmPlutoGenerator::CbmPlutoGenerator()
    fParticles(NULL)
 {
   // Get Pluto database
-  fdata = makeStaticData();
+/*  fdata = makeStaticData();
   fbase = makeDataBase();
-  /*
   iEvent     = 0;
   fInputFile = NULL;
   fInputTree = NULL;
@@ -46,6 +47,8 @@ CbmPlutoGenerator::CbmPlutoGenerator()
 // -----   Standard constructor   -----------------------------------------
 CbmPlutoGenerator::CbmPlutoGenerator(const Char_t* fileName)
   :FairGenerator(),
+   fdata(makeStaticData()),
+   fbase(makeDataBase()),
    iEvent(0),
    fFileName(fileName),
    fInputFile(new TFile(fileName)),
@@ -53,9 +56,9 @@ CbmPlutoGenerator::CbmPlutoGenerator(const Char_t* fileName)
    fParticles(new TClonesArray("PParticle",100))
 {
   // Get Pluto database
+/*
   fdata = makeStaticData();
   fbase = makeDataBase();
-  /*
   iEvent     = 0;
   fFileName  = fileName;
   fInputFile = new TFile(fFileName);

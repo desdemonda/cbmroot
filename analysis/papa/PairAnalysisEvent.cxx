@@ -15,12 +15,15 @@ Add Detailed description
 
 
 #include "FairRootManager.h"
+#include "FairMCPoint.h"
+
 #include "CbmDetectorList.h"
 #include "CbmVertex.h"
 #include "CbmGlobalTrack.h"
 #include "CbmStsTrack.h"
 #include "CbmTrdTrack.h"
 #include "CbmRichRing.h"
+#include "CbmTofHit.h"
 #include "CbmMCTrack.h"
 #include "CbmTrackMatchNew.h"
 
@@ -35,6 +38,7 @@ PairAnalysisEvent::PairAnalysisEvent() :
   fStsMatches(0x0),     //STS matches
   fTrdMatches(0x0),     //TRD matches
   fRichMatches(0x0),     //RICH matches
+  fTofPoints(0x0),     //TOF matches
   fGlobalTracks(0x0),   //global tracks
   fTrdTracks(0x0),      //TRD tracks
   fStsTracks(0x0),      //STS tracks
@@ -42,6 +46,7 @@ PairAnalysisEvent::PairAnalysisEvent() :
   fStsHits(0x0),      //STS hits
   fTrdHits(0x0),      //TRD hits
   fRichHits(0x0),      //RICH hits
+  fTofHits(0x0),      //TOF hits
   fTrdHitMatches(0x0),      //TRD hits
   fTrdPoints(0x0),      //TRD points
   fPrimVertex(0x0),     //primary vertices
@@ -62,6 +67,7 @@ PairAnalysisEvent::PairAnalysisEvent(const char* name, const char* title) :
   fStsMatches(0x0),     //STS matches
   fTrdMatches(0x0),     //TRD matches
   fRichMatches(0x0),     //RICH matches
+  fTofPoints(0x0),     //TOF matches
   fGlobalTracks(0x0),   //global tracks
   fTrdTracks(0x0),      //TRD tracks
   fStsTracks(0x0),      //STS tracks
@@ -69,37 +75,12 @@ PairAnalysisEvent::PairAnalysisEvent(const char* name, const char* title) :
   fStsHits(0x0),      //STS hits
   fTrdHits(0x0),      //TRD hits
   fRichHits(0x0),      //RICH hits
+  fTofHits(0x0),      //TOF hits
   fTrdHitMatches(0x0),      //TRD hits
   fTrdPoints(0x0),      //TRD points
   fPrimVertex(0x0),     //primary vertices
   fTracks(new TObjArray(1)), // array of papa tracks
   fMultiMatch(0)
-{
-  //
-  // Named Constructor
-  //
-  fTracks->SetOwner(kTRUE);
-}
-
-//______________________________________________
-PairAnalysisEvent::PairAnalysisEvent(const PairAnalysisEvent& event) :
-  TNamed(event.GetName(), event.GetTitle()),
-  fMCTracks(0x0),
-  fStsMatches(0x0),
-  fTrdMatches(0x0),
-  fRichMatches(0x0),
-  fGlobalTracks(0x0),
-  fTrdTracks(0x0),
-  fStsTracks(0x0),
-  fRichRings(0x0),
-  fStsHits(event.GetHits(kSTS)),
-  fTrdHits(event.GetHits(kTRD)),
-  fRichHits(event.GetHits(kRICH)),
-  fTrdHitMatches(event.GetTrdHitMatches()),
-  fTrdPoints(event.GetTrdPoints()),
-  fPrimVertex(event.GetPrimaryVertex()),
-  fTracks(event.GetTracks()),
-  fMultiMatch(event.GetNumberOfVageMatches())
 {
   //
   // Named Constructor
@@ -124,10 +105,12 @@ PairAnalysisEvent::~PairAnalysisEvent()
   fStsMatches->Delete();     //STS matches
   fTrdMatches->Delete();     //STS matches
   fRichMatches->Delete();     //RICH matches
+  fTofPoints->Delete();     //TOF matches
 
   fStsHits->Delete();      //STS hits
   fTrdHits->Delete();      //TRD hits
   fRichHits->Delete();      //RICH hits
+  fTofHits->Delete();      //TOF hits
 
   fTrdHitMatches->Delete();      //TRD hits
   fTrdPoints->Delete();      //TRD hits
@@ -152,10 +135,12 @@ void PairAnalysisEvent::SetInput(FairRootManager *man)
   // hits
   fStsHits      = (TClonesArray*) man->GetObject("StsHit");
   fTrdHits      = (TClonesArray*) man->GetObject("TrdHit");
-  fRichHits      = (TClonesArray*) man->GetObject("RichHit");
+  fRichHits     = (TClonesArray*) man->GetObject("RichHit");
+  fTofHits      = (TClonesArray*) man->GetObject("TofHit");
   fTrdHitMatches = (TClonesArray*) man->GetObject("TrdHitMatch");
   // mc points
   fTrdPoints    = (TClonesArray*) man->GetObject("TrdPoint");
+  fTofPoints    = (TClonesArray*) man->GetObject("TofPoint");
   //  if(fMCTracks)   printf("PairAnalysisEvent::SetInput: size of mc array: %04d \n",fMCTracks->GetSize());
 }
 
@@ -180,7 +165,7 @@ void PairAnalysisEvent::Init()
     Int_t itrd  = gtrk->GetTrdTrackIndex();
     Int_t ists  = gtrk->GetStsTrackIndex();
     Int_t irich = gtrk->GetRichRingIndex();
-    // Int_t itof  = gtrk->GetTofHitIndex();
+    Int_t itof  = gtrk->GetTofHitIndex();
 
     // reconstructed tracks
     CbmTrdTrack *trdTrack=0x0;
@@ -189,19 +174,25 @@ void PairAnalysisEvent::Init()
     if(fStsTracks && ists>=0) stsTrack=static_cast<CbmStsTrack*>(fStsTracks->At(ists));
     CbmRichRing *richRing=0x0;
     if(fRichRings && irich>=0) richRing=static_cast<CbmRichRing*>(fRichRings->At(irich));
+    CbmTofHit *tofHit=0x0;
+    if(fTofHits && itof>=0) tofHit=static_cast<CbmTofHit*>(fTofHits->At(itof));
+
     // track matches
     CbmTrackMatchNew *stsMatch = 0x0;
     if(stsTrack) stsMatch = static_cast<CbmTrackMatchNew*>( fStsMatches->At(ists) );
-    ////    printf("%p %p %d \n",stsMatch,&stsMatch->GetMatchedLink(),stsMatch->GetMatchedIndex());
-    //TODO: investigate why the hell there could be 0xffffffffffffffe0 for stsMatch->GetMatchedLink() for these the fMatchedIndex is -1
-    //    Int_t istsMC = (stsMatch && (&stsMatch->GetMatchedLink()&0xffffffffffffffe0) ? stsMatch->GetMatchedLink().GetIndex() : -1 );
-    Int_t istsMC = (stsMatch && /*stsMatch->GetMatchedIndex()>=0 ?*/ stsMatch->GetMatchedLink().GetIndex() /*: -1*/ );
+    //TODO: investigate why there could be 0xffffffffffffffe0 for stsMatch->GetMatchedLink() for these the fMatchedIndex is -1 and the number of hits is zero
+    //if(stsMatch && stsMatch->GetMatchedIndex()==-1) Printf("matching index is -1: %d",stsMatch->GetNofHits());
+    Int_t istsMC = (stsMatch && stsMatch->GetNofHits()>0 ? stsMatch->GetMatchedLink().GetIndex() : -1 );
+    //    Int_t istsMC = (stsMatch && stsMatch->GetMatchedIndex()>=0 ? stsMatch->GetMatchedLink().GetIndex() : -1 );
     CbmTrackMatchNew *trdMatch = 0x0;
     if(trdTrack) trdMatch = static_cast<CbmTrackMatchNew*>( fTrdMatches->At(itrd) );
     Int_t itrdMC = (trdMatch ? trdMatch->GetMatchedLink().GetIndex() : -1 );
     CbmTrackMatchNew *richMatch = 0x0;
     if(richRing) richMatch = static_cast<CbmTrackMatchNew*>( fRichMatches->At(irich) );
     Int_t irichMC = (richMatch ? richMatch->GetMatchedLink().GetIndex() : -1 );
+    FairMCPoint *tofPoint = 0x0;
+    if(tofHit && tofHit->GetRefId()>0) tofPoint = static_cast<FairMCPoint*>( fTofPoints->At(tofHit->GetRefId()) );
+    Int_t itofMC = (tofPoint ? tofPoint->GetTrackID() : -1 );
 
     // monte carlo track based on the STS match!!!
     Int_t iMC = istsMC;
@@ -211,13 +202,15 @@ void PairAnalysisEvent::Init()
     // increment position in matching array
     if(mcTrack && fMCTracks) matches[istsMC]++;
     // build papa track
-    fTracks->AddAtAndExpand(new PairAnalysisTrack(gtrk, stsTrack,trdTrack,richRing, mcTrack, stsMatch,trdMatch,richMatch),
+    fTracks->AddAtAndExpand(new PairAnalysisTrack(gtrk, stsTrack,trdTrack,richRing,tofHit,
+						  mcTrack, stsMatch,trdMatch,richMatch),
 			    i);
 
     // set MC label and matching bits
     if(iMC>=0) {
       PairAnalysisTrack *tr = static_cast<PairAnalysisTrack*>(fTracks->UncheckedAt(i));
       tr->SetLabel(iMC);
+      tr->SetBit(BIT(14+kTOF),  (iMC==itofMC) );
       tr->SetBit(BIT(14+kRICH), (iMC==irichMC) );
       tr->SetBit(BIT(14+kTRD),  (iMC==itrdMC)  );
       tr->SetBit(BIT(14+kSTS),  (iMC==istsMC)  );
@@ -270,6 +263,7 @@ TClonesArray *PairAnalysisEvent::GetHits(DetectorId det) const {
   case kSTS: return fStsHits;
   case kTRD: return fTrdHits;
   case kRICH:return fRichHits;
+  case kTOF: return fTofHits;
   default:   return 0x0;
   }
 

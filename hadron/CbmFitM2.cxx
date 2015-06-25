@@ -64,9 +64,9 @@ CbmFitM2::CbmFitM2()
     fMaxM2(3.0),
     fBinSizeM2( (fMaxM2 - fMinM2) / (Double_t)fNbinsM2 ),
     fNbinsMom(100),
+    fNbinsMomCharge( TMath::Nint( 2*(fNbinsMom+fMinMom/fBinSizeMom)) ),
     fMinMom(0.),
     fMaxMom(10.),
-    fNbinsMomCharge( TMath::Nint( 2*(fNbinsMom+fMinMom/fBinSizeMom)) ),
     fBinSizeMom((fMaxMom - fMinMom) / (Double_t)fNbinsMom )
 {
     CreateHistogramms();
@@ -106,9 +106,9 @@ CbmFitM2::CbmFitM2(const char *name, Int_t verbose)
     fMaxM2(3.0),
     fBinSizeM2( (fMaxM2 - fMinM2) / (Double_t)fNbinsM2 ),
     fNbinsMom(100),
+    fNbinsMomCharge( TMath::Nint( 2*(fNbinsMom+fMinMom/fBinSizeMom)) ),
     fMinMom(0.),
     fMaxMom(10.),
-    fNbinsMomCharge( TMath::Nint( 2*(fNbinsMom+fMinMom/fBinSizeMom)) ),
     fBinSizeMom((fMaxMom - fMinMom) / (Double_t)fNbinsMom )
 {
     CreateHistogramms();

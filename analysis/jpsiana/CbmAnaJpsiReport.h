@@ -29,6 +29,17 @@ protected:
     */
    virtual void Draw();
 
+   void DrawAnalysisStepsSourceTypesH1(
+   	      const string& hName,
+   	      bool doScale);
+
+   void DrawAnalysisStepsH2(
+         const string& hName);
+
+   void DrawAnalysisStepsH1(
+            const string& hName,
+            bool doScale);
+
    void DrawSourceTypesH1(
          const string& hName,
          bool doScale = true);
@@ -41,6 +52,8 @@ protected:
          const string& hist);
 
    void DrawCutDistributions();
+
+   void DrawDistributions();
 
 
 	ClassDef(CbmAnaJpsiReport, 1);

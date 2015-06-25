@@ -68,7 +68,9 @@ bool CbmLitDetectorSetup::CheckDetectorPresence(
                   nodeName2.ToLower();
                   if (nodeName2.Contains("pipevac1")) {
                      // check if there is a mvd in the pipevac
+                     // if there are no nodes return immediately
                      TObjArray* nodes3 = node2->GetNodes();
+                     if (!nodes3) return false;
                      for (Int_t iiiNode = 0; iiiNode < nodes3->GetEntriesFast(); iiiNode++) {
                         TGeoNode* node3 = (TGeoNode*) nodes3->At(iiiNode);
                         TString nodeName3 = node3->GetName();

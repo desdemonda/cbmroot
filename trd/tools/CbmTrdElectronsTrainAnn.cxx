@@ -65,8 +65,8 @@ CbmTrdElectronsTrainAnn::CbmTrdElectronsTrainAnn(
     fIdMethod(kANN),
     fNofAnnEpochs(50),
     fNofTrainSamples(2500),
-    fElIdEfficiency(0.9),
     fRandom(new TRandom(0)),
+    fElIdEfficiency(0.9),
     fhOutput(),
     fhCumProbOutput(),
     fhInput()

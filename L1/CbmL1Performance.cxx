@@ -1,15 +1,15 @@
 /*
  *====================================================================
  *
- *  CBM Level 1 Reconstruction 
- *  
+ *  CBM Level 1 Reconstruction
+ *
  *  Authors: I.Kisel,  S.Gorbunov
  *
- *  e-mail : ikisel@kip.uni-heidelberg.de 
+ *  e-mail : ikisel@kip.uni-heidelberg.de
  *
  *====================================================================
  *
- *  L1 Fit performance 
+ *  L1 Fit performance
  *
  *====================================================================
  */
@@ -29,7 +29,7 @@
 #include "CbmStsDigi.h"
 #include "legacy/CbmStsSensor_old.h" // for field FieldCheck.
 #include "CbmStsSector.h" // for field FieldCheck.
-#include "CbmStsStation.h" // for field FieldCheck.
+#include "CbmStsStation_old.h" // for field FieldCheck.
 
 #include "CbmMatch.h"
 
@@ -53,7 +53,7 @@ void CbmL1::TrackMatch(){
     // fill pMCTrackMap
   for( vector<CbmL1MCTrack>::iterator i = vMCTracks.begin(); i != vMCTracks.end(); ++i){
     CbmL1MCTrack &MC = *i;
-    
+
     if (pMCTrackMap.find(MC.ID) == pMCTrackMap.end()){
       pMCTrackMap.insert(pair<int, CbmL1MCTrack*>(MC.ID, &MC));
     }
@@ -65,13 +65,13 @@ void CbmL1::TrackMatch(){
   const int nRTracks = vRTracks.size();
   for (int iR = 0; iR < nRTracks; iR++){
     CbmL1Track* prtra = &(vRTracks[iR]);
-    
+
     int hitsum  = prtra->StsHits.size(); // number of hits in track
 
       // count how many hits from each mcTrack belong to current recoTrack
     map<int, int > &hitmap = prtra->hitMap; // how many hits from each mcTrack belong to current recoTrack
     for (vector<int>::iterator ih  = (prtra->StsHits).begin(); ih != (prtra->StsHits).end(); ++ih){
-      
+
       const int nMCPoints = vStsHits[*ih].mcPointIds.size();
       for (int iP = 0; iP < nMCPoints; iP++){
         int iMC = vStsHits[*ih].mcPointIds[iP];
@@ -88,21 +88,21 @@ void CbmL1::TrackMatch(){
       // RTrack <-> MCTrack identification
     double max_percent = 0.0;  // [%]. maximum persent of hits, which belong to one mcTrack.
     for( map<int, int >::iterator posIt = hitmap.begin(); posIt != hitmap.end(); posIt++ ){ // loop over all touched MCTracks
-      
+
       if (posIt->first < 0) continue; // not a MC track - based on fake hits
-      
+
         // count max-purity
       if (double(posIt->second) > max_percent*double(hitsum))
         max_percent = double(posIt->second)/double(hitsum);
-      
+
         // set relation to the mcTrack
-      if ( double(posIt->second) > CbmL1Constants::MinPurity * double(hitsum) ){ // found correspondent MCTrack
+      if ( double(posIt->second) >= CbmL1Constants::MinPurity * double(hitsum) ){ // found correspondent MCTrack
         if (pMCTrackMap.find(posIt->first) == pMCTrackMap.end()) continue;
         CbmL1MCTrack* pmtra = pMCTrackMap[posIt->first];
 
         pmtra->AddRecoTrack(prtra);
         prtra->AddMCTrack(pmtra);
-      } 
+      }
       else{
         if (pMCTrackMap.find(posIt->first) == pMCTrackMap.end()) continue;
         CbmL1MCTrack* pmtra = pMCTrackMap[posIt->first];
@@ -112,7 +112,7 @@ void CbmL1::TrackMatch(){
     } // for hitmap
     prtra->SetMaxPurity(max_percent);
   } // for reco tracks
-} // 
+} //
 
 
 
@@ -122,7 +122,7 @@ struct TL1PerfEfficiencies: public TL1Efficiencies
 ratio_killed(),
 ratio_clone(),
 ratio_length(),
-ratio_fakes(),                 
+ratio_fakes(),
 killed(),
 clone(),
 reco_length(),
@@ -146,14 +146,14 @@ mc_length_hits()
     AddCounter("shortKaon"      ,"Short123s kaon   eff");
     AddCounter("shortE"         ,"Short123s e      eff");
     AddCounter("shortRest"      ,"Short123s rest   eff");
-    
+
     AddCounter("fast_sec_e"       ,"RefSec  E efficiency");
     AddCounter("fast_e"           ,"Refset  E efficiency");
     AddCounter("total_e"          ,"Allset  E efficiency");
     AddCounter("slow_sec_e"       ,"ExtraSecE efficiency");
     AddCounter("slow_e"           ,"Extra   E efficiency");
   }
-  
+
   virtual ~TL1PerfEfficiencies(){};
 
   virtual void AddCounter(TString shortname, TString name){
@@ -169,7 +169,7 @@ mc_length_hits()
     mc_length.AddCounter();
     mc_length_hits.AddCounter();
   };
-  
+
   TL1PerfEfficiencies& operator+=(TL1PerfEfficiencies& a){
     TL1Efficiencies::operator+=(a);
     killed += a.killed; clone += a.clone;
@@ -179,7 +179,7 @@ mc_length_hits()
     mc_length_hits += a.mc_length_hits;
     return *this;
   };
-  
+
   void CalcEff(){
     TL1Efficiencies::CalcEff();
     ratio_killed = killed/mc;
@@ -188,7 +188,7 @@ mc_length_hits()
     ratio_length = reco_length/allReco;
     ratio_fakes  = reco_fakes/allReco;
   };
-  
+
   void Inc(bool isReco, bool isKilled, double _ratio_length, double _ratio_fakes, int _nclones, int _mc_length, int _mc_length_hits, TString name){
     TL1Efficiencies::Inc(isReco, name);
 
@@ -204,18 +204,18 @@ mc_length_hits()
 
   void PrintEff(){
     L1_assert(nEvents != 0);
-        
+
     cout.setf(ios::fixed);
     cout.setf(ios::showpoint);
     cout.precision(3);
     cout.setf(ios::right);
     cout << "Track category         : " << " Eff  "        <<" / "<< "Killed" <<" / "<< "Length" <<" / "<< "Fakes " <<" / "<< "Clones" <<" / "<< "All Reco" <<" | "<< "  All MC "  <<" / "<< "MCl(hits)" <<" / "<< "MCl(MCps)" << endl;
-    
+
     int NCounters = mc.NCounters;
     for (int iC = 0; iC < NCounters; iC++){
       if (( names[iC] != "D0        efficiency") || (mc.counters[iC] != 0))
         cout << names[iC]  << "   : "
-             << ratio_reco.counters[iC]              
+             << ratio_reco.counters[iC]
              << "  / " << ratio_killed.counters[iC]  // tracks with aren't reco because other tracks takes their hit(-s)
              << "  / " << ratio_length.counters[iC]  // nRecoMCHits/nMCHits
              << "  / " << ratio_fakes.counters[iC]   // nFakeHits/nRecoAllHits
@@ -272,7 +272,7 @@ void CbmL1::EfficienciesPerformance()
 
   for ( vector<CbmL1MCTrack>::iterator mtraIt = vMCTracks.begin(); mtraIt != vMCTracks.end(); mtraIt++ ) {
     CbmL1MCTrack &mtra = *(mtraIt);
-    
+
 //    if( !( mtra.pdg == -11 && mtra.mother_ID == -1 ) ) continue; // electrons only
     if( ! mtra.IsReconstructable() && ! mtra.IsAdditional() ) continue;
 
@@ -328,7 +328,7 @@ void CbmL1::EfficienciesPerformance()
       }
     }
     else { // separate all efficiecies from short eff
-    
+
       ntra.Inc(reco, killed, ratio_length, ratio_fakes, nclones, mc_length, mc_length_hits, "total");
 
       if (( mtra.IsPrimary() )&&(mtra.z > 0)){ // D0
@@ -337,7 +337,7 @@ void CbmL1::EfficienciesPerformance()
 
       if ( mtra.p > CbmL1Constants::MinRefMom ){                        // reference tracks
         ntra.Inc(reco, killed, ratio_length, ratio_fakes, nclones, mc_length, mc_length_hits, "fast");
-      
+
         if ( mtra.IsPrimary() ){                         // reference primary
           if ( mtra.NStations() == NStation ){ // long reference primary
             ntra.Inc(reco, killed, ratio_length, ratio_fakes, nclones, mc_length, mc_length_hits, "long_fast_prim");
@@ -350,7 +350,7 @@ void CbmL1::EfficienciesPerformance()
       }
       else{                                               // extra set of tracks
         ntra.Inc(reco, killed, ratio_length, ratio_fakes, nclones, mc_length, mc_length_hits, "slow");
-       
+
         if ( mtra.IsPrimary() ){             // extra primary
           ntra.Inc(reco, killed, ratio_length, ratio_fakes, nclones, mc_length, mc_length_hits, "slow_prim");
         }
@@ -364,7 +364,7 @@ void CbmL1::EfficienciesPerformance()
 
         if ( mtra.p > CbmL1Constants::MinRefMom ){                        // reference tracks
           ntra.Inc(reco, killed, ratio_length, ratio_fakes, nclones, mc_length, mc_length_hits, "fast_e");
-      
+
           if ( mtra.IsPrimary() ){                         // reference primary
           }
           else{                                             // reference secondary
@@ -373,7 +373,7 @@ void CbmL1::EfficienciesPerformance()
         }
         else{                                               // extra set of tracks
           ntra.Inc(reco, killed, ratio_length, ratio_fakes, nclones, mc_length, mc_length_hits, "slow_e");
-       
+
           if ( mtra.IsPrimary() ){             // extra primary
           }
           else{
@@ -422,9 +422,9 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
   static TH1F *h_reg_MCmom, *h_acc_MCmom, *h_reco_MCmom, *h_ghost_Rmom;
   static TH1F *h_reg_prim_MCmom, *h_acc_prim_MCmom, *h_reco_prim_MCmom;
   static TH1F *h_reg_sec_MCmom, *h_acc_sec_MCmom, *h_reco_sec_MCmom;
-      
+
   static TH1F *h_acc_mom_short123s;
-  
+
   static TH1F *h_reg_mom_prim, *h_reg_mom_sec, *h_reg_nhits_prim, *h_reg_nhits_sec;
   static TH1F *h_acc_mom_prim, *h_acc_mom_sec, *h_acc_nhits_prim, *h_acc_nhits_sec;
   static TH1F *h_reco_mom_prim, *h_reco_mom_sec, *h_reco_nhits_prim, *h_reco_nhits_sec;
@@ -442,10 +442,11 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
   static TH1F *h_tx, *h_ty, *h_sec_r, *h_ghost_r;
 
   static TH1F *h_notfound_mom, *h_notfound_nhits, *h_notfound_station, *h_notfound_r, *h_notfound_tx, *h_notfound_ty;
-  
-  static TH1F *h_mcp, *h_nmchits, *h_chi2, *h_prob, *MC_vx, *MC_vy, *MC_vz, *VtxChiPrim, *VtxChiSec;
 
-  static TH2F *P_vs_P ;
+  static TH1F *h_mcp, *h_nmchits;
+//  static TH1F *h_chi2, *h_prob, *MC_vx, *MC_vy, *MC_vz, *VtxChiPrim, *VtxChiSec;
+
+//  static TH2F *P_vs_P ;
 
   static TH2F *h2_vertex, *h2_prim_vertex, *h2_sec_vertex;
   //static TH3F *h3_vertex, *h3_prim_vertex, *h3_sec_vertex;
@@ -502,9 +503,9 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
     h_reg_sec_MCmom   = new TH1F("h_reg_sec_MCmom", "Momentum of registered tracks", 100, 0.0, 5.0);
     h_acc_sec_MCmom   = new TH1F("h_acc_sec_MCmom", "Reconstructable tracks", 100, 0.0, 5.0);
     h_reco_sec_MCmom   = new TH1F("h_reco_sec_MCmom", "Reconstructed tracks", 100, 0.0, 5.0);
- 
+
     h_acc_mom_short123s = new TH1F("h_acc_mom_short123s", "Momentum of accepted tracks with 3 hits on first stations", 500, 0.0, 5.0);
-     
+
     h_reg_mom_prim   = new TH1F("h_reg_mom_prim", "Momentum of registered primary tracks", 500, 0.0, 5.0);
     h_reg_mom_sec   = new TH1F("h_reg_mom_sec", "Momentum of registered secondary tracks", 500, 0.0, 5.0);
     h_acc_mom_prim   = new TH1F("h_acc_mom_prim", "Momentum of accepted primary tracks", 500, 0.0, 5.0);
@@ -554,7 +555,7 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
                                    200, 0.0, 30000.0);
 
     h_reco_d0_mom = new TH1F("h_reco_d0_mom", "Momentum of reco D0 track", 150, 0.0, 15.0);
-      
+
 //     h_hit_density[0] = new TH1F("h_hit_density0", "Hit density station 1", 50, 0.0,  5.00);
 //     h_hit_density[1] = new TH1F("h_hit_density1", "Hit density station 2", 100, 0.0, 10.00);
 //     h_hit_density[2] = new TH1F("h_hit_density2", "Hit density station 3", 140, 0.0, 13.99);
@@ -566,7 +567,7 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
 //     h_hit_density[8] = new TH1F("h_hit_density8", "Hit density station 9", 500, 0.0, 50.00);
 //     h_hit_density[9] = new TH1F("h_hit_density8", "Hit density station 9", 500, 0.0, 50.00);
 //     h_hit_density[10] = new TH1F("h_hit_density8", "Hit density station 9", 500, 0.0, 50.00);
-      
+
     h_tx = new TH1F("h_tx", "tx of MC track at the vertex", 50, -0.5, 0.5);
     h_ty = new TH1F("h_ty", "ty of MC track at the vertex", 50, -0.5, 0.5);
 
@@ -579,18 +580,22 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
     h_notfound_tx = new TH1F("h_notfound_tx", "tx of not found track at the first hit", 50, -5.0, 5.0);
     h_notfound_ty = new TH1F("h_notfound_ty", "ty of not found track at the first hit", 50, -1.0, 1.0);
 
+/*
     h_chi2 = new TH1F("chi2", "Chi^2", 100, 0.0, 10.);
     h_prob = new TH1F("prob", "Prob", 100, 0.0, 1.01);
     VtxChiPrim = new TH1F("vtxChiPrim", "Chi to primary vtx for primary tracks", 100, 0.0, 10.);
     VtxChiSec = new TH1F("vtxChiSec", "Chi to primary vtx for secondary tracks", 100, 0.0, 10.);
+*/
     h_mcp = new TH1F("h_mcp", "MC P ", 500, 0.0, 5.0);
+/*
     MC_vx = new TH1F("MC_vx", "MC Vertex X", 100, -.05, .05);
     MC_vy = new TH1F("MC_vy", "MC Vertex Y", 100, -.05, .05);
     MC_vz = new TH1F("MC_vz", "MC Vertex Z", 100, -.05, .05);
+*/
     h_nmchits = new TH1F("h_nmchits", "N STS hits on MC track", 50, 0.0, 10.0);
- 
-    P_vs_P = new TH2F("P_vs_P", "Resolution P/Q vs P", 20, 0., 20.,100, -.05, .05);
-      
+
+//    P_vs_P = new TH2F("P_vs_P", "Resolution P/Q vs P", 20, 0., 20.,100, -.05, .05);
+
     h2_vertex = new TH2F("h2_vertex", "2D vertex distribution", 105, -5., 100., 100, -50., 50.);
     h2_prim_vertex = new TH2F("h2_primvertex", "2D primary vertex distribution", 105, -5., 100., 100, -50., 50.);
     h2_sec_vertex = new TH2F("h2_sec_vertex", "2D secondary vertex distribution", 105, -5., 100., 100, -50., 50.);
@@ -629,12 +634,12 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
     h2_rest_lstation_vs_fstation_prim = new TH2F("h2_rest_lstation_vs_fstation_prim", "Last vs. First Station (!Found Primary Tracks)", 11, -0.5, 10.5, 11, -0.5, 10.5);
     h2_rest_lstation_vs_fstation_sec = new TH2F("h2_rest_lstation_vs_fstation_sec", "Last vs. First Station (!Found Secondary Tracks)", 11, -0.5, 10.5, 11, -0.5, 10.5);
 
-      //maindir->cd(); 
+      //maindir->cd();
 
       // ----- Create list of all histogram pointers
-      
+
     gDirectory = curdir;
-      
+
   }// first_call
 
 
@@ -652,7 +657,7 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
     h_reco_sec_MCmom->Scale(NEvents);
   }
   NEvents++;
-    
+
 //   //hit density calculation: h_hit_density[10]
   //
 //   for (vector<CbmL1HitStore>::iterator hIt = vHitStore.begin(); hIt != vHitStore.end(); ++hIt){
@@ -661,7 +666,7 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
 //     float r = sqrt(x*x+y*y);
 //     h_hit_density[hIt->iStation]->Fill(r, 1.0/(2.0*3.1415*r));
 //   }
-  
+
 
   //
   for (vector<CbmL1Track>::iterator rtraIt = vRTracks.begin(); rtraIt != vRTracks.end(); ++rtraIt){
@@ -676,14 +681,14 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
     }
 
     h_reco_clean->Fill( prtra->GetMaxPurity() );
-    
+
     if (prtra->NDF > 0) {
       if ( prtra->IsGhost() ){
         h_ghost_chi2->Fill(prtra->chi2/prtra->NDF);
         h_ghost_prob->Fill(TMath::Prob(prtra->chi2,prtra->NDF));
       }
       else {
-        if (prtra->GetMCTrack()[0].IsReconstructable()){ 
+        if (prtra->GetMCTrack()[0].IsReconstructable()){
           h_reco_chi2->Fill(prtra->chi2/prtra->NDF);
           h_reco_prob->Fill(TMath::Prob(prtra->chi2,prtra->NDF));
         } else {
@@ -693,7 +698,7 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
       }
     }
 
-    
+
       // fill ghost histos
     if ( prtra->IsGhost() ){
       if( fabs(prtra->T[4])>1.e-10) {
@@ -728,15 +733,15 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
   for ( vector<CbmL1MCTrack>::iterator mtraIt = vMCTracks.begin(); mtraIt != vMCTracks.end(); mtraIt++ ) {
     CbmL1MCTrack &mtra = *(mtraIt);
 //    if( !( mtra.pdg == -11 && mtra.mother_ID == -1 ) ) continue; // electrons only
-    
-    // No Sts hits? 
+
+    // No Sts hits?
     int nmchits = mtra.StsHits.size();
     if (nmchits == 0) continue;
 
     double momentum = mtra.p;
     double pt = sqrt(mtra.px*mtra.px+mtra.py*mtra.py);
     double theta = acos(mtra.pz/mtra.p)*180/3.1415;
-      
+
     h_mcp->Fill(momentum);
     h_nmchits->Fill(nmchits);
 
@@ -765,11 +770,11 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
           h2_reg_lstation_vs_fstation_sec->Fill(fh.iStation+1, lh.iStation+1);
       }
     }
-    
+
     if ( mtra.IsAdditional() ){
       h_acc_mom_short123s->Fill(momentum);
     }
-    
+
     if( ! mtra.IsReconstructable() ) continue;
     mc_total++;
 
@@ -793,9 +798,9 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
           h2_acc_lstation_vs_fstation_sec->Fill(fh.iStation+1, lh.iStation+1);
       }
     }
-      
 
-      // vertex distribution of primary and secondary tracks   
+
+      // vertex distribution of primary and secondary tracks
     h2_vertex->Fill(mtra.z, mtra.y);
     //h3_vertex->Fill(mtra.z, mtra.x, mtra.y);
     if (mtra.mother_ID < 0){ // primary
@@ -806,10 +811,10 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
       //h3_sec_vertex->Fill(mtra.z, mtra.x, mtra.y);
     }
 
-    
+
     int iph = mtra.StsHits[0];
     CbmL1HitStore &ph = vHitStore[iph];
-    
+
     h_sec_r->Fill(sqrt(fabs(ph.x*ph.x+ph.y*ph.y)));
     if( fabs( mtra.pz )>1.e-8 ){
       h_tx->Fill(mtra.px/mtra.pz);
@@ -819,7 +824,7 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
       // reconstructed tracks
     bool reco = (mtra.IsReconstructed());
     int nMCHits = mtra.NStations();
-      
+
     if (reco){
       p_eff_all_vs_mom->Fill(momentum, 100.0);
       p_eff_all_vs_nhits->Fill(nMCHits, 100.0);
@@ -914,7 +919,7 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
 
 
 
-    
+
     if (( mtra.IsPrimary() )&&(mtra.z > 0)){ // D0
       h_reco_d0_mom->Fill(momentum);
       if (reco) p_eff_d0_vs_mom->Fill(momentum, 100.0);
@@ -947,7 +952,7 @@ void CbmL1::HistoPerformance() // TODO: check if works correctly. Change vHitRef
   h_reg_sec_MCmom->Scale(1.f/NEvents);
   h_acc_sec_MCmom->Scale(1.f/NEvents);
   h_reco_sec_MCmom->Scale(1.f/NEvents);
-  
+
 } // void CbmL1::HistoPerformance()
 
 
@@ -983,9 +988,13 @@ void CbmL1::TrackFitPerformance()
       {
         {"x",  "Residual X [#mum]",                   100, -45., 45.},
         {"y",  "Residual Y [#mum]",                   100, -450., 450.},
+		//{"y",  "Residual Y [#mum]",                   100, -45., 45.},
         {"tx", "Residual Tx [mrad]",                  100,   -2.,   2.},
+		//{"tx", "Residual Tx [mrad]",                  100,   -7.,   7.},
+		//{"tx", "Residual Tx [mrad]",                  100,   -3.5,   3.5},
         {"ty", "Residual Ty [mrad]",                  100,   -3.5,   3.5},
         {"P",  "Resolution P/Q [100%]",               100,   -0.1,  0.1 },
+		//{"P",  "Resolution P/Q [100%]",               100,   -0.2,  0.2 },
         {"px", "Pull X [residual/estimated_error]",   100,  -6.,  6.},
         {"py", "Pull Y [residual/estimated_error]",   100,  -6.,  6.},
         {"ptx","Pull Tx [residual/estimated_error]",  100,  -6.,  6.},
@@ -1016,7 +1025,7 @@ void CbmL1::TrackFitPerformance()
         {"QPreco","Reco Q/P ", 100,  -10.,  10.},
         {"QPmc","MC Q/P ", 100,  -10.,  10.}
       };
-      
+
       for( int i=0; i<Nh_fit; i++ ){
         char n[225], t[255];
         sprintf(n,"fst_%s",Table[i].name);
@@ -1036,11 +1045,44 @@ void CbmL1::TrackFitPerformance()
     }
     gDirectory = currentDir;
   } // if first call
-  
+
   for (vector<CbmL1Track>::iterator it = vRTracks.begin(); it != vRTracks.end(); ++it){
 
     if ( it->IsGhost() ) continue;
+
     { // first hit
+#define L1FSTPARAMEXTRAPOLATE
+#ifdef L1FSTPARAMEXTRAPOLATE
+      CbmL1MCTrack mc = *(it->GetMCTracks()[0]);
+      L1TrackPar trPar(it->T,it->C);
+      L1FieldRegion fld _fvecalignment;
+      L1FieldValue B[3], targB _fvecalignment;
+      float z[3];
+      for (int ih = 0; ih < 3; ih++){
+        const int iMCP = mc.Points[ih];
+        CbmL1MCPoint &mcP = vMCPoints[iMCP];
+        L1Station &st = algo->vStations[mcP.iStation];
+        z[ih] = st.z[0];
+        st.fieldSlice.GetFieldValue( mcP.x, mcP.y, B[ih] );
+      }
+      CbmL1MCPoint &mcP = vMCPoints[mc.Points[0]];
+      targB = algo->vtxFieldValue;
+      fld.Set( B[0], z[0], B[1], z[1], B[2], z[2] );
+      L1Extrapolate(trPar, mcP.zIn, trPar.qp, fld);
+
+      h_fit[0]->Fill( (mcP.xIn-trPar.x[0]) *1.e4);
+      h_fit[1]->Fill( (mcP.yIn-trPar.y[0]) *1.e4);
+      h_fit[2]->Fill((mcP.pxIn/mcP.pzIn-trPar.tx[0])*1.e3);
+      h_fit[3]->Fill((mcP.pyIn/mcP.pzIn-trPar.ty[0])*1.e3);
+      h_fit[4]->Fill(trPar.qp[0]/mcP.q*mcP.p-1);
+      if( finite(trPar.C00[0]) && trPar.C00[0]>0 ) h_fit[5]->Fill( (mcP.xIn-trPar.x[0])/sqrt(trPar.C00[0]));
+      if( finite(trPar.C11[0]) && trPar.C11[0]>0 ) h_fit[6]->Fill( (mcP.yIn-trPar.y[0])/sqrt(trPar.C11[0]));
+      if( finite(trPar.C22[0]) && trPar.C22[0]>0 ) h_fit[7]->Fill( (mcP.pxIn/mcP.pzIn-trPar.tx[0])/sqrt(trPar.C22[0]));
+      if( finite(trPar.C33[0]) && trPar.C33[0]>0 ) h_fit[8]->Fill( (mcP.pyIn/mcP.pzIn-trPar.ty[0])/sqrt(trPar.C33[0]));
+      if( finite(trPar.C44[0]) && trPar.C44[0]>0 ) h_fit[9]->Fill( (mcP.q/mcP.p-trPar.qp[0])/sqrt(trPar.C44[0]));
+      h_fit[10]->Fill(trPar.qp[0]);
+      h_fit[11]->Fill(mcP.q/mcP.p);
+#else
       int iMC = vHitMCRef[it->StsHits.front()]; // TODO2: adapt to linking
       if (iMC < 0) continue;
       CbmL1MCPoint &mc = vMCPoints[iMC];
@@ -1066,8 +1108,10 @@ void CbmL1::TrackFitPerformance()
       if( finite(it->C[14]) && it->C[14]>0 )h_fit[9]->Fill( (mc.q/mc.p-it->T[4])/sqrt(it->C[14]));
       h_fit[10]->Fill(it->T[4]);
       h_fit[11]->Fill(mc.q/mc.p);
+#endif
     }
-    
+
+
     { // last hit
       int iMC = vHitMCRef[it->StsHits.back()]; // TODO2: adapt to linking
       if (iMC < 0) continue;
@@ -1089,7 +1133,7 @@ void CbmL1::TrackFitPerformance()
     { // vertex
       CbmL1MCTrack mc = *(it->GetMCTracks()[0]);
       L1TrackPar trPar(it->T,it->C);
-      
+
       if (mc.mother_ID != -1){ // secondary
 
         {  // extrapolate to vertex
@@ -1104,7 +1148,7 @@ void CbmL1::TrackFitPerformance()
             st.fieldSlice.GetFieldValue( mcP.x, mcP.y, B[ih] );
           };
           fld.Set( B[0], z[0], B[1], z[1], B[2], z[2] );
-          
+
           L1Extrapolate(trPar, mc.z, trPar.qp, fld);
             // add material
           const int fSta = vHitStore[it->StsHits[0]].iStation;
@@ -1125,7 +1169,7 @@ void CbmL1::TrackFitPerformance()
   //       }
   //       else good++;
   //       cout << "bad\\good" << bad << " " << good << endl;
-        
+
         // calculate pulls
         //h_fitSV[0]->Fill( (mc.x-trPar.x[0]) *1.e4);
         //h_fitSV[1]->Fill( (mc.y-trPar.y[0]) *1.e4);
@@ -1145,7 +1189,7 @@ void CbmL1::TrackFitPerformance()
       else{ // primary
         if (vHitStore[it->StsHits[0]].iStation != 0) continue; // only mvd tracks
 
-// #define L1EXTRAPOLATE
+#define L1EXTRAPOLATE
 #ifdef L1EXTRAPOLATE
         {  // extrapolate to vertex
           L1FieldRegion fld _fvecalignment;
@@ -1156,27 +1200,25 @@ void CbmL1::TrackFitPerformance()
             CbmL1MCPoint &mcP = vMCPoints[iMCP];
             L1Station &st = algo->vStations[mcP.iStation];
             z[ih] = st.z[0];
-//             cout << mcP.z << endl;
             st.fieldSlice.GetFieldValue( mcP.x, mcP.y, B[ih] );
           };
-//           cout << mc.x << " " << mc.y << " " << mc.z << endl;
 
-//           targetFieldSlice->GetFieldValue( mc.x, mc.y, targB );
           targB = algo->vtxFieldValue;
           fld.Set( targB, 0., B[0], z[0], B[1], z[1] );
 
-          L1Extrapolate(trPar, mc.z, trPar.qp, fld);
+//           L1Extrapolate(trPar, mc.z, trPar.qp, fld);
 //           L1Extrapolate0(trPar, mc.z, fld);
             // add material
           const int fSta = vHitStore[it->StsHits[0]].iStation;
-          
           const int dir = (mc.z - algo->vStations[fSta].z[0])/abs(mc.z - algo->vStations[fSta].z[0]);
-  //         if (abs(mc.z - algo->vStations[fSta].z[0]) > 10.) continue; // can't extrapolate on large distance
-          for (int iSta = fSta/*+dir*/; (iSta >= 0) && (iSta < NStation) && (dir*(mc.z - algo->vStations[iSta].z[0]) > 0); iSta += dir){
-  //           cout << iSta << " " << dir << endl;
+//         if (abs(mc.z - algo->vStations[fSta].z[0]) > 10.) continue; // can't extrapolate on large distance
+          for (int iSta = fSta+dir; (iSta >= 0) && (iSta < NStation) && (dir*(mc.z - algo->vStations[iSta].z[0]) > 0); iSta += dir){
+
+        	L1Extrapolate(trPar, algo->vStations[iSta].z[0], trPar.qp, fld);
             L1AddMaterial( trPar, algo->vStations[iSta].materialInfo, trPar.qp );
             if (iSta+dir == NMvdStations-1) L1AddPipeMaterial( trPar, trPar.qp );
           }
+          L1Extrapolate(trPar, mc.z, trPar.qp, fld);
         }
         if (mc.z != trPar.z[0]) continue;
   //       static int good = 0;
@@ -1235,7 +1277,7 @@ void CbmL1::TrackFitPerformance()
 #endif // L1EXTRAPOLATE
       }
     }
-    
+
     h_fit_chi2->Fill(it->chi2/it->NDF);
   }
 
@@ -1260,7 +1302,7 @@ void CbmL1::FieldApproxCheck()
       z = t.z;
       Xmax = Ymax = t.R;
     }else{
-      CbmStsStation *st = StsDigi.GetStation(ist - NMvdStations);
+      CbmStsStation_old *st = StsDigi.GetStation(ist - NMvdStations);
       z = st->GetZ();
 
       double x,y;
@@ -1275,8 +1317,6 @@ void CbmL1::FieldApproxCheck()
           if(y>Ymax) Ymax = y;
         }
       }
-      cout << "Station  "<<  ist << ",  Xmax  " << Xmax<<",  Ymax" << Ymax<<endl;
-  
     } // if mvd
 
 
@@ -1371,7 +1411,7 @@ void CbmL1::FieldApproxCheck()
     stBx -> Write();
     stBy -> Write();
     stBz -> Write();
-    
+
   } // for ista
 
   fout->Close();
@@ -1451,17 +1491,17 @@ void CbmL1::InputPerformance()
 
   static TH1F *resX, *resY/*, *pullZ*/;
   static TH1F *pullX, *pullY/*, *pullZ*/;
-  
+
   static bool first_call = 1;
   if ( first_call ){
     first_call = 0;
-    
+
     TDirectory *currentDir = gDirectory;
     gDirectory = histodir;
     gDirectory->cd("L1");
     gDirectory->mkdir("Input");
     gDirectory->cd("Input");
-    
+
     nStripFHits = new TH1I("nHits_f", "NHits On Front Strip", 10, 0, 10);
     nStripBHits = new TH1I("nHits_b", "NHits On Back Strip", 10, 0, 10);
     nStripFMC = new TH1I("nMC_f", "N MC Points On Front Strip", 10, 0, 10);
@@ -1477,7 +1517,7 @@ void CbmL1::InputPerformance()
     histo->GetXaxis()->SetTitle("Residual x, um");
     histo = resY;
     histo->GetXaxis()->SetTitle("Residual y, um");
-    
+
     gDirectory = currentDir;
   } // first_call
 
@@ -1501,15 +1541,15 @@ void CbmL1::InputPerformance()
       int iStripB = sh->GetBackDigiId();
       if ( iStripF >= 0 ) stripFToNHitMap[iStripF]++;
       if ( iStripB >= 0 ) stripBToNHitMap[iStripB]++;
-      
+
       if ( h.mcPointIds.size() == 0 ) continue; // fake
       int iMC = vMCPoints[h.mcPointIds[0]].pointId;  // TODO: adapt to linking
       if( !( iMC>=0 && iMC < nMC) )
         continue;
-      
+
       if ( iStripF >= 0 ) stripFToNMCMap[iStripF]++;
       if ( iStripB >= 0 ) stripBToNMCMap[iStripB]++;
-        
+
         // hit pulls and residuals
 
       TVector3 hitPos, mcPos, hitErr;
@@ -1521,7 +1561,7 @@ void CbmL1::InputPerformance()
 //         cout << " No MC points! " << "iMC=" << iMC << endl;
         continue;
       }
-//       pt->Position(mcPos); // this is wrong! 
+//       pt->Position(mcPos); // this is wrong!
       mcPos.SetX( pt->GetX( hitPos.Z() ) );
       mcPos.SetY( pt->GetY( hitPos.Z() ) );
       mcPos.SetZ( hitPos.Z() );
@@ -1533,16 +1573,15 @@ void CbmL1::InputPerformance()
       if (hitErr.X() != 0) pullX->Fill( (hitPos.X() - mcPos.X()) / sh->GetDx() ); // qa errors
       if (hitErr.Y() != 0) pullY->Fill( (hitPos.Y() - mcPos.Y()) / sh->GetDy() );
 #else // errors used in TF
-      if (hitErr.X() != 0) pullX->Fill( (hitPos.X() - mcPos.X()) / sqrt(algo->vStations[NMvdStations].XYInfo.C00[0]) ); 
+      if (hitErr.X() != 0) pullX->Fill( (hitPos.X() - mcPos.X()) / sqrt(algo->vStations[NMvdStations].XYInfo.C00[0]) );
       if (hitErr.Y() != 0) pullY->Fill( (hitPos.Y() - mcPos.Y()) / sqrt(algo->vStations[NMvdStations].XYInfo.C11[0]) );
 #endif
-      
+
       resX->Fill((hitPos.X() - mcPos.X())*10*1000);
       resY->Fill((hitPos.Y() - mcPos.Y())*10*1000);
-      
+
     }
   } // sts
-  
   if( listMvdHits && listMvdHitMatches){
     Int_t nEnt = listMvdHits->GetEntries();
     for (int j=0; j < nEnt; j++ ){
@@ -1562,24 +1601,25 @@ void CbmL1::InputPerformance()
 //       if(iMC<0) continue;
       if( hm->GetNofLinks()>0 )
         iMC = hm->GetLink(0).GetIndex();
-        
+
         // hit pulls and residuals
 
       TVector3 hitPos, mcPos, hitErr;
       sh->Position(hitPos);
       sh->PositionError(hitErr);
       CbmMvdPoint *pt = 0;
+      nMC = listMvdPts->GetEntriesFast();
       if( iMC>=0 && iMC<nMC) pt = L1_DYNAMIC_CAST<CbmMvdPoint*>( listMvdPts->At(iMC) );
 
       if ( !pt ){
 //         cout << " No MC points! " << "iMC=" << iMC << endl;
         continue;
       }
-//       pt->Position(mcPos); // this is wrong! 
+//       pt->Position(mcPos); // this is wrong!
       mcPos.SetX( ( pt->GetX() + pt->GetXOut() )/2. );
-      mcPos.SetY( ( pt->GetY() + pt->GetYOut() )/2 );
+      mcPos.SetY( ( pt->GetY() + pt->GetYOut() )/2. );
       mcPos.SetZ( hitPos.Z() );
-      
+
 //       if (hitErr.X() != 0) pullX->Fill( (hitPos.X() - mcPos.X()) / hitErr.X() ); // standard errors
 //       if (hitErr.Y() != 0) pullY->Fill( (hitPos.Y() - mcPos.Y()) / hitErr.Y() );
 //       if (hitErr.X() != 0) pullX->Fill( (hitPos.X() - mcPos.X()) / sh->GetDx() ); // qa errors
@@ -1589,12 +1629,11 @@ void CbmL1::InputPerformance()
 
       resX->Fill((hitPos.X() - mcPos.X())*10*1000);
       resY->Fill((hitPos.Y() - mcPos.Y())*10*1000);
-      
     }
   } // mvd
 
 
-  
+
   for (it = stripFToNHitMap.begin(); it != stripFToNHitMap.end(); it++){
     nStripFHits->Fill(it->second);
   }
@@ -1624,13 +1663,13 @@ void CbmL1::InputPerformance()
 //       else
 //         mcPoint->PositionOut(mcPos);
 // 
-//       CbmStsStation *sta = StsDigi.GetStation(digi->GetStationNr());
+//       CbmStsStation_old *sta = StsDigi.GetStation(digi->GetStationNr());
 //       CbmStsSector* sector = sta->GetSector(digi->GetSectorNr());
 //       digi->GetChannelNr();
-//       
+//
 //     }
 //   } // listCbmStsDigi
-  
-  
+
+
 } // void CbmL1::InputPerformance()
 

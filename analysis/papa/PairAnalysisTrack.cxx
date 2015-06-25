@@ -16,6 +16,7 @@
 #include "CbmStsTrack.h"
 #include "CbmTrdTrack.h"
 #include "CbmRichRing.h"
+#include "CbmTofHit.h"
 #include "CbmMCTrack.h"
 #include "CbmTrackMatchNew.h"
 
@@ -29,6 +30,7 @@ PairAnalysisTrack::PairAnalysisTrack() :
   fStsTrack(0x0),
   fTrdTrack(0x0),
   fRichRing(0x0),
+  fTofHit(0x0),
   fMCTrack(0x0),
   fStsTrackMatch(0x0),
   fTrdTrackMatch(0x0),
@@ -54,6 +56,7 @@ PairAnalysisTrack::PairAnalysisTrack(const char* name, const char* title) :
   fStsTrack(0x0),
   fTrdTrack(0x0),
   fRichRing(0x0),
+  fTofHit(0x0),
   fMCTrack(0x0),
   fStsTrackMatch(0x0),
   fTrdTrackMatch(0x0),
@@ -73,20 +76,22 @@ PairAnalysisTrack::PairAnalysisTrack(const char* name, const char* title) :
 }
 
 //______________________________________________
-PairAnalysisTrack::PairAnalysisTrack(CbmGlobalTrack *gtrk, 
-				 CbmStsTrack *ststrk, 
-				 CbmTrdTrack *trdtrk, 
-				 CbmRichRing *richring, 
-				 CbmMCTrack *mctrk,
-				 CbmTrackMatchNew *stsmatch,
-				 CbmTrackMatchNew *trdmatch,
-				 CbmTrackMatchNew *richmatch
-				 ) :
+PairAnalysisTrack::PairAnalysisTrack(CbmGlobalTrack *gtrk,
+				     CbmStsTrack *ststrk,
+				     CbmTrdTrack *trdtrk,
+				     CbmRichRing *richring,
+				     CbmTofHit *tofhit,
+				     CbmMCTrack *mctrk,
+				     CbmTrackMatchNew *stsmatch,
+				     CbmTrackMatchNew *trdmatch,
+				     CbmTrackMatchNew *richmatch
+				     ) :
   TNamed(),
   fGlblTrack(gtrk),
   fStsTrack(ststrk),
   fTrdTrack(trdtrk),
   fRichRing(richring),
+  fTofHit(tofhit),
   fMCTrack(mctrk),
   fStsTrackMatch(stsmatch),
   fTrdTrackMatch(trdmatch),
@@ -106,39 +111,14 @@ PairAnalysisTrack::PairAnalysisTrack(CbmGlobalTrack *gtrk,
   TVector3 mom;
   ststrk->GetParamFirst()->Momentum(mom);
   fMomentum.SetVect(mom);
-  Double_t mass = TDatabasePDG::Instance()->GetParticle(11)->Mass();
-  fMomentum.SetT( TMath::Sqrt(mom.Mag2()+mass*mass) );
+  Double_t m2=TMath::Power(TDatabasePDG::Instance()->GetParticle(11)->Mass(), 2);
+  fMomentum.SetE( TMath::Sqrt(mom.Mag2()+m2) );
   TVector3 pos;
   ststrk->GetParamFirst()->Position(pos);
   fPosition.SetVect(pos);
 
   fCharge  = (ststrk->GetParamFirst()->GetQp()>0. ? +1. : -1. );
   if(mctrk) fPdgCode = mctrk->GetPdgCode(); 
-}
-
-//______________________________________________
-PairAnalysisTrack::PairAnalysisTrack(const PairAnalysisTrack& track) :
-  TNamed(track.GetName(), track.GetTitle()),
-  fGlblTrack(track.GetGlobalTrack()),
-  fStsTrack(track.GetStsTrack()),
-  fTrdTrack(track.GetTrdTrack()),
-  fRichRing(track.GetRichRing()),
-  fMCTrack(track.GetMCTrack()),
-  fStsTrackMatch(track.GetTrackMatch(kSTS)),
-  fTrdTrackMatch(track.GetTrackMatch(kTRD)),
-  fRichRingMatch(track.GetTrackMatch(kRICH)),
-  fMomentum(), //TODO: copy
-  fPosition(), //TODO: copy
-  fCharge(track.Charge()),
-  fPdgCode(track.PdgCode()),
-  fLabel(track.GetLabel()),
-  fWeight(track.GetWeight()),
-  fMultiMatch(0)
-{
-  //
-  // Copy Constructor
-  //
-
 }
 
 //______________________________________________
@@ -169,7 +149,7 @@ CbmTrackMatchNew* PairAnalysisTrack::GetTrackMatch(DetectorId det) const
 CbmTrack* PairAnalysisTrack::GetTrack(DetectorId det) const
 {
   //
-  // get track match depending on detector id
+  // get track depending on detector id
   //
   switch(det) {
   case kSTS:  return fStsTrack;
@@ -177,5 +157,34 @@ CbmTrack* PairAnalysisTrack::GetTrack(DetectorId det) const
   case kRICH: return 0x0;
   default:   return 0x0;
   }
+
+}
+
+//______________________________________________
+void PairAnalysisTrack::SetMassHypo(Int_t pdg1, Int_t pdg2)
+{
+  //
+  // use charge, time and track length information to assign
+  // the best guessed mass hypothesis
+  //
+  const Double_t mpdg1 = TDatabasePDG::Instance()->GetParticle(pdg1)->Mass();
+  const Double_t mpdg2 = TDatabasePDG::Instance()->GetParticle(pdg2)->Mass();
+  const Double_t cpdg1 = TDatabasePDG::Instance()->GetParticle(pdg1)->Charge()*3;
+  const Double_t cpdg2 = TDatabasePDG::Instance()->GetParticle(pdg2)->Charge()*3;
+
+  Double_t m2 = 0.;
+  // match STS charge of track to pid and set mass accordingly
+  if(fCharge*cpdg1 < 0)      m2=mpdg2*mpdg2;
+  else if(fCharge*cpdg2 < 0) m2=mpdg1*mpdg1;
+  else                       Printf("PairAnalysisTrack::SetMassHypo via STS charge went wrong!");
+
+  // use TOF time(ns) and track length(cm) if available
+  if(fTofHit && 0) { //TODO: switched OFF!!
+    m2 = fMomentum.Mag2() * (TMath::Power( (fTofHit->GetTime()*1e-9*TMath::C()) /
+					   fGlblTrack->GetLength()/100,           2)  - 1);
+  }
+
+  // set mass hypo
+  fMomentum.SetE( TMath::Sqrt(fMomentum.Mag2() + m2) );
 
 }

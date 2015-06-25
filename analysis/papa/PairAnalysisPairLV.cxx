@@ -73,8 +73,8 @@ void PairAnalysisPairLV::SetTracks(PairAnalysisTrack * const particle1, Int_t pi
   // refParticle1 and 2 are the original tracks. In the case of track rotation
   // they are needed in the framework
   //
-  //  particle1->SetPdgCode(pid1);  //TOCHECK
-  //  particle2->SetPdgCode(pid2);
+  // TODO: think about moving the pid assignement to PairAnalysisTrack and use it here
+  // BUT think about mixed events or LS-pairs
   const Double_t mpid1 = TDatabasePDG::Instance()->GetParticle(pid1)->Mass();
   const Double_t mpid2 = TDatabasePDG::Instance()->GetParticle(pid2)->Mass();
   const Double_t cpid1 = TDatabasePDG::Instance()->GetParticle(pid1)->Charge()*3;
@@ -85,7 +85,7 @@ void PairAnalysisPairLV::SetTracks(PairAnalysisTrack * const particle1, Int_t pi
   fPid2  = pid2;
   Double_t m1 = mpid1;
   Double_t m2 = mpid2;
-  if(particle1->Charge() == cpid2) { m1=mpid2; fPid1=pid2; }
+  if(particle1->Charge() == cpid2) { m1=mpid2; fPid1=pid2; } //TODO: what about 2e-charges
   if(particle2->Charge() == cpid1) { m2=mpid1; fPid2=pid1; }
 
   // Calculate Energy per particle by hand
@@ -103,6 +103,7 @@ void PairAnalysisPairLV::SetTracks(PairAnalysisTrack * const particle1, Int_t pi
   fRefD2 = particle2;
   fD1.SetPxPyPzE(particle1->Px(),particle1->Py(),particle1->Pz(),e1);
   fD2.SetPxPyPzE(particle2->Px(),particle2->Py(),particle2->Pz(),e2);
+  //^^^ this should become obsolete
 
   // build pair
   fPair=(fD1+fD2);

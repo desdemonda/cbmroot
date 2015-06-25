@@ -71,8 +71,8 @@ struct LxTrackCandidate
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef CLUSTER_MODE
-LxTrack::LxTrack(LxTrackCandidate* tc) : matched(false), length(tc->length), chi2(tc->chi2), mcTrack(0),
-    aX(0), bX(0), aY(0), bY(0), restoredPoints(0), externalTrack(0)
+LxTrack::LxTrack(LxTrackCandidate* tc) : externalTrack(0), matched(false), mcTrack(0), length(tc->length),chi2(tc->chi2),
+    aX(0), bX(0), aY(0), bY(0), restoredPoints(0)
 #ifdef USE_KALMAN_FIT
     , x(0), y(0), z(0), dx(0), dy(0), tx(0), ty(0), dtx(0), dty(0)
 #endif//USE_KALMAN_FIT
@@ -101,11 +101,12 @@ LxTrack::LxTrack(LxTrackCandidate* tc) : matched(false), length(tc->length), chi
   point->track = this;
 }
 #else//CLUSTER_MODE
-LxTrack::LxTrack(LxTrackCandidate* tc) : matched(false), length(tc->length), chi2(tc->chi2), mcTrack(0),
-    aX(0), bX(0), aY(0), bY(0), restoredPoints(0), externalTrack(0)
+LxTrack::LxTrack(LxTrackCandidate* tc) : externalTrack(0)
 #ifndef LX_EXT_LINK_SOPH
   , extLinkChi2(0)
 #endif//LX_EXT_LINK_SOPH
+   , matched(false), mcTrack(0), length(tc->length),chi2(tc->chi2),
+    aX(0), bX(0), aY(0), bY(0), restoredPoints(0)
 #ifdef USE_KALMAN_FIT
     , x(0), y(0), z(0), dx(0), dy(0), tx(0), ty(0), dtx(0), dty(0)
 #endif//USE_KALMAN_FIT
@@ -351,10 +352,11 @@ LxRay::LxRay(LxPoint* s, LxPoint* e
     , Int_t l
 #endif//CLUSTER_MODE
     ) :
-      source(s), end(e), tx((e->x - s->x) / (e->z - s->z)), ty((e->y - s->y) / (e->z - s->z)),
-      dtx(sqrt(e->dx * e->dx + s->dx * s->dx) / (s->z - e->z)),
-      dty(sqrt(e->dy * e->dy + s->dy * s->dy) / (s->z - e->z)),
-      station(s->layer->station)
+      tx( (e->x - s->x) / (e->z - s->z) ), 
+      ty( (e->y - s->y) / (e->z - s->z) ),
+      dtx( sqrt(e->dx * e->dx + s->dx * s->dx) / (s->z - e->z) ),
+      dty( sqrt(e->dy * e->dy + s->dy * s->dy) / (s->z - e->z) ),
+      source(s), end(e),       station(s->layer->station)
 #ifdef CLUSTER_MODE
       , level(l), used(false)
 #endif//CLUSTER_MODE
@@ -365,7 +367,7 @@ LxRay::LxRay(LxPoint* s, LxPoint* e, Double_t Tx, Double_t Ty, Double_t Dtx, Dou
 #ifdef CLUSTER_MODE
     , Int_t l
 #endif//CLUSTER_MODE
-    ) : source(s), end(e), tx(Tx), ty(Ty), dtx(Dtx), dty(Dty), station(s->layer->station)
+    ) : tx(Tx), ty(Ty), dtx(Dtx), dty(Dty), source(s), end(e), station(s->layer->station)
 #ifdef CLUSTER_MODE
       , level(l), used(false)
 #endif//CLUSTER_MODE

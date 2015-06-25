@@ -165,7 +165,7 @@ void AnalysisTaskMultiPairAnalysis::Exec(Option_t *)
 	 Form("Process %.3e events",fEventStat->GetBinContent(fEventStat->FindBin(kAllEvents))));
 
   // initialize track arrays and some track based variables
-  fInputEvent->Init();
+  fInputEvent->Init(); // NOTE: tracks are initialized with mass hypo PDG 11, and adapted later!
   PairAnalysisVarManager::SetEvent(fInputEvent);
 
   // set the beam energy to the varmanager

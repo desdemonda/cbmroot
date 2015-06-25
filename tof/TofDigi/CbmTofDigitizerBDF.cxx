@@ -367,13 +367,19 @@ Bool_t   CbmTofDigitizerBDF::LoadBeamtimeValues()
  	    <<FairLogger::endl;
 
    fDigiBdfPar->SetInputFile(fsBeamInputFile);
+
+   // Printout option for crosscheck
+   LOG(INFO)<<"  CbmTofDigitizerBDF::LoadBeamtimeValues Digi Par contains " 
+            << fDigiPar->GetNrOfModules() << " cells " <<FairLogger::endl;
+   fDigiBdfPar->printParams();
+
    if(kFALSE == fDigiBdfPar->LoadBeamtimeHistos()){
-     LOG(FATAL)<<"CbmTofDigitizerBDF::LoadBeamtimeValues "<<FairLogger::endl;
+     LOG(FATAL)<<"CbmTofDigitizerBDF::LoadBeamtimeValues: Cluster properties from testbeam could not be loaded! "<<FairLogger::endl;
      return kFATAL;
    }
 
-   // Printout option for crosscheck
-   fDigiBdfPar->printParams();
+//   // Printout option for crosscheck
+//   fDigiBdfPar->printParams();
 
    // Obtain some of the constants
    fdFeeGainSigma    = fDigiBdfPar->GetFeeGainSigma();

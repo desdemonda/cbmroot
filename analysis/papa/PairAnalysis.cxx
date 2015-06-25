@@ -908,6 +908,9 @@ void PairAnalysis::FillTrackArrays(PairAnalysisEvent * const ev)
     //get particle
     PairAnalysisTrack *particle=ev->GetTrack(itrack);
 
+    // adapt mass hypothesis accordingly (they were initialized with PDG11)
+    particle->SetMassHypo(fPdgLeg1,fPdgLeg2);
+
     // store signal weights in the tracks - ATTENTION later signals should be more specific
     if(fHasMC && fSignalsMC) {
       PairAnalysisMC* papaMC = PairAnalysisMC::Instance();

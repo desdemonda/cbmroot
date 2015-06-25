@@ -29,38 +29,38 @@ using std::atoi;
 //--------------------------------------------------------------------------
 CbmMvdGeoHandler::CbmMvdGeoHandler() 
   : TObject(),
+  fDetector(NULL),
+  fStationPar(NULL),
+  fStationMap(),
+  fIsSimulation(kFALSE),
   fGeoPathHash(),   //!
   fCurrentVolume(), //!
   fVolumeShape(),   //!
   fGlobal(),     //! Global center of volume
   fGlobalMatrix(),  //!
-  fLayerId(),       //!
-  fModuleId(),     //!
-  fModuleType(),    //!
-  fStation(),       //! StationID
-  fMother(),
+  fLayerId(-1),       //!
+  fModuleId(-1),     //!
+  fModuleType(-1),    //!
+  fStation(-1),       //! StationID
+  fMother(""),
   fGeoTyp(),
-  fStationName(),
-  fDetectorName(),
-  fSectorName(),
-  fQuadrantName(),
-  fSensorHolding(),
-  fSensorName(),
-  fnodeName(),
   fVolId(),
-  fStationNumber(),
-  fWidth(),
-  fHeight(),
-  fRadLength(),
-  fBeamwidth(),
-  fBeamheight(),
-  fThickness(),
-  fXres(),
-  fYres(),
-  fIsSimulation(),
-  fStationMap(),
-  fStationPar(),
-  fDetector()
+  fStationNumber(-1),
+  fWidth(0.),
+  fHeight(0.),
+  fRadLength(0.),
+  fBeamwidth(0.),
+  fBeamheight(0.),
+  fThickness(0.),
+  fXres(0.),
+  fYres(0.),
+  fStationName(""),
+  fDetectorName(""),
+  fSectorName(""),
+  fQuadrantName(""),
+  fSensorHolding(""),
+  fSensorName(""),
+  fnodeName("")
 {
 }
 //--------------------------------------------------------------------------

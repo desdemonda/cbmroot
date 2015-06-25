@@ -35,6 +35,13 @@ public:
      **/
     Double_t GetCentre() const { return fChannelMean; }
 
+
+    /** Get cluster charge
+     ** @value  Total cluster charge [e]
+     **/
+    Double_t GetCharge() const { return fCharge; }
+
+
     /** Get cluster index
      ** @return Index of cluster in cluster array
      **/

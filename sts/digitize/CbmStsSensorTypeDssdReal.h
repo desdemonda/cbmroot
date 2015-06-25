@@ -85,36 +85,17 @@ class CbmStsSensorTypeDssdReal : public CbmStsSensorTypeDssd
 	    fLorentzShift  = lorentzShift;
 	}
 
-	/** Set the parameters
-	 ** @param dx,dy,dz          Size in x,y,z [cm]
-	 ** @param pitchF,pitchB     Strip pitch foint and back side [cm]
-	 ** @param stereoF,stereoB   Strip stereo angle front and back side [degrees]
-	 ** @param nStripsF,nStripsB Number of strips for front and back side
-	 ** @param Vdep, Vbias       Depletion and bias (operational) voltage for sensor [V] 
-	 ** @param temperature       Temperature of sensor [K]
-	 ** @param Ccoup, Cinter     Coupling and interstrip capacitances [same unit]
-	 **/
-	virtual	void SetParameters(Double_t dx, Double_t dy, Double_t dz,
-		Int_t nStripsF, Int_t nStripsB,
-		Double_t stereoF, Double_t stereoB,
-		Double_t Vdep, Double_t Vbias, Double_t temperature,
-		Double_t Ccoup, Double_t Cinter);
-
 
     protected:
-	Double_t fVdepletion;     ///< Depletion voltage of sensor [V]
-	Double_t fVbias;          ///< Bias voltage of sensor [V]
-	Double_t fTemperature;    ///< Environment temperature [K]
-	Double_t fCcoup;          ///< Coupling capacitance
-	Double_t fCinter;         ///< Interstreip capacitance
 
-
-	/** Temporary variables to avoid frequent calculations **/
-	Double_t fkTq;          //! = sqrt(2 * k * T / q)
-	Double_t fCTcoef;       //! cross-talk coefficient due to capacitances 
-
-	/** Instance of StsPhysics **/
+		/** Instance of StsPhysics **/
 	CbmStsPhysics* fPhysics;  //!
+
+	/** Switches for physical processes **/
+	Bool_t fNonUniformity;
+	Bool_t fDiffusion;
+	Bool_t fCrossTalk;
+	Bool_t fLorentzShift;
 
 	
 	/** Calculate charge sharing due to capacitance
@@ -125,8 +106,6 @@ class CbmStsSensorTypeDssdReal : public CbmStsSensorTypeDssd
 	 ** @ param CTcoef   = C_interstrip / (C_coupling + (C_bulk) + C_interstrip)
 	 **/ 
 	void CrossTalk(Double_t * stripCharge, Double_t * stripChargeCT, Int_t nStrips, Double_t tanphi, Double_t CTcoef) const;
-	//virtual Int_t ProduceCharge(CbmStsSensorPoint* point, Int_t side,
-	//	const CbmStsSenzor* sensor, Double_t * ELossLayerArray) const;
 
 
 	/** Simulate thermal diffusion and take into account Lorentz shift.

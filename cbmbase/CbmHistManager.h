@@ -11,6 +11,7 @@
 #include "TObject.h"
 #include "TH1.h"
 #include "TH2.h"
+#include "TH3.h"
 #include "TGraph.h"
 #include "TGraph2D.h"
 #include "TProfile.h"
@@ -110,6 +111,38 @@ public:
    }
 
    /**
+    * \brief Helper function for creation of 3-dimensional histograms and profiles.
+    * Template argument is a real object type that has to be created, for example,
+    * Create3<TH3F>("name", "title", 100, 0, 100, 200, 0, 200, 300, 0, 300);
+    * \param[in] name Object name.
+    * \param[in] title Object title.
+    * \param[in] nofBinsX Number of bins for X axis.
+    * \param[in] minBinX Low X axis limit.
+    * \param[in] maxBinX Upper X axis limit.
+    * \param[in] nofBinsY Number of bins for Y axis.
+    * \param[in] minBinY Low Y axis limit.
+    * \param[in] maxBinY Upper Y axis limit.
+    * \param[in] nofBinsZ Number of bins for Z axis.
+    * \param[in] minBinZ Low Z axis limit.
+    * \param[in] maxBinZ Upper Z axis limit.
+    */
+   template<class T> void Create3(
+         const string& name,
+         const string& title,
+         Int_t nofBinsX,
+         Double_t minBinX,
+         Double_t maxBinX,
+         Int_t nofBinsY,
+         Double_t minBinY,
+         Double_t maxBinY,
+		 Int_t nofBinsZ,
+		 Double_t minBinZ,
+		 Double_t maxBinZ) {
+   	T* h = new T(name.c_str(), title.c_str(), nofBinsX, minBinX, maxBinX, nofBinsY, minBinY, maxBinY, nofBinsZ, minBinZ, maxBinZ);
+   	Add(name, h);
+   }
+
+   /**
     * \brief Return pointer to TH1 histogram.
     * \param[in] name Name of histogram.
     * \return pointer to TH1 histogram.
@@ -134,7 +167,7 @@ public:
    /**
     * \brief Return pointer to TH2 histogram.
     * \param[in] name Name of histogram.
-    * \return pointer to TH1 histogram.
+    * \return pointer to TH2 histogram.
     */
    TH2* H2(
          const string& name) const {
@@ -152,6 +185,20 @@ public:
     */
    vector<TH2*> H2Vector(
          const string& pattern) const;
+
+   /**
+    * \brief Return pointer to TH3 histogram.
+    * \param[in] name Name of histogram.
+    * \return pointer to TH3 histogram.
+    */
+   TH3* H3(
+         const string& name) const {
+      if (fMap.count(name) == 0) { // Temporarily used for debugging
+    	  std::cout << "Error: CbmHistManager::H3(name): name=" << name << std::endl;
+      }
+      assert(fMap.count(name) != 0);
+      return dynamic_cast<TH3*>(fMap.find(name)->second);
+   }
 
    /**
     * \brief Return pointer to TGraph.
@@ -266,7 +313,7 @@ public:
    /**
     * \brief Clear memory. Remove all histograms.
     */
-   void Clear();
+   void Clear(Option_t*);
 
    /**
     * \brief Shrink empty bins in H1.

@@ -30,11 +30,16 @@ CbmAnaConversionReco::CbmAnaConversionReco()
   : fMcTracks(NULL),
     fMCTracklist_all(),
     fRecoTracklistEPEM(),
+    fRecoTracklistEPEM_ids(),
     fRecoMomentum(),
     fRecoRefittedMomentum(),
     fHistoList_MC(),
     fHistoList_reco(),
     fHistoList_reco_mom(),
+    fHistoList_gg(),
+	fHistoList_gee(),
+	fHistoList_eeee(),
+	fHistoList_all(),
     fhInvariantMass_MC_all(NULL),
     fhInvariantMass_MC_pi0(NULL),
     fhInvariantMass_MC_pi0_epem(NULL),
@@ -43,11 +48,24 @@ CbmAnaConversionReco::CbmAnaConversionReco()
     fhInvariantMass_MC_eta(NULL),
     fhInvariantMassReco_pi0(NULL),
     fhMCtest(NULL),
+    fhEPEM_invmass_gg_mc(NULL),
+	fhEPEM_invmass_gg_refitted(NULL),
+	fhEPEM_invmass_gee_mc(NULL),
+	fhEPEM_invmass_gee_refitted(NULL),
+	fhEPEM_invmass_eeee_mc(NULL),
+	fhEPEM_invmass_eeee_refitted(NULL),
+	fhEPEM_invmass_all_mc(NULL),
+	fhEPEM_invmass_all_refitted(NULL),
+	fhEPEM_openingAngle_gg_mc(NULL),
+	fhEPEM_openingAngle_gg_refitted(NULL),
+	fhEPEM_openingAngle_gee_mc(NULL),
+	fhEPEM_openingAngle_gee_refitted(NULL),
     fhInvMass_EPEM_mc(NULL),
     fhInvMass_EPEM_stsMomVec(NULL),
     fhInvMass_EPEM_refitted(NULL),
     fhInvMass_EPEM_error_stsMomVec(NULL),
     fhInvMass_EPEM_error_refitted(NULL),
+    fhInvMass_EPEM_openingAngleRef(NULL),
     fhUsedMomenta_stsMomVec(NULL),
     fhUsedMomenta_mc(NULL),
     fhUsedMomenta_error_stsMomVec(NULL),
@@ -66,6 +84,8 @@ CbmAnaConversionReco::CbmAnaConversionReco()
     fhUsedMomenta_vsZ_refitted(NULL),
     fhInvariantMass_pi0epem(NULL),
     fhPi0_startvertex(NULL),
+    fhPi0_startvertexElectrons(NULL),
+    fhInvMassWithFullRecoCuts(NULL),
     timer(),
     fTime(0.)
 {
@@ -95,6 +115,11 @@ void CbmAnaConversionReco::InitHistos()
 	fHistoList_reco.clear();
 	fHistoList_reco_mom.clear();
 
+	fHistoList_gg.clear();
+	fHistoList_gee.clear();
+	fHistoList_eeee.clear();
+	fHistoList_all.clear();
+
 
 	fhInvariantMass_MC_all			= new TH1D("fhInvariantMass_MC_all", "fhInvariantMass_MC_all;mass [GeV/c^2];#", 2000, 0., 2.);
 	fhInvariantMass_MC_pi0			= new TH1D("fhInvariantMass_MC_pi0", "fhInvariantMass_MC_pi0;mass [GeV/c^2];#", 2000, 0., 2.);
@@ -115,11 +140,43 @@ void CbmAnaConversionReco::InitHistos()
 
 
 
-	fhInvMass_EPEM_mc				= new TH1D("fhInvMass_EPEM_mc","fhInvariantMass_recoMomentum1 (mc);mass;#", 400, -0.0025, 1.9975);
-	fhInvMass_EPEM_stsMomVec		= new TH1D("fhInvMass_EPEM_stsMomVec","fhInvariantMass_recoMomentum2 (stsMomentumVec);mass;#", 200, -0.005, 1.995);
-	fhInvMass_EPEM_refitted			= new TH1D("fhInvMass_EPEM_refitted","fhInvariantMass_recoMomentum3 (refitted at primary);mass;#", 200, -0.005, 1.995);
+
+	fhEPEM_invmass_gg_mc			= new TH1D("fhEPEM_invmass_gg_mc","fhEPEM_invmass_gg_mc;mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fhEPEM_invmass_gg_refitted		= new TH1D("fhEPEM_invmass_gg_refitted","fhEPEM_invmass_gg_refitted;mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fhEPEM_invmass_gee_mc			= new TH1D("fhEPEM_invmass_gee_mc","fhEPEM_invmass_gee_mc;mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fhEPEM_invmass_gee_refitted		= new TH1D("fhEPEM_invmass_gee_refitted","fhEPEM_invmass_gee_refitted;mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fhEPEM_invmass_eeee_mc			= new TH1D("fhEPEM_invmass_eeee_mc","fhEPEM_invmass_eeee_mc;mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fhEPEM_invmass_eeee_refitted	= new TH1D("fhEPEM_invmass_eeee_refitted","fhEPEM_invmass_eeee_refitted;mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fhEPEM_invmass_all_mc			= new TH1D("fhEPEM_invmass_all_mc","fhEPEM_invmass_all_mc;mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fhEPEM_invmass_all_refitted		= new TH1D("fhEPEM_invmass_all_refitted","fhEPEM_invmass_all_refitted;mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fHistoList_gg.push_back(fhEPEM_invmass_gg_mc);
+	fHistoList_gg.push_back(fhEPEM_invmass_gg_refitted);
+	fHistoList_gee.push_back(fhEPEM_invmass_gee_mc);
+	fHistoList_gee.push_back(fhEPEM_invmass_gee_refitted);
+	fHistoList_eeee.push_back(fhEPEM_invmass_eeee_mc);
+	fHistoList_eeee.push_back(fhEPEM_invmass_eeee_refitted);
+	fHistoList_all.push_back(fhEPEM_invmass_all_mc);
+	fHistoList_all.push_back(fhEPEM_invmass_all_refitted);
+
+	fhEPEM_openingAngle_gg_mc			= new TH1D("fhEPEM_openingAngle_gg_mc","fhEPEM_openingAngle_gg_mc;angle [deg];#", 1010, -0.1, 100.9);
+	fhEPEM_openingAngle_gg_refitted		= new TH1D("fhEPEM_openingAngle_gg_refitted","fhEPEM_openingAngle_gg_refitted;angle [deg];#", 1010, -0.1, 100.9);
+	fhEPEM_openingAngle_gee_mc			= new TH1D("fhEPEM_openingAngle_gee_mc","fhEPEM_openingAngle_gee_mc;angle [deg];#", 1010, -0.1, 100.9);
+	fhEPEM_openingAngle_gee_refitted	= new TH1D("fhEPEM_openingAngle_gee_refitted","fhEPEM_openingAngle_gee_refitted;angle [deg];#", 1010, -0.1, 100.9);
+	fHistoList_gg.push_back(fhEPEM_openingAngle_gg_mc);
+	fHistoList_gg.push_back(fhEPEM_openingAngle_gg_refitted);
+	fHistoList_gee.push_back(fhEPEM_openingAngle_gee_mc);
+	fHistoList_gee.push_back(fhEPEM_openingAngle_gee_refitted);
+
+
+
+
+
+	fhInvMass_EPEM_mc				= new TH1D("fhInvMass_EPEM_mc","fhInvariantMass_recoMomentum1 (mc);mass [GeV/c^2];#", 400, -0.0025, 1.9975);
+	fhInvMass_EPEM_stsMomVec		= new TH1D("fhInvMass_EPEM_stsMomVec","fhInvariantMass_recoMomentum2 (stsMomentumVec);mass [GeV/c^2];#", 200, -0.005, 1.995);
+	fhInvMass_EPEM_refitted			= new TH1D("fhInvMass_EPEM_refitted","fhInvariantMass_recoMomentum3 (refitted at primary);mass [GeV/c^2];#", 200, -0.005, 1.995);
 	fhInvMass_EPEM_error_stsMomVec	= new TH1D("fhInvMass_EPEM_error_stsMomVec","fhInvariantMass_recoMomentum4 (error, stsMomentumVec);(mc-reco)/mc;#", 500, -0.005, 4.995);
 	fhInvMass_EPEM_error_refitted	= new TH1D("fhInvMass_EPEM_error_refitted","fhInvariantMass_recoMomentum5 (error, refitted);(mc-reco)/mc;#", 500, -0.005, 4.995);
+	fhInvMass_EPEM_openingAngleRef	= new TH1D("fhInvMass_EPEM_openingAngleRef","fhInvariantMass_openingAngleRef;angle [deg];#", 1010, -0.1, 100.9);
 	fhUsedMomenta_stsMomVec			= new TH1D("fhUsedMomenta_stsMomVec","fhMomentumtest1;momentum;#", 100, 0., 2.);
 	fhUsedMomenta_mc				= new TH1D("fhUsedMomenta_mc","fhMomentumtest2;momentum;#", 100, 0., 2.);
 	fhUsedMomenta_error_stsMomVec	= new TH1D("fhUsedMomenta_error_stsMomVec","fhMomentumtest3 (error);(mc-reco)/mc;#", 400, -2.005, 1.995);
@@ -142,6 +199,7 @@ void CbmAnaConversionReco::InitHistos()
 	fHistoList_reco.push_back(fhInvMass_EPEM_refitted);
 	fHistoList_reco.push_back(fhInvMass_EPEM_error_stsMomVec);
 	fHistoList_reco.push_back(fhInvMass_EPEM_error_refitted);
+	fHistoList_reco.push_back(fhInvMass_EPEM_openingAngleRef);
 	fHistoList_reco_mom.push_back(fhUsedMomenta_stsMomVec);
 	fHistoList_reco_mom.push_back(fhUsedMomenta_mc);
 	fHistoList_reco_mom.push_back(fhUsedMomenta_error_stsMomVec);
@@ -159,12 +217,17 @@ void CbmAnaConversionReco::InitHistos()
 	fHistoList_reco_mom.push_back(fhUsedMomenta_vsY_refitted);	// y-component of reconstructed momentum vs mc-momentum
 	fHistoList_reco_mom.push_back(fhUsedMomenta_vsZ_refitted);	// z-component of reconstructed momentum vs mc-momentum
 	
-	fhInvariantMass_pi0epem = new TH1D("fhInvariantMass_pi0epem","fhInvariantMass_pi0epem;mass;#", 400, 0., 2.);
+	fhInvariantMass_pi0epem = new TH1D("fhInvariantMass_pi0epem","fhInvariantMass_pi0epem;mass [GeV/c^2];#", 400, 0., 2.);
 	fHistoList_reco.push_back(fhInvariantMass_pi0epem);
 	
 	fhPi0_startvertex = new TH1D("fhPi0_startvertex","fhPi0_startvertex;z[cm];#", 200, -0.25, 99.75);
 	fHistoList_reco.push_back(fhPi0_startvertex);
 	
+	fhPi0_startvertexElectrons = new TH1D("fhPi0_startvertexElectrons","fhPi0_startvertexElectrons;z[cm];#", 400, -0.25, 199.75);
+	fHistoList_reco.push_back(fhPi0_startvertexElectrons);
+
+	fhInvMassWithFullRecoCuts = new TH1D("fhInvMassWithFullRecoCuts","fhInvMassWithFullRecoCuts;mass [GeV/c^2];#", 400, 0., 2.);
+	fHistoList_reco.push_back(fhInvMassWithFullRecoCuts);
 
 }
 
@@ -186,6 +249,35 @@ void CbmAnaConversionReco::Finish()
 
 	gDirectory->mkdir("Reconstruction2");
 	gDirectory->cd("Reconstruction2");
+	
+	gDirectory->mkdir("pi0 -> gg");
+	gDirectory->cd("pi0 -> gg");
+	for (Int_t i = 0; i < fHistoList_gg.size(); i++){
+		fHistoList_gg[i]->Write();
+	}
+	gDirectory->cd("..");
+	
+	gDirectory->mkdir("pi0 -> ge+e-");
+	gDirectory->cd("pi0 -> ge+e-");
+	for (Int_t i = 0; i < fHistoList_gee.size(); i++){
+		fHistoList_gee[i]->Write();
+	}
+	gDirectory->cd("..");
+	
+	gDirectory->mkdir("pi0 -> e+e-e+e-");
+	gDirectory->cd("pi0 -> e+e-e+e-");
+	for (Int_t i = 0; i < fHistoList_eeee.size(); i++){
+		fHistoList_eeee[i]->Write();
+	}
+	gDirectory->cd("..");
+	
+	gDirectory->mkdir("pi0 -> all");
+	gDirectory->cd("pi0 -> all");
+	for (Int_t i = 0; i < fHistoList_all.size(); i++){
+		fHistoList_all[i]->Write();
+	}
+	gDirectory->cd("..");
+	
 	for (Int_t i = 0; i < fHistoList_reco.size(); i++){
 		fHistoList_reco[i]->Write();
 	}
@@ -205,25 +297,16 @@ void CbmAnaConversionReco::Finish()
 
 void CbmAnaConversionReco::SetTracklistMC(vector<CbmMCTrack*> MCTracklist)
 {
-	timer[0].Start();
-
 	fMCTracklist_all = MCTracklist;
-
-	timer[0].Stop();
-	fTime += timer[0].RealTime();
 }
 
 
-void CbmAnaConversionReco::SetTracklistReco(vector<CbmMCTrack*> MCTracklist, vector<TVector3> RecoTracklist1, vector<TVector3> RecoTracklist2)
+void CbmAnaConversionReco::SetTracklistReco(vector<CbmMCTrack*> MCTracklist, vector<TVector3> RecoTracklist1, vector<TVector3> RecoTracklist2, vector<int> ids)
 {
-	timer[1].Start();
-
 	fRecoTracklistEPEM = MCTracklist;
+	fRecoTracklistEPEM_ids = ids;
 	fRecoMomentum = RecoTracklist1;
 	fRecoRefittedMomentum = RecoTracklist2;
-
-	timer[1].Stop();
-	fTime += timer[1].RealTime();
 }
 
 
@@ -234,7 +317,8 @@ void CbmAnaConversionReco::SetTracklistReco(vector<CbmMCTrack*> MCTracklist, vec
 void CbmAnaConversionReco::InvariantMassMC_all() 
 // calculation of invariant mass via X -> gamma gamma -> e+ e- e+ e-, only MC data with several cuts (see FillMCTrackslists())
 {
-	timer[2].Start();
+	timer.Start();
+
 
 	cout << "InvariantMassTestMC - Start..." << endl;
 	cout << "InvariantMassTestMC - Size of fTracklistMC_all:\t " << fMCTracklist_all.size() << endl;
@@ -356,7 +440,7 @@ void CbmAnaConversionReco::InvariantMassMC_all()
 						}
 						
 						
-						// decay X -> g e+ e- -> e+ e- e+ e-
+						// decay pi0 -> g e+ e- -> e+ e- e+ e-
 						if(  ((motherId1 == motherId2 && motherId3 == motherId4) && (mcMotherPdg1 == 22) && (mcMotherPdg3 == 111) && grandmotherId1 == motherId3)
 						  || ((motherId1 == motherId2 && motherId3 == motherId4) && (mcMotherPdg1 == 111) && (mcMotherPdg3 == 22) && grandmotherId3 == motherId1)
 						  || ((motherId1 == motherId3 && motherId2 == motherId4) && (mcMotherPdg1 == 22) && (mcMotherPdg2 == 111) && grandmotherId1 == motherId2)
@@ -367,6 +451,16 @@ void CbmAnaConversionReco::InvariantMassMC_all()
 							fhInvariantMass_MC_pi0_gepem->Fill(invmass);
 							fhInvariantMass_MC_pi0->Fill(invmass);
 						}
+						// decay eta -> g e+ e- -> e+ e- e+ e-
+						if(  ((motherId1 == motherId2 && motherId3 == motherId4) && (mcMotherPdg1 == 22) && (mcMotherPdg3 == 221) && grandmotherId1 == motherId3)
+						  || ((motherId1 == motherId2 && motherId3 == motherId4) && (mcMotherPdg1 == 221) && (mcMotherPdg3 == 22) && grandmotherId3 == motherId1)
+						  || ((motherId1 == motherId3 && motherId2 == motherId4) && (mcMotherPdg1 == 22) && (mcMotherPdg2 == 221) && grandmotherId1 == motherId2)
+						  || ((motherId1 == motherId3 && motherId2 == motherId4) && (mcMotherPdg1 == 221) && (mcMotherPdg2 == 22) && grandmotherId2 == motherId1)
+						  || ((motherId1 == motherId4 && motherId2 == motherId3) && (mcMotherPdg1 == 22) && (mcMotherPdg2 == 221) && grandmotherId1 == motherId2)
+						  || ((motherId1 == motherId4 && motherId2 == motherId3) && (mcMotherPdg1 == 221) && (mcMotherPdg2 == 22) && grandmotherId2 == motherId1)) {
+							Double_t invmass = Invmass_4particles(fMCTracklist_all[i], fMCTracklist_all[j], fMCTracklist_all[k], fMCTracklist_all[l]);
+							fhInvariantMass_MC_eta->Fill(invmass);
+						}
 					}
 				}
 			}
@@ -374,8 +468,8 @@ void CbmAnaConversionReco::InvariantMassMC_all()
 	}
 	cout << "InvariantMassTestMC - End!" << endl;
 
-	timer[2].Stop();
-	fTime += timer[2].RealTime();
+	timer.Stop();
+	fTime += timer.RealTime();
 }
 
 
@@ -383,9 +477,7 @@ void CbmAnaConversionReco::InvariantMassMC_all()
 Double_t CbmAnaConversionReco::Invmass_4particles(const CbmMCTrack* mctrack1, const CbmMCTrack* mctrack2, const CbmMCTrack* mctrack3, const CbmMCTrack* mctrack4)
 // calculation of invariant mass from four electrons/positrons
 {
-	timer[3].Start();
-
-    TVector3 mom1;
+/*    TVector3 mom1;
     mctrack1->GetMomentum(mom1);
     TVector3 tempmom1;
     tempmom1.SetX(SmearValue(mom1.X()));
@@ -420,8 +512,8 @@ Double_t CbmAnaConversionReco::Invmass_4particles(const CbmMCTrack* mctrack1, co
     tempmom4.SetZ(SmearValue(mom4.Z()));
     Double_t energy4 = TMath::Sqrt(tempmom4.Mag2() + M2E);
     TLorentzVector lorVec4(tempmom4, energy4);
-    
-/*    TLorentzVector lorVec1;
+*/    
+    TLorentzVector lorVec1;
     mctrack1->Get4Momentum(lorVec1);
     
     TLorentzVector lorVec2;
@@ -432,14 +524,12 @@ Double_t CbmAnaConversionReco::Invmass_4particles(const CbmMCTrack* mctrack1, co
     
     TLorentzVector lorVec4;
     mctrack4->Get4Momentum(lorVec4);
-*/    
+    
     
     TLorentzVector sum;
     sum = lorVec1 + lorVec2 + lorVec3 + lorVec4;
     cout << "mc: \t" << sum.Px() << " / " << sum.Py() << " / " << sum.Pz() << " / " << sum.E() << "\t => mag = " << sum.Mag() << endl;
     
-	timer[3].Stop();
-	fTime += timer[3].RealTime();
 
 	return sum.Mag();
 }
@@ -447,8 +537,6 @@ Double_t CbmAnaConversionReco::Invmass_4particles(const CbmMCTrack* mctrack1, co
 
 Double_t CbmAnaConversionReco::SmearValue(Double_t value) 
 {
-	timer[4].Start();
-
 	TRandom3 generator(0);
 	Double_t result = 0;
 	Double_t smear = 0;
@@ -461,9 +549,6 @@ Double_t CbmAnaConversionReco::SmearValue(Double_t value)
 //	result = value * (1. + 1.0*smear/100);		//smearing as wished
 	
 	result = value;		// -> no smearing
-
-	timer[4].Stop();
-	fTime += timer[4].RealTime();
 	
 	return result;
 }
@@ -474,8 +559,6 @@ Double_t CbmAnaConversionReco::SmearValue(Double_t value)
 Double_t CbmAnaConversionReco::Invmass_4particlesRECO(const TVector3 part1, const TVector3 part2, const TVector3 part3, const TVector3 part4)
 // calculation of invariant mass from four electrons/positrons
 {
-	timer[5].Start();
-
     Double_t energy1 = TMath::Sqrt(part1.Mag2() + M2E);
     TLorentzVector lorVec1(part1, energy1);
 
@@ -490,10 +573,8 @@ Double_t CbmAnaConversionReco::Invmass_4particlesRECO(const TVector3 part1, cons
     
     TLorentzVector sum;
     sum = lorVec1 + lorVec2 + lorVec3 + lorVec4;
-    cout << "reco: \t" << sum.Px() << " / " << sum.Py() << " / " << sum.Pz() << " / " << sum.E() << "\t => mag = " << sum.Mag() << endl;
+    //cout << "reco: \t" << sum.Px() << " / " << sum.Py() << " / " << sum.Pz() << " / " << sum.E() << "\t => mag = " << sum.Mag() << endl;
     
-	timer[5].Stop();
-	fTime += timer[5].RealTime();
 
 	return sum.Mag();
 }
@@ -507,7 +588,8 @@ Double_t CbmAnaConversionReco::Invmass_4particlesRECO(const TVector3 part1, cons
 void CbmAnaConversionReco::InvariantMassTest_4epem()
 // Calculating invariant mass of 4 ep/em, using MC data AND reconstructed momentum
 {
-	timer[6].Start();
+	timer.Start();
+
 
 	cout << "InvariantMassTest_4epem - Start..." << endl;
 	cout << "InvariantMassTest_4epem - " << fRecoTracklistEPEM.size() << "\t" << fRecoMomentum.size() << endl;
@@ -518,7 +600,7 @@ void CbmAnaConversionReco::InvariantMassTest_4epem()
 				for(int l=k+1; l<fRecoTracklistEPEM.size(); l++) {
 					if(fRecoTracklistEPEM[i]->GetPdgCode() + fRecoTracklistEPEM[j]->GetPdgCode() + fRecoTracklistEPEM[k]->GetPdgCode() + fRecoTracklistEPEM[l]->GetPdgCode() != 0) continue;
 					
-					if(fRecoTracklistEPEM.size() != fRecoMomentum.size()) {
+					if(fRecoTracklistEPEM.size() != fRecoMomentum.size() || fRecoTracklistEPEM.size() != fRecoRefittedMomentum.size()) {
 						cout << "InvariantMassTest_4epem - not matching number of entries!" << endl;
 						continue;
 					}
@@ -535,12 +617,31 @@ void CbmAnaConversionReco::InvariantMassTest_4epem()
 							int mcMotherPdg1  = -1;
 							CbmMCTrack* mother1 = (CbmMCTrack*) fMcTracks->At(motherId1);
 							if(NULL != mother1) mcMotherPdg1 = mother1->GetPdgCode();
-							if( (mcMotherPdg1 == 111 || mcMotherPdg1 == 221) && NofDaughters(motherId1) == 4) {
+							if( (mcMotherPdg1 == 111 || mcMotherPdg1 == 221) ) { // && NofDaughters(motherId1) == 4) {
+								Double_t invmass1 = 0;
 								Double_t invmass2 = 0;	// momenta from stsMomentumVec
+								Double_t invmass3 = 0;
 							//	invmass2 = Invmass_4particlesRECO(fRecoMomentum[i], fRecoMomentum[j], fRecoMomentum[k], fRecoMomentum[l]);
-								invmass2 = Invmass_4particlesRECO(fRecoRefittedMomentum[i], fRecoRefittedMomentum[j], fRecoRefittedMomentum[k], fRecoRefittedMomentum[l]);
+								invmass1 = Invmass_4particles(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j], fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);	// true MC values
+								invmass3 = Invmass_4particlesRECO(fRecoRefittedMomentum[i], fRecoRefittedMomentum[j], fRecoRefittedMomentum[k], fRecoRefittedMomentum[l]);
 							//	fhInvariantMass_pi0epem->Fill(invmass2);
-								cout << "Decay pi0 -> e+e-e+e- detected!\t\t" << invmass2 << endl;
+								cout << "Decay pi0 -> e+e-e+e- detected!\t\t mc mass: " << invmass1 << "\t, reco mass: " << invmass3 << endl;
+								cout << "motherids: " << motherId1 << "/" << motherId2 << "/" << motherId3 << "/" << motherId4 << "\t motherpdg: " << mcMotherPdg1 << "\t mctrack mass: " << mother1->GetMass() << "\t nofdaughters: " << NofDaughters(motherId1) << endl;
+								cout << "pdgs " << fRecoTracklistEPEM[i]->GetPdgCode() << "/" << fRecoTracklistEPEM[j]->GetPdgCode() << "/" << fRecoTracklistEPEM[k]->GetPdgCode() << "/" << fRecoTracklistEPEM[l]->GetPdgCode() << endl;
+								TVector3 start1;
+								fRecoTracklistEPEM[i]->GetStartVertex(start1);
+								TVector3 start2;
+								fRecoTracklistEPEM[j]->GetStartVertex(start2);
+								TVector3 start3;
+								fRecoTracklistEPEM[k]->GetStartVertex(start3);
+								TVector3 start4;
+								fRecoTracklistEPEM[l]->GetStartVertex(start4);
+								cout << "start: " << start1.Z() << "/" << start2.Z() << "/" << start3.Z() << "/" << start4.Z() << endl;
+								
+								fhEPEM_invmass_eeee_mc->Fill(invmass1);
+								fhEPEM_invmass_eeee_refitted->Fill(invmass3);
+								fhEPEM_invmass_all_mc->Fill(invmass1);
+								fhEPEM_invmass_all_refitted->Fill(invmass3);
 							}
 						}
 						else {	// all 4 particles come directly from the vertex
@@ -612,27 +713,102 @@ void CbmAnaConversionReco::InvariantMassTest_4epem()
 							if(NofDaughters(motherId1) != 2 || NofDaughters(motherId3) != 2) continue;
 							if( (grandmotherId1 == motherId3 && mcGrandmotherPdg1 == 111) || (motherId1 == grandmotherId3 && mcMotherPdg1 == 111)) {
 								cout << "HURRAY! .-.-.-.-.-.-..-.-.-.-.-.-.-.-.-.-.-.-." << endl;
-								Double_t invmass1 = 0;	// true MC values
-								invmass1 = Invmass_4particles(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j], fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);
+								Double_t invmass1 = 0;
+								Double_t invmass3 = 0;
+								invmass1 = Invmass_4particles(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j], fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);	// true MC values
+								invmass3 = Invmass_4particlesRECO(fRecoRefittedMomentum[i], fRecoRefittedMomentum[j], fRecoRefittedMomentum[k], fRecoRefittedMomentum[l]);
 								fhInvariantMass_pi0epem->Fill(invmass1);
+								
+								fhEPEM_invmass_gee_mc->Fill(invmass1);
+								fhEPEM_invmass_gee_refitted->Fill(invmass3);
+								fhEPEM_invmass_all_mc->Fill(invmass1);
+								fhEPEM_invmass_all_refitted->Fill(invmass3);
+								
+								if(mcGrandmotherPdg1 == 111) {
+									Double_t opening_angle1_mc = 0;
+									Double_t opening_angle1_refitted = 0;
+									opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j]);
+									opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[i], fRecoRefittedMomentum[j]);
+									fhEPEM_openingAngle_gee_mc->Fill(opening_angle1_mc);
+									fhEPEM_openingAngle_gee_refitted->Fill(opening_angle1_refitted);
+								}
+								
+								if(mcMotherPdg1 == 111) {
+									Double_t opening_angle1_mc = 0;
+									Double_t opening_angle1_refitted = 0;
+									opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);
+									opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[k], fRecoRefittedMomentum[l]);
+									fhEPEM_openingAngle_gee_mc->Fill(opening_angle1_mc);
+									fhEPEM_openingAngle_gee_refitted->Fill(opening_angle1_refitted);
+								}
 							}
 						}
 						if(motherId1 == motherId3 && motherId2 == motherId4) {
 							if(NofDaughters(motherId1) != 2 || NofDaughters(motherId2) != 2) continue;
 							if( (grandmotherId1 == motherId2 && mcGrandmotherPdg1 == 111) || (motherId1 == grandmotherId2 && mcMotherPdg1 == 111)) {
 								cout << "HURRAY! .-.-.-.-.-.-..-.-.-.-.-.-.-.-.-.-.-.-." << endl;
-								Double_t invmass1 = 0;	// true MC values
-								invmass1 = Invmass_4particles(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j], fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);
+								Double_t invmass1 = 0;
+								Double_t invmass3 = 0;
+								invmass1 = Invmass_4particles(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j], fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);	// true MC values
+								invmass3 = Invmass_4particlesRECO(fRecoRefittedMomentum[i], fRecoRefittedMomentum[j], fRecoRefittedMomentum[k], fRecoRefittedMomentum[l]);
 								fhInvariantMass_pi0epem->Fill(invmass1);
+								
+								fhEPEM_invmass_gee_mc->Fill(invmass1);
+								fhEPEM_invmass_gee_refitted->Fill(invmass3);
+								fhEPEM_invmass_all_mc->Fill(invmass1);
+								fhEPEM_invmass_all_refitted->Fill(invmass3);
+								
+								if(mcGrandmotherPdg1 == 111) {
+									Double_t opening_angle1_mc = 0;
+									Double_t opening_angle1_refitted = 0;
+									opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[i], fRecoTracklistEPEM[k]);
+									opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[i], fRecoRefittedMomentum[k]);
+									fhEPEM_openingAngle_gee_mc->Fill(opening_angle1_mc);
+									fhEPEM_openingAngle_gee_refitted->Fill(opening_angle1_refitted);
+								}
+								
+								if(mcMotherPdg1 == 111) {
+									Double_t opening_angle1_mc = 0;
+									Double_t opening_angle1_refitted = 0;
+									opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[j], fRecoTracklistEPEM[l]);
+									opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[j], fRecoRefittedMomentum[l]);
+									fhEPEM_openingAngle_gee_mc->Fill(opening_angle1_mc);
+									fhEPEM_openingAngle_gee_refitted->Fill(opening_angle1_refitted);
+								}
 							}
 						}
 						if(motherId1 == motherId4 && motherId2 == motherId3) {
 							if(NofDaughters(motherId1) != 2 || NofDaughters(motherId2) != 2) continue;
 							if( (grandmotherId1 == motherId2 && mcGrandmotherPdg1 == 111) || (motherId1 == grandmotherId2 && mcMotherPdg1 == 111)) {
 								cout << "HURRAY! .-.-.-.-.-.-..-.-.-.-.-.-.-.-.-.-.-.-." << endl;
-								Double_t invmass1 = 0;	// true MC values
-								invmass1 = Invmass_4particles(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j], fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);
+								Double_t invmass1 = 0;
+								Double_t invmass3 = 0;
+								invmass1 = Invmass_4particles(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j], fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);	// true MC values
+								invmass3 = Invmass_4particlesRECO(fRecoRefittedMomentum[i], fRecoRefittedMomentum[j], fRecoRefittedMomentum[k], fRecoRefittedMomentum[l]);
 								fhInvariantMass_pi0epem->Fill(invmass1);
+								
+								fhEPEM_invmass_gee_mc->Fill(invmass1);
+								fhEPEM_invmass_gee_refitted->Fill(invmass3);
+								fhEPEM_invmass_all_mc->Fill(invmass1);
+								fhEPEM_invmass_all_refitted->Fill(invmass3);
+								
+								if(mcGrandmotherPdg1 == 111) {
+									Double_t opening_angle1_mc = 0;
+									Double_t opening_angle1_refitted = 0;
+									opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[i], fRecoTracklistEPEM[l]);
+									opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[i], fRecoRefittedMomentum[l]);
+									fhEPEM_openingAngle_gee_mc->Fill(opening_angle1_mc);
+									fhEPEM_openingAngle_gee_refitted->Fill(opening_angle1_refitted);
+								}
+								
+								if(mcMotherPdg1 == 111) {
+									Double_t opening_angle1_mc = 0;
+									Double_t opening_angle1_refitted = 0;
+									opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[j], fRecoTracklistEPEM[k]);
+									opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[j], fRecoRefittedMomentum[k]);
+									fhEPEM_openingAngle_gee_mc->Fill(opening_angle1_mc);
+									fhEPEM_openingAngle_gee_refitted->Fill(opening_angle1_refitted);
+								}
 							}
 						}
 
@@ -642,11 +818,27 @@ void CbmAnaConversionReco::InvariantMassTest_4epem()
 					// ===================================================================================================
 					// HERE DECAY pi0 -> gamma gamma -> e+e- e+e-
 					if(grandmotherId1 == grandmotherId2 && grandmotherId1 == grandmotherId3 && grandmotherId1 == grandmotherId4) {
-						if(mcGrandmotherPdg1 != 111 && mcGrandmotherPdg1 != 221) continue; // 111 = pi0, 221 = eta
+				//		if(mcGrandmotherPdg1 != 111 && mcGrandmotherPdg1 != 221) continue; // 111 = pi0, 221 = eta
+						if(mcGrandmotherPdg1 != 111) continue; // 111 = pi0, 221 = eta
 
 						TVector3 pi0start;
 						grandmother1->GetStartVertex(pi0start);
 						fhPi0_startvertex->Fill(pi0start.Z());
+						
+						TVector3 pi0start_i;
+						fRecoTracklistEPEM[i]->GetStartVertex(pi0start_i);
+						fhPi0_startvertexElectrons->Fill(pi0start_i.Z());
+						TVector3 pi0start_j;
+						fRecoTracklistEPEM[j]->GetStartVertex(pi0start_j);
+						fhPi0_startvertexElectrons->Fill(pi0start_j.Z());
+						TVector3 pi0start_k;
+						fRecoTracklistEPEM[k]->GetStartVertex(pi0start_k);
+						fhPi0_startvertexElectrons->Fill(pi0start_k.Z());
+						TVector3 pi0start_l;
+						fRecoTracklistEPEM[l]->GetStartVertex(pi0start_l);
+						fhPi0_startvertexElectrons->Fill(pi0start_l.Z());
+						
+						if(pi0start_i.Z() > 1 || pi0start_j.Z() > 1 || pi0start_k.Z() > 1 || pi0start_l.Z() > 1) continue;
 
 						Double_t invmass1 = 0;	// true MC values
 						invmass1 = Invmass_4particles(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j], fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);
@@ -660,9 +852,13 @@ void CbmAnaConversionReco::InvariantMassTest_4epem()
 						cout << fRecoMomentum[i].Y() << "\t" << fRecoRefittedMomentum[i].Y() << endl;
 						cout << fRecoMomentum[i].Z() << "\t" << fRecoRefittedMomentum[i].Z() << endl;
 
+						if(fRecoTracklistEPEM_ids.size() != fRecoTracklistEPEM.size()) {
+							cout << "size mismatch! " << fRecoTracklistEPEM_ids.size() << "/" << fRecoTracklistEPEM.size() << endl;
+						}
 
 						cout << "######################################################################" << endl;
 						cout << "index: " << i << "\t" << j << "\t" << k << "\t" << l << endl;
+						cout << "mc id: " << fRecoTracklistEPEM_ids[i] << "\t" << fRecoTracklistEPEM_ids[j] << "\t" << fRecoTracklistEPEM_ids[k] << "\t" << fRecoTracklistEPEM_ids[l] << endl;
 						cout << "motherid: " << motherId1 << "\t" << motherId2 << "\t" << motherId3 << "\t" << motherId4 << endl;
 						cout << "motherpdg: " << mcMotherPdg1 << "\t" << mcMotherPdg2 << "\t" << mcMotherPdg3 << "\t" << mcMotherPdg4 << endl;
 						cout << "grandmotherid: " << grandmotherId1 << "\t" << grandmotherId2 << "\t" << grandmotherId3 << "\t" << grandmotherId4 << endl;
@@ -760,6 +956,47 @@ void CbmAnaConversionReco::InvariantMassTest_4epem()
 						fhUsedMomenta_vsX_refitted->Fill(momentumtest5d.X(), fRecoRefittedMomentum[l].X());
 						fhUsedMomenta_vsY_refitted->Fill(momentumtest5d.Y(), fRecoRefittedMomentum[l].Y());
 						fhUsedMomenta_vsZ_refitted->Fill(momentumtest5d.Z(), fRecoRefittedMomentum[l].Z());
+						
+						
+						Double_t opening_angle1_mc = 0;
+						Double_t opening_angle2_mc = 0;
+						Double_t opening_angle1_refitted = 0;
+						Double_t opening_angle2_refitted = 0;
+						
+						if(motherId1 == motherId2) {
+							opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[i], fRecoTracklistEPEM[j]);
+							opening_angle2_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[k], fRecoTracklistEPEM[l]);
+							opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[i], fRecoRefittedMomentum[j]);
+							opening_angle2_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[k], fRecoRefittedMomentum[l]);
+						}
+						if(motherId1 == motherId3) {
+							opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[i], fRecoTracklistEPEM[k]);
+							opening_angle2_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[j], fRecoTracklistEPEM[l]);
+							opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[i], fRecoRefittedMomentum[k]);
+							opening_angle2_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[j], fRecoRefittedMomentum[l]);
+						}
+						if(motherId1 == motherId4) {
+							opening_angle1_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[i], fRecoTracklistEPEM[l]);
+							opening_angle2_mc = CalculateOpeningAngleMC(fRecoTracklistEPEM[j], fRecoTracklistEPEM[k]);
+							opening_angle1_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[i], fRecoRefittedMomentum[l]);
+							opening_angle2_refitted = CalculateOpeningAngleReco(fRecoRefittedMomentum[j], fRecoRefittedMomentum[k]);
+						}
+						
+						
+						fhInvMass_EPEM_openingAngleRef->Fill(opening_angle1_refitted);
+						fhInvMass_EPEM_openingAngleRef->Fill(opening_angle2_refitted);
+						
+						
+						
+						fhEPEM_invmass_gg_mc->Fill(invmass1);
+						fhEPEM_invmass_gg_refitted->Fill(invmass3);
+						fhEPEM_invmass_all_mc->Fill(invmass1);
+						fhEPEM_invmass_all_refitted->Fill(invmass3);
+						fhEPEM_openingAngle_gg_mc->Fill(opening_angle1_mc);
+						fhEPEM_openingAngle_gg_mc->Fill(opening_angle2_mc);
+						fhEPEM_openingAngle_gg_refitted->Fill(opening_angle1_refitted);
+						fhEPEM_openingAngle_gg_refitted->Fill(opening_angle2_refitted);
+						
 
 						cout << "reco/mc: " << fRecoMomentum[i].Mag() << " / " << fRecoTracklistEPEM[i]->GetP() << " ### "  << fRecoMomentum[j].Mag() << " / " << fRecoTracklistEPEM[j]->GetP() << " ### "  << fRecoMomentum[k].Mag() << " / " << fRecoTracklistEPEM[k]->GetP() << " ### "  << fRecoMomentum[l].Mag() << " / " << fRecoTracklistEPEM[l]->GetP() << endl;
 
@@ -773,29 +1010,149 @@ void CbmAnaConversionReco::InvariantMassTest_4epem()
 	cout << "InvariantMassTest_4epem - Filled events: " << fill << endl;
 	cout << "InvariantMassTest_4epem - End!" << endl;
 
-	timer[6].Stop();
-	fTime += timer[6].RealTime();
+
+	timer.Stop();
+	fTime += timer.RealTime();
 }
 
 
 
 Int_t CbmAnaConversionReco::NofDaughters(Int_t motherId) 
 {
-	timer[7].Start();
-
 	Int_t nofDaughters = 0;
 	for(int i=0; i<fRecoTracklistEPEM.size(); i++) {
 		Int_t motherId_temp = fRecoTracklistEPEM[i]->GetMotherId();
 		if(motherId == motherId_temp) nofDaughters++;
 	}
 
-	timer[7].Stop();
-	fTime += timer[7].RealTime();
 
 	return nofDaughters;
 }
 
 
+Double_t CbmAnaConversionReco::CalculateOpeningAngleReco(TVector3 electron1, TVector3 electron2)
+{
+	Double_t energyP = TMath::Sqrt(electron1.Mag2() + M2E);
+	TLorentzVector lorVecP(electron1, energyP);
 
+	Double_t energyM = TMath::Sqrt(electron2.Mag2() + M2E);
+	TLorentzVector lorVecM(electron2, energyM);
+
+	Double_t anglePair = lorVecM.Angle(lorVecP.Vect());
+	Double_t theta = 180.*anglePair/TMath::Pi();
+
+	return theta;
+}
+
+
+Double_t CbmAnaConversionReco::CalculateOpeningAngleMC(CbmMCTrack* mctrack1, CbmMCTrack* mctrack2)
+{
+	TVector3 electron1;
+	mctrack1->GetMomentum(electron1);
+	Double_t energyP = TMath::Sqrt(electron1.Mag2() + M2E);
+	TLorentzVector lorVecP(electron1, energyP);
+
+	TVector3 electron2;
+	mctrack2->GetMomentum(electron2);
+	Double_t energyM = TMath::Sqrt(electron2.Mag2() + M2E);
+	TLorentzVector lorVecM(electron2, energyM);
+
+	Double_t anglePair = lorVecM.Angle(lorVecP.Vect());
+	Double_t theta = 180.*anglePair/TMath::Pi();
+
+	return theta;
+}
+
+
+
+void CbmAnaConversionReco::CalculateInvMassWithFullRecoCuts()
+{
+	Int_t nof = fRecoTracklistEPEM.size();
+	if(nof >= 4) {
+		for(int a=0; a<nof-3; a++) {
+			for(int b=a; b<nof-2; b++) {
+				for(int c=b; c<nof-1; c++) {
+					for(int d=c; d<nof; d++) {
+						Int_t check1 = (fRecoTracklistEPEM[a]->GetPdgCode() > 0);
+						Int_t check2 = (fRecoTracklistEPEM[b]->GetPdgCode() > 0);
+						Int_t check3 = (fRecoTracklistEPEM[c]->GetPdgCode() > 0);
+						Int_t check4 = (fRecoTracklistEPEM[d]->GetPdgCode() > 0);
+						Int_t test = check1 + check2 + check3 + check4;
+						if(test != 2) continue;		// need two electrons and two positrons
+						
+						
+						Double_t invmass = Invmass_4particlesRECO(fRecoRefittedMomentum[a], fRecoRefittedMomentum[b], fRecoRefittedMomentum[c], fRecoRefittedMomentum[d]);
+						//fhElectrons_invmass->Fill(invmass);
+						
+						
+						CbmLmvmKinematicParams params1 = CalculateKinematicParamsReco(fRecoRefittedMomentum[a], fRecoRefittedMomentum[b]);
+						CbmLmvmKinematicParams params2 = CalculateKinematicParamsReco(fRecoRefittedMomentum[a], fRecoRefittedMomentum[c]);
+						CbmLmvmKinematicParams params3 = CalculateKinematicParamsReco(fRecoRefittedMomentum[a], fRecoRefittedMomentum[d]);
+						CbmLmvmKinematicParams params4 = CalculateKinematicParamsReco(fRecoRefittedMomentum[b], fRecoRefittedMomentum[c]);
+						CbmLmvmKinematicParams params5 = CalculateKinematicParamsReco(fRecoRefittedMomentum[b], fRecoRefittedMomentum[d]);
+						CbmLmvmKinematicParams params6 = CalculateKinematicParamsReco(fRecoRefittedMomentum[c], fRecoRefittedMomentum[d]);
+						
+						Double_t openingAngleCut = 1;
+						Int_t IsPhoton_openingAngle1 = (params1.fAngle < openingAngleCut);
+						Int_t IsPhoton_openingAngle2 = (params2.fAngle < openingAngleCut);
+						Int_t IsPhoton_openingAngle3 = (params3.fAngle < openingAngleCut);
+						Int_t IsPhoton_openingAngle4 = (params4.fAngle < openingAngleCut);
+						Int_t IsPhoton_openingAngle5 = (params5.fAngle < openingAngleCut);
+						Int_t IsPhoton_openingAngle6 = (params6.fAngle < openingAngleCut);
+						
+						Double_t invMassCut = 0.03;
+						Int_t IsPhoton_invMass1 = (params1.fMinv < invMassCut);
+						Int_t IsPhoton_invMass2 = (params2.fMinv < invMassCut);
+						Int_t IsPhoton_invMass3 = (params3.fMinv < invMassCut);
+						Int_t IsPhoton_invMass4 = (params4.fMinv < invMassCut);
+						Int_t IsPhoton_invMass5 = (params5.fMinv < invMassCut);
+						Int_t IsPhoton_invMass6 = (params6.fMinv < invMassCut);
+						
+						if(IsPhoton_openingAngle1 && IsPhoton_openingAngle6 && IsPhoton_invMass1 && IsPhoton_invMass6 && (check1 + check2 == 1) && (check3 + check4 == 1)) {
+							fhInvMassWithFullRecoCuts->Fill(invmass);
+						}
+						if(IsPhoton_openingAngle2 && IsPhoton_openingAngle5 && IsPhoton_invMass2 && IsPhoton_invMass5 && (check1 + check3 == 1) && (check2 + check4 == 1)) {
+							fhInvMassWithFullRecoCuts->Fill(invmass);
+						}
+						if(IsPhoton_openingAngle3 && IsPhoton_openingAngle4 && IsPhoton_invMass3 && IsPhoton_invMass4 && (check1 + check4 == 1) && (check2 + check3 == 1)) {
+							fhInvMassWithFullRecoCuts->Fill(invmass);
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+}
+
+
+
+CbmLmvmKinematicParams CbmAnaConversionReco::CalculateKinematicParamsReco(const TVector3 electron1, const TVector3 electron2)
+{
+	CbmLmvmKinematicParams params;
+
+    Double_t energyP = TMath::Sqrt(electron1.Mag2() + M2E);
+    TLorentzVector lorVecP(electron1, energyP);
+
+    Double_t energyM = TMath::Sqrt(electron2.Mag2() + M2E);
+    TLorentzVector lorVecM(electron2, energyM);
+
+    TVector3 momPair = electron1 + electron2;
+    Double_t energyPair = energyP + energyM;
+    Double_t ptPair = momPair.Perp();
+    Double_t pzPair = momPair.Pz();
+    Double_t yPair = 0.5*TMath::Log((energyPair+pzPair)/(energyPair-pzPair));
+    Double_t anglePair = lorVecM.Angle(lorVecP.Vect());
+    Double_t theta = 180.*anglePair/TMath::Pi();
+    Double_t minv = 2.*TMath::Sin(anglePair / 2.)*TMath::Sqrt(electron1.Mag()*electron2.Mag());
+
+    params.fMomentumMag = momPair.Mag();
+    params.fPt = ptPair;
+    params.fRapidity = yPair;
+    params.fMinv = minv;
+    params.fAngle = theta;
+    return params;
+}
 
 

@@ -167,9 +167,17 @@ void simSignal(Int_t iParticle = 0, Int_t nEvents = 10000)
 
   fRun->SetGenerator(primGen);
   
-  
   KFPartEfficiencies eff;
-  
+  for(int jParticle=85; jParticle<93; jParticle++)
+  {
+    TDatabasePDG* pdgDB = TDatabasePDG::Instance();
+
+    if(!pdgDB->GetParticle(eff.partPDG[jParticle])){
+        pdgDB->AddParticle(eff.partTitle[jParticle],eff.partTitle[jParticle], eff.partMass[jParticle], kTRUE,
+                           0, eff.partCharge[jParticle]*3,"Ion",eff.partPDG[jParticle]);
+    }
+  }
+    
   Double_t lifetime = eff.partLifeTime[iParticle]; // lifetime
   Double_t mass = eff.partMass[iParticle];
   Int_t PDG = eff.partPDG[iParticle];
@@ -184,16 +192,16 @@ void simSignal(Int_t iParticle = 0, Int_t nEvents = 10000)
       Int_t PDG = eff.partPDG[iPall];
       Double_t charge = eff.partCharge[iPall];
     
-      FairParticle* newPartice = new FairParticle(PDG, eff.partTitle[iPall], kPTHadron, mass, charge,
+      FairParticle* newParticle = new FairParticle(PDG, eff.partTitle[iPall], kPTHadron, mass, charge,
               lifetime, "hadron", 0.0, 1, 1, 0, 1, 1, 0, 0, 1, kFALSE);
-      fRun->AddNewParticle(newPartice);
+      fRun->AddNewParticle(newParticle);
     }
     TString pythia6Config = "/u/mzyzak/cbmtrunk/macro/kf/KFParticleFinderSignalTest/Signal/DecayConfig.C()";
     fRun->SetPythiaDecayer(pythia6Config);
   }
 
   fRun->Init();
-
+  
   if(!(iParticle == 48 || iParticle ==49))
   {
     gMC->DefineParticle(PDG, eff.partTitle[iParticle], kPTHadron, mass, charge,

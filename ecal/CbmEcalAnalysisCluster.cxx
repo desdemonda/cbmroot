@@ -119,7 +119,7 @@ void CbmEcalAnalysisCluster::BuildCluster2(CbmEcalCell* cell, Int_t clusters, Do
   Double_t rc[cCl2Size];
   Int_t i;
   Int_t j;
-  Double_t phi;
+  Double_t phi=0;
   Double_t tp;
   Double_t tq;
 
@@ -328,7 +328,7 @@ void CbmEcalAnalysisCluster::Exec(Option_t* option)
   static CbmEcalInf* inf=fStr->GetEcalInf();
   Int_t i;
   Int_t n;
-  Int_t imax;
+  Int_t imax=-1111;
   Int_t dx;
   Int_t dy;
   Int_t ix;
@@ -345,7 +345,7 @@ void CbmEcalAnalysisCluster::Exec(Option_t* option)
   Double_t e2;
   Double_t e3;
   CbmEcalPoint* pt;
-  CbmEcalCell* cl;
+  CbmEcalCell* cl=NULL;
   CbmEcalCell* cll;
   
   fStr->GetCells(cells);

@@ -51,7 +51,7 @@ CbmEcalCell* CbmEcalStructure::GetCell(Int_t volId, Int_t& ten, Bool_t& isPS)
     return NULL;
   if (fHash[volId]==NULL)
   {
-    Bool_t lisPS;
+    Bool_t lisPS=kTRUE;
     Int_t iten;
     Float_t x;
     Float_t y;
@@ -62,6 +62,7 @@ CbmEcalCell* CbmEcalStructure::GetCell(Int_t volId, Int_t& ten, Bool_t& isPS)
       lisPS=CbmEcalDetailed::GetCellCoordInf(volId, x, y, iten);
     fHash[volId]->cell=GetCell(x+0.025,y+0.025);
     fHash[volId]->isPsTen=iten*2;
+    // lisPS should be false. No PS for calorimeter :(
     if (lisPS) fHash[volId]->isPsTen+=1;
   }
   ten=fHash[volId]->isPsTen/2;

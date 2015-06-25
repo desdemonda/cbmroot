@@ -30,7 +30,7 @@ elif [ "${setup}" = "muon" ] ; then
    set_default_muon_geometry
 fi
 
-export LIT_STS_HITPRODUCER_TYPE=real
+export LIT_STS_HITPRODUCER_TYPE=new
 export LIT_TRD_HITPRODUCER_TYPE=smearing
 export LIT_MUCH_HITPRODUCER_TYPE=advanced
 export LIT_GLOBAL_TRACKING_TYPE=branch

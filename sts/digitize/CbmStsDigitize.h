@@ -120,12 +120,14 @@ class CbmStsDigitize : public FairTask
  	 fNoise          = noise;
    }
 
-  void SetPhysicalProcesses(Bool_t nonUniform = 1, Bool_t diffusion = 1, Bool_t crossTalk = 1, Bool_t lorentzShift = 1);
+  void SetPhysicalProcesses(Bool_t nonUniform, Bool_t diffusion, Bool_t crossTalk, Bool_t lorentzShift);
 
   /** Re-initialisation **/
   virtual InitStatus ReInit();
 
 
+  /** Set the digitisation parameters in the modules **/
+  void SetModuleParameters();
 
 
   /** Set percentage of dead channels **/
@@ -148,12 +150,13 @@ class CbmStsDigitize : public FairTask
   Int_t fDigiModel;  ///< Detector response model. 0 = ideal, 1 = simple, 2 = real
 
   // --- Digitisation parameters
-  Double_t fDynRange;         ///< Dynamic range [e]
-  Double_t fThreshold;        ///< Threshold [e]
-  Int_t    fNofAdcChannels;   ///< Number of ADC channels
-  Double_t fTimeResolution;   ///< Time resolution (sigma) [ns]
-  Double_t fDeadTime;         ///< Single-channel dead time [ns]
-  Double_t fNoise;            ///< equivalent noise charge (sigma) [ns]
+  Double_t fDynRange;            ///< Dynamic range [e]
+  Double_t fThreshold;           ///< Threshold [e]
+  Int_t    fNofAdcChannels;      ///< Number of ADC channels
+  Double_t fTimeResolution;      ///< Time resolution (sigma) [ns]
+  Double_t fDeadTime;            ///< Single-channel dead time [ns]
+  Double_t fNoise;               ///< equivalent noise charge (sigma) [ns]
+  Double_t fDeadChannelFraction; ///< fraction of dead channels [%]
 
   // --- Switches for charge sharing process
   Bool_t fNonUniform;   ///< Non-uniform distribution of energy loss along the track
@@ -211,24 +214,8 @@ class CbmStsDigitize : public FairTask
   void ProcessPoint(const CbmStsPoint* point, CbmLink* link = NULL);
 
 
-  /** Re-initialisation **/
-  virtual InitStatus ReInit();
-
-
   /** Reset step-wise counters **/
   void Reset();
-
-
-  /** Set the digitisation parameters in the modules **/
-  void SetModuleParameters();
-
-
-  /** Set the operating parameters in the sensors **/
-  void SetSensorConditions();
-
-
-  /** Set types for the sensors in the setup **/
-  void SetSensorTypes();
 
 
   /** Prevent usage of copy constructor and assignment operator **/

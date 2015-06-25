@@ -90,7 +90,7 @@ void CbmEcalAnalysisSShape::FillClusterInfo(CbmEcalCell* cell)
   Int_t k;
   Double_t max=-1111;
   Double_t e2;
-  Double_t imax;
+  Double_t imax=-1111;
   list<CbmEcalCell*> cells;
   list<CbmEcalCell*>::const_iterator p;
   Double_t x;
