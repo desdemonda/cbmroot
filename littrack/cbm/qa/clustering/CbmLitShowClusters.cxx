@@ -166,6 +166,72 @@ void CbmLitShowClusters::Finish()
 
 void CbmLitShowClusters::ProcessSectorHistos()
 {
+  Int_t nofModules = fDigiPar->GetNrOfModules();
+  for(Int_t i=0; i<nofModules; i++){
+    if(i>30) break;
+    Int_t moduleAddr = fDigiPar->GetModuleId(i);
+    Int_t moduleId = CbmTrdAddress::GetModuleId(moduleAddr);
+    Int_t layerId = CbmTrdAddress::GetLayerId(moduleAddr);
+    fModuleInfo = fDigiPar->GetModule(moduleAddr);
+
+    Double_t sizeX = fModuleInfo->GetSizeX();
+    Double_t sizeY = fModuleInfo->GetSizeY();
+
+    // Creating Canvas
+    stringstream box, boxPng;
+    box << "bbb_Layer_" << layerId << "_Module_" << moduleId << "_box";
+    boxPng << "test/png/" << box.str().c_str() << ".png";
+
+    printf("Creating Canvas: %s\n", box.str().c_str());
+
+    TCanvas *c1 = new TCanvas(box.str().c_str(), box.str().c_str());
+    c1->SetGrid(true, true);
+    c1->Range(-5,-5,2*sizeX+5,2*sizeY+5);
+    TGaxis *axis1 = new TGaxis(0,0,2*sizeX,0,0,2*sizeX,510,"", 1); // X-Axis
+    axis1->SetName("axis1");
+    axis1->SetTitle("X [cm]");
+    axis1->Draw();
+    TGaxis *axis2 = new TGaxis(0,0,0,2*sizeY,0,2*sizeY,510,"", 1); // Y-Axis
+    axis2->SetName("axis2");
+    axis2->SetTitle("Y [cm]");
+    axis2->Draw();
+
+    for(Int_t sectorId=0; sectorId < fModuleInfo->GetNofSectors(); sectorId++ ){
+      Double_t nofRows = fModuleInfo->GetNofRowsInSector(sectorId);
+      Double_t nofCols = fModuleInfo->GetNofColumnsInSector(sectorId);
+
+      for(Int_t curCol=0; curCol < nofCols; ++curCol){
+	for(Int_t curRow=0; curRow < nofRows; ++curRow){
+	  TVector3 posHit;
+	  TVector3 padSize;
+	  fModuleInfo = fDigiPar->GetModule(moduleId);
+	  fModuleInfo->GetPosition(moduleId, sectorId, curCol, curRow, posHit, padSize);
+
+	  Double_t midX = fModuleInfo->GetX(); // module center
+	  Double_t midY = fModuleInfo->GetY();
+	  Double_t cornX = midX-sizeX;  // lower left corner of module
+	  Double_t cornY = midY-sizeY;
+	  Double_t x = posHit.X() - cornX; // x position of the pad
+	  Double_t y = posHit.Y() - cornY;
+
+	  Double_t padx = padSize.X()/2;
+	  Double_t pady = padSize.Y()/2;
+
+
+	  TBox *digiMarker = new TBox(x-padx, y-pady, x+padx, y+pady);
+	  digiMarker->SetFillColor(kGray);
+	  digiMarker->Draw();
+	}
+      }
+    }
+    c1->SaveAs(boxPng.str().c_str());
+  }
+
+  ProcessSectorHistosOld();
+}
+
+void CbmLitShowClusters::ProcessSectorHistosOld()
+{
    static Int_t eventNo = 1;
    if(eventNo > 1)
      return;
@@ -182,7 +248,7 @@ void CbmLitShowClusters::ProcessSectorHistos()
        Int_t layerId = CbmTrdAddress::GetLayerId(clusterAddress);
        TH1F *h = (TH1F*)fHM->H1("hno_NofObjects_digis_per_cluster_H1");
        h->Fill(nofDigis);
-       if(layerId != 0)
+       if(layerId != 1)
          continue;
        printf("Found Cluster [%u] consist of %u Digis.\n", iCluster, nofDigis);
 
@@ -261,16 +327,15 @@ void CbmLitShowClusters::ProcessSectorHistos()
 //      m->Draw();
 
 
-      if(layerId != 0){
-	if(layerId > maxLayer)  maxLayer = layerId;
-	if(moduleId > maxModuleId)  maxModuleId = moduleId;
-	if(sectorId > maxSectorId)  maxSectorId = sectorId;
-        continue;
-      }
+      if(layerId > maxLayer)  maxLayer = layerId;
+      if(moduleId > maxModuleId)  maxModuleId = moduleId;
+      if(sectorId > maxSectorId)  maxSectorId = sectorId;
+      if(layerId != 1) continue;
+
       if( moduleId < 5 ){
 	if( ! fHM->Exists(histoRow.str()) ){
 	  stringstream histTitle;
-	  histTitle << "Sector " << sectorId << " Visualization [eV];Column;Row";
+	  histTitle << "Sector " << sectorId << " Visualization;Column;Row";
 	  fHM->Create2<TH2D>(histoRow.str().c_str(), histTitle.str().c_str(), nofCols, 0., nofCols, nofRows, 0., nofRows);
 	  fHM->Create2<TH2D>(histoRowLog.str().c_str(), histTitle.str().c_str(), nofCols, 0., nofCols, nofRows, 0., nofRows);
 	}
@@ -329,8 +394,8 @@ void CbmLitShowClusters::ProcessSectorHistos()
      histoRow2Log << "hhh_Layer1_Module" << moduleId << "_Time_visualisation_col_H2_log";
 
      if( ! fHM->Exists(histo.str()) ){
-	TH2Poly *pad = new TH2Poly(histo.str().c_str(), "Charge Visualization [eV];X [cm];Y [cm]", 0., 2*sizeX, 0., 2*sizeY);
-	TH2Poly *pad2 = new TH2Poly(histoLog.str().c_str(), "Charge Visualization (logarithmic) [eV];X [cm];Y [cm]", 0., 2*sizeX, 0., 2*sizeY);
+	TH2Poly *pad = new TH2Poly(histo.str().c_str(), "Charge Visualization;X [cm];Y [cm]", 0., 2*sizeX, 0., 2*sizeY);
+	TH2Poly *pad2 = new TH2Poly(histoLog.str().c_str(), "Charge Visualization (logarithmic);X [cm];Y [cm]", 0., 2*sizeX, 0., 2*sizeY);
 	fHM->Add(histo.str().c_str(), pad);
 	fHM->Add(histoLog.str().c_str(), pad2);
      }
@@ -382,66 +447,49 @@ void CbmLitShowClusters::ProcessSectorHistos()
 	Double_t nofCols = fModuleInfo->GetNofColumnsInSector(sectorId);
 
 
-	for(Int_t curCol=0; curCol < nofCols; ++curCol){
-	  for(Int_t curRow=0; curRow < nofRows; ++curRow){
-	     Int_t digiAddress = CbmTrdAddress::GetAddress(layerId, moduleId, sectorId, curRow, curCol);
-	     Int_t moduleAddr = CbmTrdAddress::GetModuleAddress(digiAddress);
-	     TVector3 posHit;
-	     TVector3 padSize;
-	     fModuleInfo = fDigiPar->GetModule(moduleAddr);
-	     fModuleInfo->GetPosition(moduleAddr, sectorId, curCol, curRow, posHit, padSize);
+	for(const auto &d : module.second){
+	   CbmTrdDigi *digi = d.second;
+	   Int_t digiAddress = digi->GetAddress();
+	   Int_t moduleAddr = CbmTrdAddress::GetModuleAddress(digiAddress);
+	   Int_t curCol = CbmTrdAddress::GetColumnId(digiAddress);
+	   Int_t curRow = CbmTrdAddress::GetRowId(digiAddress);
+	   TVector3 posHit;
+	   TVector3 padSize;
+	   fModuleInfo = fDigiPar->GetModule(moduleAddr);
+	   fModuleInfo->GetPosition(moduleAddr, sectorId, curCol, curRow, posHit, padSize);
 
-	     padSize *= 1/TMath::Sqrt(12.);
-	     Double_t cornX = midX-sizeX;
-	     Double_t cornY = midY-sizeY;
-	     Double_t cornZ = midZ-sizeZ;
-	     Double_t x = posHit.X() - cornX;
-	     Double_t y = posHit.Y() - cornY;
-	     Double_t z = posHit.Z() - cornZ;
-	     Double_t padx = padSize.X();
-	     Double_t pady = padSize.Y();
-	     Double_t padz = padSize.Z();
+	   Double_t cornX = midX-sizeX;
+	   Double_t cornY = midY-sizeY;
+	   Double_t x = posHit.X() - cornX;
+	   Double_t y = posHit.Y() - cornY;
+	   Double_t padx = padSize.X()/2;
+	   Double_t pady = padSize.Y()/2;
 
+	   Double_t digiCharge = digi->GetCharge();
+	   Double_t digiTime = digi->GetTime();
+	   pad->AddBin(x-padx, y-pady, x+padx, y+pady);
+	   pad2->AddBin(x-padx, y-pady, x+padx, y+pady);
+	   pad3->AddBin(x-padx, y-pady, x+padx, y+pady);
+	   pad4->AddBin(x-padx, y-pady, x+padx, y+pady);
 
-	     Double_t digiCharge=1e-12;
-	     Double_t digiTime=0;
-	     std::map<pair<Int_t, Int_t>, CbmTrdDigi*>::iterator it = sectorMap.find(pair<Int_t, Int_t>(curCol, curRow));
-	     if( it != sectorMap.end() ){
-//		printf("Processing Grid\t\t(ModuleAddr: %u,\t Col: %u,\t Row: %u)\n", moduleAddr, curCol, curRow);
-		pad->AddBin(x-padx, y-pady, x+padx, y+pady);
-		pad2->AddBin(x-padx, y-pady, x+padx, y+pady);
-		pad3->AddBin(x-padx, y-pady, x+padx, y+pady);
-		pad4->AddBin(x-padx, y-pady, x+padx, y+pady);
-		CbmTrdDigi *digi = sectorMap.at(pair<Int_t, Int_t>(curCol, curRow));
-		digiCharge = digi->GetCharge();
-		digiTime = digi->GetTime();
+	   TBox *digiMarker = new TBox(x-padx, y-pady, x+padx, y+pady);
+	   Int_t weight = 0;
+	   for(Double_t i=1e-4; i > digiCharge; i/=10) weight++;
+	   if(weight > maxWeight) maxWeight = weight;
+	   digiMarker->SetFillColor(kViolet-weight);
+	   digiMarker->Draw();
 
-		TBox *digiMarker = new TBox(x-padx, y-pady, x+padx, y+pady);
-		Int_t weight = 0;
-		for(Double_t i=1e-4; i > digiCharge; i/=10) weight++;
-		if(weight > maxWeight) maxWeight = weight;
-		digiMarker->SetFillColor(kViolet-weight);
-		digiMarker->Draw();
-
-		pad->Fill(x, y, digiCharge);
-	        pad2->Fill(x, y, digiCharge);
-	        pad3->Fill(x, y, digiTime);
-	        pad4->Fill(x, y, digiTime);
-	     }else{
-//		printf("Processing Empty Grid\t(ModuleAddr: %u,\t Col: %u,\t Row: %u)\n", moduleAddr, curCol, curRow);
-		TBox *digiMarker = new TBox(x-padx, y-pady, x+padx, y+pady);
-		digiMarker->SetFillColor(kGray);
-		digiMarker->Draw();
-	     }
-	  } // end for rows
-	} // end for cols
-     } // end for module : *moduleMap
+	   pad->Fill(x, y, digiCharge);
+	   pad2->Fill(x, y, digiCharge);
+	   pad3->Fill(x, y, digiTime);
+	   pad4->Fill(x, y, digiTime);
+	} // end for v : module.second
+     } // end for module : moduleMap
 
      // Drawing a Legend for Box visualization
      TLatex Tl;
-     Tl.DrawLatex(2*sizeX+3, 2*sizeY+3, "eV");
      for(Int_t w=0; (w <= maxWeight or w>49); w++){
-	 TBox *b = new TBox(2*sizeX+2, 2*sizeY+3-w, 2*sizeX+5, 2*sizeY+3-w-1);
+	 TBox *b = new TBox(2*sizeX+2, 2*sizeY+3-w, 2*sizeX+4.5, 2*sizeY+3-w-1);
 	 b->SetFillColor(kViolet-w);
 	 b->Draw();
 

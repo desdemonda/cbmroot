@@ -67,6 +67,7 @@ private:
     void ReadDataBranches();
 
     void ProcessSectorHistos();
+    void ProcessSectorHistosOld();
 
     /**
      *
